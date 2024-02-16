@@ -6,7 +6,7 @@ import pyarrow
 # warnings.filterwarnings("ignore", message="PyArrow.*not found")
 
 # Acessando o arquivo
-arq_excel = 'PY\\SALAS.xlsx'
+arq_excel = 'BB_Py_Automation\\py\\SALAS.xlsx'
 
 # Lendo o arquivo
 col = "ID"
