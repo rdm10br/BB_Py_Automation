@@ -1,0 +1,22 @@
+https://sereduc.blackboard.com/learn/api/public/v1/courses/_30369_1/contents
+
+const jsonData = JSON.parse(document.body.innerText).results
+const searchText = "Meu Desempenho"
+// Função para pesquisar o texto específico dentro do JSON
+function searchInJson(jsonData, searchText) {
+    const results = [];
+
+    // Itera sobre cada objeto dentro do array "jsonData"
+    for (const item of jsonData) {
+        // Verifica se o texto está presente nas propriedades "title" ou "description"
+        if (item.title.includes(searchText) {
+            results.push(item);
+        }
+    }
+
+    return results;
+}
+
+// Chamada da função de pesquisa
+const searchResults = searchInJson(jsonData, searchText);
+console.log(searchResults);
