@@ -30,3 +30,4 @@ def ajusteAvaliacao(playwright: Playwright) -> None:
     page.get_by_label("Novo link de LTI em undefined").press("Enter")
     page.wait_for_load_state('domcontentloaded')
     page.get_by_role("button", name="Salvar").click()
+    page.wait_for_load_state('networkidle')

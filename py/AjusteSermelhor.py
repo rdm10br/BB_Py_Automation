@@ -23,3 +23,4 @@ def ajusteSerMelhor(playwright: Playwright) -> None:
     # page.wait_for_load_state('domcontentloaded')
     page.locator('#tabpanel-webLink > div.additional-tools.panel-section > h2').click()
     page.get_by_role("button", name="Salvar").click()
+    page.wait_for_load_state('networkidle')
