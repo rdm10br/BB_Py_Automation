@@ -3,6 +3,7 @@ from playwright.sync_api import *
 # from memory_profiler import profile
 # from line_profiler import LineProfiler
 # import cProfile
+import gc
 
 import checkup_login
 import getFromAPI
@@ -66,7 +67,10 @@ def run(playwright: Playwright) -> None:
         context.new_page()
         
     context.close()
-    
+
+# Force garbage collection
+gc.collect()
+
 with sync_playwright() as playwright:
     # lp = LineProfiler()
     # lp.add_function(run)
