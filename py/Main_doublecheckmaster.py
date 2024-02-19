@@ -52,7 +52,7 @@ def run(playwright: Playwright) -> None:
         
         new_page.wait_for_load_state('networkidle')
         # new_page.wait_for_load_state("domcontentloaded")
-        AjusteAvaliaçãoV2.ajusteAvaliacao(playwright,id_externo)
+        AjusteAvaliaçãoV2.ajusteAvaliacao(playwright,id_interno)
         
         new_page.wait_for_load_state('networkidle')
         # new_page.wait_for_load_state("domcontentloaded")
