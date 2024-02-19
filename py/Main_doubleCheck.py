@@ -19,8 +19,10 @@ def run(playwright: Playwright) -> None:
     
     # Access page
     page.goto(baseURL)
+    
     # Verificar se está logado e logar
     checkup_login.checkup_login(playwright)
+    
     index = 0
     total_lines_plan1 = getPlanilha.total_lines
     
