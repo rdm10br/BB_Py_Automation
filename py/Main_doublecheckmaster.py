@@ -1,6 +1,8 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
 from playwright.sync_api import *
 # from memory_profiler import profile
+# from line_profiler import LineProfiler
+# import cProfile
 
 import checkup_login
 import getFromAPI
@@ -66,4 +68,9 @@ def run(playwright: Playwright) -> None:
     context.close()
     
 with sync_playwright() as playwright:
+    # lp = LineProfiler()
+    # lp.add_function(run)
+    # lp.run('run(playwright)')
+    # lp.print_stats()
+    # cProfile.run('run()')
     run(playwright)
