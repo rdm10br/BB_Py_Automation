@@ -33,11 +33,15 @@ def run(playwright: Playwright) -> None:
         page = context.pages[0]
         
         page.close()
+        
         #request from API
+        id_externo = getPlanilha.getCell(index)
         id_interno = getFromAPI.API_Req(playwright,index)
+        
         classUrlUltra = f'{classURL}{id_interno}/outline'
         # context.clear_browser_cache()
-    
+        
+        print(id_externo)
         new_page.goto(classUrlUltra)
         new_page.wait_for_load_state('networkidle')
         
