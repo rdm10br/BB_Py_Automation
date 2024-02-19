@@ -51,15 +51,10 @@ def run(playwright: Playwright) -> None:
         new_page.goto(classUrlUltra)
         
         new_page.wait_for_load_state('networkidle')
-        # new_page.wait_for_load_state("domcontentloaded")
         AjusteSofiaV2.ajusteSofia(playwright,id_interno)
         
-        new_page.wait_for_load_state('networkidle')
-        # new_page.wait_for_load_state("domcontentloaded")
         AjusteAvaliaçãoV2.ajusteAvaliacao(playwright,id_interno)
         
-        new_page.wait_for_load_state('networkidle')
-        # new_page.wait_for_load_state("domcontentloaded")
         AjusteSermelhor.ajusteSerMelhor(playwright)
         
         getPlanilha.writeOnExcel_Plan1(index, 'OK')
