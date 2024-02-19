@@ -13,7 +13,6 @@ def run(playwright: Playwright) -> None:
     classURL = baseURL+"ultra/courses/"
     # Access page
     page = context.pages[0]
-    page.set_default_timeout(5000)
     
     page.goto(baseURL)
     # Verificar se está logado e logar

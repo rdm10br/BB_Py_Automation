@@ -7,7 +7,7 @@ def ajusteSerMelhor(playwright: Playwright) -> None:
     context = browser.contexts[0]
     # Access page
     page = context.pages[0]
-    page.set_default_timeout(timeout=5000)
+    # page.set_default_timeout(timeout=5000)
     
     # page.wait_for_load_state('domcontentloaded')
     page.press('body','End')

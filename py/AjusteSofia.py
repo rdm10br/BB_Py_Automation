@@ -22,7 +22,7 @@ def ajusteSofia(playwright: Playwright) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
     page = context.pages[0]
-    page.set_default_timeout(timeout=5000)
+    # page.set_default_timeout(timeout=5000)
     
     page.wait_for_load_state('networkidle')
     URLpage = page.url+'?search=organize'
