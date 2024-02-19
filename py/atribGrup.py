@@ -48,8 +48,9 @@ def atribuirGruposDIG(playwright: Playwright , id_interno) -> None:
     page = context.pages[0]
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/{id_interno}'
+    groups = f'{classURL}/groups'
     
-    page.goto(classURL+"/groups")
+    page.goto(groups)
     page.get_by_role("gridcell", name="Desafio Colaborativo | 7").get_by_role("button").click() #grupo para o digital
     page.get_by_role("option", name="Visível para alunos").click()
     page.get_by_role("link", name="Conteúdo da disciplina").click()
@@ -68,8 +69,9 @@ def atribuirGruposVET(playwright: Playwright , id_interno) -> None:
     page = context.pages[0]
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/{id_interno}'
+    groups = f'{classURL}/groups'
     
-    page.goto(classURL+"/groups")
+    page.goto(groups)
     page.get_by_role("gridcell", name="Desafio Colaborativo | 6").get_by_role("button").click() #grupo para o veteranos
     page.get_by_role("option", name="Visível para alunos").click()
     page.get_by_role("link", name="Conteúdo da disciplina").click()
