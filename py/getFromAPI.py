@@ -6,8 +6,10 @@ def API_Req(playwright: Playwright  ,index) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
     page = context.new_page()
-    baseURL = "https://sereduc.blackboard.com/"
+    
     id_externo = getPlanilha.getCell(index)
+    
+    baseURL = "https://sereduc.blackboard.com/"
     internalID_API = f'{baseURL}learn/api/public/v3/courses/courseId:{id_externo}'
     
     page.goto(internalID_API)

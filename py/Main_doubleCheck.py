@@ -4,7 +4,7 @@ import checkup_login
 import getFromAPI
 import getPlanilha
 import atribGrup
-import AjusteAvaliação
+import AjusteAvaliaçãoV2
 import AjusteNotaZero
 
 def run(playwright: Playwright) -> None:
@@ -16,7 +16,7 @@ def run(playwright: Playwright) -> None:
     
     
     baseURL = "https://sereduc.blackboard.com/"
-    classURL = baseURL+"ultra/courses/"
+    classURL = f'{baseURL}ultra/courses/'
     
     # Access page
     page.goto(baseURL)
@@ -35,16 +35,16 @@ def run(playwright: Playwright) -> None:
         page.close()
         #request from API
         id_interno = getFromAPI.API_Req(playwright,index)
-        
+        classUrlUltra = f'{classURL}{id_interno}/outline'
         # context.clear_browser_cache()
     
-        new_page.goto(classURL+id_interno+"/outline")
+        new_page.goto(classUrlUltra)
         new_page.wait_for_load_state('networkidle')
         
         atribGrup.atribuirGruposVET(playwright, id_interno)
         atribGrup.inserirArquivoVET(playwright, id_interno)
         AjusteNotaZero.AjusteNotaZero(playwright, id_interno)
-        AjusteAvaliação.ajusteAvaliacao(playwright)
+        AjusteAvaliaçãoV2.ajusteAvaliacao(playwright)
         getPlanilha.writeOnExcel_Plan1(index, 'OK')
         
         # context.clear_cookies()

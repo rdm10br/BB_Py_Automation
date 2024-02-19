@@ -16,10 +16,9 @@ def login(playwright: Playwright) -> None:
         browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
         context = browser.contexts[0]
         page = context.pages[0]
+        
         baseURL = "https://sereduc.blackboard.com/"
-        loginURL = baseURL+"webapps/login/"
-        logoutBlack = baseURL+"?new_loc=%2Fultra%2Flogout"
-        rootBQ = baseURL+"webapps/assessment/do/authoring/viewAssessmentManager?assessmentType=Pool&course_id="
+        loginURL = f'{baseURL}webapps/login/'
         
         # page.goto(logoutBlack)
         page.goto(loginURL)

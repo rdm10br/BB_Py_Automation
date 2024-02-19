@@ -17,6 +17,7 @@ def checkup_login(playwright: Playwright) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
     page = context.pages[0]
+    
     baseURL = "https://sereduc.blackboard.com/"
     ultraURL = f'{baseURL}ultra/course'
     

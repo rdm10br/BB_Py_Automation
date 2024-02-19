@@ -6,7 +6,7 @@ import checkup_login
 import getFromAPI
 import getPlanilha
 import AjusteSofiaV2
-import AjusteAvaliação
+import AjusteAvaliaçãoV2
 import AjusteSermelhor
 
 # @profile
@@ -19,7 +19,7 @@ def run(playwright: Playwright) -> None:
     
     
     baseURL = "https://sereduc.blackboard.com/"
-    classURL = baseURL+"ultra/courses/"
+    classURL = f'{baseURL}ultra/courses/'
     
     # Access page
     page.goto(baseURL)
@@ -41,10 +41,10 @@ def run(playwright: Playwright) -> None:
         id_externo = getPlanilha.getCell(index)
         id_interno = getFromAPI.API_Req(playwright,index)
         
-        classUrlUltra = classURL+id_interno
+        classUrlUltra = f'{classURL}{id_interno}/outline'
     
         print(id_externo)
-        new_page.goto(classUrlUltra+"/outline")
+        new_page.goto(classUrlUltra)
         
         new_page.wait_for_load_state('networkidle')
         # new_page.wait_for_load_state("domcontentloaded")
@@ -52,7 +52,7 @@ def run(playwright: Playwright) -> None:
         
         new_page.wait_for_load_state('networkidle')
         # new_page.wait_for_load_state("domcontentloaded")
-        AjusteAvaliação.ajusteAvaliacao(playwright)
+        AjusteAvaliaçãoV2.ajusteAvaliacao(playwright)
         
         new_page.wait_for_load_state('networkidle')
         # new_page.wait_for_load_state("domcontentloaded")

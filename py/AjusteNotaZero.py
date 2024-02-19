@@ -7,9 +7,9 @@ def AjusteNotaZero(playwright: Playwright, id_interno) -> None:
     page = context.pages[0]
     
     baseURL = "https://sereduc.blackboard.com/"
-    classURL = baseURL+"ultra/courses/"
-    ContentURL = classURL+id_interno+"/outline"
-    GradeURL = classURL+id_interno+'/grades?gradebookView=list&listViewType=assignments'
+    classURL = f'{baseURL}ultra/courses/'
+    ContentURL = f'{classURL}{id_interno}/outline'
+    GradeURL = f'{classURL}{id_interno}/grades?gradebookView=list&listViewType=assignments'
     
     page.goto(GradeURL)
     page.get_by_label("Configurações", exact=True).click()
@@ -17,3 +17,5 @@ def AjusteNotaZero(playwright: Playwright, id_interno) -> None:
     page.get_by_text("Remover notas zero atribuídas").click()
     page.get_by_role("button", name="Confirmar").click()
     page.locator("#main-content > div:nth-child(4)").click()
+    page.goto(ContentURL)
+    page.wait_for_load_state('domcontentloaded')
