@@ -13,6 +13,8 @@ Re
 Pyperclip
 
 
+teste
+
 Automation for administration of educational system based on BlackBoard platform
 
 consuming API content and internal ID to find items and search courses
