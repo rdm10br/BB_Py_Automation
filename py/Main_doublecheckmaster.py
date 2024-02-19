@@ -1,5 +1,7 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
 from playwright.sync_api import *
+# from memory_profiler import profile
+
 import checkup_login
 import getFromAPI
 import getPlanilha
@@ -7,6 +9,7 @@ import AjusteSofiaV2
 import AjusteAvaliação
 import AjusteSermelhor
 
+# @profile
 def run(playwright: Playwright) -> None:
     # Connect to the existing browser
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")

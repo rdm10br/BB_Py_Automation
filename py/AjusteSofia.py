@@ -1,5 +1,5 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
-# /html/body/div[1]/div[2]/bb-base-layout/div/main/div[3]/div/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[1]/div[2]/div/div[2]/course-content-outline/react-course-content-outline/div/div/div[1]/div[2]/div/div/div/div[2]/div/div[2]/button
+
 cliqueMenu = ('''const xpath = '/html/body/div[1]/div[2]/bb-base-layout/div/main/div[3]/div/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[1]/div[2]/div/div[2]/course-content-outline/react-course-content-outline/div/div/div[1]/div[3]/div[3]/div[1]/div/div[2]/div/div[2]/button';
 const element = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 

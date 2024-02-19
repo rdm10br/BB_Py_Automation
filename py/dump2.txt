@@ -20,3 +20,20 @@ function searchInJson(jsonData, searchText) {
 // Chamada da função de pesquisa
 const searchResults = searchInJson(jsonData, searchText);
 console.log(searchResults);
+##########################################################################
+def jsSearchByXPath (Xpath):
+   jsScript =  '''const xpathExpression = '''+Xpath+''';
+    const xpathResult = document.evaluate(xpathExpression, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+
+    // Verificar se o resultado XPath é válido e o elemento existe
+    if (xpathResult && xpathResult.singleNodeValue) {
+    // Obter o elemento do resultado XPath
+    const element = xpathResult.singleNodeValue;
+
+    // Simular um clique no elemento
+    element.click();
+    } else {
+    console.error('Elemento não encontrado com a expressão XPath fornecida.');}'''
+##########################################################################
+baseURL = "https://sereduc.blackboard.com/"
+searchOnBlack = f"{baseURL}webapps/blackboard/execute/courseManager?sourceType=COURSES&courseInfoSearchKeyString=CourseId&courseInfoSearchOperatorString=Equals&courseInfoSearchText={id_master}"

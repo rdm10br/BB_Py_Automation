@@ -9,8 +9,8 @@ def copyMaterial(playwright: Playwright , index) -> None:
     
     id_master = getPlanilha.getCell_plan2(index)
     id_copia = getPlanilha.getCell_copy_plan2(index)
-    
-    coppyOnBlack = "https://sereduc.blackboard.com/webapps/blackboard/execute/copy_content?navItem=copy_course_content_new&target=no&type=course"
+    baseURL = "https://sereduc.blackboard.com/"
+    coppyOnBlack = f"{baseURL}webapps/blackboard/execute/copy_content?navItem=copy_course_content_new&target=no&type=course"
     
     page.goto(coppyOnBlack)
     

@@ -18,7 +18,7 @@ def checkup_login(playwright: Playwright) -> None:
     context = browser.contexts[0]
     page = context.pages[0]
     baseURL = "https://sereduc.blackboard.com/"
-    ultraURL = baseURL+"ultra/course"
+    ultraURL = f'{baseURL}ultra/course'
     
     for attempt in range(3):
         try:

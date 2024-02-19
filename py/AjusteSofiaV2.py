@@ -11,9 +11,9 @@ def ajusteSofia(playwright: Playwright , id_interno) -> None:
     page.wait_for_load_state('domcontentloaded')
     
     url = page.url
+    LinkEdit = f'{url}/edit/lti/{id_sofia}'
     
-    
-    page.goto(url+"/edit/lti/"+id_sofia)
+    page.goto(LinkEdit)
     # page.wait_for_load_state('domcontentloaded')
     page.get_by_placeholder("Formato: meuwebsite.com").click(click_count=3)
     page.get_by_placeholder("Formato: meuwebsite.com").fill("sofialti.ldmedtech.com.br/v1/launch/ser-sofia-plano-estudos")
