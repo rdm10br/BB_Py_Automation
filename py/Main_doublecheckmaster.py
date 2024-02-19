@@ -17,7 +17,6 @@ def run(playwright: Playwright) -> None:
     context = browser.contexts[0]
     page = context.pages[0]
     
-    
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/'
     
