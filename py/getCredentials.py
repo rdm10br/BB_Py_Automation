@@ -38,9 +38,11 @@ def get_credentials():
     # Ligando o evento de pressionar Enter ao botão de login
     def on_enter_pressed(event):
         on_login_click()
-        
-    botao_login = tk.Button(janela, text="Login", command=on_login_click, width=20)#, width=window_width*0.7, height=window_height*0.05)
-    botao_login.grid(row=2, columnspan=2)
+    
+    button_width = int(window_width*0.0125)
+    button_height = int(20)
+    botao_login = tk.Button(janela, text="Login", command=on_login_click,width=button_width)
+    botao_login.grid(row=2, column=1)
     janela.bind('<Return>', on_enter_pressed)
 
     # Executando a interface
