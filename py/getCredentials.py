@@ -49,6 +49,6 @@ def get_credentials():
     return username, password
 
 # Function Test
-username, password = get_credentials()
-print(username)
-print(password)
+# username, password = get_credentials()
+# print(username)
+# print(password)

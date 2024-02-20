@@ -24,5 +24,5 @@ def login(playwright: Playwright) -> None:
         page.goto(ultraURL)
         
 # Testar a função
-with sync_playwright() as playwright:
-    login(playwright)
+# with sync_playwright() as playwright:
+#     login(playwright)
