@@ -52,7 +52,7 @@ def run(playwright: Playwright) -> None:
         AjusteAvaliaçãoV2.ajusteAvaliacao(playwright)
         getPlanilha.writeOnExcel_Plan1(index, 'OK')
         
-        
+        # context.storage_state()
         # context.clear_cookies()
         # Clear cache while preserving login credentials
         # context.clear_storage_state()
