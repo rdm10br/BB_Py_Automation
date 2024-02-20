@@ -6,10 +6,6 @@ def wait_for_page_to_load(page):
     # Wait for the 'load' state, indicating that the entire page has loaded
     page.wait_for_load_state('domcontentloaded')
     page.wait_for_load_state("load")
-
-    # Additionally, you can wait for specific elements or conditions to ensure everything is ready
-    page.wait_for_selector("body")  # Wait for the body element to be present
-
     # You can also wait for network activity to settle, indicating that all resources have been loaded
     page.wait_for_load_state("networkidle")
     
@@ -28,7 +24,6 @@ def checkup_login(playwright: Playwright) -> None:
             else:
                 attempt += 1
                 login.login(playwright)
-                page.goto(ultraURL)
                 wait_for_page_to_load(page)
         except Exception as e:
             if "Blackboard Learn" in page.title():

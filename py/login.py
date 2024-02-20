@@ -19,6 +19,7 @@ def login(playwright: Playwright) -> None:
         
         baseURL = "https://sereduc.blackboard.com/"
         loginURL = f'{baseURL}webapps/login/'
+        ultraURL = f'{baseURL}ultra/course'
         
         page.goto(loginURL)
         page.wait_for_load_state('domcontentloaded')
@@ -30,6 +31,8 @@ def login(playwright: Playwright) -> None:
         page.get_by_label("Nome de usuário").fill(username)
         page.get_by_label("Senha").fill(password)
         page.locator('#entry-login').click()
+        page.goto(ultraURL)
         
-# with sync_playwright() as playwright:
-#     login(playwright)
+# Testar a função
+with sync_playwright() as playwright:
+    login(playwright)
