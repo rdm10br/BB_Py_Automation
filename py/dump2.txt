@@ -37,3 +37,14 @@ def jsSearchByXPath (Xpath):
 ##########################################################################
 baseURL = "https://sereduc.blackboard.com/"
 searchOnBlack = f"{baseURL}webapps/blackboard/execute/courseManager?sourceType=COURSES&courseInfoSearchKeyString=CourseId&courseInfoSearchOperatorString=Equals&courseInfoSearchText={id_master}"
+==========================================================================
+#old get_credentials
+def get_credentials():
+    root = tk.Tk()
+    root.withdraw()  # Hide the main window
+    # Ask for the username
+    username = simpledialog.askstring("Input", "Digite seu Usuario:")
+    # Ask for the password (masked)
+    password = simpledialog.askstring("Input", "Digite sua senha:", show='*')
+
+    return username, password

@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
     
-def getCredentialsV2():
+def get_credentials():
     # Criando a janela
     global janela
     janela = tk.Tk()
@@ -49,6 +49,6 @@ def getCredentialsV2():
     return username, password
 
 # Function Test
-username, password = getCredentialsV2()
+username, password = get_credentials()
 print(username)
 print(password)
