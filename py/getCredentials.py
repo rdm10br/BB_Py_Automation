@@ -3,12 +3,12 @@ from tkinter import ttk
     
 def get_credentials():
     # Criando a janela
-    global janela
+    # global janela
     janela = tk.Tk()
     janela.title("Login")
     
     # Definindo o tamanho da janela
-    janela.geometry("220x100")  # Largura x Altura
+    janela.geometry("300x110")  # Largura x Altura
     # janela.configure(bg='black')
     window_width = int(janela.winfo_screenwidth())
     window_height = int(janela.winfo_screenheight())
@@ -39,7 +39,8 @@ def get_credentials():
     def on_enter_pressed(event):
         on_login_click()
     
-    button_width = int(window_width*0.0125)
+    # button_width = int(window_width*0.0125) #win10
+    button_width = int(window_width*0.007) #win11
     button_height = int(20)
     botao_login = tk.Button(janela, text="Login", padx=5, pady=5, command=on_login_click,width=button_width)
     botao_login.grid(row=2, column=1)
@@ -51,6 +52,6 @@ def get_credentials():
     return username, password
 
 # Function Test
-# username, password = get_credentials()
-# print(username)
-# print(password)
+username, password = get_credentials()
+print(username)
+print(password)
