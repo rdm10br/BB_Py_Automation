@@ -20,15 +20,16 @@ def login(playwright: Playwright) -> None:
         baseURL = "https://sereduc.blackboard.com/"
         loginURL = f'{baseURL}webapps/login/'
         
-        # page.goto(logoutBlack)
         page.goto(loginURL)
-        page.goto(baseURL)
         page.wait_for_load_state('domcontentloaded')
-        page.wait_for_load_state('networkidle')
+        
         # page.get_by_role("button", name="OK").click()
+        
         username, password = get_credentials()
-        page.get_by_text("Nome de usuário").click()
+        
         page.get_by_label("Nome de usuário").fill(username)
-        page.get_by_label("Nome de usuário").press("Tab")
         page.get_by_label("Senha").fill(password)
-        page.get_by_label("Senha").press("Enter")
+        page.locator('#entry-login').click()
+        
+# with sync_playwright() as playwright:
+#     login(playwright)
