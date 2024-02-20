@@ -55,7 +55,7 @@ def run(playwright: Playwright) -> None:
         
         # context.clear_cookies()
         # Clear cache while preserving login credentials
-        context.clear_storage_state()
+        # context.clear_storage_state()
         
         context.new_page()
         
