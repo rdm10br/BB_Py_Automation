@@ -8,7 +8,7 @@ def get_credentials():
     janela.title("Login")
     
     # Definindo o tamanho da janela
-    janela.geometry("200x100")  # Largura x Altura
+    janela.geometry("220x100")  # Largura x Altura
     # janela.configure(bg='black')
     window_width = int(janela.winfo_screenwidth())
     window_height = int(janela.winfo_screenheight())
@@ -18,13 +18,13 @@ def get_credentials():
     style.theme_use('clam')  # Escolha o tema que desejar
 
     # Criando os campos de entrada (entry)
-    label_login = tk.Label(janela, text="Login : ")
-    label_login.grid(row=0, column=0, sticky=tk.E+tk.W)
+    label_login = tk.Label(janela, text="Login : ", padx=5)
+    label_login.grid(row=0, column=0, sticky=tk.E+tk.W, pady=5, padx=5)
     entry_login = tk.Entry(janela)
     entry_login.grid(row=0, column=1)
 
-    label_senha = tk.Label(janela, text="Senha : ")
-    label_senha.grid(row=1, column=0, sticky=tk.E+tk.W)
+    label_senha = tk.Label(janela, text="Senha : ", padx=5)
+    label_senha.grid(row=1, column=0, sticky=tk.E+tk.W, pady=5, padx=5)
     entry_senha = tk.Entry(janela, show="*")  # O parâmetro show="*" esconde os caracteres digitados
     entry_senha.grid(row=1, column=1)
 
@@ -41,7 +41,7 @@ def get_credentials():
     
     button_width = int(window_width*0.0125)
     button_height = int(20)
-    botao_login = tk.Button(janela, text="Login", command=on_login_click,width=button_width)
+    botao_login = tk.Button(janela, text="Login", padx=5, pady=5, command=on_login_click,width=button_width)
     botao_login.grid(row=2, column=1)
     janela.bind('<Return>', on_enter_pressed)
 
