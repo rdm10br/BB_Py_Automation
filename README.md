@@ -2,7 +2,7 @@
 
 BlackBoard Python Automation with Playwright
 
-Code made in JavaScript and Python with libraries: 
+Code made in Python and JavaScript with libraries: 
 PlayWright
 Openpyxl
 Pyarrow
@@ -11,6 +11,14 @@ Tkinter
 Docx
 Re
 Pyperclip
+
+Needs Python 3.12
+
+To install all the dependencies use this command on the console
+'pip install -r dependencies.txt'
+
+To create new Methods use the command on console
+'python -m playwright codegen'
 
 Automation for administration of educational system based on BlackBoard platform
 
