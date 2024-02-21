@@ -23,6 +23,7 @@ def copyMaterial(playwright: Playwright , index) -> None:
     page.locator('#bottom_Submit').click()
     page.wait_for_load_state('domcontentloaded')
     page.evaluate('document.querySelector("#stepcontent2 > ol > li:nth-child(4) > div > div > a:nth-child(1)").click()')
+    page.get_by_label('Imagem de banner').uncheck()
     page.locator('#bottom_Submit').click()
     
 # with sync_playwright() as playwright:
