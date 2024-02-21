@@ -1,5 +1,11 @@
 # BB_Py_Automation
 
+## Language Switch
+- [English](#english)
+- [Português](#português)
+
+---
+
 ## English
 BlackBoard Python Automation with Playwright
 
@@ -32,6 +38,8 @@ Automation for administration of educational system based on BlackBoard platform
 consuming API content and internal ID to find items and search courses
 
 search and modifying items to whats preset
+
+---
 
 ## Português
 Automação em Python para BlackBoard com Playwright
