@@ -25,3 +25,35 @@ Automation for administration of educational system based on BlackBoard platform
 consuming API content and internal ID to find items and search courses
 
 search and modifying items to whats preset
+
+# BB_Py_Automation
+
+Automação em Python para BlackBoard com Playwright
+
+Código feito em Python e JavaScript com as bibliotecas: 
+PlayWright
+Openpyxl
+Pyarrow
+Pandas
+Tkinter
+Docx
+Re
+Pyperclip
+
+Requer Python 3.12
+
+Para instalar todas as dependências, utilize este comando no console:
+```
+pip install -r dependencies.txt
+```
+
+Para criar novos métodos, utilize o seguinte comando no console:
+```
+python -m playwright codegen
+```
+
+Automação para administração de sistema educacional baseado na plataforma BlackBoard.
+
+Consumindo conteúdo de API e ID interno para encontrar itens e buscar cursos.
+
+Pesquisa e modificação de itens de acordo com o predefinido.
