@@ -1,5 +1,5 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
-from Metodos import getApiContent
+from Metodos.API import getApiContent
 
 def ajusteSofia(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")

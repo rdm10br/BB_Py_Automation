@@ -1,11 +1,11 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
 from playwright.sync_api import *
-from Metodos import checkup_login
-from Metodos import getFromAPI
-from Metodos import getPlanilha
-from Metodos import atribGrup
-from Metodos import AjusteAvaliaçãoV2
-from Metodos import AjusteNotaZero
+
+from Metodos.Login import checkup_login
+from Metodos.API import getFromAPI,getPlanilha
+from Metodos.Mescla import atribGrup,AjusteNotaZero
+from Metodos.Master import AjusteAvaliaçãoV2
+
 
 def run(playwright: Playwright) -> None:
     # Connect to the existing browser
@@ -50,6 +50,7 @@ def run(playwright: Playwright) -> None:
         atribGrup.inserirArquivoVET(playwright, id_interno)
         AjusteNotaZero.AjusteNotaZero(playwright, id_interno)
         AjusteAvaliaçãoV2.ajusteAvaliacao(playwright)
+        page.wait_for_timeout(2000)
         getPlanilha.writeOnExcel_Plan1(index, 'OK')
         
         # context.storage_state()
@@ -57,6 +58,7 @@ def run(playwright: Playwright) -> None:
         # Clear cache while preserving login credentials
         # context.clear_storage_state()
         
+        # https://ioflood.com/blog/python-import-from-another-directory/
         context.new_page()
         
         

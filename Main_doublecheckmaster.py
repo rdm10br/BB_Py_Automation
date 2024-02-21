@@ -5,12 +5,9 @@ from playwright.sync_api import *
 # import cProfile
 import gc
 
-from Metodos import checkup_login
-from Metodos import getFromAPI
-from Metodos import getPlanilha
-from Metodos import AjusteSofiaV2
-from Metodos import AjusteAvaliaçãoV2
-from Metodos import AjusteSermelhor
+from Metodos.Login import checkup_login
+from Metodos.API import getFromAPI,getPlanilha
+from Metodos.Master import AjusteSofiaV2,AjusteAvaliaçãoV2,AjusteSermelhor
 
 # @profile
 def run(playwright: Playwright) -> None:
