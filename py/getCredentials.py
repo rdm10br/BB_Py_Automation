@@ -1,24 +1,38 @@
 import tkinter as tk
 from tkinter import ttk
-    
+
+# set icon null
+import tempfile, base64, zlib 
+ICON = zlib.decompress(base64.b64decode('eJxjYGAEQgEBBiDJwZDBy'
+    'sAgxsDAoAHEQCEGBQaIOAg4sDIgACMUj4JRMApGwQgF/ykEAFXxQRc='))
+ 
+_, ICON_PATH = tempfile.mkstemp()
+with open(ICON_PATH, 'wb') as icon_file:
+    icon_file.write(ICON)
+
+# Função para receber credenciais
 def get_credentials():
     # Criando a janela
     # global janela
     janela = tk.Tk()
-    janela.title("Login")
+    
+    #Setting Variables
     grey = '#001A33'
-    lightGrey = '#DCDEE0'
+    # lightGrey = '#DCDEE0'
     darkBlue = '#393D5C'
-    # janela.wm_attributes('-toolwindow', 'True')
-    
-    
-    # Definindo o tamanho da janela
-    janela.geometry("220x110")  # Largura x Altura
-    janela.configure(bg=grey)
-    window_width = int(janela.winfo_screenwidth())
-    window_height = int(janela.winfo_screenheight())
+    width = 220
+    height = 110
     # button_width = int(window_width*0.0125) #win10
-    button_width = int(window_width*0.007) #win11
+    button_width = int(width*0.07) #win11
+    
+    # Definindo janela
+    # janela.wm_attributes('-toolwindow', 'True')
+    janela.geometry(f"{width}x{height}")  # Largura x Altura
+    janela.title(" Login")
+    janela.attributes('-alpha',0.9)
+    janela.attributes('-topmost',True)
+    janela.iconbitmap(default=ICON_PATH)
+    janela.configure(bg=grey)
     
     # Estilizando a janela
     style = ttk.Style()
