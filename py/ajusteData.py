@@ -6,6 +6,9 @@ def ajusteData(playwright: Playwright,dataShow,dataHide) -> None:
     context = browser.contexts[0]
     page = context.pages[0]
     
+    baseURL = "https://sereduc.blackboard.com/"
+    # rootURL = f'{baseURL}webapps/blackboard/execute/content/adaptiveReleaseRules?course_id={internalID}&content_id={contentID}'
+    
     page.get_by_role("checkbox", name="Fale com o Tutor").check()
     page.get_by_role("checkbox", name="Desafio Colaborativo").check()
     page.get_by_role("button", name="Editar datas").click()
@@ -19,4 +22,10 @@ def ajusteData(playwright: Playwright,dataShow,dataHide) -> None:
     page.get_by_role("textbox", name="Mostrar no horário").fill("00:00")
     page.get_by_role("textbox", name="Ocultar após a data").fill(dataHide)
     page.get_by_role("textbox", name="Ocultar após o horário").fill("23:59")
-    page.get_by_role("button", name="Editar datas").click()
+    # page.get_by_role("button", name="Editar datas").click()
+    
+#Function test
+# with sync_playwright() as playwright:
+#     dataShow = '13/02/2024'
+#     dataHide = '01/03/24'
+#     ajusteData(playwright,dataShow,dataHide)
