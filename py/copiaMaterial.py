@@ -27,4 +27,4 @@ def copyMaterial(playwright: Playwright , index) -> None:
     page.locator('#bottom_Submit').click()
     
 # with sync_playwright() as playwright:
-#     copyMaterial(playwright ,index=1)
+    # copyMaterial(playwright ,index=1)
