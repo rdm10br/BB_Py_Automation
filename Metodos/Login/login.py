@@ -1,0 +1,28 @@
+from playwright.sync_api import Playwright, sync_playwright, expect
+import getCredentials
+
+
+def login(playwright: Playwright) -> None:
+        browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
+        context = browser.contexts[0]
+        page = context.pages[0]
+        
+        baseURL = "https://sereduc.blackboard.com/"
+        loginURL = f'{baseURL}webapps/login/'
+        ultraURL = f'{baseURL}ultra/course'
+        
+        page.goto(loginURL)
+        page.wait_for_load_state('domcontentloaded')
+        
+        # page.get_by_role("button", name="OK").click()
+        
+        username, password = getCredentials.get_credentials()
+        
+        page.get_by_label("Nome de usuário").fill(username)
+        page.get_by_label("Senha").fill(password)
+        page.locator('#entry-login').click()
+        page.goto(ultraURL)
+        
+# Testar a função
+# with sync_playwright() as playwright:
+#     login(playwright)
