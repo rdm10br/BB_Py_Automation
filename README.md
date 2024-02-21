@@ -1,5 +1,6 @@
 # BB_Py_Automation
 
+## English
 BlackBoard Python Automation with Playwright
 
 Code made in Python and JavaScript with libraries: 
@@ -11,6 +12,8 @@ Tkinter
 Docx
 Re
 Pyperclip
+
+### Getting Started
 
 Needs Python 3.12
 
@@ -30,6 +33,7 @@ consuming API content and internal ID to find items and search courses
 
 search and modifying items to whats preset
 
+## Português
 Automação em Python para BlackBoard com Playwright
 
 Código feito em Python e JavaScript com as bibliotecas: 
@@ -41,6 +45,8 @@ Tkinter
 Docx
 Re
 Pyperclip
+
+### Começar a utilizar
 
 Requer Python 3.12
 
