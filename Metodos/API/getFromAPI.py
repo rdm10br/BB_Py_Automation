@@ -1,6 +1,6 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
 from playwright.sync_api import *
-import getPlanilha
+from Metodos.API import getPlanilha
 
 def API_Req(playwright: Playwright  ,index) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")

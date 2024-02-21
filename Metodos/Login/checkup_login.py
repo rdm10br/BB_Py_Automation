@@ -1,5 +1,5 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
-import login
+from Metodos.Login import login
 
 def wait_for_page_to_load(page):
     page.wait_for_load_state('domcontentloaded')

@@ -50,7 +50,6 @@ def run(playwright: Playwright) -> None:
         atribGrup.inserirArquivoVET(playwright, id_interno)
         AjusteNotaZero.AjusteNotaZero(playwright, id_interno)
         AjusteAvaliaçãoV2.ajusteAvaliacao(playwright)
-        page.wait_for_timeout(2000)
         getPlanilha.writeOnExcel_Plan1(index, 'OK')
         
         # context.storage_state()
@@ -58,7 +57,6 @@ def run(playwright: Playwright) -> None:
         # Clear cache while preserving login credentials
         # context.clear_storage_state()
         
-        # https://ioflood.com/blog/python-import-from-another-directory/
         context.new_page()
         
         
