@@ -26,5 +26,5 @@ def checkup_login(playwright: Playwright) -> None:
                 print(f"Error during login attempt: {attempt}")
                 
 # Function test
-with sync_playwright() as playwright:
-    checkup_login(playwright)
+# with sync_playwright() as playwright:
+#     checkup_login(playwright)
