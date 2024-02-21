@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 # set icon null
-import tempfile, base64, zlib 
+import tempfile, base64, zlib
 ICON = zlib.decompress(base64.b64decode('eJxjYGAEQgEBBiDJwZDBy'
     'sAgxsDAoAHEQCEGBQaIOAg4sDIgACMUj4JRMApGwQgF/ykEAFXxQRc='))
  
