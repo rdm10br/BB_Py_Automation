@@ -15,18 +15,20 @@ Pyperclip
 Needs Python 3.12
 
 To install all the dependencies use this command on the console
-'pip install -r dependencies.txt'
+```
+pip install -r dependencies.txt
+```
 
 To create new Methods use the command on console
-'python -m playwright codegen'
+```
+python -m playwright codegen
+```
 
 Automation for administration of educational system based on BlackBoard platform
 
 consuming API content and internal ID to find items and search courses
 
 search and modifying items to whats preset
-
-# BB_Py_Automation
 
 Automação em Python para BlackBoard com Playwright
 
