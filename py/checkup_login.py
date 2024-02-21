@@ -1,12 +1,9 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
-from playwright.sync_api import *
 import login
 
 def wait_for_page_to_load(page):
-    # Wait for the 'load' state, indicating that the entire page has loaded
     page.wait_for_load_state('domcontentloaded')
     page.wait_for_load_state("load")
-    # You can also wait for network activity to settle, indicating that all resources have been loaded
     page.wait_for_load_state("networkidle")
     
 def checkup_login(playwright: Playwright) -> None:
@@ -15,7 +12,6 @@ def checkup_login(playwright: Playwright) -> None:
     page = context.pages[0]
     
     baseURL = "https://sereduc.blackboard.com/"
-    ultraURL = f'{baseURL}ultra/course'
     
     for attempt in range(3):
         try:
@@ -28,3 +24,7 @@ def checkup_login(playwright: Playwright) -> None:
         except Exception as e:
             if "Blackboard Learn" in page.title():
                 print(f"Error during login attempt: {attempt}")
+                
+# Function test
+with sync_playwright() as playwright:
+    checkup_login(playwright)
