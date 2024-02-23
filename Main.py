@@ -30,7 +30,7 @@ def run(playwright: Playwright) -> None:
     for index in range(total_lines_plan1) :
         index +=1
         # Create a new context with the saved storage state.
-        context1 = browser.new_context(storage_state=page.context.storage_state())
+        context1 = browser.new_context(no_viewport=True,storage_state=page.context.storage_state())
         new_page = context1.new_page()
         
         #request from API
