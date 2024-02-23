@@ -27,8 +27,6 @@ def run(playwright: Playwright) -> None:
     index = 0
     total_lines_plan1 = getPlanilha.total_lines
     
-    context.new_page()
-    
     for index in range(total_lines_plan1) :
         index +=1
         # Create a new context with the saved storage state.
@@ -49,7 +47,7 @@ def run(playwright: Playwright) -> None:
         
         # // para criação de novos métodos utilizar o comando 'python -m playwright codegen' dentro do console para auxiliar na criação//
         
-        context.close()
+        context1.close()
         
     context.close()
 
