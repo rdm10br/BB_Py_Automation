@@ -11,8 +11,6 @@ def checkup_login(playwright: Playwright) -> None:
     context = browser.contexts[0]
     page = context.pages[0]
     
-    baseURL = "https://sereduc.blackboard.com/"
-    
     for attempt in range(3):
         try:
             if "Disciplinas" in page.title():

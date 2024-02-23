@@ -48,3 +48,6 @@ def get_credentials():
     password = simpledialog.askstring("Input", "Digite sua senha:", show='*')
 
     return username, password
+
+    # user_data_dir = '%LOCALAPPDATA%\\Google\\Chrome\\User Data'
+    # State = '%LOCALAPPDATA%\\Google\\Chrome\\User Data\\Local State'
