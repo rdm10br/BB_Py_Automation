@@ -27,27 +27,35 @@ def run(playwright: Playwright) -> None:
     index = 0
     total_lines_plan1 = getPlanilha.total_lines
     
+    # Create a new context with the saved storage state.
+    context1 = browser.new_context(no_viewport=True,storage_state=page.context.storage_state())
+    new_page = context1.new_page()
+    
     for index in range(total_lines_plan1) :
         index +=1
-        # Create a new context with the saved storage state.
-        context1 = browser.new_context(no_viewport=True,storage_state=page.context.storage_state())
-        new_page = context1.new_page()
+        
+        context = browser.contexts[0]
+        new_page.goto(baseURL)
+        context.close()
+        new_page.wait_for_load_state('load')
+        page = context.pages[0]
         
         #request from API
         id_externo = getPlanilha.getCell(index)
         id_interno = getFromAPI.API_Req(playwright,index)
         
         classUrlUltra = f'{classURL}{id_interno}/outline'
-    
+        
         print(id_externo)
-        new_page.goto(classUrlUltra)
-        new_page.wait_for_load_state('networkidle')
+        page.goto(classUrlUltra)
+        page.wait_for_load_state('networkidle')
 
         # // espaço onde você insere suas funções para executar no Loop //
         
         # // para criação de novos métodos utilizar o comando 'python -m playwright codegen' dentro do console para auxiliar na criação//
-        
-        context1.close()
+        # Create a new context with the saved storage state.
+        context1 = browser.new_context(no_viewport=True,storage_state=page.context.storage_state())
+        new_page = context1.new_page()
         
     context.close()
 

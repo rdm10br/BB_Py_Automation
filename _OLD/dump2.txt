@@ -51,3 +51,13 @@ def get_credentials():
 
     # user_data_dir = '%LOCALAPPDATA%\\Google\\Chrome\\User Data'
     # State = '%LOCALAPPDATA%\\Google\\Chrome\\User Data\\Local State'
+
+    ===================================
+    # if expect(page.locator('#agree_button')).to_be_visible:
+        #         print('aeeeeeeeeeeeeeeeeeeeeeeeee poha')
+        #         page.wait_for_timeout(1000)
+        #         page.get_by_role("button", name="OK").click()
+        # elif expect(page.locator('#agree_button')).not_to_be_visible:
+        #         print('OKAY')
+        #         pass
+    ===================================

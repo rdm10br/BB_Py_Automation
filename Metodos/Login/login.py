@@ -1,5 +1,7 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
-from Metodos.Login import getCredentials
+
+# from Metodos.Login import getCredentials
+import getCredentials
 
 def login(playwright: Playwright) -> None:
         browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -13,15 +15,21 @@ def login(playwright: Playwright) -> None:
         page.goto(loginURL)
         page.wait_for_load_state('domcontentloaded')
         
-        # page.get_by_role("button", name="OK").click()
+        if page.locator('#agree_button').is_visible:
+                print('aeeeeeeeeeeeeeeeeeeeeeeeee poha')
+                page.wait_for_timeout(1000)
+                page.get_by_role("button", name="OK").click()
+        else :
+                print('OKAY')
+                pass
         
         username, password = getCredentials.get_credentials()
-        
+                
         page.get_by_label("Nome de usuário").fill(username)
         page.get_by_label("Senha").fill(password)
         page.locator('#entry-login').click()
         page.goto(ultraURL)
         
 # Testar a função
-# with sync_playwright() as playwright:
-#     login(playwright)
+with sync_playwright() as playwright:
+    login(playwright)
