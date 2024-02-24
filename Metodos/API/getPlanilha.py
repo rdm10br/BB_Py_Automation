@@ -10,12 +10,12 @@ arq_excel = 'BB_Py_Automation\\Planilhas\\SALAS.xlsx'
 
 # Lendo o arquivo
 col = "ID"
-df_map = pd.read_excel(arq_excel, sheet_name='Planilha1')
+df_map = pd.read_excel(arq_excel, sheet_name='salas')
 total_lines = len(df_map)
 
-col_plan2 = "ID"
-col_plan2_copy = 'ID_COPY'
-df_map_plan2 = pd.read_excel(arq_excel, sheet_name='Planilha2')
+col_plan2 = "ID_ORIGIN"
+col_plan2_copy = 'ID_DESTINY'
+df_map_plan2 = pd.read_excel(arq_excel, sheet_name='salaCopia')
 total_lines_plan2 = len(df_map_plan2)
 
 def getCell(index):
@@ -65,7 +65,7 @@ def writeOnExcel_Plan2(index, return_status):
     workbook = openpyxl.load_workbook(arq_excel)
 
     # Select the active sheet
-    sheet = workbook['Planilha2']
+    sheet = workbook['salaCopia']
     
     col_status_plan2 = 'C' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
 
@@ -80,7 +80,7 @@ def writeOnExcel_Plan1(index, return_status):
     workbook = openpyxl.load_workbook(arq_excel)
 
     # Select the active sheet
-    sheet = workbook['Planilha1']
+    sheet = workbook['salas']
     
     col_status_plan1 = 'B' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
 
