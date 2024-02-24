@@ -11,8 +11,12 @@ def checkup_login(playwright: Playwright) -> None:
     context = browser.contexts[0]
     page = context.pages[0]
     
+    baseURL = "https://sereduc.blackboard.com/"
+    ultraURL = f'{baseURL}ultra/course'
+    
     for attempt in range(3):
         try:
+            page.goto(ultraURL)
             if "Disciplinas" in page.title():
                 break
             else:
