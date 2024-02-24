@@ -6,12 +6,8 @@ import gc
 #importando Metodos principais
 from Metodos.Login import checkup_login
 from Metodos.API import getFromAPI,getPlanilha
+from Metodos.Master import AjusteSofiaV2,AjusteSermelhor,AjusteAvaliaçãoV2
 
-def clear_cache(page):
-    page.evaluate('''() => {
-        // Limpar o cache usando JavaScript
-        window.location.reload(true);
-    }''')
 
 def run(playwright: Playwright) -> None:
     # Connect to the existing browser
@@ -47,7 +43,6 @@ def run(playwright: Playwright) -> None:
         
         new_page = context.pages[1]
         page = context.pages[0]
-        clear_cache(new_page)
         page.close()
         
         #request from API
@@ -64,9 +59,15 @@ def run(playwright: Playwright) -> None:
         
         # // para criação de novos métodos utilizar o comando 'python -m playwright codegen' dentro do console para auxiliar na criação//
         
+        # Função para escrever na primeira planilha
+        getPlanilha.writeOnExcel_Plan1(index, 'OK')
+        
+        # Função para escrever na segunda planilha
+        # getPlanilha.writeOnExcel_Plan2(index,'CRIADA')
+        
         # Create a new context with the saved storage state.
-        # context1 = browser.new_context(no_viewport=True,storage_state=page.context.storage_state())
-        # new_page = context1.new_page()
+        context1 = browser.new_context(no_viewport=True,storage_state=page.context.storage_state())
+        new_page = context1.new_page()
         
         context.new_page()
         

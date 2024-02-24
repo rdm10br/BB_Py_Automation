@@ -17,7 +17,6 @@ def login(playwright: Playwright) -> None:
         
         
         if page.locator('#agree_button').is_visible() :
-                page.wait_for_timeout(1000)
                 page.get_by_role("button", name="OK").click()
         else :
                 pass

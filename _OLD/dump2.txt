@@ -61,3 +61,15 @@ def get_credentials():
         #         print('OKAY')
         #         pass
     ===================================
+
+*****************************************************
+# Create a new context with the saved storage state.
+# context1 = browser.new_context(no_viewport=True,storage_state=page.context.storage_state())
+# new_page = context1.new_page()
+*****************************************************
+
+def clear_cache(page):
+    page.evaluate('''() => {
+        // Limpar o cache usando JavaScript
+        window.location.reload(true);
+    }''')
