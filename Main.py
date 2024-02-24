@@ -23,6 +23,7 @@ def run(playwright: Playwright) -> None:
     
     # Verificar se está logado e logar
     checkup_login.checkup_login(playwright)
+    # teste
     
     index = 0
     total_lines_plan1 = getPlanilha.total_lines
