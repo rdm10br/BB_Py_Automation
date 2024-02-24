@@ -13,14 +13,13 @@ def login(playwright: Playwright) -> None:
         ultraURL = f'{baseURL}ultra/course'
         
         page.goto(loginURL)
-        page.wait_for_load_state('domcontentloaded')
+        page.wait_for_load_state('networkidle')
         
-        if page.locator('#agree_button').is_visible:
-                print('aeeeeeeeeeeeeeeeeeeeeeeeee poha')
+        
+        if page.locator('#agree_button').is_visible() :
                 page.wait_for_timeout(1000)
                 page.get_by_role("button", name="OK").click()
         else :
-                print('OKAY')
                 pass
         
         username, password = getCredentials.get_credentials()
@@ -31,5 +30,5 @@ def login(playwright: Playwright) -> None:
         page.goto(ultraURL)
         
 # Testar a função
-with sync_playwright() as playwright:
-    login(playwright)
+# with sync_playwright() as playwright:
+#     login(playwright)
