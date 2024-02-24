@@ -1,7 +1,7 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
 
-# from Metodos.Login import getCredentials
-import getCredentials
+from Metodos.Login import getCredentials
+# import getCredentials
 
 def login(playwright: Playwright) -> None:
         browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
