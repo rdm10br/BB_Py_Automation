@@ -40,7 +40,6 @@ def run(playwright: Playwright) -> None:
         id_interno = getFromAPI.API_Req(playwright,index)
         
         classUrlUltra = f'{classURL}{id_interno}/outline'
-        # context.clear_browser_cache()
         
         print(id_externo)
         new_page.goto(classUrlUltra)
@@ -54,8 +53,6 @@ def run(playwright: Playwright) -> None:
         
         # context.storage_state()
         # context.clear_cookies()
-        # Clear cache while preserving login credentials
-        # context.clear_storage_state()
         
         context.new_page()
         

@@ -22,17 +22,19 @@ def run(playwright: Playwright) -> None:
     index = 0
     totalplan2 = getPlanilha.total_lines_plan2
     
+    context.new_page()
+    
     for index in range(totalplan2) :
         index +=1
+        new_page = context.pages[1]
+        page = context.pages[0]
         
-        # Create a new context with the saved storage state.
-        context1 = browser.new_context(storage_state=page.context.storage_state())
-        page1 = context1.new_page()
-
+        page.close()
+        
         copiaSala.copySala(playwright,index)
         getPlanilha.writeOnExcel_Plan2(index,'CRIADA')
         
-        context1.close()
+        context.new_page()
         
     context.close()
     
