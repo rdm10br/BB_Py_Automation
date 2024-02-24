@@ -27,23 +27,24 @@ def run(playwright: Playwright) -> None:
     checkup_login.checkup_login(playwright)
     
     # Salvar os cookies da página original
-    # cookies = page.context.cookies()
+    cookies = page.context.cookies()
     
     index = 0
     total_lines_plan1 = getPlanilha.total_lines
     
     # Create a new context with the saved storage state.
-    # context1 = browser.new_context(no_viewport=True,storage_state=page.context.storage_state())
-    # new_page = context1.new_page()
-    
-    new_page = context.new_page()
+    context1 = browser.new_context(no_viewport=True)
+    # Assuming 'cookies' is the list of cookies obtained earlier
+    context1.add_cookies(cookies)
+    new_page = context1.new_page()
+    new_page.goto(baseURL)
+    new_page.wait_for_timeout(5000)
     
     for index in range(total_lines_plan1) :
         index +=1
-        
-        new_page = context.pages[1]
-        page = context.pages[0]
-        page.close()
+        context = browser.contexts[0]
+        context1 = browser.contexts[1]
+        context1.close()
         
         #request from API
         id_externo = getPlanilha.getCell(index)
@@ -60,16 +61,14 @@ def run(playwright: Playwright) -> None:
         # // para criação de novos métodos utilizar o comando 'python -m playwright codegen' dentro do console para auxiliar na criação//
         
         # Função para escrever na primeira planilha
-        getPlanilha.writeOnExcel_Plan1(index, 'OK')
+        # getPlanilha.writeOnExcel_Plan1(index, 'OK')
         
         # Função para escrever na segunda planilha
         # getPlanilha.writeOnExcel_Plan2(index,'CRIADA')
         
-        # Create a new context with the saved storage state.
-        context1 = browser.new_context(no_viewport=True,storage_state=page.context.storage_state())
-        new_page = context1.new_page()
-        
-        context.new_page()
+        # Create a new context with cookies after login.
+        context1 = browser.new_context(no_viewport=True)
+        context1.add_cookies(cookies)
         
     context.close()
 

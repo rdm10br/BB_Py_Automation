@@ -16,7 +16,6 @@ def checkup_login(playwright: Playwright) -> None:
     
     for attempt in range(3):
         try:
-            page.goto(ultraURL)
             if "Disciplinas" in page.title():
                 break
             else:

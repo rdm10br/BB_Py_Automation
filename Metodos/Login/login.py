@@ -15,7 +15,6 @@ def login(playwright: Playwright) -> None:
         page.goto(loginURL)
         page.wait_for_load_state('networkidle')
         
-        
         if page.locator('#agree_button').is_visible() :
                 page.get_by_role("button", name="OK").click()
         else :
