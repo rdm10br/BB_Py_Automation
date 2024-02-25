@@ -1,6 +1,7 @@
 # import asyncio
 # from playwright.async_api import Playwright, async_playwright, expect
 from playwright.sync_api import Playwright, sync_playwright, expect
+import pytest
 
 #importando Garbage Collector
 import gc
@@ -21,6 +22,7 @@ def main(playwright: Playwright) -> None:
     
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/'
+    total_lines_plan1 = getPlanilha.total_lines
     
     # Access page
     page.goto(baseURL)
@@ -30,8 +32,6 @@ def main(playwright: Playwright) -> None:
     
     # Salvar os cookies da página original
     cookies = page.context.cookies()
-    
-    total_lines_plan1 = getPlanilha.total_lines
     
     # # Create a new context with the saved storage state.
     new_context = browser.new_context(no_viewport=True)
