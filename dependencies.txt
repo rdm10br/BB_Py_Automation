@@ -4,3 +4,4 @@ pip install pandas
 pip install openpyxl
 pip install docx
 pip install pyperclip
+pip install pytest-playwright
