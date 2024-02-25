@@ -1,31 +1,38 @@
 from playwright.sync_api import sync_playwright
 
-def handle_file_selector(page, file_path):
-    # Locate the file input element
-    file_input = page.locator('input[type="file"]')
+def main():
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=False)
+        
+        # Realize ações antes do loop, se necessário
+        initial_context = browser.new_context()
+        initial_page = initial_context.new_page()
+        initial_page.goto('https://example.com')
+        # Realize outras ações necessárias
 
-    # Set the file input element to an absolute file path
-    file_input.input_file(file_path)
+        old_context = initial_context
 
-    # Handle any additional steps (e.g., submit the form)
-    # ...
+        for _ in range(5):  # Supondo que você queira criar e fechar 5 contextos
+            # Realize ações no contexto antigo, se necessário
 
-with sync_playwright() as p:
-    browser = p.chromium.launch()
-    context = browser.new_context()
-    page = context.new_page()
+            # Crie um novo contexto
+            new_context = browser.new_context()
 
-    # Navigate to a page containing a file input element
-    page.goto("https://example.com/upload")
+            # Realize ações no novo contexto
+            page = new_context.new_page()
+            page.goto('https://example.com')
 
-    # Specify the file path you want to upload
-    file_path = "/path/to/your/file.txt"
+            # Feche o contexto antigo
+            old_context.close()
 
-    # Call the function to handle the file selector
-    handle_file_selector(page, file_path)
+            # Atualize a referência para o novo contexto
+            old_context = new_context
 
-    # Continue with your interactions on the page (e.g., submit the form)
-    # ...
+        # No final, feche o último contexto
+        old_context.close()
 
-    # Close the browser
-    context.close()
+        # Feche o navegador
+        browser.close()
+
+if __name__ == "__main__":
+    main()
