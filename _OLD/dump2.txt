@@ -73,3 +73,26 @@ def clear_cache(page):
         // Limpar o cache usando JavaScript
         window.location.reload(true);
     }''')
+
+baseURL = "https://sereduc.blackboard.com/"
+
+#API to get user informations
+https://sereduc.blackboard.com/learn/api/v1/users/me
+{baseURL}learn/api/v1/users?userName={userName}
+JSON.parse(document.body.innerText).id
+
+#API to get user informations from courses
+{baseURL}/learn/api/public/v1/courses/{courseid}/users/{userid}
+
+#API to get courses from a specific user
+{baseURL}/learn/api/public/v1/users/{userid}/courses
+
+{baseURL}/learn/api/public/v1/courses/{courseid}/children
+{baseURL}/learn/api/public/v1/courses/{courseid}/nodes
+{baseURL}/learn/api/public/v1/systemRoles
+{baseURL}/learn/api/public/v1/institutionRoles
+{baseURL}/learn/api/public/v1/courseRoles
+{baseURL}/learn/api/public/v1/users
+{baseURL}/learn/api/public/v1/users/{userid}
+{baseURL}/learn/api/public/v1/loginAs/sessions
+
