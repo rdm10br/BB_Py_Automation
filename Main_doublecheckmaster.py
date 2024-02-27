@@ -58,10 +58,10 @@ def run(playwright: Playwright) -> None:
         
         context.new_page()
         
+        # Force garbage collection
+        gc.collect()
+        
     context.close()
-
-# Force garbage collection
-gc.collect()
 
 with sync_playwright() as playwright:
     # lp = LineProfiler()
