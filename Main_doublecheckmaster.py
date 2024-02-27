@@ -47,10 +47,10 @@ def run(playwright: Playwright) -> None:
         print(id_externo)
         new_page.goto(classUrlUltra)
         
-        new_page.wait_for_load_state('networkidle')
+        # new_page.wait_for_load_state('networkidle')
         AjusteSofiaV2.ajusteSofia(playwright,id_interno)
         
-        AjusteAvaliaçãoV2.ajusteAvaliacao(playwright,id_interno)
+        # AjusteAvaliaçãoV2.ajusteAvaliacao(playwright,id_interno)
         
         AjusteSermelhor.ajusteSerMelhor(playwright)
         
