@@ -34,9 +34,9 @@ def API_Ativ_Course(playwright: Playwright ,id_externo) -> None:
     request = '() => {return JSON.parse(document.body.innerText).name.match(/(?<=[(]).*(?=[)])/)}'
     
     page.goto(internalID_API)
-    teste = page.evaluate(request)
+    course_area = page.evaluate(request)
     # Remover caracteres especiais usando expressões regulares
-    string_sem_especiais = re.sub(r'[^\w\s]', '', str(teste))
+    string_sem_especiais = re.sub(r'[^\w\s]', '', str(course_area))
     page.close()
     return str(string_sem_especiais)
 
