@@ -18,6 +18,11 @@ col_plan2_copy = 'ID_DESTINY'
 df_map_plan2 = pd.read_excel(arq_excel, sheet_name='salaCopia')
 total_lines_plan2 = len(df_map_plan2)
 
+col_plan3_curso = "CURSO"
+col_plan3_GA = 'GRANDE ÁREA'
+df_map_plan3 = pd.read_excel(arq_excel, sheet_name='atividades')
+total_lines_plan3 = len(df_map_plan3)
+
 def getCell(index):
     # Ajustando o índice para começar do zero
     index -= 1
@@ -60,6 +65,28 @@ def getCell_copy_plan2(index):
     except Exception as e:
             print("index does not exist")
             
+def getCell_curso(index):
+    # Ajustando o índice para começar do zero
+    index -= 1
+    try :
+    # Verificando se o índice está dentro do intervalo válido
+        if 0 <= index < total_lines_plan3:
+            # Obtendo o valor da célula na linha e coluna especificadas
+            cell_value = df_map_plan3.at[index, col_plan3_curso]
+            return str(cell_value)
+        else:
+            return total_lines
+    except Exception as e:
+            print("index does not exist")
+            
+def filter_GA(GA):
+    
+    cursos_filtrados = df_map_plan3.loc[df_map_plan3[col_plan3_GA] == GA, 'CURSO']
+    
+    return str(cursos_filtrados)
+    
+    
+            
 def writeOnExcel_Plan2(index, return_status):
     # Load an existing Excel workbook
     workbook = openpyxl.load_workbook(arq_excel)
@@ -96,3 +123,5 @@ def writeOnExcel_Plan1(index, return_status):
 #     cell = getCell_plan2(index)
 #     cell_copy = getCell_copy_plan2(index)
 #     print(f'o número presente na celula é :{cell} na linha: {index+1} da cóluna : {col_plan2} e na coluna : {col_plan2_copy} está o ID de copia {cell_copy}')
+
+# print(filter_GA(GA='COMUNICAÇÃO'))
