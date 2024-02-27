@@ -1,9 +1,6 @@
 import pandas as pd
 import openpyxl
 import pyarrow
-# import warnings
-
-# warnings.filterwarnings("ignore", message="PyArrow.*not found")
 
 # Acessando o arquivo
 arq_excel = 'BB_Py_Automation\\Planilhas\\SALAS.xlsx'
