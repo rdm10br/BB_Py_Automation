@@ -50,30 +50,6 @@ def run(playwright: Playwright) -> None:
             
             course_area = str(getFromAPI.API_Ativ_Course(playwright,id_externo))
             
-            def inserirGruposAtividadesAV1(curso):
-                item = f'Envio AV1 - Atividade Prática de Extensão ({curso})'
-                searchURL = f'{classUrlUltra}?search={item}'
-                new_page.goto(searchURL)
-                new_page.get_by_role("button", name="Condições de liberação").click()
-                new_page.get_by_role("option", name="Condições de liberação").click()
-                new_page.get_by_label("Condições de liberação de").click()
-                new_page.get_by_label("Membros ou grupos específicos").check()
-                new_page.get_by_label("Membros ou grupos específicos").fill(curso)
-                new_page.get_by_role("button", name="Salvar").click()
-                new_page.wait_for_load_state('load')
-            
-            def inserirGruposAtividadesAV2(curso):
-                item = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
-                searchURL = f'{classUrlUltra}?search={item}'
-                new_page.goto(searchURL)
-                new_page.get_by_role("button", name="Condições de liberação").click()
-                new_page.get_by_role("option", name="Condições de liberação").click()
-                new_page.get_by_label("Condições de liberação de").click()
-                new_page.get_by_label("Membros ou grupos específicos").check()
-                new_page.get_by_label("Membros ou grupos específicos").fill(curso)
-                new_page.get_by_role("button", name="Salvar").click()
-                new_page.wait_for_load_state('load')
-            
             if course_area == "['Educação I']" :
                 
                 gruposAtividades.inserirArquivoEducI(playwright ,id_interno)
@@ -81,9 +57,9 @@ def run(playwright: Playwright) -> None:
                 curso = ['Formação Pedagógica em Matemática para Graduados','Formação Pedagógica em Pedagogia para Graduados','Formação de Docente para a Educação Básica - Geografia','Formação de Docente para a Educação Básica - História','Formação de Docente para a Educação Básica - Letras','Formação de Docente para a Educação Básica - História','Segunda Licenciatura em Geografia','Segunda Licenciatura em História','Segunda Licenciatura em Letras - Espanhol','Segunda Licenciatura em Letras - Inglês','Segunda Licenciatura em Letras - Português','Segunda Licenciatura em Matemática','Segunda Licenciatura em Pedagogia']
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1               
                 
@@ -94,9 +70,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Licenciatura em Educação Especial","Licenciatura em Educação Física","Geografia","História","Ciências Biológicas","Matemática","Letras - Espanhol","Letras - Inglês","Letras - Português"]
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 
@@ -107,9 +83,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Pedagogia"]
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 
@@ -120,9 +96,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Engenharia Civil","Engenharia de Produção","Engenharia Elétrica","Engenharia Mecânica","Ciências Aeronáuticas"]
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 
@@ -133,9 +109,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Administração","Ciências Contábeis","Ciências Econômicas","Gestão Hospitalar"]
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 
@@ -146,9 +122,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Gestão Financeira","Gestão Ambiental","Gastronomia","Gestão da Qualidade","Gestão Comercial com Complementação de Estudos em Gestão de E-Commerce","E-Commerce","Gestão de Recursos Humanos","Logística","Gestão de Trânsito","Gestão Comercial","Processos Gerenciais","Negócios Imobiliários"]
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 
@@ -159,9 +135,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Ciência Política","Gestão de Serviços Jurídicos e Notariais","Gestão Pública","Segurança Pública"]
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 
@@ -172,9 +148,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Farmácia","Enfermagem","Biomedicina"]
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 
@@ -185,9 +161,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Estética e Cosmética","Podologia"]
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 
@@ -198,9 +174,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Bacharelado em Educação Física","Fisioterapia","Terapia Ocupacional","Nutrição"]
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 
@@ -211,9 +187,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Serviço Social","Teologia"]
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 
@@ -224,9 +200,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Analise e Desenvolvimento de Sistema","Ciência De Dados/Data Science","Coding","Computação Em Nuvem","Digital Security","Empreendedorismo Digital","Experiência do Usuário e Modelagem de Projetos Inovadores","Game Design","Tecnologia da Informação","Inteligência Artificial","Internet das Coisas","Service Design"]
                 
                 for i in range(len(curso)):
-                    inserirGruposAtividadesAV1(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    inserirGruposAtividadesAV2(curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 

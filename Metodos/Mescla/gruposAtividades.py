@@ -4,7 +4,7 @@ from Metodos.API import getApiContent ,getPlanilha
 def inserirArquivoEducI(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Educação I 1.csv'
@@ -26,7 +26,7 @@ def inserirArquivoEducI(playwright: Playwright , id_interno) -> None:
 def inserirArquivoEducII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Educação II 1.csv'
@@ -48,7 +48,7 @@ def inserirArquivoEducII(playwright: Playwright , id_interno) -> None:
 def inserirArquivoEducIII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Educação III 1.csv'
@@ -70,7 +70,7 @@ def inserirArquivoEducIII(playwright: Playwright , id_interno) -> None:
 def inserirArquivoExat(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Exatas.csv'
@@ -92,7 +92,7 @@ def inserirArquivoExat(playwright: Playwright , id_interno) -> None:
 def inserirArquivoNegI(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - NEGÓCIOS E GESTÃO I.csv'
@@ -114,7 +114,7 @@ def inserirArquivoNegI(playwright: Playwright , id_interno) -> None:
 def inserirArquivoNegII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - NEGÓCIOS E GESTÃO II.csv'
@@ -136,7 +136,7 @@ def inserirArquivoNegII(playwright: Playwright , id_interno) -> None:
 def inserirArquivoNegIII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - NEGÓCIOS E GESTÃO III.csv'
@@ -158,7 +158,7 @@ def inserirArquivoNegIII(playwright: Playwright , id_interno) -> None:
 def inserirArquivoSaudI(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SAÚDE I.csv'
@@ -180,7 +180,7 @@ def inserirArquivoSaudI(playwright: Playwright , id_interno) -> None:
 def inserirArquivoSaudII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SAÚDE II.csv'
@@ -202,7 +202,7 @@ def inserirArquivoSaudII(playwright: Playwright , id_interno) -> None:
 def inserirArquivoSaudIII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SAÚDE III.csv'
@@ -224,7 +224,7 @@ def inserirArquivoSaudIII(playwright: Playwright , id_interno) -> None:
 def inserirArquivoServ(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SERVIÇO SOCIAL E TEOLOGIA.csv'
@@ -246,7 +246,7 @@ def inserirArquivoServ(playwright: Playwright , id_interno) -> None:
 def inserirArquivoInfo(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
-    page = context.new_page()
+    page = context.page()
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - TECNOLOGIA DA INFORMAÇÃO.csv'
@@ -285,3 +285,41 @@ def openFolderAV2(playwright: Playwright , id_interno) -> None:
     folder = f'#folder-title-{id_item}'
     
     page.locator(folder).click()
+    
+def inserirGruposAtividadesAV1(playwright: Playwright ,curso):
+    
+    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
+    context = browser.contexts[0]
+    page = context.pages[0]
+    
+    classUrlUltra = page.url()
+    item = f'Envio AV1 - Atividade Prática de Extensão ({curso})'
+    searchURL = f'{classUrlUltra}?search={item}'
+    
+    page.goto(searchURL)
+    page.get_by_role("button", name="Condições de liberação").click()
+    page.get_by_role("option", name="Condições de liberação").click()
+    page.get_by_label("Condições de liberação de").click()
+    page.get_by_label("Membros ou grupos específicos").check()
+    page.get_by_label("Membros ou grupos específicos").fill(curso)
+    page.get_by_role("button", name="Salvar").click()
+    page.wait_for_load_state('load')
+
+def inserirGruposAtividadesAV2(playwright: Playwright ,curso):
+    
+    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
+    context = browser.contexts[0]
+    page = context.pages[0]
+    
+    classUrlUltra = page.url()
+    item = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
+    searchURL = f'{classUrlUltra}?search={item}'
+    
+    page.goto(searchURL)
+    page.get_by_role("button", name="Condições de liberação").click()
+    page.get_by_role("option", name="Condições de liberação").click()
+    page.get_by_label("Condições de liberação de").click()
+    page.get_by_label("Membros ou grupos específicos").check()
+    page.get_by_label("Membros ou grupos específicos").fill(curso)
+    page.get_by_role("button", name="Salvar").click()
+    page.wait_for_load_state('load')
