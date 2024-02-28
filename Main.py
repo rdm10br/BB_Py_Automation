@@ -44,7 +44,7 @@ def main(playwright: Playwright) -> None:
         
         cell_status = getPlanilha.getCell_status(index)
         
-        if cell_status == 'OK':
+        if cell_status != '':
             pass
         else :
             #request from API
