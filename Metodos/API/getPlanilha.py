@@ -7,11 +7,13 @@ arq_excel = 'BB_Py_Automation\\Planilhas\\SALAS.xlsx'
 
 # Lendo o arquivo
 col = "ID"
+col_status = 'STATUS'
 df_map = pd.read_excel(arq_excel, sheet_name='salas')
 total_lines = len(df_map)
 
 col_plan2 = "ID_ORIGIN"
 col_plan2_copy = 'ID_DESTINY'
+col_plan2_status = 'STATUS'
 df_map_plan2 = pd.read_excel(arq_excel, sheet_name='salaCopia')
 total_lines_plan2 = len(df_map_plan2)
 
@@ -33,6 +35,17 @@ def getCell(index):
             return total_lines
     except Exception as e:
             print("index does not exist")
+            
+def getCell_status(index):
+    # Ajustando o índice para começar do zero
+    index -= 1
+    # Verificando se o índice está dentro do intervalo válido
+    if 0 <= index < total_lines:
+        # Obtendo o valor da célula na linha e coluna especificadas
+        cell_value = df_map.at[index, col_status]
+        return str(cell_value)
+    else:
+        return str(cell_value)
 
 def getCell_plan2(index):
     # Ajustando o índice para começar do zero
@@ -47,6 +60,17 @@ def getCell_plan2(index):
             return total_lines_plan2
     except Exception as e:
             print("index does not exist")
+            
+def getCell_plan2_status(index):
+    # Ajustando o índice para começar do zero
+    index -= 1
+    # Verificando se o índice está dentro do intervalo válido
+    if 0 <= index < total_lines_plan2:
+        # Obtendo o valor da célula na linha e coluna especificadas
+        cell_value2 = df_map_plan2.at[index, col_plan2_status]
+        return str(cell_value2)
+    else:
+        return str(cell_value2)
             
 def getCell_copy_plan2(index):
     # Ajustando o índice para começar do zero

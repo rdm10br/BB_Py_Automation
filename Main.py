@@ -42,40 +42,42 @@ def main(playwright: Playwright) -> None:
     for index in range(total_lines_plan1) :
         index +=1
         
-        #request from API
-        id_externo = getPlanilha.getCell(index)
-        id_interno = getFromAPI.API_Req(playwright,index)
+        cell_status = getPlanilha.getCell_status(index)
         
-        classUrlUltra = f'{classURL}{id_interno}/outline'
-        
-        print(id_externo)
-        
-        new_page.goto(classUrlUltra)
-        new_page.wait_for_load_state('networkidle')
+        if cell_status == 'OK':
+            pass
+        else :
+            #request from API
+            id_externo = getPlanilha.getCell(index)
+            id_interno = getFromAPI.API_Req(playwright,index)
+            
+            classUrlUltra = f'{classURL}{id_interno}/outline'
+            
+            print(id_externo)
+            
+            new_page.goto(classUrlUltra)
+            new_page.wait_for_load_state('networkidle')
 
-        # // espaço onde você insere suas funções para executar no Loop //
-        
-        # // para criação de novos métodos utilizar o comando 'python -m playwright codegen' dentro do console para auxiliar na criação//
-        
-        # Função para escrever na primeira planilha
-        # getPlanilha.writeOnExcel_Plan1(index, 'OK')
-        
-        # Função para escrever na segunda planilha
-        # getPlanilha.writeOnExcel_Plan2(index,'CRIADA')
-        
-        # Atualizando a referência dos contextos
-        old_context = new_context
-        
-        # Create a new context with cookies after login.
-        new_context = browser.new_context(no_viewport=True)
-        new_context.add_cookies(cookies)
-        new_page = new_context.new_page()
-        
-        # Fecha o contexto anterior
-        old_context.close()
-        
-        # Force garbage collection
-        gc.collect()
+            # // espaço onde você insere suas funções para executar no Loop //
+            
+            # // para criação de novos métodos utilizar o comando 'python -m playwright codegen' dentro do console para auxiliar na criação//
+            
+            # Função para escrever na primeira planilha
+            getPlanilha.writeOnExcel_Plan1(index, 'OK')
+            
+            # Atualizando a referência dos contextos
+            old_context = new_context
+            
+            # Create a new context with cookies after login.
+            new_context = browser.new_context(no_viewport=True)
+            new_context.add_cookies(cookies)
+            new_page = new_context.new_page()
+            
+            # Fecha o contexto anterior
+            old_context.close()
+            
+            # Force garbage collection
+            gc.collect()
         
     context.close()
 

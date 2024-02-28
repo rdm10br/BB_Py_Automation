@@ -23,15 +23,21 @@ def run(playwright: Playwright) -> None:
     
     for index in range(totalplan2) :
         index +=1
-        new_page = context.pages[1]
-        page = context.pages[0]
         
-        page.close()
+        cell_status = getPlanilha.getCell_plan2_status(index)
         
-        copiaMaterial.copyMaterial(playwright,index)
-        getPlanilha.writeOnExcel_Plan2(index,'OK')
-        
-        context.new_page()
+        if cell_status == 'OK':
+            pass
+        else :
+            new_page = context.pages[1]
+            page = context.pages[0]
+            
+            page.close()
+            
+            copiaMaterial.copyMaterial(playwright,index)
+            getPlanilha.writeOnExcel_Plan2(index,'OK')
+            
+            context.new_page()
         
     context.close()
     
