@@ -292,7 +292,7 @@ def inserirGruposAtividadesAV1(playwright: Playwright ,curso):
     context = browser.contexts[0]
     page = context.pages[0]
     
-    classUrlUltra = page.url()
+    classUrlUltra = page.url
     item = f'Envio AV1 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
     
