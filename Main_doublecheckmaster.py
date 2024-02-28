@@ -21,7 +21,7 @@ def run(playwright: Playwright) -> None:
     classURL = f'{baseURL}ultra/courses/'
     
     # Access page
-    # page.goto(baseURL)
+    page.goto(baseURL)
     
     # Verificar se está logado e logar
     checkup_login.checkup_login(playwright)
