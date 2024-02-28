@@ -2,6 +2,7 @@ from playwright.sync_api import Playwright, sync_playwright, expect
 from playwright.sync_api import *
 import re
 from Metodos.API import getPlanilha
+# import getPlanilha
 
 def API_Req(playwright: Playwright  ,index) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -36,11 +37,11 @@ def API_Ativ_Course(playwright: Playwright ,id_externo) -> None:
     page.goto(internalID_API)
     course_area = page.evaluate(request)
     # Remover caracteres especiais usando expressões regulares
-    string_sem_especiais = re.sub(r'[^\w\s]', '', str(course_area))
+    # string_sem_especiais = re.sub(r'[^\w\s]', '', str(course_area))
     page.close()
-    return str(string_sem_especiais)
+    return str(course_area)
 
 # with sync_playwright() as playwright:
 #     id_externo = '7.8225.216597'
-#     id1=API_Req(playwright,id_externo)
+#     id1=API_Ativ_Course(playwright,id_externo)
 #     print(id1)

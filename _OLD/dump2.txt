@@ -96,3 +96,10 @@ JSON.parse(document.body.innerText).id
 {baseURL}/learn/api/public/v1/users/{userid}
 {baseURL}/learn/api/public/v1/loginAs/sessions
 
+    item_name = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
+    page.get_by_role("link", name=item_name, exact=True).click()
+    page.get_by_role("button", name="Condições de liberação").click()
+    page.get_by_role("menuitem", name="Condições de liberação").click()
+    page.get_by_label("Membros ou grupos específicos").check()
+    page.get_by_label("Membros ou grupos específicos").fill(curso)
+    page.get_by_role("button", name="Salvar").click()
