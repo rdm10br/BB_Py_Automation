@@ -54,7 +54,19 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoEducI(playwright ,id_interno)
                 print(course_area)
-                curso = ['Formação Pedagógica em Matemática para Graduados','Formação Pedagógica em Pedagogia para Graduados','Formação de Docente para a Educação Básica - Geografia','Formação de Docente para a Educação Básica - História','Formação de Docente para a Educação Básica - Letras','Formação de Docente para a Educação Básica - História','Segunda Licenciatura em Geografia','Segunda Licenciatura em História','Segunda Licenciatura em Letras - Espanhol','Segunda Licenciatura em Letras - Inglês','Segunda Licenciatura em Letras - Português','Segunda Licenciatura em Matemática','Segunda Licenciatura em Pedagogia']
+                curso = ['Formação Pedagógica em Matemática para Graduados',
+                         'Formação Pedagógica em Pedagogia para Graduados',
+                         'Formação de Docente para a Educação Básica - Geografia',
+                         'Formação de Docente para a Educação Básica - História',
+                         'Formação de Docente para a Educação Básica - Letras',
+                         'Formação de Docente para a Educação Básica - História',
+                         'Segunda Licenciatura em Geografia',
+                         'Segunda Licenciatura em História',
+                         'Segunda Licenciatura em Letras - Espanhol',
+                         'Segunda Licenciatura em Letras - Inglês',
+                         'Segunda Licenciatura em Letras - Português',
+                         'Segunda Licenciatura em Matemática',
+                         'Segunda Licenciatura em Pedagogia']
                 
                 for i in range(len(curso)):
                     gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
@@ -67,7 +79,14 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoEducII(playwright,id_interno)
                 print(course_area)
-                curso = ["Licenciatura em Educação Especial","Licenciatura em Educação Física","Geografia","História","Ciências Biológicas","Matemática","Letras - Espanhol","Letras - Inglês","Letras - Português"]
+                curso = ["Licenciatura em Educação Especial",
+                         "Licenciatura em Educação Física",
+                         "Geografia","História",
+                         "Ciências Biológicas",
+                         "Matemática",
+                         "Letras - Espanhol",
+                         "Letras - Inglês",
+                         "Letras - Português"]
                 
                 for i in range(len(curso)):
                     gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
@@ -93,7 +112,11 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoExat(playwright,id_interno)
                 print(course_area)
-                curso = ["Engenharia Civil","Engenharia de Produção","Engenharia Elétrica","Engenharia Mecânica","Ciências Aeronáuticas"]
+                curso = ["Engenharia Civil",
+                         "Engenharia de Produção",
+                         "Engenharia Elétrica",
+                         "Engenharia Mecânica",
+                         "Ciências Aeronáuticas"]
                 
                 for i in range(len(curso)):
                     gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
@@ -106,7 +129,10 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoNegI(playwright,id_interno)
                 print(course_area)
-                curso = ["Administração","Ciências Contábeis","Ciências Econômicas","Gestão Hospitalar"]
+                curso = ["Administração",
+                         "Ciências Contábeis",
+                         "Ciências Econômicas",
+                         "Gestão Hospitalar"]
                 
                 for i in range(len(curso)):
                     gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
@@ -119,7 +145,18 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoNegII(playwright,id_interno)
                 print(course_area)
-                curso = ["Gestão Financeira","Gestão Ambiental","Gastronomia","Gestão da Qualidade","Gestão Comercial com Complementação de Estudos em Gestão de E-Commerce","E-Commerce","Gestão de Recursos Humanos","Logística","Gestão de Trânsito","Gestão Comercial","Processos Gerenciais","Negócios Imobiliários"]
+                curso = ["Gestão Financeira",
+                         "Gestão Ambiental",
+                         "Gastronomia",
+                         "Gestão da Qualidade",
+                         "Gestão Comercial com Complementação de Estudos em Gestão de E-Commerce",
+                         "E-Commerce",
+                         "Gestão de Recursos Humanos",
+                         "Logística",
+                         "Gestão de Trânsito",
+                         "Gestão Comercial",
+                         "Processos Gerenciais",
+                         "Negócios Imobiliários"]
                 
                 for i in range(len(curso)):
                     gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
@@ -132,7 +169,10 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoNegIII(playwright,id_interno)
                 print(course_area)
-                curso = ["Ciência Política","Gestão de Serviços Jurídicos e Notariais","Gestão Pública","Segurança Pública"]
+                curso = ["Ciência Política",
+                         "Gestão de Serviços Jurídicos e Notariais",
+                         "Gestão Pública",
+                         "Segurança Pública"]
                 
                 for i in range(len(curso)):
                     gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
@@ -145,7 +185,9 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoSaudI(playwright,id_interno)
                 print(course_area)
-                curso = ["Farmácia","Enfermagem","Biomedicina"]
+                curso = ["Farmácia",
+                         "Enfermagem",
+                         "Biomedicina"]
                 
                 for i in range(len(curso)):
                     gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
@@ -158,7 +200,8 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoSaudII(playwright,id_interno)
                 print(course_area)
-                curso = ["Estética e Cosmética","Podologia"]
+                curso = ["Estética e Cosmética",
+                         "Podologia"]
                 
                 for i in range(len(curso)):
                     gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
@@ -171,7 +214,10 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoSaudIII(playwright,id_interno)
                 print(course_area)
-                curso = ["Bacharelado em Educação Física","Fisioterapia","Terapia Ocupacional","Nutrição"]
+                curso = ["Bacharelado em Educação Física",
+                         "Fisioterapia",
+                         "Terapia Ocupacional"
+                         ,"Nutrição"]
                 
                 for i in range(len(curso)):
                     gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
@@ -184,7 +230,8 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoServ(playwright,id_interno)
                 print(course_area)
-                curso = ["Serviço Social","Teologia"]
+                curso = ["Serviço Social",
+                         "Teologia"]
                 
                 for i in range(len(curso)):
                     gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
@@ -197,7 +244,18 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoInfo(playwright,id_interno)
                 print(course_area)
-                curso = ["Analise e Desenvolvimento de Sistema","Ciência De Dados/Data Science","Coding","Computação Em Nuvem","Digital Security","Empreendedorismo Digital","Experiência do Usuário e Modelagem de Projetos Inovadores","Game Design","Tecnologia da Informação","Inteligência Artificial","Internet das Coisas","Service Design"]
+                curso = ["Analise e Desenvolvimento de Sistema",
+                         "Ciência De Dados/Data Science",
+                         "Coding",
+                         "Computação Em Nuvem",
+                         "Digital Security",
+                         "Empreendedorismo Digital",
+                         "Experiência do Usuário e Modelagem de Projetos Inovadores",
+                         "Game Design",
+                         "Tecnologia da Informação",
+                         "Inteligência Artificial",
+                         "Internet das Coisas",
+                         "Service Design"]
                 
                 for i in range(len(curso)):
                     gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])

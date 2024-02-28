@@ -1,4 +1,7 @@
-curso = ["Engenharia Civil","Engenharia de Produção","Engenharia Elétrica","Engenharia Mecânica","Ciências Aeronáuticas"]
+curso = ["Bacharelado em Educação Física",
+        "Fisioterapia",
+        "Terapia Ocupacional"
+        ,"Nutrição"]
 
 for i in range(len(curso)):
     print(curso[i].lower())
