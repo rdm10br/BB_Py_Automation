@@ -30,34 +30,37 @@ def run(playwright: Playwright) -> None:
     
     for index in range(total_lines_plan1) :
         index +=1
-        new_page = context.pages[1]
-        page = context.pages[0]
         
-        page.close()
+        cell_status = getPlanilha.getCell_status(index)
         
-        #request from API
-        id_externo = getPlanilha.getCell(index)
-        id_interno = getFromAPI.API_Req(playwright,index)
-        
-        classUrlUltra = f'{classURL}{id_interno}/outline'
-        # context.clear_browser_cache()
-        
-        print(id_externo)
-        new_page.goto(classUrlUltra)
-        new_page.wait_for_load_state('networkidle')
-        
-        atribGrup.atribuirGruposVET(playwright, id_interno)
-        atribGrup.inserirArquivoVET(playwright, id_interno)
-        AjusteNotaZero.AjusteNotaZero(playwright, id_interno)
-        AjusteAvaliaçãoV2.ajusteAvaliacao(playwright)
-        getPlanilha.writeOnExcel_Plan1(index, 'OK')
-        
-        # context.storage_state()
-        # context.clear_cookies()
-        # Clear cache while preserving login credentials
-        # context.clear_storage_state()
-        
-        context.new_page()
+        if cell_status != '':
+            pass
+        else :
+            new_page = context.pages[1]
+            page = context.pages[0]
+            
+            page.close()
+            
+            #request from API
+            id_externo = getPlanilha.getCell(index)
+            id_interno = getFromAPI.API_Req(playwright,index)
+            
+            classUrlUltra = f'{classURL}{id_interno}/outline'
+            
+            print(id_externo)
+            new_page.goto(classUrlUltra)
+            new_page.wait_for_load_state('networkidle')
+            
+            atribGrup.atribuirGruposVET(playwright, id_interno)
+            atribGrup.inserirArquivoVET(playwright, id_interno)
+            AjusteNotaZero.AjusteNotaZero(playwright, id_interno)
+            AjusteAvaliaçãoV2.ajusteAvaliacao(playwright)
+            getPlanilha.writeOnExcel_Plan1(index, 'OK')
+            
+            # context.storage_state()
+            # context.clear_cookies()
+            
+            context.new_page()
         
         
     context.close()

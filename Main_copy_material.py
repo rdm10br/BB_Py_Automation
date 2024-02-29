@@ -19,12 +19,25 @@ def run(playwright: Playwright) -> None:
     checkup_login.checkup_login(playwright)
     index = 0
     totalplan2 = getPlanilha.total_lines_plan2
+    context.new_page()
     
     for index in range(totalplan2) :
         index +=1
         
-        copiaMaterial.copyMaterial(playwright,index)
-        getPlanilha.writeOnExcel_Plan2(index,'OK')
+        cell_status = getPlanilha.getCell_plan2_status(index)
+        
+        if cell_status != '':
+            pass
+        else :
+            new_page = context.pages[1]
+            page = context.pages[0]
+            
+            page.close()
+            
+            copiaMaterial.copyMaterial(playwright,index)
+            getPlanilha.writeOnExcel_Plan2(index,'OK')
+            
+            context.new_page()
         
     context.close()
     

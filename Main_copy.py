@@ -10,21 +10,37 @@ def run(playwright: Playwright) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     # Access page context
     context = browser.contexts[0]
-    baseURL = "https://sereduc.blackboard.com/"
     # Access page
     page = context.pages[0]
+
+    baseURL = "https://sereduc.blackboard.com/"
     
     page.goto(baseURL)
+    
     # Verificar se está logado e logar
     checkup_login.checkup_login(playwright)
     index = 0
     totalplan2 = getPlanilha.total_lines_plan2
     
+    context.new_page()
+    
     for index in range(totalplan2) :
         index +=1
         
-        copiaSala.copySala(playwright,index)
-        getPlanilha.writeOnExcel_Plan2(index,'CRIADA')
+        cell_status = getPlanilha.getCell_plan2_status(index)
+        
+        if cell_status != '':
+            pass
+        else :
+            new_page = context.pages[1]
+            page = context.pages[0]
+            
+            page.close()
+            
+            copiaSala.copySala(playwright,index)
+            getPlanilha.writeOnExcel_Plan2(index,'CRIADA')
+            
+            context.new_page()
         
     context.close()
     

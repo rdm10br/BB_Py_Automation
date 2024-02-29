@@ -48,3 +48,58 @@ def get_credentials():
     password = simpledialog.askstring("Input", "Digite sua senha:", show='*')
 
     return username, password
+
+    # user_data_dir = '%LOCALAPPDATA%\\Google\\Chrome\\User Data'
+    # State = '%LOCALAPPDATA%\\Google\\Chrome\\User Data\\Local State'
+
+    ===================================
+    # if expect(page.locator('#agree_button')).to_be_visible:
+        #         print('aeeeeeeeeeeeeeeeeeeeeeeeee poha')
+        #         page.wait_for_timeout(1000)
+        #         page.get_by_role("button", name="OK").click()
+        # elif expect(page.locator('#agree_button')).not_to_be_visible:
+        #         print('OKAY')
+        #         pass
+    ===================================
+
+*****************************************************
+# Create a new context with the saved storage state.
+# context1 = browser.new_context(no_viewport=True,storage_state=page.context.storage_state())
+# new_page = context1.new_page()
+*****************************************************
+
+def clear_cache(page):
+    page.evaluate('''() => {
+        // Limpar o cache usando JavaScript
+        window.location.reload(true);
+    }''')
+
+baseURL = "https://sereduc.blackboard.com/"
+
+#API to get user informations
+https://sereduc.blackboard.com/learn/api/v1/users/me
+{baseURL}learn/api/v1/users?userName={userName}
+JSON.parse(document.body.innerText).id
+
+#API to get user informations from courses
+{baseURL}/learn/api/public/v1/courses/{courseid}/users/{userid}
+
+#API to get courses from a specific user
+{baseURL}/learn/api/public/v1/users/{userid}/courses
+
+{baseURL}/learn/api/public/v1/courses/{courseid}/children
+{baseURL}/learn/api/public/v1/courses/{courseid}/nodes
+{baseURL}/learn/api/public/v1/systemRoles
+{baseURL}/learn/api/public/v1/institutionRoles
+{baseURL}/learn/api/public/v1/courseRoles
+{baseURL}/learn/api/public/v1/users
+{baseURL}/learn/api/public/v1/users/{userid}
+{baseURL}/learn/api/public/v1/loginAs/sessions
+
+    item_name = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
+    page.get_by_role("link", name=item_name, exact=True).click()
+    page.get_by_role("button", name="Condições de liberação").click()
+    page.get_by_role("menuitem", name="Condições de liberação").click()
+    page.get_by_label("Membros ou grupos específicos").check()
+    page.get_by_label("Membros ou grupos específicos").fill(curso)
+    page.get_by_role("button", name="Salvar").click()

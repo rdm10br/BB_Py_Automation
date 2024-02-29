@@ -33,35 +33,41 @@ def run(playwright: Playwright) -> None:
     
     for index in range(total_lines_plan1) :
         index +=1
-        new_page = context.pages[1]
-        page = context.pages[0]
         
-        page.close()
+        cell_status = getPlanilha.getCell_status(index)
         
-        #request from API
-        id_externo = getPlanilha.getCell(index)
-        id_interno = getFromAPI.API_Req(playwright,index)
+        if cell_status != '':
+            pass
+        else :
+            new_page = context.pages[1]
+            page = context.pages[0]
+            
+            page.close()
+            
+            #request from API
+            id_externo = getPlanilha.getCell(index)
+            id_interno = getFromAPI.API_Req(playwright,index)
+            
+            classUrlUltra = f'{classURL}{id_interno}/outline'
         
-        classUrlUltra = f'{classURL}{id_interno}/outline'
-    
-        print(id_externo)
-        new_page.goto(classUrlUltra)
-        
-        new_page.wait_for_load_state('networkidle')
-        AjusteSofiaV2.ajusteSofia(playwright,id_interno)
-        
-        AjusteAvaliaçãoV2.ajusteAvaliacao(playwright,id_interno)
-        
-        AjusteSermelhor.ajusteSerMelhor(playwright)
-        
-        getPlanilha.writeOnExcel_Plan1(index, 'OK')
-        
-        context.new_page()
+            print(id_externo)
+            new_page.goto(classUrlUltra)
+            
+            # new_page.wait_for_load_state('networkidle')
+            AjusteSofiaV2.ajusteSofia(playwright,id_interno)
+            
+            AjusteAvaliaçãoV2.ajusteAvaliacao(playwright,id_interno)
+            
+            AjusteSermelhor.ajusteSerMelhor(playwright)
+            
+            getPlanilha.writeOnExcel_Plan1(index, 'OK')
+            
+            context.new_page()
+            
+            # Force garbage collection
+            gc.collect()
         
     context.close()
-
-# Force garbage collection
-gc.collect()
 
 with sync_playwright() as playwright:
     # lp = LineProfiler()
