@@ -301,8 +301,13 @@ def inserirGruposAtividadesAV1(playwright: Playwright ,curso):
     page.get_by_role("option", name="Condições de liberação").click()
     page.get_by_label("Condições de liberação de").click()
     page.get_by_label("Membros ou grupos específicos").check()
-    page.get_by_label("Membros ou grupos específicos").fill(curso)
+    page.locator("#course-groups-combobox").click()
+    # page.get_by_label("Procurar por Grupo").click()
+    page.locator("#course-groups-combobox-search-box").fill(curso)
+    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=curso).click()
     page.get_by_role("button", name="Salvar").click()
+    page.wait_for_load_state('load')
+    page.goto(classUrlUltra)
     page.wait_for_load_state('load')
 
 def inserirGruposAtividadesAV2(playwright: Playwright ,curso):
@@ -311,7 +316,7 @@ def inserirGruposAtividadesAV2(playwright: Playwright ,curso):
     context = browser.contexts[0]
     page = context.pages[0]
     
-    classUrlUltra = page.url()
+    classUrlUltra = page.url
     item = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
     
@@ -320,6 +325,11 @@ def inserirGruposAtividadesAV2(playwright: Playwright ,curso):
     page.get_by_role("option", name="Condições de liberação").click()
     page.get_by_label("Condições de liberação de").click()
     page.get_by_label("Membros ou grupos específicos").check()
-    page.get_by_label("Membros ou grupos específicos").fill(curso)
+    page.locator("#course-groups-combobox").click()
+    # page.get_by_label("Procurar por Grupo").click()
+    page.locator("#course-groups-combobox-search-box").fill(curso)
+    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=curso).click()
     page.get_by_role("button", name="Salvar").click()
+    page.wait_for_load_state('load')
+    page.goto(classUrlUltra)
     page.wait_for_load_state('load')
