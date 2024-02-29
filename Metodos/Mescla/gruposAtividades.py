@@ -291,11 +291,12 @@ def inserirGruposAtividadesAV1(playwright: Playwright ,id_interno , curso):
     
     classUrlUltra = page.url
     item = f'Envio AV1 - Atividade Prática de Extensão ({curso})'
-    folder_id = ID_FolderAV1(playwright , id_interno)
-    content_ID = getApiContent.API_Req_Content_children(playwright,id_interno, folder_id, item)
-    URLConditional = f'{classUrlUltra}/conditionalRelease?contentId={content_ID}'
+    searchURL = f'{classUrlUltra}?search={item}'
+    # folder_id = ID_FolderAV1(playwright , id_interno)
+    # content_ID = getApiContent.API_Req_Content_children(playwright,id_interno, folder_id, item)
+    # URLConditional = f'{classUrlUltra}/conditionalRelease?contentId={content_ID}'
     
-    page.goto(URLConditional)
+    page.goto(searchURL)
     page.get_by_label("Condições de liberação de").click()
     page.get_by_label("Membros ou grupos específicos").check()
     page.locator("#course-groups-combobox").click()
@@ -318,12 +319,12 @@ def inserirGruposAtividadesAV2(playwright: Playwright ,id_interno ,curso):
     
     classUrlUltra = page.url
     item = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
-    # searchURL = f'{classUrlUltra}?search={item}'
-    folder_id = ID_FolderAV1(playwright , id_interno)
-    content_ID = getApiContent.API_Req_Content_children(playwright,id_interno, folder_id, item)
-    URLConditional = f'{classUrlUltra}/conditionalRelease?contentId={content_ID}'
+    searchURL = f'{classUrlUltra}?search={item}'
+    # folder_id = ID_FolderAV1(playwright , id_interno)
+    # content_ID = getApiContent.API_Req_Content_children(playwright,id_interno, folder_id, item)
+    # URLConditional = f'{classUrlUltra}/conditionalRelease?contentId={content_ID}'
     
-    page.goto(URLConditional)
+    page.goto(searchURL)
     # page.get_by_role("button", name="Condições de liberação").click()
     # page.get_by_role("option", name="Condições de liberação").click()
     page.get_by_label("Condições de liberação de").click()
