@@ -59,7 +59,6 @@ def run(playwright: Playwright) -> None:
                          'Formação de Docente para a Educação Básica - Geografia',
                          'Formação de Docente para a Educação Básica - História',
                          'Formação de Docente para a Educação Básica - Letras',
-                         'Formação de Docente para a Educação Básica - História',
                          'Segunda Licenciatura em Geografia',
                          'Segunda Licenciatura em História',
                          'Segunda Licenciatura em Letras - Espanhol',
@@ -69,9 +68,9 @@ def run(playwright: Playwright) -> None:
                          'Segunda Licenciatura em Pedagogia']
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
@@ -93,9 +92,9 @@ def run(playwright: Playwright) -> None:
                          "Letras - Português"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
@@ -109,9 +108,9 @@ def run(playwright: Playwright) -> None:
                 curso = ["Pedagogia"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
@@ -129,9 +128,9 @@ def run(playwright: Playwright) -> None:
                          "Ciências Aeronáuticas"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
@@ -148,9 +147,9 @@ def run(playwright: Playwright) -> None:
                          "Gestão Hospitalar"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
@@ -175,9 +174,9 @@ def run(playwright: Playwright) -> None:
                          "Negócios Imobiliários"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
@@ -194,9 +193,9 @@ def run(playwright: Playwright) -> None:
                          "Segurança Pública"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
@@ -212,9 +211,9 @@ def run(playwright: Playwright) -> None:
                          "Biomedicina"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
@@ -229,9 +228,9 @@ def run(playwright: Playwright) -> None:
                          "Podologia"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
@@ -248,9 +247,9 @@ def run(playwright: Playwright) -> None:
                          "Nutrição"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
@@ -265,9 +264,9 @@ def run(playwright: Playwright) -> None:
                          "Teologia"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
@@ -279,7 +278,7 @@ def run(playwright: Playwright) -> None:
                 gruposAtividades.inserirArquivoInfo(playwright,id_interno)
                 print(course_area)
                 curso = ["Analise e Desenvolvimento de Sistema",
-                         "Ciência De Dados/Data Science",
+                         "Ciência De Dados - Data Science",
                          "Coding",
                          "Computação Em Nuvem",
                          "Digital Security",
@@ -292,9 +291,9 @@ def run(playwright: Playwright) -> None:
                          "Service Design"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
