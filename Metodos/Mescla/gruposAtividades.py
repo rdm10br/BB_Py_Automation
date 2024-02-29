@@ -1,5 +1,6 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
 from Metodos.API import getApiContent ,getPlanilha
+from unidecode import unidecode
 
 def inserirArquivoEducI(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -300,8 +301,9 @@ def inserirGruposAtividadesAV1(playwright: Playwright ,curso):
     page.get_by_label("Condições de liberação de").click()
     page.get_by_label("Membros ou grupos específicos").check()
     page.locator("#course-groups-combobox").click()
-    page.locator("#course-groups-combobox-search-box").fill(curso)
-    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=curso).click()
+    cursos = unidecode(curso)
+    page.locator("#course-groups-combobox-search-box").fill(cursos)
+    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=cursos).click()
     page.get_by_role("button", name="Salvar").click()
     page.wait_for_load_state('load')
     page.goto(classUrlUltra)
@@ -323,8 +325,9 @@ def inserirGruposAtividadesAV2(playwright: Playwright ,curso):
     page.get_by_label("Condições de liberação de").click()
     page.get_by_label("Membros ou grupos específicos").check()
     page.locator("#course-groups-combobox").click()
-    page.locator("#course-groups-combobox-search-box").fill(curso)
-    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=curso).click()
+    cursos = unidecode(curso)
+    page.locator("#course-groups-combobox-search-box").fill(cursos)
+    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=cursos).click()
     page.get_by_role("button", name="Salvar").click()
     page.wait_for_load_state('load')
     page.goto(classUrlUltra)

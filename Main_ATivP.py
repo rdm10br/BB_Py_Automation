@@ -263,7 +263,7 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
+                   
             else :
                 print(f'Grande Área da sala {id_externo} não identificada; {course_area}')
                 pass
