@@ -297,12 +297,9 @@ def inserirGruposAtividadesAV1(playwright: Playwright ,curso):
     searchURL = f'{classUrlUltra}?search={item}'
     
     page.goto(searchURL)
-    page.get_by_role("button", name="Condições de liberação").click()
-    page.get_by_role("option", name="Condições de liberação").click()
     page.get_by_label("Condições de liberação de").click()
     page.get_by_label("Membros ou grupos específicos").check()
     page.locator("#course-groups-combobox").click()
-    # page.get_by_label("Procurar por Grupo").click()
     page.locator("#course-groups-combobox-search-box").fill(curso)
     page.locator("#course-groups-combobox-menu > li > ul" ,has_text=curso).click()
     page.get_by_role("button", name="Salvar").click()
@@ -321,12 +318,11 @@ def inserirGruposAtividadesAV2(playwright: Playwright ,curso):
     searchURL = f'{classUrlUltra}?search={item}'
     
     page.goto(searchURL)
-    page.get_by_role("button", name="Condições de liberação").click()
-    page.get_by_role("option", name="Condições de liberação").click()
+    # page.get_by_role("button", name="Condições de liberação").click()
+    # page.get_by_role("option", name="Condições de liberação").click()
     page.get_by_label("Condições de liberação de").click()
     page.get_by_label("Membros ou grupos específicos").check()
     page.locator("#course-groups-combobox").click()
-    # page.get_by_label("Procurar por Grupo").click()
     page.locator("#course-groups-combobox-search-box").fill(curso)
     page.locator("#course-groups-combobox-menu > li > ul" ,has_text=curso).click()
     page.get_by_role("button", name="Salvar").click()
