@@ -170,7 +170,7 @@ def run(playwright: Playwright) -> None:
                 
                 gruposAtividades.inserirArquivoNegIII(playwright,id_interno)
                 print(course_area)
-                curso = ["Ciência Política",
+                curso = ["Ciência Politica",
                          "Gestão de Serviços Jurídicos e Notariais",
                          "Gestão Pública",
                          "Segurança Pública"]
