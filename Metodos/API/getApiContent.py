@@ -46,7 +46,7 @@ def API_Req_Content_children(playwright: Playwright  , id_interno, father_id, it
     page = context.new_page()
     baseURL = "https://sereduc.blackboard.com/"
     
-    internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/chilren?title={item_Search}'
+    internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'
     
     page.goto(internalID_API)
     
