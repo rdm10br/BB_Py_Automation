@@ -73,7 +73,10 @@ def run(playwright: Playwright) -> None:
                     page.wait_for_load_state('load')
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
-                    i+=1               
+                    i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass             
                 
             if course_area == "['Educação II']":
                 
@@ -95,6 +98,9 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
                 
             if course_area == "['Educação III']":
                 
@@ -108,6 +114,9 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
                 
             if course_area == "['Exatas']":
                 
@@ -125,6 +134,9 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
                 
             if course_area == "['Negócios e Gestão I']":
                 
@@ -141,6 +153,9 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
                 
             if course_area == "['Negócios e Gestão II']":
                 
@@ -165,12 +180,15 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
                 
             if course_area == "['Negócios e Gestão III']":
                 
                 gruposAtividades.inserirArquivoNegIII(playwright,id_interno)
                 print(course_area)
-                curso = ["Ciência Politica",
+                curso = ["Ciência Política",
                          "Gestão de Serviços Jurídicos e Notariais",
                          "Gestão Pública",
                          "Segurança Pública"]
@@ -181,6 +199,9 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
                 
             if course_area == "['Saúde I']":
                 
@@ -196,6 +217,9 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
                 
             if course_area == "['Saúde II']":
                 
@@ -210,6 +234,9 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
                 
             if course_area == "['Saúde III']":
                 
@@ -226,6 +253,9 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
                 
             if course_area == "['Serviço Social e Teologia']":
                 
@@ -240,6 +270,9 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
                 
             if course_area == "['Tecnologia da Informação']":
                 
@@ -264,6 +297,9 @@ def run(playwright: Playwright) -> None:
                     gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
 
             else :
                 print(f'Grande Área da sala {id_externo} não identificada; {course_area}')
