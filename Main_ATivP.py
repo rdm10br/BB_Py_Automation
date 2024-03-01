@@ -76,7 +76,7 @@ def run(playwright: Playwright) -> None:
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
                 pass
-            if course_area == "['Educação II']":
+            elif course_area == "['Educação II']":
                 
                 gruposAtividades.inserirArquivoEducII(playwright,id_interno)
                 print(course_area)
@@ -99,7 +99,7 @@ def run(playwright: Playwright) -> None:
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
                 pass
-            if course_area == "['Educação III']":
+            elif course_area == "['Educação III']":
                 
                 gruposAtividades.inserirArquivoEducIII(playwright,id_interno)
                 print(course_area)
@@ -114,7 +114,7 @@ def run(playwright: Playwright) -> None:
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
                 pass
-            if course_area == "['Exatas']":
+            elif course_area == "['Exatas']":
                 
                 gruposAtividades.inserirArquivoExat(playwright,id_interno)
                 print(course_area)
@@ -133,7 +133,7 @@ def run(playwright: Playwright) -> None:
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
                 pass
-            if course_area == "['Negócios e Gestão I']":
+            elif course_area == "['Negócios e Gestão I']":
                 
                 gruposAtividades.inserirArquivoNegI(playwright,id_interno)
                 print(course_area)
@@ -151,7 +151,7 @@ def run(playwright: Playwright) -> None:
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
                 pass
-            if course_area == "['Negócios e Gestão II']":
+            elif course_area == "['Negócios e Gestão II']":
                 
                 gruposAtividades.inserirArquivoNegII(playwright,id_interno)
                 print(course_area)
@@ -177,7 +177,7 @@ def run(playwright: Playwright) -> None:
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
                 pass
-            if course_area == "['Negócios e Gestão III']":
+            elif course_area == "['Negócios e Gestão III']":
                 
                 gruposAtividades.inserirArquivoNegIII(playwright,id_interno)
                 print(course_area)
@@ -195,7 +195,7 @@ def run(playwright: Playwright) -> None:
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
                 pass
-            if course_area == "['Saúde I']":
+            elif course_area == "['Saúde I']":
                 
                 gruposAtividades.inserirArquivoSaudI(playwright,id_interno)
                 print(course_area)
@@ -212,7 +212,7 @@ def run(playwright: Playwright) -> None:
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
                 pass
-            if course_area == "['Saúde II']":
+            elif course_area == "['Saúde II']":
                 
                 gruposAtividades.inserirArquivoSaudII(playwright,id_interno)
                 print(course_area)
@@ -228,7 +228,7 @@ def run(playwright: Playwright) -> None:
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
                 pass
-            if course_area == "['Saúde III']":
+            elif course_area == "['Saúde III']":
                 
                 gruposAtividades.inserirArquivoSaudIII(playwright,id_interno)
                 print(course_area)
@@ -246,7 +246,7 @@ def run(playwright: Playwright) -> None:
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
                 pass
-            if course_area == "['Serviço Social e Teologia']":
+            elif course_area == "['Serviço Social e Teologia']":
                 
                 gruposAtividades.inserirArquivoServ(playwright,id_interno)
                 print(course_area)
@@ -262,7 +262,7 @@ def run(playwright: Playwright) -> None:
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
                 pass   
-            if course_area == "['Tecnologia da Informação']":
+            elif course_area == "['Tecnologia da Informação']":
                 
                 gruposAtividades.inserirArquivoInfo(playwright,id_interno)
                 print(course_area)
