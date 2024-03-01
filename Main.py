@@ -44,7 +44,7 @@ def main(playwright: Playwright) -> None:
         
         cell_status = getPlanilha.getCell_status(index)
         
-        if cell_status != '':
+        if cell_status != 'nan':
             pass
         else :
             #request from API

@@ -1,5 +1,6 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
-from Metodos.API import getApiContent ,getPlanilha
+from Metodos.API import getApiContent
+from unidecode import unidecode
 
 def inserirArquivoEducI(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -264,29 +265,25 @@ def inserirArquivoInfo(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.close()
 
-def openFolderAV1(playwright: Playwright , id_interno) -> None:
+def ID_FolderAV1(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
     page = context.pages[0]
     
     itemSearch = 'AV1 - Atividade Prática de Extensão'
     id_item = str(getApiContent.API_Req_Content(playwright,id_interno,itemSearch))
-    folder = f'#folder-title-{id_item}'
+    return id_item
     
-    page.locator(folder).click()
-    
-def openFolderAV2(playwright: Playwright , id_interno) -> None:
+def ID_FolderAV2(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
     page = context.pages[0]
     
     itemSearch = 'AV2 - Atividade Prática de Extensão'
     id_item = str(getApiContent.API_Req_Content(playwright,id_interno,itemSearch))
-    folder = f'#folder-title-{id_item}'
+    return id_item
     
-    page.locator(folder).click()
-    
-def inserirGruposAtividadesAV1(playwright: Playwright ,curso):
+def inserirGruposAtividadesAV1(playwright: Playwright ,id_interno , curso):
     
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
@@ -295,22 +292,26 @@ def inserirGruposAtividadesAV1(playwright: Playwright ,curso):
     classUrlUltra = page.url
     item = f'Envio AV1 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
+    # folder_id = ID_FolderAV1(playwright , id_interno)
+    # content_ID = getApiContent.API_Req_Content_children(playwright,id_interno, folder_id, item)
+    # URLConditional = f'{classUrlUltra}/conditionalRelease?contentId={content_ID}'
     
     page.goto(searchURL)
-    page.get_by_role("button", name="Condições de liberação").click()
-    page.get_by_role("option", name="Condições de liberação").click()
     page.get_by_label("Condições de liberação de").click()
     page.get_by_label("Membros ou grupos específicos").check()
     page.locator("#course-groups-combobox").click()
-    # page.get_by_label("Procurar por Grupo").click()
-    page.locator("#course-groups-combobox-search-box").fill(curso)
-    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=curso).click()
+    cursos = unidecode(curso)
+    page.locator("#course-groups-combobox-search-box").fill(cursos)
+    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=cursos).click()
+    page.wait_for_timeout(1500)
+    page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()
     page.get_by_role("button", name="Salvar").click()
     page.wait_for_load_state('load')
+    page.wait_for_timeout(1500)
     page.goto(classUrlUltra)
     page.wait_for_load_state('load')
 
-def inserirGruposAtividadesAV2(playwright: Playwright ,curso):
+def inserirGruposAtividadesAV2(playwright: Playwright ,id_interno ,curso):
     
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
@@ -319,17 +320,23 @@ def inserirGruposAtividadesAV2(playwright: Playwright ,curso):
     classUrlUltra = page.url
     item = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
+    # folder_id = ID_FolderAV1(playwright , id_interno)
+    # content_ID = getApiContent.API_Req_Content_children(playwright,id_interno, folder_id, item)
+    # URLConditional = f'{classUrlUltra}/conditionalRelease?contentId={content_ID}'
     
     page.goto(searchURL)
-    page.get_by_role("button", name="Condições de liberação").click()
-    page.get_by_role("option", name="Condições de liberação").click()
+    # page.get_by_role("button", name="Condições de liberação").click()
+    # page.get_by_role("option", name="Condições de liberação").click()
     page.get_by_label("Condições de liberação de").click()
     page.get_by_label("Membros ou grupos específicos").check()
     page.locator("#course-groups-combobox").click()
-    # page.get_by_label("Procurar por Grupo").click()
-    page.locator("#course-groups-combobox-search-box").fill(curso)
-    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=curso).click()
+    cursos = unidecode(curso)
+    page.locator("#course-groups-combobox-search-box").fill(cursos)
+    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=cursos).click()
+    page.wait_for_timeout(1500)
+    page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()
     page.get_by_role("button", name="Salvar").click()
     page.wait_for_load_state('load')
+    page.wait_for_timeout(1500)
     page.goto(classUrlUltra)
     page.wait_for_load_state('load')

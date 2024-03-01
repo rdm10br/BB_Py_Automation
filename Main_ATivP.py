@@ -31,7 +31,7 @@ def run(playwright: Playwright) -> None:
         
         cell_status = getPlanilha.getCell_status(index)
         
-        if cell_status == 'OK':
+        if cell_status != 'nan':
             pass
         else :
             new_page = context.pages[1]
@@ -59,7 +59,6 @@ def run(playwright: Playwright) -> None:
                          'Formação de Docente para a Educação Básica - Geografia',
                          'Formação de Docente para a Educação Básica - História',
                          'Formação de Docente para a Educação Básica - Letras',
-                         'Formação de Docente para a Educação Básica - História',
                          'Segunda Licenciatura em Geografia',
                          'Segunda Licenciatura em História',
                          'Segunda Licenciatura em Letras - Espanhol',
@@ -69,19 +68,22 @@ def run(playwright: Playwright) -> None:
                          'Segunda Licenciatura em Pedagogia']
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    i+=1               
-                
-            if course_area == "['Educação II']":
+                    i+=1
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
+            elif course_area == "['Educação II']":
                 
                 gruposAtividades.inserirArquivoEducII(playwright,id_interno)
                 print(course_area)
                 curso = ["Licenciatura em Educação Especial",
                          "Licenciatura em Educação Física",
-                         "Geografia","História",
+                         "Geografia",
+                         "História",
                          "Ciências Biológicas",
                          "Matemática",
                          "Letras - Espanhol",
@@ -89,26 +91,30 @@ def run(playwright: Playwright) -> None:
                          "Letras - Português"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
-            if course_area == "['Educação III']":
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
+            elif course_area == "['Educação III']":
                 
                 gruposAtividades.inserirArquivoEducIII(playwright,id_interno)
                 print(course_area)
                 curso = ["Pedagogia"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
-            if course_area == "['Exatas']":
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
+            elif course_area == "['Exatas']":
                 
                 gruposAtividades.inserirArquivoExat(playwright,id_interno)
                 print(course_area)
@@ -119,13 +125,15 @@ def run(playwright: Playwright) -> None:
                          "Ciências Aeronáuticas"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
-            if course_area == "['Negócios e Gestão I']":
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
+            elif course_area == "['Negócios e Gestão I']":
                 
                 gruposAtividades.inserirArquivoNegI(playwright,id_interno)
                 print(course_area)
@@ -135,13 +143,15 @@ def run(playwright: Playwright) -> None:
                          "Gestão Hospitalar"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
-            if course_area == "['Negócios e Gestão II']":
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
+            elif course_area == "['Negócios e Gestão II']":
                 
                 gruposAtividades.inserirArquivoNegII(playwright,id_interno)
                 print(course_area)
@@ -159,13 +169,15 @@ def run(playwright: Playwright) -> None:
                          "Negócios Imobiliários"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
-            if course_area == "['Negócios e Gestão III']":
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
+            elif course_area == "['Negócios e Gestão III']":
                 
                 gruposAtividades.inserirArquivoNegIII(playwright,id_interno)
                 print(course_area)
@@ -175,13 +187,15 @@ def run(playwright: Playwright) -> None:
                          "Segurança Pública"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
-            if course_area == "['Saúde I']":
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
+            elif course_area == "['Saúde I']":
                 
                 gruposAtividades.inserirArquivoSaudI(playwright,id_interno)
                 print(course_area)
@@ -190,13 +204,15 @@ def run(playwright: Playwright) -> None:
                          "Biomedicina"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
-            if course_area == "['Saúde II']":
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
+            elif course_area == "['Saúde II']":
                 
                 gruposAtividades.inserirArquivoSaudII(playwright,id_interno)
                 print(course_area)
@@ -204,48 +220,54 @@ def run(playwright: Playwright) -> None:
                          "Podologia"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
-            if course_area == "['Saúde III']":
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
+            elif course_area == "['Saúde III']":
                 
                 gruposAtividades.inserirArquivoSaudIII(playwright,id_interno)
                 print(course_area)
                 curso = ["Bacharelado em Educação Física",
                          "Fisioterapia",
-                         "Terapia Ocupacional"
-                         ,"Nutrição"]
+                         "Terapia Ocupacional",
+                         "Nutrição"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
-            if course_area == "['Serviço Social e Teologia']":
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
+            elif course_area == "['Serviço Social e Teologia']":
                 
                 gruposAtividades.inserirArquivoServ(playwright,id_interno)
                 print(course_area)
                 curso = ["Serviço Social",
                          "Teologia"]
-                
+                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
-            if course_area == "['Tecnologia da Informação']":
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass   
+            elif course_area == "['Tecnologia da Informação']":
                 
                 gruposAtividades.inserirArquivoInfo(playwright,id_interno)
                 print(course_area)
                 curso = ["Analise e Desenvolvimento de Sistema",
-                         "Ciência De Dados/Data Science",
+                         "Ciência De Dados - Data Science",
                          "Coding",
                          "Computação Em Nuvem",
                          "Digital Security",
@@ -258,12 +280,14 @@ def run(playwright: Playwright) -> None:
                          "Service Design"]
                 
                 for i in range(len(curso)):
-                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV1(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
-                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,curso[i])
+                    gruposAtividades.inserirGruposAtividadesAV2(playwright ,id_interno ,curso[i])
                     page.wait_for_load_state('load')
                     i+=1
-                
+                # Função para escrever na primeira planilha
+                getPlanilha.writeOnExcel_Plan1(index, 'OK')
+                pass
             else :
                 print(f'Grande Área da sala {id_externo} não identificada; {course_area}')
                 pass

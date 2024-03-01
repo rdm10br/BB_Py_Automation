@@ -16,6 +16,7 @@ def ajusteSofia(playwright: Playwright , id_interno) -> None:
     page.goto(LinkEdit)
     page.get_by_placeholder("Formato: meuwebsite.com").click(click_count=3)
     page.get_by_placeholder("Formato: meuwebsite.com").fill("sofialti.ldmedtech.com.br/v1/launch/ser-sofia-plano-estudos")
+    page.wait_for_load_state('networkidle')
     page.get_by_text("Você precisará desta informa").click()
     page.get_by_role("button", name="Salvar").click()
     page.wait_for_load_state('load')

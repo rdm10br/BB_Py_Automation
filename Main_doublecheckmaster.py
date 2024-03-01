@@ -36,7 +36,7 @@ def run(playwright: Playwright) -> None:
         
         cell_status = getPlanilha.getCell_status(index)
         
-        if cell_status != '':
+        if cell_status != "nan" :
             pass
         else :
             new_page = context.pages[1]
@@ -54,13 +54,13 @@ def run(playwright: Playwright) -> None:
             new_page.goto(classUrlUltra)
             
             # new_page.wait_for_load_state('networkidle')
-            AjusteSofiaV2.ajusteSofia(playwright,id_interno)
+            # AjusteSofiaV2.ajusteSofia(playwright,id_interno)
             
-            AjusteAvaliaçãoV2.ajusteAvaliacao(playwright,id_interno)
+            # AjusteAvaliaçãoV2.ajusteAvaliacao(playwright,id_interno)
             
-            AjusteSermelhor.ajusteSerMelhor(playwright)
+            # AjusteSermelhor.ajusteSerMelhor(playwright)
             
-            getPlanilha.writeOnExcel_Plan1(index, 'OK')
+            # getPlanilha.writeOnExcel_Plan1(index, 'OK')
             
             context.new_page()
             
