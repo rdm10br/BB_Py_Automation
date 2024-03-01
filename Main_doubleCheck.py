@@ -51,8 +51,8 @@ def run(playwright: Playwright) -> None:
             new_page.goto(classUrlUltra)
             new_page.wait_for_load_state('networkidle')
             
-            atribGrup.atribuirGruposVET(playwright, id_interno)
             atribGrup.inserirArquivoVET(playwright, id_interno)
+            atribGrup.atribuirGruposVET(playwright, id_interno)
             AjusteNotaZero.AjusteNotaZero(playwright, id_interno)
             AjusteAvaliaçãoV2.ajusteAvaliacao(playwright)
             getPlanilha.writeOnExcel_Plan1(index, 'OK')
