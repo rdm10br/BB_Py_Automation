@@ -1,15 +1,17 @@
 # BB_Py_Automation
 
 ## Language Switch
+
 - [English](#english)
 - [Português](#português)
 
 ---
 
 ## English
+
 BlackBoard Python Automation with Playwright
 
-Code made in Python and JavaScript with libraries: 
+Code made in Python and JavaScript with libraries:
 PlayWright
 Openpyxl
 Pyarrow
@@ -24,11 +26,19 @@ Pyperclip
 Needs Python 3.12
 
 To install all the dependencies use this command on the console
+
 ```
 pip install -r dependencies.txt
 ```
 
+or if this file could not be found
+
+```
+pip install -r BB_PY_Automation\dependencies.txt
+```
+
 To create new Methods use the command on console
+
 ```
 python -m playwright codegen
 ```
@@ -42,9 +52,10 @@ search and modifying items to whats preset
 ---
 
 ## Português
+
 Automação em Python para BlackBoard com Playwright
 
-Código feito em Python e JavaScript com as bibliotecas: 
+Código feito em Python e JavaScript com as bibliotecas:
 PlayWright
 Openpyxl
 Pyarrow
@@ -59,13 +70,23 @@ Pyperclip
 Requer Python 3.12
 
 Para instalar todas as dependências, utilize este comando no console:
+
 ```
 pip install -r dependencies.txt
 ```
 
-Para criar novos métodos, utilize o seguinte comando no console:
+ou se o arquivo não foi encontrado
+
 ```
+pip install -r BB_PY_Automation\dependencies.txt
+```
+
+Para criar novos métodos, utilize o seguinte comando no console:
+
+```
+
 python -m playwright codegen
+
 ```
 
 Automação para administração de sistema educacional baseado na plataforma BlackBoard.
@@ -73,3 +94,7 @@ Automação para administração de sistema educacional baseado na plataforma Bl
 Consumindo conteúdo de API e ID interno para encontrar itens e buscar cursos.
 
 Pesquisa e modificação de itens de acordo com o predefinido.
+
+```
+
+```
