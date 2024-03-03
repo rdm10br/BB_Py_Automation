@@ -261,7 +261,7 @@ def run(playwright: Playwright) -> None:
                     i+=1
                 # Função para escrever na primeira planilha
                 getPlanilha.writeOnExcel_Plan1(index, 'OK')
-                pass   
+                pass
             elif course_area == "['Tecnologia da Informação']":
                 
                 gruposAtividades.inserirArquivoInfo(playwright,id_interno)
