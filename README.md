@@ -20,6 +20,9 @@ Tkinter
 Docx
 Re
 Pyperclip
+pytest-playwright
+unidecode
+regex
 
 ### Getting Started
 
@@ -64,6 +67,9 @@ Tkinter
 Docx
 Re
 Pyperclip
+pytest-playwright
+unidecode
+regex
 
 ### Começar a utilizar
 
@@ -84,7 +90,6 @@ pip install -r BB_PY_Automation\dependencies.txt
 Para criar novos métodos, utilize o seguinte comando no console:
 
 ```
-
 python -m playwright codegen
 
 ```
@@ -94,7 +99,3 @@ Automação para administração de sistema educacional baseado na plataforma Bl
 Consumindo conteúdo de API e ID interno para encontrar itens e buscar cursos.
 
 Pesquisa e modificação de itens de acordo com o predefinido.
-
-```
-
-```

@@ -33,6 +33,7 @@ regex_Alternativa_B = '(?ms)(?<=[b][)]\\s|\\s[b][)]\\s|[b][.]\\s).*(?=[c][)]|\\s
 regex_Alternativa_C = '(?ms)(?<=[c][)]\\s|\\s[c][)]\\s|[c][.]\\s).*(?=[d][)]|\\s[d][)]|[d][.]\\s)'
 regex_Alternativa_D = '(?ms)(?<=[d][)]\\s|\\s[d][)]\\s|[d][.]\\s).*(?=[e][)]|\\s[e][)]|[e][.]\\s)'
 regex_Alternativa_E = '(?ms)(?<=[e][)]|[e][[)]\\s|\\s[e][)]\\s|\\s[e][)]\\s|\\s[e]\\.\\s|[e]\\.\\s).*(?=\\s\\d[.]|[.]\\s|\\z)'
+regex_alternativas = "(?ms)(?<=[[][']).*(?=['][]])"
 
 teste = '''1.	É sabido que os termos ética e moral referem-se, de acordo com Chauí (2016, p. 321), ao “[...] conjunto de 
 costumes de uma sociedade, considerados como valores e obrigações para seus membros”. Apesar de semelhantes, ambas as 
@@ -52,8 +53,10 @@ reflexão sobre as normas sociais.'''
 
 enunciado = re.search(regex_Enunciado,teste)
 alternativa_a = re.findall(regex_Alternativa_A,teste)
+alternativas = re.search(regex_alternativas,str(alternativa_a.copy()))
 print(enunciado.group())
-print(alternativa_a)
+print(alternativas.group())
+# print(alternativa_a.copy())
 
 # txt = "The rain in Spain"
 # regex1 = "^The.*Spain$"
