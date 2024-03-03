@@ -29,7 +29,7 @@ def run(playwright: Playwright) -> None:
         
         cell_status = getPlanilha.getCell_plan2_status(index)
         
-        if cell_status == 'CRIADA':
+        if cell_status != 'nan':
             pass
         else :
             new_page = context.pages[1]

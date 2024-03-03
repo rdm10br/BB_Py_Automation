@@ -1,8 +1,8 @@
-pip install playwright
-pip install pyarrow
-pip install pandas
-pip install openpyxl
-pip install docx
-pip install pyperclip
-pip install pytest-playwright
-pip install unidecode
+playwright
+pyarrow
+pandas
+openpyxl
+docx
+pyperclip
+pytest-playwright
+unidecode

@@ -31,7 +31,7 @@ def run(playwright: Playwright) -> None:
         
         cell_status = getPlanilha.getCell_status(index)
         
-        if cell_status == 'OK':
+        if cell_status != 'nan':
             pass
         else :
             new_page = context.pages[1]
