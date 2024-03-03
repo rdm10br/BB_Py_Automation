@@ -3,7 +3,8 @@ from playwright.sync_api import Playwright, sync_playwright, expect
 import time
 import pandas as pd
 
-import re
+# import re
+import regex as re
 from docx import Document
 
 # arq_excel = 'MAPEAMENTOS.xlsx'
@@ -50,7 +51,7 @@ e)	Costume de uma sociedade em tempos específicos; comportamento               
 reflexão sobre as normas sociais.'''
 
 enunciado = re.search(regex_Enunciado,teste)
-alternativa_a = re.findall(regex_Alternativa_A,teste,re.MULTILINE)
+alternativa_a = re.findall(regex_Alternativa_A,teste)
 print(enunciado.group())
 print(alternativa_a)
 
