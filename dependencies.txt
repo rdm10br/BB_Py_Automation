@@ -6,3 +6,4 @@ docx
 pyperclip
 pytest-playwright
 unidecode
+regex

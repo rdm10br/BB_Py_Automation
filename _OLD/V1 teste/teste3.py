@@ -27,6 +27,7 @@ def process_data(data):
     correct_option_index = None
 
     for line, is_bold in data:
+        # regex alternativas a-e   (?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*(?=[b][)]|\s[b][)]|[b][.]\s)|(?<=[b][)]\s|\s[b][)]\s|[b][.]\s).*(?=[c][)]|\s[c][)]|[c][.]\s)|(?<=[c][)]\s|\s[c][)]\s|[c][.]\s).*(?=[d][)]|\s[d][)]|[d][.]\s)|(?<=[d][)]\s|\s[d][)]\s|[d][.]\s).*(?=[e][)]|\s[e][)]|\s[e][.]\s|\S[e]\.\s)|(?<=[e][)]|[e][[)]\s|\S[e][)]\s|\s[e][)]\s|\s[e]\.\s|[e]\.\s).*(?=\s\d[.]|[.]\S|\S)
         # if re.match(r'((?<=\d[.]\s).*|(?<=[1]\s).*)(?=[a][)])', line):  # Identifica uma questão
         if re.search(r'(?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*(?=[b][)]|\s[b][)]|[b][.]\s)|(?<=[b][)]\s|\s[b][)]\s|[b][.]\s).*(?=[c][)]|\s[c][)]|[c][.]\s)|(?<=[c][)]\s|\s[c][)]\s|[c][.]\s).*(?=[d][)]|\s[d][)]|[d][.]\s)|(?<=[d][)]\s|\s[d][)]\s|[d][.]\s).*(?=[e][)]|\s[e][)]|\s[e][.]\s|\S[e]\.\s)|(?<=[e][)]\s|\s[e][)]\s|\s[e]\.\s|[e]\.\s).*(?=\s\d.|\S)', line):  # Identifica uma questão
             questions.append(line)
