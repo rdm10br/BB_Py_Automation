@@ -21,7 +21,7 @@ def run(playwright: Playwright) -> None:
     page.goto(baseURL)
     
     # Verificar se está logado e logar
-    checkup_login.checkup_login(playwright)
+    checkup_login.checkup_login(playwright = playwright)
     
     index = 0
     total_lines_plan1 = getPlanilha.total_lines
@@ -31,7 +31,7 @@ def run(playwright: Playwright) -> None:
     for index in range(total_lines_plan1) :
         index +=1
         
-        cell_status = getPlanilha.getCell_status(index)
+        cell_status = getPlanilha.getCell_status(index = index)
         
         if cell_status != 'nan':
             pass
@@ -42,8 +42,8 @@ def run(playwright: Playwright) -> None:
             page.close()
             
             #request from API
-            id_externo = getPlanilha.getCell(index)
-            id_interno = getFromAPI.API_Req(playwright,index)
+            id_externo = getPlanilha.getCell(index = index)
+            id_interno = getFromAPI.API_Req(playwright = playwright , index = index)
             
             classUrlUltra = f'{classURL}{id_interno}/outline'
             
@@ -57,13 +57,13 @@ def run(playwright: Playwright) -> None:
             #===================
             
             # DIGITAL
-            atribGrup.inserirArquivoDIG(playwright, id_interno)
-            atribGrup.atribuirGruposDIG(playwright, id_interno)
+            atribGrup.inserirArquivoDIG(playwright = playwright , id_interno = id_interno)
+            atribGrup.atribuirGruposDIG(playwright = playwright , id_interno = id_interno)
             #===================
             
-            AjusteNotaZero.AjusteNotaZero(playwright, id_interno)
-            AjusteAvaliaçãoV2.ajusteAvaliacao(playwright)
-            getPlanilha.writeOnExcel_Plan1(index, 'OK')
+            AjusteNotaZero.AjusteNotaZero(playwright = playwright , id_interno = id_interno)
+            AjusteAvaliaçãoV2.ajusteAvaliacao(playwright = playwright)
+            getPlanilha.writeOnExcel_Plan1(index = index , return_status = 'OK')
             
             # context.storage_state()
             # context.clear_cookies()

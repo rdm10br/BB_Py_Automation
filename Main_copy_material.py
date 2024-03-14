@@ -16,7 +16,7 @@ def run(playwright: Playwright) -> None:
     
     page.goto(baseURL)
     # Verificar se está logado e logar
-    checkup_login.checkup_login(playwright)
+    checkup_login.checkup_login(playwright = playwright)
     index = 0
     totalplan2 = getPlanilha.total_lines_plan2
     context.new_page()
@@ -24,7 +24,7 @@ def run(playwright: Playwright) -> None:
     for index in range(totalplan2) :
         index +=1
         
-        cell_status = getPlanilha.getCell_plan2_status(index)
+        cell_status = getPlanilha.getCell_plan2_status(index = index)
         
         if cell_status != 'nan':
             pass
@@ -34,8 +34,8 @@ def run(playwright: Playwright) -> None:
             
             page.close()
             
-            copiaMaterial.copyMaterial(playwright,index)
-            getPlanilha.writeOnExcel_Plan2(index,'OK')
+            copiaMaterial.copyMaterial(playwright = playwright , index = index)
+            getPlanilha.writeOnExcel_Plan2(index = index , return_status = 'OK')
             
             context.new_page()
         

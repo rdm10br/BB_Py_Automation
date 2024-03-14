@@ -63,18 +63,13 @@ c) Charles Dickens
 d) Fyodor Dostoevsky
 e) Jane Austen'''
 
-enunciado = re.search(regex_Enunciado,teste)
-# alternativa_a = re.findall(regex_Alternativa_A,teste)
-# alternativas = re.search(regex_alternativas,str(alternativa_a.copy()))
-print(enunciado.group())
-# print(alternativas.group())
-# print(alternativa_a.copy())
+def main() -> None:
+    enunciado = re.search(pattern = regex_Enunciado , string = teste)
+    # alternativa_a = re.findall(pattern = regex_Alternativa_A , string = teste)
+    # alternativas = re.search(pattern = regex_alternativas , string = str(alternativa_a.copy()))
+    print(f'\n{enunciado.group()}')
+    # print(alternativas.group())
+    # print(alternativa_a.copy())
 
-# for i in len(enunciado.group()) :
-#     print(enunciado.groups(i))
-#     i+=1
-
-# txt = "The rain in Spain"
-# regex1 = "^The.*Spain$"
-# x = re.search(regex1, txt)
-# print(x.string)
+if __name__ == '__main__':
+    main()

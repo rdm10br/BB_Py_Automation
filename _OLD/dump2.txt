@@ -103,3 +103,17 @@ JSON.parse(document.body.innerText).id
     page.get_by_label("Membros ou grupos específicos").check()
     page.get_by_label("Membros ou grupos específicos").fill(curso)
     page.get_by_role("button", name="Salvar").click()
+
+ # for i in len(enunciado.group()) :
+    #     print(enunciado.groups(i))
+    #     i+=1
+
+    # txt = "The rain in Spain"
+    # regex1 = "^The.*Spain$"
+    # x = re.search(regex1, txt)
+    # print(x.string)
+
+def main() -> None:
+
+if __name__ == '__main__':
+    main()
