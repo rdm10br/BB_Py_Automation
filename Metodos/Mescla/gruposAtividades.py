@@ -379,3 +379,6 @@ def inserirGruposAtividadesAV2(playwright: Playwright ,id_interno ,curso):
     page.wait_for_timeout(1500)
     page.goto(classUrlUltra)
     page.wait_for_load_state('load')
+    
+# if __name__ == '__main__':
+#     inserirArquivo(playwright=Playwright, id_interno='1_0987_1',Area='saúde')

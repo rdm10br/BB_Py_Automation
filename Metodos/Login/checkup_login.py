@@ -22,6 +22,7 @@ def checkup_login(playwright: Playwright) -> None:
         except Exception as e:
             if "Blackboard Learn" in page.title():
                 print(f"Error during login attempt: {attempt}")
+                print(repr(e))
                 
 # Function test
 # with sync_playwright() as playwright:
