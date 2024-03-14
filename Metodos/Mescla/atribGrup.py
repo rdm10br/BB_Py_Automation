@@ -11,7 +11,7 @@ def inserirArquivoDIG(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS1.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile",file_path) # arquivo para o digital
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path) # arquivo para o digital
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -31,7 +31,7 @@ def inserirArquivoVET(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS_SEM_FAEL.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile",file_path) #arquivo para o veteranos
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path) #arquivo para o veteranos
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()

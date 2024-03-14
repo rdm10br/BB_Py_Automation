@@ -86,25 +86,25 @@ def getCell_copy_plan2(index):
     except Exception as e:
             print("index does not exist")
             
-def getCell_curso(index):
-    # Ajustando o índice para começar do zero
-    index -= 1
-    try :
-    # Verificando se o índice está dentro do intervalo válido
-        if 0 <= index < total_lines_plan3:
-            # Obtendo o valor da célula na linha e coluna especificadas
-            cell_value = df_map_plan3.at[index, col_plan3_curso]
-            return str(cell_value)
-        else:
-            return total_lines
-    except Exception as e:
-            print("index does not exist")
+# def getCell_curso(index):
+#     # Ajustando o índice para começar do zero
+#     index -= 1
+#     try :
+#     # Verificando se o índice está dentro do intervalo válido
+#         if 0 <= index < total_lines_plan3:
+#             # Obtendo o valor da célula na linha e coluna especificadas
+#             cell_value = df_map_plan3.at[index, col_plan3_curso]
+#             return str(cell_value)
+#         else:
+#             return total_lines
+#     except Exception as e:
+#             print("index does not exist")
             
-def filter_GA(GA):
+# def filter_GA(GA):
     
-    cursos_filtrados = df_map_plan3.loc[df_map_plan3[col_plan3_GA] == GA, 'CURSO']
+#     cursos_filtrados = df_map_plan3.loc[df_map_plan3[col_plan3_GA] == GA, 'CURSO']
     
-    return str(cursos_filtrados)
+#     return str(cursos_filtrados)
     
     
             

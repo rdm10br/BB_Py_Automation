@@ -7,13 +7,13 @@ def ajusteAvaliacao(playwright: Playwright , id_interno) -> None:
     page = context.pages[0]
     
     itemSearch = 'Avaliações'
-    id_avaliacao = str(getApiContent.API_Req_Content(playwright,id_interno,itemSearch))
+    id_avaliacao = str(getApiContent.API_Req_Content(playwright = playwright , id_interno = id_interno , item_Search = itemSearch))
     
     page.wait_for_load_state('domcontentloaded')
     page.press('body','End')
     page.wait_for_load_state('domcontentloaded')
     page.press('body','End')
-    page.locator('#folder-title-'+id_avaliacao).click()
+    page.locator(f'#folder-title-{id_avaliacao}').click()
     page.get_by_label("Mais opções para Regras da").click()
     page.get_by_text("Editar", exact=True).click()
     page.get_by_role("heading", name="Regras da Avaliação - Resolu").click()

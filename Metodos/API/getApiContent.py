@@ -14,7 +14,7 @@ def API_Req_Content(playwright: Playwright  , id_interno, item_Search) -> None:
     
     # request = '() => {return JSON.parse(document.body.innerText).results[0].id}'
     
-    request = '''() => { 
+    request = '''() => {
     const data = JSON.parse(document.body.innerText).results;
     if (data && data.length > 0 && data[0].id) {
         return data[0].id;
@@ -30,8 +30,8 @@ def API_Req_Content(playwright: Playwright  , id_interno, item_Search) -> None:
         return str(id_sofia)
     except Exception as e:
         if 'Item não encontrado' in str(e):
-            print('Erro na sala:'+id_interno+' no Item: '+item_Search+' não foi encontrado')
-            return 
+            print(f'Erro na sala: {id_interno} no Item: {item_Search} não foi encontrado')
+            return
         else:
             print('Erro ao processar request:', e)
 
@@ -52,7 +52,7 @@ def API_Req_Content_children(playwright: Playwright  , id_interno, father_id, it
     
     # request = '() => {return JSON.parse(document.body.innerText).results[0].id}'
     
-    request = '''() => { 
+    request = '''() => {
     const data = JSON.parse(document.body.innerText).results;
     if (data && data.length > 0 && data[0].id) {
         return data[0].id;
@@ -68,7 +68,7 @@ def API_Req_Content_children(playwright: Playwright  , id_interno, father_id, it
         return str(id_sofia)
     except Exception as e:
         if 'Item não encontrado' in str(e):
-            print('Erro na sala:'+id_interno+' no Item: '+item_Search+' não foi encontrado')
-            return 
+            print(f'Erro na sala: {id_interno} no Item: {item_Search} não foi encontrado')
+            return
         else:
             print('Erro ao processar request:', e)

@@ -22,8 +22,8 @@ def login(playwright: Playwright) -> None:
         
         username, password = getCredentials.get_credentials()
                 
-        page.get_by_label("Nome de usuário").fill(username)
-        page.get_by_label("Senha").fill(password)
+        page.get_by_label("Nome de usuário").fill(value = username)
+        page.get_by_label("Senha").fill(value = password)
         page.locator('#entry-login').click()
         page.goto(ultraURL)
         

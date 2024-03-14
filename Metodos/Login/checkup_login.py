@@ -17,7 +17,7 @@ def checkup_login(playwright: Playwright) -> None:
                 break
             else:
                 attempt += 1
-                login.login(playwright)
+                login.login(playwright = playwright)
                 wait_for_page_to_load(page)
         except Exception as e:
             if "Blackboard Learn" in page.title():
