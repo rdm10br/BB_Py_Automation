@@ -66,7 +66,7 @@ e) Jane Austen'''
 enunciado = re.search(regex_Enunciado,teste)
 # alternativa_a = re.findall(regex_Alternativa_A,teste)
 # alternativas = re.search(regex_alternativas,str(alternativa_a.copy()))
-print(enunciado)
+print(enunciado.group())
 # print(alternativas.group())
 # print(alternativa_a.copy())
 
