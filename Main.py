@@ -28,7 +28,7 @@ def main(playwright: Playwright) -> None:
     page.goto(baseURL)
     
     # Verificar se está logado e logar
-    checkup_login.checkup_login(playwright = playwright)
+    checkup_login.checkup_login(playwright=playwright)
     
     # Salvar os cookies da página original
     cookies = page.context.cookies()
@@ -42,14 +42,14 @@ def main(playwright: Playwright) -> None:
     for index in range(total_lines_plan1) :
         index +=1
         
-        cell_status = getPlanilha.getCell_status(index = index)
+        cell_status = getPlanilha.getCell_status(index=index)
         
         if cell_status != 'nan':
             pass
         else :
             #request from API
-            id_externo = getPlanilha.getCell(index = index)
-            id_interno = getFromAPI.API_Req(playwright = playwright , index = index)
+            id_externo = getPlanilha.getCell(index=index)
+            id_interno = getFromAPI.API_Req(playwright=playwright, index=index)
             
             classUrlUltra = f'{classURL}{id_interno}/outline'
             
@@ -63,7 +63,7 @@ def main(playwright: Playwright) -> None:
             # // para criação de novos métodos utilizar o comando 'python -m playwright codegen' dentro do console para auxiliar na criação//
             
             # Função para escrever na primeira planilha
-            getPlanilha.writeOnExcel_Plan1(index = index , return_status = 'OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
             # Atualizando a referência dos contextos
             old_context = new_context

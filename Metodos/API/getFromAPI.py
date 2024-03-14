@@ -9,7 +9,7 @@ def API_Req(playwright: Playwright  ,index) -> None:
     context = browser.contexts[0]
     page = context.new_page()
     
-    id_externo = getPlanilha.getCell(index = index)
+    id_externo = getPlanilha.getCell(index=index)
     
     baseURL = "https://sereduc.blackboard.com/"
     internalID_API = f'{baseURL}learn/api/public/v3/courses/courseId:{id_externo}'

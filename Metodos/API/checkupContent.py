@@ -8,7 +8,7 @@ def checkup_Req(playwright: Playwright  ,id_interno ,item_Search) -> None:
     context = browser.contexts[0]
     page = context.new_page()
     
-    result = getApiContent.API_Req_Content(playwright = playwright , id_interno = id_interno , item_Search = item_Search)
+    result = getApiContent.API_Req_Content(playwright=playwright, id_interno=id_interno, item_Search=item_Search)
     
     if result is f'Erro na sala: {id_interno} no Item: {item_Search} não foi encontrado' :
         return

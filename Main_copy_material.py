@@ -24,7 +24,7 @@ def run(playwright: Playwright) -> None:
     for index in range(totalplan2) :
         index +=1
         
-        cell_status = getPlanilha.getCell_plan2_status(index = index)
+        cell_status = getPlanilha.getCell_plan2_status(index=index)
         
         if cell_status != 'nan':
             pass
@@ -34,8 +34,8 @@ def run(playwright: Playwright) -> None:
             
             page.close()
             
-            copiaMaterial.copyMaterial(playwright = playwright , index = index)
-            getPlanilha.writeOnExcel_Plan2(index = index , return_status = 'OK')
+            copiaMaterial.copyMaterial(playwright=playwright, index=index)
+            getPlanilha.writeOnExcel_Plan2(index=index, return_status='OK')
             
             context.new_page()
         

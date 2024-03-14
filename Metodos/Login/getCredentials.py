@@ -41,12 +41,12 @@ def get_credentials():
     # Criando os campos de entrada (entry)
     label_login = tk.Label(janela, text="Login : ", padx=5, bg=grey, fg='white')
     label_login.grid(row=0, column=0, sticky=tk.E+tk.W, pady=5, padx=5)
-    entry_login = tk.Entry(janela,width=button_width)
+    entry_login = tk.Entry(janela, width=button_width)
     entry_login.grid(row=0, column=1)
 
     label_senha = tk.Label(janela, text="Senha : ", padx=5, bg=grey, fg='white')
     label_senha.grid(row=1, column=0, sticky=tk.E+tk.W, pady=5, padx=5)
-    entry_senha = tk.Entry(janela, show="*",width=button_width)  # O parâmetro show="*" esconde os caracteres digitados
+    entry_senha = tk.Entry(janela, show="*", width=button_width)  # O parâmetro show="*" esconde os caracteres digitados
     entry_senha.grid(row=1, column=1)
 
     # Botão para submeter o login e senha
@@ -60,7 +60,7 @@ def get_credentials():
     def on_enter_pressed(event):
         on_login_click()
         
-    botao_login = tk.Button(janela, text="Login", command=on_login_click,width=button_width,bg=darkBlue,fg='white')
+    botao_login = tk.Button(janela, text="Login", command=on_login_click, width=button_width, bg=darkBlue, fg='white')
     botao_login.grid(row=2, column=1, padx=5, pady=5)
     janela.bind('<Return>', on_enter_pressed)
 

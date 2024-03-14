@@ -7,7 +7,7 @@ def ajusteAvaliacao(playwright: Playwright , id_interno) -> None:
     page = context.pages[0]
     
     itemSearch = 'Avaliações'
-    id_avaliacao = str(getApiContent.API_Req_Content(playwright = playwright , id_interno = id_interno , item_Search = itemSearch))
+    id_avaliacao = str(getApiContent.API_Req_Content(playwright=playwright, id_interno=id_interno, item_Search=itemSearch))
     
     page.wait_for_load_state('domcontentloaded')
     page.press('body','End')

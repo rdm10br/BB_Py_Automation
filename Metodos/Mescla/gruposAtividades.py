@@ -12,7 +12,7 @@ def inserirArquivo(playwright: Playwright , id_interno , Area: str) -> None:
     file_path = f'BB_Py_Automation\\Planilhas\\GRUPOS - {Area.upper()}.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -24,6 +24,7 @@ def inserirArquivo(playwright: Playwright , id_interno , Area: str) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
 
 def inserirArquivoEducI(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -34,7 +35,7 @@ def inserirArquivoEducI(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Educação I 1.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -46,6 +47,7 @@ def inserirArquivoEducI(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
     
 def inserirArquivoEducII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -56,7 +58,7 @@ def inserirArquivoEducII(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Educação II 1.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -68,6 +70,7 @@ def inserirArquivoEducII(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
     
 def inserirArquivoEducIII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -78,7 +81,7 @@ def inserirArquivoEducIII(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Educação III 1.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -90,6 +93,7 @@ def inserirArquivoEducIII(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
     
 def inserirArquivoExat(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -100,7 +104,7 @@ def inserirArquivoExat(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Exatas.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -112,6 +116,7 @@ def inserirArquivoExat(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
     
 def inserirArquivoNegI(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -122,7 +127,7 @@ def inserirArquivoNegI(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - NEGÓCIOS E GESTÃO I.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -134,6 +139,7 @@ def inserirArquivoNegI(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
     
 def inserirArquivoNegII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -144,7 +150,7 @@ def inserirArquivoNegII(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - NEGÓCIOS E GESTÃO II.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -156,6 +162,7 @@ def inserirArquivoNegII(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
     
 def inserirArquivoNegIII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -166,7 +173,7 @@ def inserirArquivoNegIII(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - NEGÓCIOS E GESTÃO III.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -178,6 +185,7 @@ def inserirArquivoNegIII(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
     
 def inserirArquivoSaudI(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -188,7 +196,7 @@ def inserirArquivoSaudI(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SAÚDE I.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -200,6 +208,7 @@ def inserirArquivoSaudI(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
     
 def inserirArquivoSaudII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -210,7 +219,7 @@ def inserirArquivoSaudII(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SAÚDE II.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -222,6 +231,7 @@ def inserirArquivoSaudII(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
     
 def inserirArquivoSaudIII(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -232,7 +242,7 @@ def inserirArquivoSaudIII(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SAÚDE III.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -244,6 +254,7 @@ def inserirArquivoSaudIII(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
     
 def inserirArquivoServ(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -254,7 +265,7 @@ def inserirArquivoServ(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SERVIÇO SOCIAL E TEOLOGIA.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -266,6 +277,7 @@ def inserirArquivoServ(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.wait_for_load_state('load')
     page.close()
+
     
 def inserirArquivoInfo(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -276,7 +288,7 @@ def inserirArquivoInfo(playwright: Playwright , id_interno) -> None:
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - TECNOLOGIA DA INFORMAÇÃO.csv'
     
     page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files = file_path)
+    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
     page.get_by_label("E-mail").uncheck()
     page.get_by_label("Tarefas").uncheck()
     page.get_by_label("Compartilhamento de arquivos").uncheck()
@@ -288,14 +300,16 @@ def inserirArquivoInfo(playwright: Playwright , id_interno) -> None:
     page.get_by_role("button", name="Enviar").click()
     page.close()
 
+
 def ID_FolderAV1(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
     context = browser.contexts[0]
     page = context.pages[0]
     
     itemSearch = 'AV1 - Atividade Prática de Extensão'
-    id_item = str(getApiContent.API_Req_Content(playwright,id_interno,itemSearch))
+    id_item = str(getApiContent.API_Req_Content(playwright=playwright, id_interno=id_interno, item_Search=itemSearch))
     return id_item
+
     
 def ID_FolderAV2(playwright: Playwright , id_interno) -> None:
     browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
@@ -303,8 +317,9 @@ def ID_FolderAV2(playwright: Playwright , id_interno) -> None:
     page = context.pages[0]
     
     itemSearch = 'AV2 - Atividade Prática de Extensão'
-    id_item = str(getApiContent.API_Req_Content(playwright,id_interno,itemSearch))
+    id_item = str(getApiContent.API_Req_Content(playwright=playwright, id_interno=id_interno, item_Search=itemSearch))
     return id_item
+
     
 def inserirGruposAtividadesAV1(playwright: Playwright ,id_interno , curso):
     
@@ -316,7 +331,7 @@ def inserirGruposAtividadesAV1(playwright: Playwright ,id_interno , curso):
     item = f'Envio AV1 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
     # folder_id = ID_FolderAV1(playwright , id_interno)
-    # content_ID = getApiContent.API_Req_Content_children(playwright,id_interno, folder_id, item)
+    # content_ID = getApiContent.API_Req_Content_children(playwright=playwright, id_interno=id_interno, folder_id=folder_id, item_Search=item)
     # URLConditional = f'{classUrlUltra}/conditionalRelease?contentId={content_ID}'
     
     page.goto(searchURL)
@@ -324,7 +339,7 @@ def inserirGruposAtividadesAV1(playwright: Playwright ,id_interno , curso):
     page.get_by_label("Membros ou grupos específicos").check()
     page.locator("#course-groups-combobox").click()
     cursos = unidecode(curso)
-    page.locator("#course-groups-combobox-search-box").fill(cursos)
+    page.locator("#course-groups-combobox-search-box").fill(value=cursos)
     page.locator("#course-groups-combobox-menu > li > ul" ,has_text=cursos).click()
     page.wait_for_timeout(1500)
     page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()
@@ -333,6 +348,7 @@ def inserirGruposAtividadesAV1(playwright: Playwright ,id_interno , curso):
     page.wait_for_timeout(1500)
     page.goto(classUrlUltra)
     page.wait_for_load_state('load')
+
 
 def inserirGruposAtividadesAV2(playwright: Playwright ,id_interno ,curso):
     
@@ -344,7 +360,7 @@ def inserirGruposAtividadesAV2(playwright: Playwright ,id_interno ,curso):
     item = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
     # folder_id = ID_FolderAV1(playwright , id_interno)
-    # content_ID = getApiContent.API_Req_Content_children(playwright,id_interno, folder_id, item)
+    # content_ID = getApiContent.API_Req_Content_children(playwright=playwright, id_interno=id_interno, folder_id=folder_id, item_Search=item)
     # URLConditional = f'{classUrlUltra}/conditionalRelease?contentId={content_ID}'
     
     page.goto(searchURL)
@@ -354,7 +370,7 @@ def inserirGruposAtividadesAV2(playwright: Playwright ,id_interno ,curso):
     page.get_by_label("Membros ou grupos específicos").check()
     page.locator("#course-groups-combobox").click()
     cursos = unidecode(curso)
-    page.locator("#course-groups-combobox-search-box").fill(cursos)
+    page.locator("#course-groups-combobox-search-box").fill(value=cursos)
     page.locator("#course-groups-combobox-menu > li > ul" ,has_text=cursos).click()
     page.wait_for_timeout(1500)
     page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()
