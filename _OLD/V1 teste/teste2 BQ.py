@@ -1,34 +1,30 @@
-# [13:51] Matheus Felipe Rosa Ferreira
 from playwright.sync_api import Playwright, sync_playwright, expect
 import time
 import pandas as pd
-
-# import re
 import regex as re
 from docx import Document
 
-# arq_excel = 'MAPEAMENTOS.xlsx'
-# df_map = pd.read_excel(arq_excel, sheet_name='Plan1')
+# import sys
+
+# sys.path.append(r'C:\Users\rafad\Documents\VS_proj\BB_Py_Automation')
+
+# from Metodos.API import getPlanilha
+
+
+# cell = getPlanilha.getCell(index=1)
 
 #python -m playwright codegen
 
-# def run(playwright: Playwright) -> None:
-#     browser = playwright.chromium.launch(headless=False)
-#     context = browser.new_context()
-#     page = context.new_page()
-    
-# with sync_playwright () as playwright:
-#     run(playwright)
+# regex_Enunciado = r'(?ms)(?<=\d[.]\s).*(?=^\s[a][)]\s|^\s[a][.]\s)'
+regex_Enunciado = r'(?<=\d[.]\s).*(?=\s+[a][)])'
 
-# regex_Enunciado = '(?ms)(?<=\\d[.]\\s).*(?=^\\s[a][)]\\s|^\\s[a][.]\\s)'
+regex_Alternativa_A = r'(?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*(?=[b][)]|\s+[b][)]|[b][.]\s+|\s+[b][.]\s+)'
+regex_Alternativa_B = r'(?<=[b][)]\s|\s[b][)]\s|[b][.]\s).*(?=[c][)]|\s+[c][)]|[c][.]\s+|\s+[c][.]\s+)'
+regex_Alternativa_C = r'(?<=[c][)]\s|\s[c][)]\s|[c][.]\s).*(?=[d][)]|\s+[d][)]|[d][.]\s+|\s+[d][.]\s+)'
+regex_Alternativa_D = r'(?<=[d][)]\s|\s[d][)]\s|[d][.]\s).*(?=[e][)]|\s+[e][)]|[e][.]\s+|\s+[e][.]\s+)'
+regex_Alternativa_E = r'(?<=[e][)]\s|[e][.]\s|[e][.]).*(?=\s+\d[.]|[.]|\z)'
 
-regex_Enunciado = '(?<=\\d[.]\\s).*(?=\\s+[a][)])'
-regex_Alternativa_A = r'(?<=[a][)]\\\s|\\s[a][)]\\s|[a][.]\\s).*(?=[b][)]|\\s+[b][)]|[b][.]\\s+|\\s+[b][.]\\s+)'
-regex_Alternativa_B = r'(?<=[b][)]\\\s|\\s[b][)]\\s|[b][.]\\s).*(?=[c][)]|\\s+[c][)]|[c][.]\\s+|\\s+[c][.]\\s+)'
-regex_Alternativa_C = r'(?<=[c][)]\\\s|\\s[c][)]\\s|[c][.]\\s).*(?=[d][)]|\\s+[d][)]|[d][.]\\s+|\\s+[d][.]\\s+)'
-regex_Alternativa_D = r'(?<=[d][)]\\\s|\\s[d][)]\\s|[d][.]\\s).*(?=[e][)]|\\s+[e][)]|[e][.]\\s+|\\s+[e][.]\\s+)'
-regex_Alternativa_E = r'(?<=[e][)]\\s|[e][.]\\s|[e][.]).*(?=\\s+\\d[.]|[.]|\\z)'
-regex_alternativas = "(?ms)(?<=[[][']).*(?=['][]])"
+regex_alternativas = r"(?ms)(?<=[[][']).*(?=['][]])"
 
 teste = '''1.	É sabido que os termos ética e moral referem-se, de acordo com Chauí (2016, p. 321), ao “[...] conjunto de costumes de uma sociedade, considerados como valores e obrigações para seus membros”. Apesar de semelhantes, ambas as palavras precisam ser diferenciadas conceitualmente, pois apresentam uma relação complementar entre elas. Dito isso, os termos ética e moral dizem respeito, respectivamente, a:
 a)	Comportamento coletivo adotado a partir de uma reflexão individual sobre um conjunto de normas sociais; costume 
@@ -64,12 +60,21 @@ d) Fyodor Dostoevsky
 e) Jane Austen'''
 
 def main() -> None:
+    
+    index = 0
+    
     enunciado = re.search(pattern = regex_Enunciado , string = teste)
-    # alternativa_a = re.findall(pattern = regex_Alternativa_A , string = teste)
-    # alternativas = re.search(pattern = regex_alternativas , string = str(alternativa_a.copy()))
-    print(f'\n{enunciado.group()}')
-    # print(alternativas.group())
-    # print(alternativa_a.copy())
+    print(f'\n{enunciado.captures()[index]}')
+    
+    alternativa_a = re.findall(pattern = regex_Alternativa_A , string = teste)
+    print(f'\n{alternativa_a.copy()[index]}')
+    
+    # teste de remoção de carcteres especiais alternativas
+    # alternativas = re.search(pattern = regex_alternativas , string = str(alternativa_a))
+    # print(f'\n{alternativas.group()}')
+    
+    # teste de importação e novo metodo de path planilha
+    # print(f'\n{cell}')
 
 if __name__ == '__main__':
     main()
