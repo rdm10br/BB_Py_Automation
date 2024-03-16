@@ -40,10 +40,18 @@ or if this file could not be found
 pip install -r BB_PY_Automation\dependencies.txt
 ```
 
+to fully install pplaywright use this command
+
+```
+python -m playwright install
+```
+
 To create new Methods use the command on console
 
 ```
+
 python -m playwright codegen
+
 ```
 
 Automation for administration of educational system based on BlackBoard platform
@@ -87,11 +95,16 @@ ou se o arquivo não foi encontrado
 pip install -r BB_PY_Automation\dependencies.txt
 ```
 
+para instalar completamente o playwright use esse comando
+
+```
+python -m playwright install
+```
+
 Para criar novos métodos, utilize o seguinte comando no console:
 
 ```
 python -m playwright codegen
-
 ```
 
 Automação para administração de sistema educacional baseado na plataforma BlackBoard.
