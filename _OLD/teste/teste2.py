@@ -1,13 +1,15 @@
 import asyncio
-from playwright.async_api import async_playwright
+from playwright.async_api import async_playwright, Playwright
 
-async def login_and_create_new_context(playwright, email, password):
+async def login_and_create_new_context(playwright: Playwright, email, password):
     # Cria um navegador e uma página para o contexto original
     browser = await playwright.chromium.launch(headless=False)
     page = await browser.new_page()
+    
+    baseURL = 'https://practicetestautomation.com/practice-test-login/'
 
     # Navega para a página de login
-    await page.goto("https://practicetestautomation.com/practice-test-login/")
+    await page.goto(baseURL)
 
     # Preenche os campos de e-mail e senha
     await page.fill("#username", email)
@@ -20,7 +22,7 @@ async def login_and_create_new_context(playwright, email, password):
     await page.wait_for_load_state("networkidle")
 
     # Cria um novo contexto com as mesmas credenciais de login
-    new_context = await browser.new_context(storage_state={"cookies": page.context.storage_state()["cookies"]})
+    new_context = await browser.new_context(storage_state={"cookies": page.context.cookies(urls=baseURL)})
 
     # Retorna o novo contexto
     return new_context
@@ -36,7 +38,7 @@ async def main():
 
         # Cria uma nova página no novo contexto
         page = await new_context.new_page()
-
+        
         # Navega para uma página protegida
         await page.goto("https://example.com/protected")
 

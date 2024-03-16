@@ -31,7 +31,7 @@ def main(playwright: Playwright) -> None:
     checkup_login.checkup_login(playwright=playwright)
     
     # Salvar os cookies da página original
-    cookies = page.context.cookies()
+    cookies = page.context.cookies(urls=baseURL)
     
     # # Create a new context with the saved storage state.
     new_context = browser.new_context(no_viewport=True)
