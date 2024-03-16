@@ -1,9 +1,7 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
 from playwright.sync_api import *
 
-from Metodos.Login import checkup_login
-from Metodos.API import getFromAPI,getPlanilha
-from Metodos.Master import ajusteData,getData
+from Metodos import checkup_login, getFromAPI, getPlanilha, ajusteData, getData
 
 def run(playwright: Playwright) -> None:
     # Connect to the existing browser

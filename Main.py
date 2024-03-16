@@ -7,9 +7,7 @@ import pytest
 import gc
 
 #importando Metodos principais
-from Metodos.Login import checkup_login
-from Metodos.API import getFromAPI,getPlanilha
-# from Metodos.Master import AjusteSofiaV2,AjusteSermelhor,AjusteAvaliaçãoV2
+from Metodos import getPlanilha, checkup_login, getFromAPI
 
 
 def main(playwright: Playwright) -> None:
@@ -60,7 +58,11 @@ def main(playwright: Playwright) -> None:
 
             # // espaço onde você insere suas funções para executar no Loop //
             
-            # // para criação de novos métodos utilizar o comando 'python -m playwright codegen' dentro do console para auxiliar na criação//
+            # // para criação de novos métodos utilizar o comando 'python -m playwright codegen' 
+            # dentro do console para auxiliar na criação//
+            
+            # // Lembre-se de sempre que criar um método novo adicionar a importação dele ao 
+            # '__init__.py' do diretório de Metodos para facilitar sua importação//
             
             # Função para escrever na primeira planilha
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')

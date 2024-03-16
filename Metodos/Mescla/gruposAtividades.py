@@ -307,7 +307,8 @@ def ID_FolderAV1(playwright: Playwright , id_interno) -> None:
     page = context.pages[0]
     
     itemSearch = 'AV1 - Atividade Prática de Extensão'
-    id_item = str(getApiContent.API_Req_Content(playwright=playwright, id_interno=id_interno, item_Search=itemSearch))
+    id_item = str(getApiContent.API_Req_Content(playwright=playwright, 
+                                                id_interno=id_interno, item_Search=itemSearch))
     return id_item
 
     
@@ -317,7 +318,8 @@ def ID_FolderAV2(playwright: Playwright , id_interno) -> None:
     page = context.pages[0]
     
     itemSearch = 'AV2 - Atividade Prática de Extensão'
-    id_item = str(getApiContent.API_Req_Content(playwright=playwright, id_interno=id_interno, item_Search=itemSearch))
+    id_item = str(getApiContent.API_Req_Content(playwright=playwright, 
+                                                id_interno=id_interno, item_Search=itemSearch))
     return id_item
 
     

@@ -1,10 +1,7 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
 from playwright.sync_api import *
 
-from Metodos.Login import checkup_login
-from Metodos.API import getFromAPI,getPlanilha
-from Metodos.Mescla import atribGrup,AjusteNotaZero
-from Metodos.Master import AjusteAvaliaçãoV2
+from Metodos import checkup_login, getFromAPI, getPlanilha, atribGrup, AjusteNotaZero, AjusteAvaliaçãoV2
 
 
 def run(playwright: Playwright) -> None:
