@@ -49,9 +49,7 @@ python -m playwright install
 To create new Methods use the command on console
 
 ```
-
 python -m playwright codegen
-
 ```
 
 Automation for administration of educational system based on BlackBoard platform

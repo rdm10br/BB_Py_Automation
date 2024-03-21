@@ -1,5 +1,4 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
-from playwright.sync_api import *
 # from memory_profiler import profile
 # from line_profiler import LineProfiler
 # import cProfile

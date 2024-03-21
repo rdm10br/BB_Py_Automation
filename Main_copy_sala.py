@@ -1,5 +1,4 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
-from playwright.sync_api import *
 
 from Metodos import checkup_login, getPlanilha, copiaSala
 
