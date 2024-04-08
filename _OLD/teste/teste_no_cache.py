@@ -80,3 +80,77 @@ async def main():
     async with async_playwright() as playwright:
         await run(playwright)
 asyncio.run(main())
+
+# import asyncio
+# from playwright.async_api import async_playwright
+
+# from Metodos.API import getPlanilha
+# from Metodos.Login import getCredentials
+
+# async def run(playwright):
+#     browser = await playwright.chromium.launch(headless=False)
+#     context = await browser.new_context()
+#     page = await context.new_page()
+
+#     baseURL = "https://sereduc.blackboard.com/"
+#     ultraURL = f'{baseURL}ultra/courses/'
+#     total_lines_plan1 = getPlanilha.total_lines
+
+#     await page.goto(baseURL)
+
+#     # Login
+#     for attempt in range(3):
+#         try:
+#             if "Disciplinas" in await page.title():
+#                 break
+#             else:
+#                 loginURL = f'{baseURL}webapps/login/'
+
+#                 await page.goto(loginURL)
+#                 await page.wait_for_load_state('networkidle')
+
+#                 await page.get_by_role("button", name="OK").click()
+
+#                 username, password = getCredentials.get_credentials()
+
+#                 await page.get_by_label("Nome de usuário").fill(value=username)
+#                 await page.get_by_label("Senha").fill(value=password)
+#                 await page.locator('#entry-login').click()
+#                 await page.goto(ultraURL)
+#         except Exception as e:
+#             print(f"Error during login attempt: {attempt}")
+#             print(repr(e))
+
+#     cookies = await page.context.cookies(urls=baseURL)
+
+#     # Reuse browser context for API calls
+#     async with browser.new_context() as context2:
+#         for index in range(total_lines_plan1):
+#             index += 1
+
+#             cell_status = getPlanilha.getCell_status(index=index)
+
+#             if cell_status != 'nan':
+#                 pass
+#             else:
+#                 # Add cookies to the context
+#                 await context2.add_cookies(cookies)
+
+#                 # Make API request
+#                 id_externo = getPlanilha.getCell(index=index)
+#                 internalID_API = f'{baseURL}learn/api/public/v3/courses/courseId:{id_externo}'
+
+#                 await page.goto(internalID_API)
+#                 id_interno = await page.evaluate('() => JSON.parse(document.body.innerText).id')
+
+#                 classUrlUltra = f'{ultraURL}{id_interno}/outline'
+
+#                 print(id_externo)
+
+#                 await page.goto(classUrlUltra)
+
+# async def main():
+#     async with async_playwright() as playwright:
+#         await run(playwright)
+
+# asyncio.run(main())
