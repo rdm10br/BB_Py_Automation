@@ -25,7 +25,7 @@ async def run (playwright: Playwright) :
                 loginURL = f'{baseURL}webapps/login/'
                 
                 await page.goto(loginURL)
-                await page.wait_for_load_state('networkidle')
+                # await page.wait_for_load_state('networkidle')
                 
                 await page.get_by_role("button", name="OK").click()
                 
@@ -34,7 +34,7 @@ async def run (playwright: Playwright) :
                 await page.get_by_label("Nome de usuário").fill(value=username)
                 await page.get_by_label("Senha").fill(value=password)
                 await page.locator('#entry-login').click()
-                await page.goto(ultraURL)        
+                await page.goto(ultraURL)
         except Exception as e:
             if "Blackboard Learn" in await page.title():
                 await print(f"Error during login attempt: {attempt}")
