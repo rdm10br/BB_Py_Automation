@@ -309,6 +309,7 @@ async def run(playwright: Playwright) -> None:
                 pass
             else :
                 print(f'Grande Área da sala {id_externo} não identificada; {course_area}')
+                await getPlanilha.writeOnExcel_Plan1(index=index, return_status='Não identificado')
                 pass
             
         
