@@ -1,8 +1,13 @@
+import sys
+import os
 import asyncio
 from playwright.async_api import Playwright, async_playwright, expect
 
+sys.path.append(r'C:\Users\013190873\Downloads\Pessoal\VS\BB_Py_Automation')
+
 from Metodos.API import getPlanilha
 from Metodos.Login import getCredentials
+import teste_no_browser
 
 async def run (playwright: Playwright) :
     browser = await playwright.chromium.launch(headless=False)
@@ -71,6 +76,7 @@ async def run (playwright: Playwright) :
             print(id_externo)
             
             await page2.goto(classUrlUltra)
+            await teste_no_browser.teste(page=page2, id_interno=id_interno, item_Search="Sofia")
             
             await context2.close()
             await browser2.close()
