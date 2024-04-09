@@ -1,23 +1,26 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
-
+import asyncio
+from playwright.async_api import Playwright, async_playwright, expect
 from Metodos import checkup_login, getFromAPI, getPlanilha, atribGrup, AjusteNotaZero, AjusteAvaliaçãoV2
 
+import gc
 
-def run(playwright: Playwright) -> None:
+
+async def run(playwright: Playwright) -> None:
     # Connect to the existing browser
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    # Access page context
-    context = browser.contexts[0]
-    page = context.pages[0]
+    browser = await playwright.chromium.launch(headless=False)  # COLOCAR NAS OUTRAS
+    context = await browser.new_context(no_viewport=True)   # COLOCAR NAS OUTRAS
+    page = await context.new_page()  # COLOCAR NAS OUTRAS
     
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/'
     
     # Access page
-    page.goto(baseURL)
+    await page.goto(baseURL)
     
     # Verificar se está logado e logar
-    checkup_login.checkup_login(playwright=playwright)
+    await checkup_login.checkup_login(playwright=playwright)
+    
+    cookies = await page.context.cookies(urls=baseURL)
     
     index = 0
     total_lines_plan1 = getPlanilha.total_lines
@@ -32,20 +35,20 @@ def run(playwright: Playwright) -> None:
         if cell_status != 'nan':
             pass
         else :
-            new_page = context.pages[1]
-            page = context.pages[0]
-            
-            page.close()
+            new_browser = await playwright.chromium.launch(headless=False)  # COLOCAR NAS OUTRAS
+            new_context = await new_browser.new_context(no_viewport=True)   # COLOCAR NAS OUTRAS
+            # Assuming 'cookies' is the list of cookies obtained earlier
+            await new_context.add_cookies(cookies)  # COLOCAR NAS OUTRAS
+            new_page = await new_context.new_page()  # COLOCAR NAS OUTRAS
             
             #request from API
-            id_externo = getPlanilha.getCell(index=index)
-            id_interno = getFromAPI.API_Req(playwright=playwright, index=index)
+            id_externo = await getPlanilha.getCell(index=index)
+            id_interno = await getFromAPI.API_Req(playwright=playwright, index=index)
             
             classUrlUltra = f'{classURL}{id_interno}/outline'
             
             print(id_externo)
-            new_page.goto(classUrlUltra)
-            new_page.wait_for_load_state('networkidle')
+            await new_page.goto(classUrlUltra)
             
             # VETERANOS
             # atribGrup.inserirArquivoVET(playwright, id_interno)
@@ -53,21 +56,21 @@ def run(playwright: Playwright) -> None:
             #===================
             
             # DIGITAL
-            atribGrup.inserirArquivoDIG(playwright=playwright, id_interno=id_interno)
-            atribGrup.atribuirGruposDIG(playwright=playwright, id_interno=id_interno)
+            await atribGrup.inserirArquivoDIG(playwright=playwright, id_interno=id_interno)
+            await atribGrup.atribuirGruposDIG(playwright=playwright, id_interno=id_interno)
             #===================
             
-            AjusteNotaZero.AjusteNotaZero(playwright=playwright, id_interno=id_interno)
-            AjusteAvaliaçãoV2.ajusteAvaliacao(playwright=playwright)
-            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            await AjusteNotaZero.AjusteNotaZero(playwright=playwright, id_interno=id_interno)
+            await AjusteAvaliaçãoV2.ajusteAvaliacao(playwright=playwright)
+            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
-            # context.storage_state()
-            # context.clear_cookies()
             
-            context.new_page()
+            await new_context.close()   # COLOCAR NAS OUTRAS
+            await new_browser.close() 
         
+            await gc.collect()
         
-    context.close()
-    
-with sync_playwright() as playwright:
-    run(playwright)
+async def main():
+    async with async_playwright() as playwright:
+        await run(playwright)
+asyncio.run(main())
