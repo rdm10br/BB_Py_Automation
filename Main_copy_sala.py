@@ -15,7 +15,8 @@ async def run(playwright: Playwright) -> None:
     await page.goto(baseURL)
     
     # Verificar se está logado e logar
-    await checkup_login.checkup_login(playwright=playwright)
+    await checkup_login.checkup_login(page=page)
+    
     index = 0
     totalplan2 = getPlanilha.total_lines_plan2
     

@@ -18,7 +18,7 @@ async def run(playwright: Playwright) -> None:
     await page.goto(baseURL)
     
     # Verificar se está logado e logar
-    await checkup_login.checkup_login(playwright=playwright)
+    await checkup_login.checkup_login(page=page)
     
     cookies = await page.context.cookies(urls=baseURL)
     
