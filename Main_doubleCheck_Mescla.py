@@ -64,8 +64,8 @@ async def run(playwright: Playwright) -> None:
             await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page)
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
-            await new_context.close() 
-            await new_browser.close() 
+            await new_context.close()
+            await new_browser.close()
         
             gc.collect()
         

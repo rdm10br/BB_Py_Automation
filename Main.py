@@ -60,10 +60,10 @@ async def run(playwright: Playwright) -> None:
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK') 
             
             await new_context.close()
-            await new_browser.close()  
+            await new_browser.close()
             
             # Force garbage collection
-            gc.collect() 
+            gc.collect()
 
 
 async def main():
