@@ -62,7 +62,7 @@ async def run(playwright: Playwright) -> None:
             await new_browser.close()
             
             # Force garbage collection
-            await gc.collect()
+            gc.collect()
     
 
 async def main():

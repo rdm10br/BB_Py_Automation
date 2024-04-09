@@ -13,9 +13,6 @@ async def run(playwright: Playwright) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/'
     
-    # Access page
-    await page.goto(baseURL)
-    
     # Verificar se está logado e logar
     await checkup_login.checkup_login(page=page)
 
@@ -38,7 +35,7 @@ async def run(playwright: Playwright) -> None:
             new_page = await new_context.new_page()
             
             #request from API
-            id_externo = await getPlanilha.getCell(index=index)
+            id_externo = getPlanilha.getCell(index=index)
             id_interno = await getFromAPI.API_Req(page=new_page, index=index)
             
             classUrlUltra = f'{classURL}{id_interno}/outline'
@@ -46,7 +43,7 @@ async def run(playwright: Playwright) -> None:
             print(id_externo)
             await new_page.goto(classUrlUltra)
             
-            course_area = str(getFromAPI.API_Ativ_Course(playwright=playwright, id_interno=id_interno))
+            course_area = str(await getFromAPI.API_Ativ_Course(page=new_page, id_externo=id_externo))
             
             if course_area == "['Educação I']" :
                 
@@ -319,7 +316,7 @@ async def run(playwright: Playwright) -> None:
             await new_browser.close()  
             
             # Force garbage collection
-            await gc.collect() 
+            gc.collect() 
 
 async def main():
     async with async_playwright() as playwright:

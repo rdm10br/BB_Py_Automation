@@ -67,7 +67,7 @@ async def run(playwright: Playwright) -> None:
             await new_context.close() 
             await new_browser.close() 
         
-            await gc.collect()
+            gc.collect()
         
 
 async def main():

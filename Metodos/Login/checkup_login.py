@@ -17,6 +17,8 @@ async def checkup_login(page: Page) -> None:
             else:
                 attempt += 1
                 await login.login(page=page)
+                await page.wait_for_load_state('networkidle')
+                await page.wait_for_load_state('domcontentloaded')
                 await page.wait_for_load_state('load')
         except Exception as e:
             if "Blackboard Learn" in await page.title():
