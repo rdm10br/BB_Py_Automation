@@ -16,7 +16,7 @@ async def run(playwright: Playwright) -> None:
     total_lines_plan1 = getPlanilha.total_lines
     
     # Access page
-    await page.goto(baseURL) 
+    # await page.goto(baseURL) 
     
     # Verificar se está logado e logar
     await checkup_login.checkup_login(page=page)
@@ -39,7 +39,7 @@ async def run(playwright: Playwright) -> None:
             new_page = await new_context.new_page()
             
             #request from API
-            id_externo = await getPlanilha.getCell(index=index) 
+            id_externo = getPlanilha.getCell(index=index) 
             id_interno = await getFromAPI.API_Req(page=new_page, index=index)
             
             classUrlUltra = f'{classURL}{id_interno}/outline'
@@ -57,13 +57,13 @@ async def run(playwright: Playwright) -> None:
             # '__init__.py' do diretório de Metodos para facilitar sua importação//
             
             # Função para escrever na primeira planilha
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK') 
+            # await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK') 
             
-            await new_context.close() 
+            await new_context.close()
             await new_browser.close()  
             
             # Force garbage collection
-            await gc.collect() 
+            gc.collect() 
 
 
 async def main():

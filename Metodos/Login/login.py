@@ -5,13 +5,10 @@ from Metodos.Login import getCredentials
 
 async def login(page: Page) -> None:        
         baseURL = "https://sereduc.blackboard.com/"
-        loginURL = f'{baseURL}webapps/login/'
         ultraURL = f'{baseURL}ultra/course'
         
-        await page.goto(loginURL)
-        await page.wait_for_load_state('networkidle')
         
-        if page.locator('#agree_button').is_visible() :
+        if await page.locator('#agree_button').is_visible() :
                 await page.get_by_role("button", name="OK").click()
         else :
                 pass
