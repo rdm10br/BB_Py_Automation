@@ -1,16 +1,13 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
-from playwright.sync_api import *
+from playwright.async_api import Playwright, async_playwright, expect, Page
 
 
-def API_Req_Content(playwright: Playwright  , id_interno, item_Search) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def API_Req_Content(page: Page, id_interno, item_Search) -> None:
+    
     baseURL = "https://sereduc.blackboard.com/"
     
     internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents?title={item_Search}'
     
-    page.goto(internalID_API)
+    await page.goto(internalID_API)
     
     # request = '() => {return JSON.parse(document.body.innerText).results[0].id}'
     
@@ -24,8 +21,7 @@ def API_Req_Content(playwright: Playwright  , id_interno, item_Search) -> None:
     }'''
 
     try:
-        id_sofia = page.evaluate(request)
-        page.close()
+        id_sofia = await page.evaluate(request)
         # print(str(id_sofia))
         return str(id_sofia)
     except Exception as e:
@@ -40,15 +36,13 @@ def API_Req_Content(playwright: Playwright  , id_interno, item_Search) -> None:
 #     id_I = '_26709_1'
 #     id1=API_Req_Content(playwright,id_I,itemS)
 
-def API_Req_Content_children(playwright: Playwright  , id_interno, father_id, item_Search) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def API_Req_Content_children(page: Page, id_interno, father_id, item_Search) -> None:
+    
     baseURL = "https://sereduc.blackboard.com/"
     
     internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'
     
-    page.goto(internalID_API)
+    await page.goto(internalID_API)
     
     # request = '() => {return JSON.parse(document.body.innerText).results[0].id}'
     
@@ -62,8 +56,7 @@ def API_Req_Content_children(playwright: Playwright  , id_interno, father_id, it
     }'''
 
     try:
-        id_sofia = page.evaluate(request)
-        page.close()
+        id_sofia = await page.evaluate(request)
         # print(str(id_sofia))
         return str(id_sofia)
     except Exception as e:

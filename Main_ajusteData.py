@@ -19,7 +19,7 @@ async def run(playwright: Playwright) -> None:
     # Verificar se está logado e logar
     await checkup_login.checkup_login(playwright=playwright)
     
-    dataShow , dataHide = getData.get_data()
+    dataShow , dataHide = await getData.get_data()
     
     index = 0
     total_lines_plan1 = getPlanilha.total_lines
@@ -42,13 +42,12 @@ async def run(playwright: Playwright) -> None:
             
             #request from API
             id_externo = await getPlanilha.getCell(index=index)
-            id_interno = await getFromAPI.API_Req(playwright=playwright, index=index)
+            id_interno = await getFromAPI.API_Req(page=new_page, index=index)
             classUrlUltra = f'{classURL}{id_interno}/outline/bulkEditContent'
             
             print(id_externo)
             
             await new_page.goto(classUrlUltra)
-            
             
             await ajusteData.ajusteData(playwright=playwright, dataShow=dataShow, dataHide=dataHide)
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')

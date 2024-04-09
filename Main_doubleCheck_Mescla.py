@@ -43,7 +43,7 @@ async def run(playwright: Playwright) -> None:
             
             #request from API
             id_externo = await getPlanilha.getCell(index=index)
-            id_interno = await getFromAPI.API_Req(playwright=playwright, index=index)
+            id_interno = await getFromAPI.API_Req(page=new_page, index=index)
             
             classUrlUltra = f'{classURL}{id_interno}/outline'
             
@@ -51,17 +51,17 @@ async def run(playwright: Playwright) -> None:
             await new_page.goto(classUrlUltra)
             
             # VETERANOS
-            # atribGrup.inserirArquivoVET(playwright, id_interno)
-            # atribGrup.atribuirGruposVET(playwright, id_interno)
+            # atribGrup.inserirArquivoVET(page=new_page, id_interno)
+            # atribGrup.atribuirGruposVET(page=new_page, id_interno)
             #===================
             
             # DIGITAL
-            await atribGrup.inserirArquivoDIG(playwright=playwright, id_interno=id_interno)
-            await atribGrup.atribuirGruposDIG(playwright=playwright, id_interno=id_interno)
+            await atribGrup.inserirArquivoDIG(page=new_page, id_interno=id_interno)
+            await atribGrup.atribuirGruposDIG(page=new_page, id_interno=id_interno)
             #===================
             
-            await AjusteNotaZero.AjusteNotaZero(playwright=playwright, id_interno=id_interno)
-            await AjusteAvaliaçãoV2.ajusteAvaliacao(playwright=playwright)
+            await AjusteNotaZero.AjusteNotaZero(page=new_page, id_interno=id_interno)
+            await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page)
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
             await new_context.close() 

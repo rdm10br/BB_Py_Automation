@@ -33,7 +33,7 @@ async def run(playwright: Playwright) -> None:
             await new_context.add_cookies(cookies)
             new_page = await new_context.new_page()
             
-            await copiaMaterial.copyMaterial(playwright=playwright, index=index)
+            await copiaMaterial.copyMaterial(page=new_page, index=index)
             await getPlanilha.writeOnExcel_Plan2(index=index, return_status='OK')
             
             await new_context.close()

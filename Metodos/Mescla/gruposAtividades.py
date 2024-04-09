@@ -1,386 +1,313 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
+from playwright.async_api import Playwright, async_playwright, expect, Page
 from Metodos.API import getApiContent
 from unidecode import unidecode
 
 # teste para unificar os metodos de inserir arquivos
-def inserirArquivo(playwright: Playwright , id_interno , Area: str) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivo(page: Page, id_interno , Area: str) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = f'BB_Py_Automation\\Planilhas\\GRUPOS - {Area.upper()}.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
 
-def inserirArquivoEducI(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoEducI(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Educação I 1.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
     
-def inserirArquivoEducII(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoEducII(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Educação II 1.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
     
-def inserirArquivoEducIII(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoEducIII(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Educação III 1.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
     
-def inserirArquivoExat(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoExat(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - Exatas.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
     
-def inserirArquivoNegI(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoNegI(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - NEGÓCIOS E GESTÃO I.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
     
-def inserirArquivoNegII(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoNegII(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - NEGÓCIOS E GESTÃO II.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
     
-def inserirArquivoNegIII(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoNegIII(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - NEGÓCIOS E GESTÃO III.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
     
-def inserirArquivoSaudI(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoSaudI(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SAÚDE I.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
     
-def inserirArquivoSaudII(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoSaudII(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SAÚDE II.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
     
-def inserirArquivoSaudIII(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoSaudIII(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SAÚDE III.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
     
-def inserirArquivoServ(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoServ(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - SERVIÇO SOCIAL E TEOLOGIA.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.wait_for_load_state('load')
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
+    await page.wait_for_load_state('load')
 
     
-def inserirArquivoInfo(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.new_page()
+async def inserirArquivoInfo(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'BB_Py_Automation\\Planilhas\\GRUPOS - TECNOLOGIA DA INFORMAÇÃO.csv'
     
-    page.goto(importgroup)
-    page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
-    page.get_by_label("E-mail").uncheck()
-    page.get_by_label("Tarefas").uncheck()
-    page.get_by_label("Compartilhamento de arquivos").uncheck()
-    page.get_by_label("Blogs").uncheck()
-    page.get_by_label("Diários").uncheck()
-    page.get_by_label("Fórum de discussão").uncheck()
-    page.get_by_label("Wikis").uncheck()
-    page.get_by_label("Ferramentas do Mercado de").uncheck()
-    page.get_by_role("button", name="Enviar").click()
-    page.close()
+    await page.goto(importgroup)
+    await page.set_input_files("#arg_file_groups_chooseLocalFile", files=file_path)
+    await page.get_by_label("E-mail").uncheck()
+    await page.get_by_label("Tarefas").uncheck()
+    await page.get_by_label("Compartilhamento de arquivos").uncheck()
+    await page.get_by_label("Blogs").uncheck()
+    await page.get_by_label("Diários").uncheck()
+    await page.get_by_label("Fórum de discussão").uncheck()
+    await page.get_by_label("Wikis").uncheck()
+    await page.get_by_label("Ferramentas do Mercado de").uncheck()
+    await page.get_by_role("button", name="Enviar").click()
 
 
-def ID_FolderAV1(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.pages[0]
-    
+async def ID_FolderAV1(page: Page, id_interno) -> None:    
     itemSearch = 'AV1 - Atividade Prática de Extensão'
-    id_item = str(getApiContent.API_Req_Content(playwright=playwright, 
+    id_item = str(getApiContent.API_Req_Content(page=page, 
                                                 id_interno=id_interno, item_Search=itemSearch))
     return id_item
 
     
-def ID_FolderAV2(playwright: Playwright , id_interno) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.pages[0]
-    
+async def ID_FolderAV2(page: Page, id_interno) -> None:
     itemSearch = 'AV2 - Atividade Prática de Extensão'
-    id_item = str(getApiContent.API_Req_Content(playwright=playwright, 
+    id_item = str(getApiContent.API_Req_Content(page=page, 
                                                 id_interno=id_interno, item_Search=itemSearch))
     return id_item
 
     
-def inserirGruposAtividadesAV1(playwright: Playwright ,id_interno , curso):
-    
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.pages[0]
-    
-    classUrlUltra = page.url
+async def inserirGruposAtividadesAV1(page: Page, id_interno , curso):    
+    classUrlUltra = await page.url
     item = f'Envio AV1 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
     # folder_id = ID_FolderAV1(playwright , id_interno)
     # content_ID = getApiContent.API_Req_Content_children(playwright=playwright, id_interno=id_interno, folder_id=folder_id, item_Search=item)
     # URLConditional = f'{classUrlUltra}/conditionalRelease?contentId={content_ID}'
     
-    page.goto(searchURL)
-    page.get_by_label("Condições de liberação de").click()
-    page.get_by_label("Membros ou grupos específicos").check()
-    page.locator("#course-groups-combobox").click()
+    await page.goto(searchURL)
+    await page.get_by_label("Condições de liberação de").click()
+    await page.get_by_label("Membros ou grupos específicos").check()
+    await page.locator("#course-groups-combobox").click()
     cursos = unidecode(curso)
-    page.locator("#course-groups-combobox-search-box").fill(value=cursos)
-    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=cursos).click()
-    page.wait_for_timeout(1500)
-    page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()
-    page.get_by_role("button", name="Salvar").click()
-    page.wait_for_load_state('load')
-    page.wait_for_timeout(1500)
-    page.goto(classUrlUltra)
-    page.wait_for_load_state('load')
+    await page.locator("#course-groups-combobox-search-box").fill(value=cursos)
+    await page.locator("#course-groups-combobox-menu > li > ul" ,has_text=cursos).click()
+    await page.wait_for_timeout(1500)
+    await page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()
+    await page.get_by_role("button", name="Salvar").click()
+    await page.wait_for_load_state('load')
+    await page.wait_for_timeout(1500)
+    await page.goto(classUrlUltra)
+    await page.wait_for_load_state('load')
 
 
-def inserirGruposAtividadesAV2(playwright: Playwright ,id_interno ,curso):
-    
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.pages[0]
-    
-    classUrlUltra = page.url
+async def inserirGruposAtividadesAV2(page: Page,id_interno ,curso):    
+    classUrlUltra = await page.url
     item = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
     # folder_id = ID_FolderAV1(playwright , id_interno)
     # content_ID = getApiContent.API_Req_Content_children(playwright=playwright, id_interno=id_interno, folder_id=folder_id, item_Search=item)
     # URLConditional = f'{classUrlUltra}/conditionalRelease?contentId={content_ID}'
     
-    page.goto(searchURL)
-    # page.get_by_role("button", name="Condições de liberação").click()
-    # page.get_by_role("option", name="Condições de liberação").click()
-    page.get_by_label("Condições de liberação de").click()
-    page.get_by_label("Membros ou grupos específicos").check()
-    page.locator("#course-groups-combobox").click()
+    await page.goto(searchURL)
+    # await page.get_by_role("button", name="Condições de liberação").click()
+    # await page.get_by_role("option", name="Condições de liberação").click()
+    await page.get_by_label("Condições de liberação de").click()
+    await page.get_by_label("Membros ou grupos específicos").check()
+    await page.locator("#course-groups-combobox").click()
     cursos = unidecode(curso)
-    page.locator("#course-groups-combobox-search-box").fill(value=cursos)
-    page.locator("#course-groups-combobox-menu > li > ul" ,has_text=cursos).click()
-    page.wait_for_timeout(1500)
-    page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()
-    page.get_by_role("button", name="Salvar").click()
-    page.wait_for_load_state('load')
-    page.wait_for_timeout(1500)
-    page.goto(classUrlUltra)
-    page.wait_for_load_state('load')
-    
-# if __name__ == '__main__':
-#     inserirArquivo(playwright=Playwright, id_interno='1_0987_1',Area='saúde')
+    await page.locator("#course-groups-combobox-search-box").fill(value=cursos)
+    await page.locator("#course-groups-combobox-menu > li > ul" ,has_text=cursos).click()
+    await page.wait_for_timeout(1500)
+    await page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()
+    await page.get_by_role("button", name="Salvar").click()
+    await page.wait_for_load_state('load')
+    await page.wait_for_timeout(1500)
+    await page.goto(classUrlUltra)
+    await page.wait_for_load_state('load')

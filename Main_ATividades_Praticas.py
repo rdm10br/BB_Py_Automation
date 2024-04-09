@@ -39,7 +39,7 @@ async def run(playwright: Playwright) -> None:
             
             #request from API
             id_externo = await getPlanilha.getCell(index=index)
-            id_interno = await getFromAPI.API_Req(playwright=playwright, index=index)
+            id_interno = await getFromAPI.API_Req(page=new_page, index=index)
             
             classUrlUltra = f'{classURL}{id_interno}/outline'
         
