@@ -56,7 +56,7 @@ async def run(playwright: Playwright) -> None:
             
             await AjusteSermelhor.ajusteSerMelhor(page=new_page)
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
             await new_context.close()
             await new_browser.close()

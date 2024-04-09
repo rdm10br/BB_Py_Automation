@@ -62,7 +62,7 @@ async def run(playwright: Playwright) -> None:
             
             await AjusteNotaZero.AjusteNotaZero(page=new_page, id_interno=id_interno)
             await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page)
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
             await new_context.close() 
             await new_browser.close() 

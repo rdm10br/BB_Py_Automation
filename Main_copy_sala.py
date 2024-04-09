@@ -37,7 +37,7 @@ async def run(playwright: Playwright) -> None:
             new_page = await new_context.new_page()
             
             await copiaSala.copySala(page=new_page, index=index)
-            await getPlanilha.writeOnExcel_Plan2(index=index, return_status='CRIADA')
+            getPlanilha.writeOnExcel_Plan2(index=index, return_status='CRIADA')
             
             await new_context.close()
             await new_browser.close()

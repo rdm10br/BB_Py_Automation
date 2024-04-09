@@ -57,7 +57,7 @@ async def run(playwright: Playwright) -> None:
             # '__init__.py' do diretório de Metodos para facilitar sua importação//
             
             # Função para escrever na primeira planilha
-            # await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK') 
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK') 
             
             await new_context.close()
             await new_browser.close()  

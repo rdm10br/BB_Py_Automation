@@ -305,19 +305,19 @@ async def run(playwright: Playwright) -> None:
                     page.wait_for_load_state('load')
                     i+=1
                 # Função para escrever na primeira planilha
-                await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+                getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
                 pass
             else :
                 print(f'Grande Área da sala {id_externo} não identificada; {course_area}')
-                await getPlanilha.writeOnExcel_Plan1(index=index, return_status='Não identificado')
+                getPlanilha.writeOnExcel_Plan1(index=index, return_status='Não identificado')
                 pass
             
         
-            await new_context.close() 
-            await new_browser.close()  
+            await new_context.close()
+            await new_browser.close()
             
             # Force garbage collection
-            gc.collect() 
+            gc.collect()
 
 async def main():
     async with async_playwright() as playwright:

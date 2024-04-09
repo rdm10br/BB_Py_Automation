@@ -50,7 +50,7 @@ async def run(playwright: Playwright) -> None:
             await new_page.goto(classUrlUltra)
             
             await ajusteData.ajusteData(playwright=playwright, dataShow=dataShow, dataHide=dataHide)
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
             await new_context.close()
             await new_browser.close()
