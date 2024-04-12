@@ -3,10 +3,10 @@ from Metodos.API import getApiContent
 
 async def ajusteSofia(page: Page, id_interno) -> None:
     itemSearch = 'Sofia'
+    url = page.url
     id_sofia = await getApiContent.API_Req_Content(page=page, id_interno=id_interno, item_Search=itemSearch)
     await page.wait_for_load_state('domcontentloaded')
     
-    url = await page.url
     LinkEdit = f'{url}/edit/lti/{id_sofia}'
     
     await page.goto(LinkEdit)

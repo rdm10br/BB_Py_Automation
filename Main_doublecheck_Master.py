@@ -42,7 +42,7 @@ async def run(playwright: Playwright) -> None:
             new_page = await new_context.new_page()
             
             #request from API
-            id_externo = await getPlanilha.getCell(index=index)
+            id_externo = getPlanilha.getCell(index=index)
             id_interno = await getFromAPI.API_Req(page=new_page, index=index)
             
             classUrlUltra = f'{classURL}{id_interno}/outline'
@@ -52,7 +52,7 @@ async def run(playwright: Playwright) -> None:
             
             await AjusteSofiaV2.ajusteSofia(page=new_page, id_interno=id_interno)
             
-            await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page, id_interno=id_interno)
+            # await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page, id_interno=id_interno)
             
             await AjusteSermelhor.ajusteSerMelhor(page=new_page)
             
