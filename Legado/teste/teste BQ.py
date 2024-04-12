@@ -66,7 +66,7 @@ def main() -> None:
     enunciado = re.search(pattern = regex_Enunciado , string = teste)
     print(f'\n{enunciado.captures()[index]}')
     
-    alternativa_A = re.findall(pattern = regex_Alternativa_B , string = teste)
+    alternativa_A = re.findall(pattern = regex_Alternativa_A , string = teste)
     print(f'\n{alternativa_A.copy()[index]}')
     
     # teste de remoção de carcteres especiais alternativas
