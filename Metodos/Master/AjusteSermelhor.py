@@ -5,6 +5,8 @@ async def ajusteSerMelhor(page: Page) -> None:
         
     await page.wait_for_load_state('domcontentloaded')
     await page.press('body','End')
+    await page.wait_for_load_state('domcontentloaded')
+    await page.press('body','End')
     await page.wait_for_load_state('load')
     await page.get_by_label("Mais opções para SER Melhor (").click()
     await page.get_by_text("Editar", exact=True).click()
