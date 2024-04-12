@@ -1,8 +1,8 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
-import time
-import pandas as pd
+# from playwright.sync_api import Playwright, sync_playwright, expect
+# import time
+# import pandas as pd
 import regex as re
-from docx import Document
+# from docx import Document
 
 # import sys
 
@@ -66,8 +66,8 @@ def main() -> None:
     enunciado = re.search(pattern = regex_Enunciado , string = teste)
     print(f'\n{enunciado.captures()[index]}')
     
-    alternativa_a = re.findall(pattern = regex_Alternativa_A , string = teste)
-    print(f'\n{alternativa_a.copy()[index]}')
+    alternativa_A = re.findall(pattern = regex_Alternativa_B , string = teste)
+    print(f'\n{alternativa_A.copy()[index]}')
     
     # teste de remoção de carcteres especiais alternativas
     # alternativas = re.search(pattern = regex_alternativas , string = str(alternativa_a))
