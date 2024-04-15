@@ -22,7 +22,7 @@ async def run(playwright: Playwright) -> None:
     await checkup_login.checkup_login(page=page)
     
     # Salvar os cookies da página original
-    cookies = await page.context.cookies(urls=baseURL)     
+    cookies = await page.context.cookies(urls=baseURL)
     
     for index in range(total_lines_plan1) :
         index +=1
@@ -33,13 +33,13 @@ async def run(playwright: Playwright) -> None:
             pass
         else :
             new_browser = await playwright.chromium.launch(headless=False)
-            new_context = await new_browser.new_context(no_viewport=True) 
+            new_context = await new_browser.new_context(no_viewport=True)
             # Assuming 'cookies' is the list of cookies obtained earlier
             await new_context.add_cookies(cookies)
             new_page = await new_context.new_page()
             
             #request from API
-            id_externo = getPlanilha.getCell(index=index) 
+            id_externo = getPlanilha.getCell(index=index)
             id_interno = await getFromAPI.API_Req(page=new_page, index=index)
             
             classUrlUltra = f'{classURL}{id_interno}/outline'
@@ -57,7 +57,7 @@ async def run(playwright: Playwright) -> None:
             # '__init__.py' do diretório de Metodos para facilitar sua importação//
             
             # Função para escrever na primeira planilha
-            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK') 
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
             await new_context.close()
             await new_browser.close()
