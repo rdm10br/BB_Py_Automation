@@ -2,7 +2,7 @@ playwright
 pyarrow
 pandas
 openpyxl
-docx
+python-docx
 pyperclip
 pytest-playwright
 unidecode
