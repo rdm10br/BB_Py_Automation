@@ -15,9 +15,9 @@ regex_alternativas = r"(?ms)(?<=[[][']).*(?=['][]])"
 def read_document(path) -> str:
     '''
     Return the file content
-    Function to read a docx file, 
-    given the file path in the 'path' variable,
-    and store in a variable
+    
+    Function to read a docx file, given the file path in the ```path```
+    variable, and store in a variable
     '''
     doc = docx.Document(path)
     content = []
@@ -27,13 +27,25 @@ def read_document(path) -> str:
 
 
 def get_Enunciado(index: int, path) -> str:
+    '''
+    Return question statement
+    
+    Function to get the statement from the ```path``` file you get 
+    the ```index```+1 question
+    '''
     doc = read_document(path=path)
     enunciado = re.search(pattern=regex_Enunciado, string=doc).captures()[index]
     return enunciado
 
-def get_Alternativa(index: int, path, alternativas: str) -> str:
+def get_Alternativa(index: int, path, choices: str) -> str:
+    '''
+    Return question choices
+    
+    Function to get the choices from the ```path``` file you get 
+    the ```index```+1 question and ```choices``` given in the method
+    '''
     doc = read_document(path=path)
-    match alternativas.upper():
+    match choices.upper():
         case 'A':
             alternativa = re.findall(pattern=regex_Alternativa_A, string=doc).copy()[index]
             return alternativa
