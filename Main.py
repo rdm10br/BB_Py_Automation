@@ -8,7 +8,7 @@ from Metodos import getPlanilha, checkup_login, getFromAPI
 
 async def run(playwright: Playwright) -> None:
     browser = await playwright.chromium.launch(headless=False)
-    context = await browser.new_context(no_viewport=True) 
+    context = await browser.new_context(no_viewport=True)
     page = await context.new_page()
     
     baseURL = "https://sereduc.blackboard.com/"
