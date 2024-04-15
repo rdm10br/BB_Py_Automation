@@ -19,7 +19,7 @@ def read_document(path) -> str:
     Function to read a docx file, given the file path in the ```path```
     variable, and store in a variable
     '''
-    doc = docx.Document(path)
+    doc = docx.Document(docx=path)
     content = []
     for paragraph in doc.paragraphs:
         content.append(paragraph.text)

@@ -3,7 +3,7 @@ import openpyxl
 import pyarrow
 
 # Acessando o arquivo
-arq_excel = r'BB_Py_Automation\Planilhas\SALAS.xlsx'
+arq_excel = r'Planilhas\SALAS.xlsx'
 
 # Lendo o arquivo
 col = "ID"
