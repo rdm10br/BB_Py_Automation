@@ -1,5 +1,7 @@
 from playwright.async_api import Playwright, async_playwright, expect, Page
 
+from Metodos.API import getApiContent
+
 
 async def inserirArquivoDIG(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
@@ -57,13 +59,17 @@ async def atribuirGruposVET(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/{id_interno}'
     groups = f'{classURL}/groups'
+    id_discussion = await getApiContent.API_Req_Content_Discussion(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    desafioURL = f'{classURL}/outline/discussion/{id_discussion}?view=discussions&courseId={id_interno}'
+    #_10942768_1    _10942779_1
     
     await page.goto(groups)
     await page.get_by_role("gridcell", name="Desafio_Colaborativo | 6").get_by_role("button").click() #grupo para o veteranos
     await page.get_by_role("option", name="Visível para alunos").click()
-    await page.get_by_role("link", name="Conteúdo da disciplina").click()
-    await page.get_by_role("link", name="Desafio Colaborativo").click()
-    await page.wait_for_load_state("networkidle")
+    # await page.get_by_role("link", name="Conteúdo da disciplina").click()
+    # await page.get_by_role("link", name="Desafio Colaborativo").click()
+    await page.goto(desafioURL)
+    await page.wait_for_load_state('domcontentloaded')
     await page.evaluate('''document.querySelector("#discussion-settings-button").click()''')
     await page.get_by_role("link", name="Atribuir a grupos").click()
     await page.get_by_role("button", name="Personalizar").click()

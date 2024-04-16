@@ -46,7 +46,7 @@ async def run(playwright: Playwright) -> None:
             await new_page.goto(classUrlUltra)
             
             # VETERANOS
-            await atribGrup.inserirArquivoVET(page=new_page, id_interno=id_interno)
+            # await atribGrup.inserirArquivoVET(page=new_page, id_interno=id_interno)
             await atribGrup.atribuirGruposVET(page=new_page, id_interno=id_interno)
             #===================
             
@@ -55,8 +55,8 @@ async def run(playwright: Playwright) -> None:
             # await atribGrup.atribuirGruposDIG(page=new_page, id_interno=id_interno)
             #===================
             
-            await AjusteNotaZero.AjusteNotaZero(page=new_page, id_interno=id_interno)
-            await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page, id_interno=id_interno)
+            # await AjusteNotaZero.AjusteNotaZero(page=new_page, id_interno=id_interno)
+            # await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page, id_interno=id_interno)
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
             await new_context.close()
