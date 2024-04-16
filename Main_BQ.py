@@ -38,6 +38,7 @@ async def run(playwright: Playwright) -> None:
         new_page = await new_context.new_page()
         
         new_page.goto(rootBQTest)
+        new_page.wait_for_timeout(5000)
         
         await new_context.close()
         await new_browser.close()
