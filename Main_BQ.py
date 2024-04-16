@@ -44,8 +44,8 @@ async def run(playwright: Playwright) -> None:
         await new_browser.close()
         
         gc.collect()
-            
-            
+
+
 async def main():
     async with async_playwright() as playwright:
         await run(playwright)

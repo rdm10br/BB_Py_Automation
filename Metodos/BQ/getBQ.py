@@ -1,7 +1,6 @@
 import regex as re
 import docx
 
-
 regex_Enunciado = r'(?<=\d[.]\s).*(?=\s+[a][)])'
 # regex_Enunciado = r'(?ms)(?<=\d[.]\s).*(?=^\s[a][)]\s|^\s[a][.]\s)'
 regex_Alternativa_A = r'(?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*(?=[b][)]|\s+[b][)]|[b][.]\s+|\s+[b][.]\s+)'

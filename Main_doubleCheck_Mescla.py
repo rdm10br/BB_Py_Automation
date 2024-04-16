@@ -14,9 +14,6 @@ async def run(playwright: Playwright) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/'
     
-    # Access page
-    await page.goto(baseURL)
-    
     # Verificar se está logado e logar
     await checkup_login.checkup_login(page=page)
     
@@ -24,8 +21,6 @@ async def run(playwright: Playwright) -> None:
     
     index = 0
     total_lines_plan1 = getPlanilha.total_lines
-    
-    context.new_page()
     
     for index in range(total_lines_plan1) :
         index +=1
@@ -42,7 +37,7 @@ async def run(playwright: Playwright) -> None:
             new_page = await new_context.new_page()
             
             #request from API
-            id_externo = await getPlanilha.getCell(index=index)
+            id_externo = getPlanilha.getCell(index=index)
             id_interno = await getFromAPI.API_Req(page=new_page, index=index)
             
             classUrlUltra = f'{classURL}{id_interno}/outline'
@@ -51,17 +46,17 @@ async def run(playwright: Playwright) -> None:
             await new_page.goto(classUrlUltra)
             
             # VETERANOS
-            # atribGrup.inserirArquivoVET(page=new_page, id_interno)
-            # atribGrup.atribuirGruposVET(page=new_page, id_interno)
+            await atribGrup.inserirArquivoVET(page=new_page, id_interno=id_interno)
+            await atribGrup.atribuirGruposVET(page=new_page, id_interno=id_interno)
             #===================
             
             # DIGITAL
-            await atribGrup.inserirArquivoDIG(page=new_page, id_interno=id_interno)
-            await atribGrup.atribuirGruposDIG(page=new_page, id_interno=id_interno)
+            # await atribGrup.inserirArquivoDIG(page=new_page, id_interno=id_interno)
+            # await atribGrup.atribuirGruposDIG(page=new_page, id_interno=id_interno)
             #===================
             
             await AjusteNotaZero.AjusteNotaZero(page=new_page, id_interno=id_interno)
-            await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page)
+            await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page, id_interno=id_interno)
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
             await new_context.close()

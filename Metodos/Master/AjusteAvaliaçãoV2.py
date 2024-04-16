@@ -3,8 +3,10 @@ from Metodos.API import getApiContent
 
 async def ajusteAvaliacao(page: Page, id_interno) -> None:    
     itemSearch = 'Avaliações'
-    id_avaliacao = str(getApiContent.API_Req_Content(page=page, id_interno=id_interno, item_Search=itemSearch))
+    url = page.url
+    id_avaliacao = await getApiContent.API_Req_Content(page=page, id_interno=id_interno, item_Search=itemSearch)
     
+    await page.goto(url)
     await page.wait_for_load_state('domcontentloaded')
     await page.press('body','End')
     await page.wait_for_load_state('domcontentloaded')
