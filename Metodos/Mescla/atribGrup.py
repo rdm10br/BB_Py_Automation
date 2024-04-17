@@ -53,7 +53,9 @@ async def atribuirGruposDIG(page: Page, id_interno) -> None:
     await page.get_by_role("button", name="Personalizar").click()
     await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
     await page.get_by_label("Salvar").click()
+    await page.wait_for_load_state('networkidle')
     await page.get_by_role("button", name="Salvar").click()
+    await page.wait_for_load_state('networkidle')
     
 async def atribuirGruposVET(page: Page, id_interno) -> None:
     baseURL = "https://sereduc.blackboard.com/"
@@ -66,8 +68,6 @@ async def atribuirGruposVET(page: Page, id_interno) -> None:
     await page.goto(groups)
     await page.get_by_role("gridcell", name="Desafio_Colaborativo | 6").get_by_role("button").click() #grupo para o veteranos
     await page.get_by_role("option", name="Visível para alunos").click()
-    # await page.get_by_role("link", name="Conteúdo da disciplina").click()
-    # await page.get_by_role("link", name="Desafio Colaborativo").click()
     await page.goto(desafioURL)
     await page.wait_for_load_state('domcontentloaded')
     await page.wait_for_load_state('load')
@@ -77,4 +77,6 @@ async def atribuirGruposVET(page: Page, id_interno) -> None:
     await page.get_by_role("button", name="Personalizar").click()
     await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
     await page.get_by_label("Salvar").click()
+    await page.wait_for_load_state('networkidle')
     await page.get_by_role("button", name="Salvar").click()
+    await page.wait_for_load_state('networkidle')

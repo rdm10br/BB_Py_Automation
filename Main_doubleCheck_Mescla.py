@@ -46,7 +46,7 @@ async def run(playwright: Playwright) -> None:
             await new_page.goto(classUrlUltra)
             
             # VETERANOS
-            # await atribGrup.inserirArquivoVET(page=new_page, id_interno=id_interno)
+            await atribGrup.inserirArquivoVET(page=new_page, id_interno=id_interno)
             await atribGrup.atribuirGruposVET(page=new_page, id_interno=id_interno)
             #===================
             
