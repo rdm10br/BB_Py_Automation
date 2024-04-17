@@ -43,7 +43,7 @@ async def atribuirGruposDIG(page: Page, id_interno) -> None:
     groups = f'{classURL}/groups'
     
     await page.goto(groups)
-    await page.get_by_role("gridcell", name="Desafio Colaborativo | 7").get_by_role("button").click() #grupo para o digital
+    await page.get_by_role("gridcell", name="Desafio_Colaborativo | 7").get_by_role("button").click() #grupo para o digital
     await page.get_by_role("option", name="Visível para alunos").click()
     await page.get_by_role("link", name="Conteúdo da disciplina").click()
     await page.get_by_role("link", name="Desafio Colaborativo").click()
