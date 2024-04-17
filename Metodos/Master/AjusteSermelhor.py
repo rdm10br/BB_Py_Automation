@@ -5,6 +5,8 @@ async def ajusteSerMelhor(page: Page) -> None:
     
     await page.reload    
     await page.wait_for_load_state('domcontentloaded')
+    page.get_by_role("heading", name='Módulo').press("End")
+    page.get_by_role("heading", name='Módulo').press("End")
     await page.press('body','End')
     await page.wait_for_load_state('domcontentloaded')
     await page.press('body','End')

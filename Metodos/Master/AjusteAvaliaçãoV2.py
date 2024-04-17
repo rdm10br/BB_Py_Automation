@@ -8,6 +8,8 @@ async def ajusteAvaliacao(page: Page, id_interno) -> None:
     
     await page.goto(url)
     await page.wait_for_load_state('domcontentloaded')
+    page.get_by_role("heading", name='Módulo').press("End")
+    page.get_by_role("heading", name='Módulo').press("End")
     await page.press('body','End')
     await page.wait_for_load_state('domcontentloaded')
     await page.press('body','End')
