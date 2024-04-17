@@ -70,6 +70,8 @@ async def atribuirGruposVET(page: Page, id_interno) -> None:
     # await page.get_by_role("link", name="Desafio Colaborativo").click()
     await page.goto(desafioURL)
     await page.wait_for_load_state('domcontentloaded')
+    await page.wait_for_load_state('load')
+    await page.wait_for_load_state('networkidle')
     await page.evaluate('''document.querySelector("#discussion-settings-button").click()''')
     await page.get_by_role("link", name="Atribuir a grupos").click()
     await page.get_by_role("button", name="Personalizar").click()
