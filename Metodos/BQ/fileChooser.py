@@ -7,7 +7,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Escolha o BQ")
-        self.setWindowOpacity(0.8)
+        self.setWindowOpacity(0.85)
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
 

@@ -16,29 +16,33 @@ async def run(playwright: Playwright) -> None:
     id_repository = '_187869_1'
     rootBQ = f'''{baseURL}webapps/assessment/do/authoring/viewAssessmentManager?
     assessmentType=Pool&course_id={id_repository}'''
-    rootBQTest = f'''{baseURL}webapps/assessment/do/authoring/modifyAssessment?
-    method=modifyAssessment&copyAlignments=false&packageFormat=undefined
-    &course_id=_187869_1&assessmentId=_24977260_1&sectionId=&questionId=&saveAs
-    New=false&questionIsNew=false&createAnother=false&assessmentType=Pool
-    &isLinkedQuestion=&referencingQuestionId='''
+    # rootBQTest = f'''{baseURL}webapps/assessment/do/authoring/modifyAssessment?method=modifyAssessment&copyAlignments=false&packageFormat=undefined&course_id=_187869_1&assessmentId=_24977260_1&sectionId=&questionId=&saveAsNew=false&questionIsNew=false&createAnother=false&assessmentType=Pool&isLinkedQuestion=&referencingQuestionId='''
+    id_BQ = '_24977260_1'
+    rootBQTest = (f'{baseURL}webapps/assessment/do/authoring/modifyAssessment?'\
+    'method=modifyAssessment&'\
+    f'copyAlignments=false&packageFormat=undefined&course_id={id_repository}'\
+    f'&assessmentId={id_BQ}&sectionId=&questionId=&saveAsNew=false&\''\
+    'questionIsNew=false&createAnother=false&assessmentType=Pool&isLinkedQuestion=&'\
+    'referencingQuestionId=')
     
     await checkup_login.checkup_login(page=page)
     
     cookies = await page.context.cookies(urls=baseURL)
     
-    path = fileChooser.window_file()
-    doc = docx.Document(docx=path).paragraphs
-    
-    for index in range(doc) :
+    # path = fileChooser.window_file()
+    path = r'C:\Users\013190873\Downloads\teste.docx'
+    doc = len(docx.Document(docx=path).paragraphs)
+    print(doc)
+    for index in range(doc):
         index +=1
         
         new_browser = await playwright.chromium.launch(headless=False)
         new_context = await new_browser.new_context(no_viewport=True)
         await new_context.add_cookies(cookies)
         new_page = await new_context.new_page()
-        
-        new_page.goto(rootBQTest)
-        new_page.wait_for_timeout(5000)
+        print(index)
+        await new_page.goto(rootBQTest)
+        await new_page.wait_for_timeout(1000)
         
         await new_context.close()
         await new_browser.close()
