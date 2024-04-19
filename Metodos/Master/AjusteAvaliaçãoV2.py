@@ -6,13 +6,12 @@ async def ajusteAvaliacao(page: Page, id_interno) -> None:
     url = page.url
     id_avaliacao = await getApiContent.API_Req_Content(page=page, id_interno=id_interno, item_Search=itemSearch)
     
-    await page.goto(url)
-    await page.wait_for_load_state('domcontentloaded')
-    await page.get_by_role("heading", name='Módulo').press("End")
+    await page.goto(url=url, wait_until='domcontentloaded')
+    # await page.get_by_role("heading", name='Módulo').press("End")
     await page.get_by_role("heading", name='Módulo').press("End")
     await page.press('body','End')
     await page.wait_for_load_state('domcontentloaded')
-    await page.get_by_role("heading", name='Módulo').press("End")
+    # await page.get_by_role("heading", name='Módulo').press("End")
     await page.get_by_role("heading", name='Módulo').press("End")
     await page.press('body','End')
     await page.locator(f'#folder-title-{id_avaliacao}').click()
