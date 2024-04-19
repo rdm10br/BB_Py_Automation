@@ -31,8 +31,7 @@ async def run(playwright: Playwright) -> None:
             pass
         else :
             new_browser = await playwright.chromium.launch(headless=False)
-            new_context = await new_browser.new_context(no_viewport=True) 
-            # Assuming 'cookies' is the list of cookies obtained earlier
+            new_context = await new_browser.new_context(no_viewport=True)
             await new_context.add_cookies(cookies)
             new_page = await new_context.new_page()
             
@@ -43,7 +42,7 @@ async def run(playwright: Playwright) -> None:
             classUrlUltra = f'{classURL}{id_interno}/outline'
             
             print(id_externo)
-            await new_page.goto(classUrlUltra)
+            await new_page.goto(classUrlUltra, wait_until='domcontentloaded')
             
             # VETERANOS
             await atribGrup.inserirArquivoVET(page=new_page, id_interno=id_interno)
@@ -57,7 +56,7 @@ async def run(playwright: Playwright) -> None:
             
             await AjusteNotaZero.AjusteNotaZero(page=new_page, id_interno=id_interno)
             await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page, id_interno=id_interno)
-            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            # getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
             await new_context.close()
             await new_browser.close()
