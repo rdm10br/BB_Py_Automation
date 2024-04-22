@@ -29,8 +29,8 @@ async def run(playwright: Playwright) -> None:
     
     cookies = await page.context.cookies(urls=baseURL)
     
-    # path = fileChooser.window_file()
-    path = r'C:\Users\013190873\Downloads\teste.docx'
+    path = fileChooser.window_file()
+    # path = r'C:\Users\013190873\Downloads\teste.docx'
     doc = len(docx.Document(docx=path).paragraphs)
     print(doc)
     

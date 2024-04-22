@@ -1,13 +1,13 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog
 from PySide6.QtGui import QIcon
-import sys
+import sys, os
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("Escolha o BQ")
-        self.setWindowOpacity(0.85)
+        self.setWindowOpacity(0.95)
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
 
@@ -23,7 +23,15 @@ class MainWindow(QMainWindow):
         # self.setWindowIcon(QIcon.Mode.Disabled)
 
     def choose_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self, "Escolha o arquivo", "", "All Files (*)")
+        todosArquivos = 'All Files (*)'
+        arquivosTexto = 'Text File (*.docx *.doc)'
+        filename, _ = QFileDialog.getOpenFileName(
+            parent=self,
+            caption="Escolha o arquivo",
+            #apenas informando que a separação de cada opção de filtro é por ';;'
+            filter=f"{todosArquivos};;{arquivosTexto}",
+            selectedFilter=arquivosTexto
+            )
         if filename:
             print(f'\n O arquivo selecionado tem o caminho: {filename}\n')
             self.close()
