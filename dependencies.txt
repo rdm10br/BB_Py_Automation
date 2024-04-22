@@ -8,4 +8,3 @@ pytest-playwright
 unidecode
 regex
 pyside6
---upgrade pip

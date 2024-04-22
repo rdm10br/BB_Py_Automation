@@ -12,17 +12,16 @@
 BlackBoard Python Automation with Playwright
 
 Code made in Python and JavaScript with libraries:
-PlayWright
-Openpyxl
-Pyarrow
-Pandas
-Tkinter
-Docx
-Re
-Pyperclip
+playwright
+pyarrow
+pandas
+openpyxl
+python-docx
+pyperclip
 pytest-playwright
 unidecode
 regex
+pyside6
 
 ### Getting Started
 
@@ -30,6 +29,12 @@ Needs Python 3.12
 
 To install all the dependencies use this command on the console
 
+first update your pip:
+```
+pip install --upgrade pip
+```
+
+then:
 ```
 pip install -r dependencies.txt
 ```
@@ -65,17 +70,16 @@ search and modifying items to whats preset
 Automação em Python para BlackBoard com Playwright
 
 Código feito em Python e JavaScript com as bibliotecas:
-PlayWright
-Openpyxl
-Pyarrow
-Pandas
-Tkinter
-Docx
-Re
-Pyperclip
+playwright
+pyarrow
+pandas
+openpyxl
+python-docx
+pyperclip
 pytest-playwright
 unidecode
 regex
+pyside6
 
 ### Começar a utilizar
 
@@ -83,6 +87,12 @@ Requer Python 3.12
 
 Para instalar todas as dependências, utilize este comando no console:
 
+primeiro atualize o seu pip:
+```
+pip install --upgrade pip
+```
+
+então:
 ```
 pip install -r dependencies.txt
 ```
