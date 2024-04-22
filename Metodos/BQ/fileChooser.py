@@ -20,7 +20,6 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.choose_button)
 
         self.choose_button.clicked.connect(self.choose_file)
-        # self.setWindowIcon(QIcon.Mode.Disabled)
 
     def choose_file(self):
         todosArquivos = 'All Files (*)'
@@ -28,13 +27,15 @@ class MainWindow(QMainWindow):
         filename, _ = QFileDialog.getOpenFileName(
             parent=self,
             caption="Escolha o arquivo",
-            #apenas informando que a separação de cada opção de filtro é por ';;'
+            #apenas informando que a separação de cada opção de 
+            # filtro é por ';;'
             filter=f"{todosArquivos};;{arquivosTexto}",
             selectedFilter=arquivosTexto
             )
         if filename:
             print(f'\n O arquivo selecionado tem o caminho: {filename}\n')
-            self.close()
+            self.setDisabled(True)
+            # self.close()
             # self.destroy()
 
 

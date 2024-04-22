@@ -14,23 +14,24 @@ async def run(playwright: Playwright) -> None:
     baseURL = 'https://sereduc.blackboard.com/'
     classURL = f'{baseURL}ultra/courses/'
     id_repository = '_187869_1'
-    rootBQ = f'{baseURL}webapps/assessment/do/authoring/viewAssessmentManager?'\
-            f'assessmentType=Pool&course_id={id_repository}'
-    # rootBQTest = f'''{baseURL}webapps/assessment/do/authoring/modifyAssessment?method=modifyAssessment&copyAlignments=false&packageFormat=undefined&course_id=_187869_1&assessmentId=_24977260_1&sectionId=&questionId=&saveAsNew=false&questionIsNew=false&createAnother=false&assessmentType=Pool&isLinkedQuestion=&referencingQuestionId='''
+    rootBQ = f'{baseURL}webapps/assessment/do/authoring/'\
+    f'viewAssessmentManager?assessmentType=Pool&course_id={id_repository}'
     id_BQ = '_24977260_1'
-    rootBQTest = (f'{baseURL}webapps/assessment/do/authoring/modifyAssessment?'\
-    'method=modifyAssessment&'\
-    f'copyAlignments=false&packageFormat=undefined&course_id={id_repository}'\
+    rootBQTest = (f'{baseURL}webapps/assessment/do/authoring/'\
+    'modifyAssessment?method=modifyAssessment&'\
+    'copyAlignments=false&packageFormat=undefined&'\
+    f'course_id={id_repository}'\
     f'&assessmentId={id_BQ}&sectionId=&questionId=&saveAsNew=false&'\
-    'questionIsNew=false&createAnother=false&assessmentType=Pool&isLinkedQuestion=&'\
+    'questionIsNew=false&createAnother=false&assessmentType=Pool&'\
+    'isLinkedQuestion=&'\
     'referencingQuestionId=')
     
     await checkup_login.checkup_login(page=page)
     
     cookies = await page.context.cookies(urls=baseURL)
     
-    path = fileChooser.window_file()
-    # path = r'C:\Users\013190873\Downloads\teste.docx'
+    # path = fileChooser.window_file()
+    path = r'C:\Users\013190873\Downloads\teste.docx'
     doc = len(docx.Document(docx=path).paragraphs)
     print(doc)
     
