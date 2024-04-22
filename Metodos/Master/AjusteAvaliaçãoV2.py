@@ -3,17 +3,10 @@ from Metodos.API import getApiContent
 
 async def ajusteAvaliacao(page: Page, id_interno) -> None:    
     itemSearch = 'Avaliações'
-    url = page.url
+    Classurl = page.url
     id_avaliacao = await getApiContent.API_Req_Content(page=page, id_interno=id_interno, item_Search=itemSearch)
     
-    await page.goto(url=url, wait_until='domcontentloaded')
-    # await page.get_by_role("heading", name='Módulo').press("End")
-    await page.get_by_role("heading", name='Módulo').press("End")
-    await page.press('body','End')
-    await page.wait_for_load_state('domcontentloaded')
-    # await page.get_by_role("heading", name='Módulo').press("End")
-    await page.get_by_role("heading", name='Módulo').press("End")
-    await page.press('body','End')
+    await page.goto(url=f'{Classurl}?search=Avaliações',wait_until='domcontentloaded')
     await page.locator(f'#folder-title-{id_avaliacao}').click()
     await page.get_by_label("Mais opções para Regras da").click()
     await page.get_by_text("Editar", exact=True).click()
