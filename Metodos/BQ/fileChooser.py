@@ -1,4 +1,5 @@
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog
+from PySide6.QtWidgets import (QApplication, QMainWindow, 
+    QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog)
 from PySide6.QtGui import QIcon
 # from PySide6.QtCore import pyqtSignal, SIGNAL
 import sys, os
@@ -47,7 +48,7 @@ def window_file():
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    sys.exit(app.exec())
+    app.exec()
 
 if __name__ == "__main__":
     window_file()
