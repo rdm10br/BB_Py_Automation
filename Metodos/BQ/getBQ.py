@@ -25,8 +25,15 @@ def read_document(path) -> str:
         content.append(paragraph.text)
     return "\n".join(content)
 
+def enunciado_count (path: str) -> int:
+    """
+    Return how many statments on the file 
+    """    
+    doc = read_document(path=path)
+    enunciadosAll = re.findall(pattern=regex_Enunciado, string=doc).count()
+    return enunciadosAll
 
-def get_Enunciado(index: int, path) -> str:
+def get_Enunciado(index: int, path: str) -> str:
     '''
     Return question statement
     
@@ -37,7 +44,7 @@ def get_Enunciado(index: int, path) -> str:
     enunciado = re.findall(pattern=regex_Enunciado, string=doc).copy()[index]
     return enunciado
 
-def get_Alternativa(index: int, path, choices: str) -> str:
+def get_Alternativa(index: int, path: str, choices: str) -> str:
     '''
     Return question choices
     
