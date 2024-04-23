@@ -1,23 +1,12 @@
-import sys
+import getBQ
 
-from PySide6.QtGui import QAction, QIcon
-from PySide6.QtWidgets import QApplication, QMainWindow, QMenu
+def string_para_txt(string, nome_arquivo):
+    with open(nome_arquivo, 'w') as arquivo:
+        arquivo.write(string)
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-    
-        self.setWindowOpacity(0.5)
-    def contextMenuEvent(self, e):
-        context = QMenu(self)
-        context.addAction(QAction("test 1", self))
-        context.addAction(QAction("test 2", self))
-        context.addAction(QAction("test 3", self))
-        context.exec(e.globalPos())
 
-app = QApplication(sys.argv)
+# Exemplo de uso
+texto = getBQ.read_document(r'C:\Users\013190873\Downloads\teste.docx') #"Esta é uma string que será gravada em um arquivo de texto."
+nome_do_arquivo = "exemplo.txt"
 
-window = MainWindow()
-window.show()
-
-app.exec()
+string_para_txt(texto, nome_do_arquivo)

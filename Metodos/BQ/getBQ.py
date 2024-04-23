@@ -9,7 +9,8 @@ regex_Alternativa_C = r'(?<=[c][)]\s|\s[c][)]\s|[c][.]\s).*(?=[d][)]|\s+[d][)]|[
 regex_Alternativa_D = r'(?<=[d][)]\s|\s[d][)]\s|[d][.]\s).*(?=[e][)]|\s+[e][)]|[e][.]\s+|\s+[e][.]\s+)'
 regex_Alternativa_E = r'(?<=[e][)]\s|[e][.]\s|[e][.]).*(?=\s+\d[.]|[.]|\z)'
 regex_alternativas = r"(?ms)(?<=[[][']).*(?=['][]])"
-
+#(?<=Questão\s\d\n)(?ms).*(?=\s+[a][)])
+#(?<=Questão\s\d\n).*(?=\s+[a][)])
 
 def read_document(path) -> str:
     '''
@@ -33,7 +34,7 @@ def get_Enunciado(index: int, path) -> str:
     the ```index```+1 question
     '''
     doc = read_document(path=path)
-    enunciado = re.search(pattern=regex_Enunciado, string=doc).captures()[index]
+    enunciado = re.findall(pattern=regex_Enunciado, string=doc).copy()[index]
     return enunciado
 
 def get_Alternativa(index: int, path, choices: str) -> str:
