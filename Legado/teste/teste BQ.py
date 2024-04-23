@@ -96,13 +96,13 @@ e) A fase de análise & modelagem é a responsável pela carga de dados das font
 
 def main() -> None:
     
-    index = 0
+    index = 2
     
     enunciado = re.findall(pattern = regex_Enunciado , string = teste)
-    print(f'\n{enunciado.copy()[index]}')
+    print(f'\nEnunciado:\n\n{enunciado.copy()[index]}')
     
     alternativa_A = re.findall(pattern = regex_Alternativa_A , string = teste)
-    print(f'\n{alternativa_A.copy()[index]}')
+    print(f'\nAlternativa:\n\n{alternativa_A.copy()[index]}\n')
     
     # teste de remoção de carcteres especiais alternativas
     # alternativas = re.search(pattern = regex_alternativas , string = str(alternativa_a))
