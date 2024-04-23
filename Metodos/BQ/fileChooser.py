@@ -1,12 +1,10 @@
 from PySide6.QtWidgets import (QApplication, QMainWindow, 
     QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog)
 from PySide6.QtGui import QIcon
-# from PySide6.QtCore import pyqtSignal, SIGNAL
 import sys, os
 
 class MainWindow(QMainWindow):
-    # my_signal = pyqtSignal(str)
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.setWindowTitle("Escolha o BQ")
@@ -21,13 +19,13 @@ class MainWindow(QMainWindow):
 
         self.choose_button = QPushButton("Escolha o arquivo", self)
         layout.addWidget(self.choose_button)
-
+        
         self.choose_button.clicked.connect(self.choose_file)
 
-    def choose_file(self):
+    def choose_file(self) -> str:
         todosArquivos = 'All Files (*)'
         arquivosTexto = 'Text File (*.docx *.doc)'
-        fileName, _ = QFileDialog.getOpenFileName(
+        self.fileName, _ = QFileDialog.getOpenFileName(
             parent=self,
             caption="Escolha o arquivo",
             #apenas informando que a separação de cada opção de 
@@ -35,13 +33,11 @@ class MainWindow(QMainWindow):
             filter=f"{todosArquivos};;{arquivosTexto}",
             selectedFilter=arquivosTexto
             )
-        if fileName:
-            print(f'\n O arquivo selecionado tem o caminho: {fileName}\n')
-            # self.emit(fileName)
+        if self.fileName:
+            print(f'\n O arquivo selecionado tem o caminho: {self.fileName}\n')
             self.setDisabled(True)
             self.close()
-            # self.destroy()
-            return fileName
+            return self.fileName
 
 
 def window_file():
@@ -49,6 +45,7 @@ def window_file():
     window = MainWindow()
     window.show()
     app.exec()
+    return window.fileName
 
 if __name__ == "__main__":
     window_file()
