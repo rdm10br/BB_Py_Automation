@@ -45,7 +45,9 @@ async def run(playwright: Playwright) -> None:
         new_context = await new_browser.new_context(no_viewport=True)
         await new_context.add_cookies(cookies)
         new_page = await new_context.new_page()
-        print(index)
+        
+        print(f'\nQuestão : {index}')
+        
         await new_page.goto(rootBQTest)
         await new_page.wait_for_timeout(1000)
         
