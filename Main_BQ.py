@@ -36,7 +36,7 @@ async def run(playwright: Playwright) -> None:
     path = fileChooser.window_file()
     # path = r'C:\Users\013190873\Downloads\teste.docx'
     # doc = len(docx.Document(docx=path).paragraphs)
-    doc = len(getBQ.get_Enunciado(index=0, path=path))
+    doc = getBQ.enunciado_count(path=path)
     print(doc)
     
     for index in range(doc):
