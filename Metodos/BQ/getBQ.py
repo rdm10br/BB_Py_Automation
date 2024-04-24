@@ -27,17 +27,17 @@ def read_document(path) -> str:
 
 def enunciado_count (path: str) -> int:
     """
-    Return how many statments on the file 
-    """    
+    Return how many statments on the file
+    """
     doc = read_document(path=path)
-    enunciadosAll = re.findall(pattern=regex_Enunciado, string=doc).count()
+    enunciadosAll = len(re.findall(pattern=regex_Enunciado, string=doc))
     return enunciadosAll
 
 def get_Enunciado(index: int, path: str) -> str:
     '''
     Return question statement
     
-    Function to get the statement from the ```path``` file you get 
+    Function to get the statement from the ```path``` file you get
     the ```index```+1 question
     '''
     doc = read_document(path=path)
@@ -48,7 +48,7 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
     '''
     Return question choices
     
-    Function to get the choices from the ```path``` file you get 
+    Function to get the choices from the ```path``` file you get
     the ```index```+1 question and ```choices``` given in the method
     '''
     doc = read_document(path=path)
@@ -71,3 +71,13 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
         case _ :
             print('''Por favor verifique a chamada da função get_Alternativa, tipo de alternativa desejada
                   não esperada pela função''')
+
+def main() -> None:
+    path = r"C:\Users\rafad\Downloads\Questionário_Legislação e Rotina Trabalhista e Previdenciária _unidade 1_DIGITAL PAGES_ORIGINAL (revisado).docx"
+    teste = enunciado_count(path=path)
+    # teste2 = get_Enunciado(index=0, path=path)
+    print(teste)
+    # print(teste2)
+
+if __name__ == "__main__":
+    main()

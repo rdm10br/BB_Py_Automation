@@ -1,10 +1,10 @@
+openpyxl
+pandas
 playwright
 pyarrow
-pandas
-openpyxl
-python-docx
 pyperclip
-pytest-playwright
-unidecode
-regex
 pyside6
+python-docx
+pytest-playwright
+regex
+unidecode
