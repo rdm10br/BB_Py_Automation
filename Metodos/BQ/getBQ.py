@@ -1,8 +1,7 @@
 import regex as re
 import docx
 
-regex_Enunciado = r'(?<=\d[.]\s).*(?=\s+[a][)])'
-# regex_Enunciado = r'(?ms)(?<=\d[.]\s).*(?=^\s[a][)]\s|^\s[a][.]\s)'
+regex_Enunciado = r'(?<=Questão\s\d\n\n)?.*(?=\n+\s+[a][)])'
 regex_Alternativa_A = r'(?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*(?=[b][)]|\s+[b][)]|[b][.]\s+|\s+[b][.]\s+)'
 regex_Alternativa_B = r'(?<=[b][)]\s|\s[b][)]\s|[b][.]\s).*(?=[c][)]|\s+[c][)]|[c][.]\s+|\s+[c][.]\s+)'
 regex_Alternativa_C = r'(?<=[c][)]\s|\s[c][)]\s|[c][.]\s).*(?=[d][)]|\s+[d][)]|[d][.]\s+|\s+[d][.]\s+)'
@@ -11,6 +10,11 @@ regex_Alternativa_E = r'(?<=[e][)]\s|[e][.]\s|[e][.]).*(?=\s+\d[.]|[.]|\z)'
 regex_alternativas = r"(?ms)(?<=[[][']).*(?=['][]])"
 #(?<=Questão\s\d\n)(?ms).*(?=\s+[a][)])
 #(?<=Questão\s\d\n).*(?=\s+[a][)])
+#(?<=Questão\s\d\n\n)(?ms).*(?=\n+\s+[a][)])
+#(?<=Questão\s\d\n\n)?.*(?=\n+\s+[a][)])
+
+#(?<=\d[.]\s).*(?=\s+[a][)])
+#(?ms)(?<=\d[.]\s).*(?=^\s[a][)]\s|^\s[a][.]\s)
 
 def read_document(path) -> str:
     '''
@@ -73,11 +77,13 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
                   não esperada pela função''')
 
 def main() -> None:
-    path = r"C:\Users\rafad\Downloads\Questionário_Legislação e Rotina Trabalhista e Previdenciária _unidade 1_DIGITAL PAGES_ORIGINAL (revisado).docx"
+    path = r"C:\Users\rafad\Downloads"\
+    r"\Questionário_Legislação e Rotina Trabalhista e Previdenciária _unidade"\
+    r" 1_DIGITAL PAGES_ORIGINAL (revisado).docx"
     teste = enunciado_count(path=path)
-    # teste2 = get_Enunciado(index=0, path=path)
+    teste2 = get_Enunciado(index=0, path=path)
     print(teste)
-    # print(teste2)
+    print(teste2)
 
 if __name__ == "__main__":
     main()

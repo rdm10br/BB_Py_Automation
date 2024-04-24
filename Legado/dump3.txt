@@ -32,3 +32,13 @@
 #     sys.exit(app.exec())
     
 # window_file()
+
+pip install -U pip setuptools wheel
+pip install -U 'spacy[transformers,lookups]'
+python -m spacy download en_core_web_trf
+python -m spacy download pt_core_news_lg
+
+https://github.com/explosion/spaCy
+https://spacy.io/usage
+
+https://www.nltk.org/#
