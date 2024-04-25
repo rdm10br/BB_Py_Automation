@@ -1,12 +1,32 @@
-import getBQ
+import getBQ, spacy
+import regex as re
+from spacy.matcher import Matcher
 
-def string_para_txt(string, nome_arquivo):
-    with open(nome_arquivo, 'w') as arquivo:
-        arquivo.write(string)
+# nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("pt_core_news_sm")
+matcher = Matcher(nlp.vocab)
+texto = getBQ.read_document(r'C:\Users\013190873\Downloads\teste.docx')
+doc = nlp(texto)
+num = tuple(i + 1 for i in range(100))
+pattern = [{"Text": "Questão"}, {"like_num": num}]
+matcher.add("Questions", [pattern])
+matches = matcher(doc)
 
 
-# Exemplo de uso
-texto = getBQ.read_document(r'C:\Users\013190873\Downloads\teste.docx') #"Esta é uma string que será gravada em um arquivo de texto."
-nome_do_arquivo = "exemplo.txt"
+# def string_para_txt(string, nome_arquivo):
+    # with open(nome_arquivo, 'w') as arquivo:
+        # arquivo.write(string)
 
-string_para_txt(texto, nome_do_arquivo)
+
+# nome_do_arquivo = "exemplo.txt"
+# string_para_txt(texto, nome_do_arquivo)
+
+
+# for token in doc:
+#     print(token.text, token.pos_, token.dep_, token.head.text)
+
+
+for match_id, start, end in matches:
+    # Get the matched span
+    matched_span = doc[start:end]
+    print(matched_span.text)

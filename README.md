@@ -41,6 +41,7 @@ pip install -r dependencies.txt
 and
 ```
 python -m spacy download en_core_web_sm
+python -m spacy download pt_core_news_sm
 ```
 
 or if this file could not be found
@@ -103,6 +104,7 @@ pip install -r dependencies.txt
 e
 ```
 python -m spacy download en_core_web_sm
+python -m spacy download pt_core_news_sm
 ```
 
 ou se o arquivo não foi encontrado
