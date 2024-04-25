@@ -2,11 +2,16 @@ import regex as re
 import docx
 
 regex_Enunciado = r'(?<=Questão\s\d\n\n)?.*(?=\n+\s+[a][)])'
-regex_Alternativa_A = r'(?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*(?=[b][)]|\s+[b][)]|[b][.]\s+|\s+[b][.]\s+)'
-regex_Alternativa_B = r'(?<=[b][)]\s|\s[b][)]\s|[b][.]\s).*(?=[c][)]|\s+[c][)]|[c][.]\s+|\s+[c][.]\s+)'
-regex_Alternativa_C = r'(?<=[c][)]\s|\s[c][)]\s|[c][.]\s).*(?=[d][)]|\s+[d][)]|[d][.]\s+|\s+[d][.]\s+)'
-regex_Alternativa_D = r'(?<=[d][)]\s|\s[d][)]\s|[d][.]\s).*(?=[e][)]|\s+[e][)]|[e][.]\s+|\s+[e][.]\s+)'
-regex_Alternativa_E = r'(?<=[e][)]\s|[e][.]\s|[e][.]).*(?=\s+\d[.]|[.]|\z)'
+regex_Alternativa_A = r'(?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*'\
+r'(?=[b][)]|\s+[b][)]|[b][.]\s+|\s+[b][.]\s+)'
+regex_Alternativa_B = r'(?<=[b][)]\s|\s[b][)]\s|[b][.]\s).*'\
+r'(?=[c][)]|\s+[c][)]|[c][.]\s+|\s+[c][.]\s+)'
+regex_Alternativa_C = r'(?<=[c][)]\s|\s[c][)]\s|[c][.]\s).*'\
+r'(?=[d][)]|\s+[d][)]|[d][.]\s+|\s+[d][.]\s+)'
+regex_Alternativa_D = r'(?<=[d][)]\s|\s[d][)]\s|[d][.]\s).*'\
+r'(?=[e][)]|\s+[e][)]|[e][.]\s+|\s+[e][.]\s+)'
+regex_Alternativa_E = r'(?<=[e][)]\s|[e][.]\s|[e][.]).*'\
+r'(?=\s+\d[.]|[.]|\z)'
 regex_alternativas = r"(?ms)(?<=[[][']).*(?=['][]])"
 #(?<=Questão\s\d\n)(?ms).*(?=\s+[a][)])
 #(?<=Questão\s\d\n).*(?=\s+[a][)])
@@ -73,8 +78,8 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
             alternativa = re.findall(pattern=regex_Alternativa_E, string=doc).copy()[index]
             return alternativa
         case _ :
-            print('''Por favor verifique a chamada da função get_Alternativa, tipo de alternativa desejada
-                  não esperada pela função''')
+            print('''Por favor verifique a chamada da função get_Alternativa,
+                  tipo de alternativa desejada não esperada pela função''')
 
 def main() -> None:
     path = r"C:\Users\rafad\Downloads"\
