@@ -38,6 +38,10 @@ then:
 ```
 pip install -r dependencies.txt
 ```
+and
+```
+python -m spacy download en_core_web_sm
+```
 
 or if this file could not be found
 
@@ -95,6 +99,10 @@ pip install --upgrade pip
 então:
 ```
 pip install -r dependencies.txt
+```
+e
+```
+python -m spacy download en_core_web_sm
 ```
 
 ou se o arquivo não foi encontrado
