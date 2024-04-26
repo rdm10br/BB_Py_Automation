@@ -26,7 +26,9 @@ matches = matcher(doc)
 #     print(token.text, token.pos_, token.dep_, token.head.text)
 
 
-for match_id, start, end in matches:
-    # Get the matched span
-    matched_span = doc[start:end]
-    print(matched_span.text)
+# for match_id, start, end in matches:
+#     # Get the matched span
+#     matched_span = doc[start:end]
+#     print(matched_span.text)
+
+print([doc])
