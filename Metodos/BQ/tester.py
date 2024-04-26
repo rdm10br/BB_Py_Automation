@@ -3,7 +3,8 @@ import regex as re
 from spacy.matcher import Matcher
 
 # nlp = spacy.load("en_core_web_sm")
-nlp = spacy.load("pt_core_news_sm")
+# nlp = spacy.load("pt_core_news_sm")
+nlp = spacy.load("pt_core_news_lg")
 matcher = Matcher(nlp.vocab)
 texto = getBQ.read_document(r'C:\Users\Thamy\Downloads\Questionário da Unidade 1_Anatomia Humana_DIGITAL PAGES_V2.docx')
 doc = nlp(texto)
