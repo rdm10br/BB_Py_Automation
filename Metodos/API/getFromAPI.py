@@ -5,8 +5,21 @@ from playwright.async_api import Playwright, async_playwright, expect, Page
 from Metodos.API import getPlanilha
 # import getPlanilha
 
-async def API_Req(page: Page, index) -> None:
+async def API_Req(page: Page, index: int) -> str:
+    """
+    Async Function that search in the API for the internal_ID of the classroom
+    you want, in the order of the Excel file you gave.
     
+
+    Args:
+        page (Page): Page constructor form Playwright that 
+        you want this API to run
+        index (int): the index of line in the excel file, and tha times 
+        it looped
+
+    Returns:
+        str: ```internal_ID```
+    """    
     id_externo = getPlanilha.getCell(index=index)
     
     baseURL = "https://sereduc.blackboard.com/"
@@ -16,8 +29,19 @@ async def API_Req(page: Page, index) -> None:
     id_interno = await page.evaluate('() => {return JSON.parse(document.body.innerText).id}')
     return str(id_interno)
     
-async def API_Ativ_Course(page: Page, id_externo) -> None:
-    
+async def API_Ativ_Course(page: Page, id_externo: str) -> str:
+    """
+    Async Function that search in the API for the ```course_area``` of the 
+    classroom you want, in the order of the Excel file you gave.
+
+    Args:
+        page (Page): Page constructor form Playwright that 
+        you want this API to run
+        id_externo (str): the External ID of the classroom you want
+
+    Returns:
+        str: ```course_area```
+    """    
     baseURL = "https://sereduc.blackboard.com/"
     internalID_API = f'{baseURL}learn/api/public/v3/courses/courseId:{id_externo}'
     
