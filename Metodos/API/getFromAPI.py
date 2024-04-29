@@ -12,14 +12,14 @@ async def API_Req(page: Page, index: int) -> str:
     
 
     Args:
-        page (Page): Page constructor form Playwright that 
+        page (Page): Page constructor form Playwright that
         you want this API to run
-        index (int): the index of line in the excel file, and tha times 
+        index (int): the index of line in the excel file, and tha times
         it looped
 
     Returns:
         str: ```internal_ID```
-    """    
+    """
     id_externo = getPlanilha.getCell(index=index)
     
     baseURL = "https://sereduc.blackboard.com/"
@@ -31,17 +31,17 @@ async def API_Req(page: Page, index: int) -> str:
     
 async def API_Ativ_Course(page: Page, id_externo: str) -> str:
     """
-    Async Function that search in the API for the ```course_area``` of the 
+    Async Function that search in the API for the ```course_area``` of the
     classroom you want, in the order of the Excel file you gave.
 
     Args:
-        page (Page): Page constructor form Playwright that 
+        page (Page): Page constructor form Playwright that
         you want this API to run
         id_externo (str): the External ID of the classroom you want
 
     Returns:
         str: ```course_area```
-    """    
+    """
     baseURL = "https://sereduc.blackboard.com/"
     internalID_API = f'{baseURL}learn/api/public/v3/courses/courseId:{id_externo}'
     

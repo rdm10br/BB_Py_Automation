@@ -3,7 +3,15 @@ from playwright.async_api import Playwright, async_playwright, expect, Page
 from Metodos.API import getApiContent
 
 
-async def inserirArquivoDIG(page: Page, id_interno) -> None:
+async def inserirArquivoDIG(page: Page, id_interno: str) -> None:
+    """
+    Function that uploads the groups file of the Digital NewComers.
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this Function to run
+        id_interno (str): internal ID of the classroom
+    """
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'Planilhas\\GRUPOS1.csv'
@@ -20,7 +28,15 @@ async def inserirArquivoDIG(page: Page, id_interno) -> None:
     await page.get_by_label("Ferramentas do Mercado de").uncheck()
     await page.get_by_role("button", name="Enviar").click()
 
-async def inserirArquivoVET(page: Page, id_interno) -> None:
+async def inserirArquivoVET(page: Page, id_interno: str) -> None:
+    """
+    Function that uploads the groups file of the Digital Veterans.
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this Function to run
+        id_interno (str): internal ID of the classroom
+    """
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'Planilhas\\GRUPOS_SEM_FAEL.csv'
@@ -37,7 +53,16 @@ async def inserirArquivoVET(page: Page, id_interno) -> None:
     await page.get_by_label("Ferramentas do Mercado de").uncheck()
     await page.get_by_role("button", name="Enviar").click()
     
-async def atribuirGruposDIG(page: Page, id_interno) -> None:
+async def atribuirGruposDIG(page: Page, id_interno: str) -> None:
+    """
+    Function that associates the groups to the discussion item
+    'Desafio Colaborativo' Digital NewComers.
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this Function to run
+        id_interno (str): internal ID of the classroom
+    """
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/{id_interno}'
     groups = f'{classURL}/groups'
@@ -57,7 +82,16 @@ async def atribuirGruposDIG(page: Page, id_interno) -> None:
     await page.get_by_role("button", name="Salvar").click()
     await page.wait_for_load_state('networkidle')
     
-async def atribuirGruposVET(page: Page, id_interno) -> None:
+async def atribuirGruposVET(page: Page, id_interno: str) -> None:
+    """
+    Function that associates the groups to the discussion item
+    'Desafio Colaborativo' Digital Veterans.
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this Function to run
+        id_interno (str): internal ID of the classroom
+    """
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/{id_interno}'
     groups = f'{classURL}/groups'

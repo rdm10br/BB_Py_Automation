@@ -2,7 +2,16 @@ from playwright.async_api import Playwright, async_playwright, expect, Page
 
 from Metodos.API import getPlanilha
 
-async def copyMaterial(page: Page , index) -> None:    
+async def copyMaterial(page: Page , index: int) -> None:
+    """
+    Function to copy Material from one class to another acording to the copiaSala
+    plan sheet collums ID_ORIGIN and ID_DESTINY
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this function to run
+        index (int): row in the plan sheet where the function get the ID's
+    """
     id_master = getPlanilha.getCell_plan2(index=index)
     id_copia = getPlanilha.getCell_copy_plan2(index=index)
     baseURL = "https://sereduc.blackboard.com/"

@@ -2,7 +2,14 @@ from playwright.async_api import Playwright, async_playwright, expect, Page
 
 
 async def ajusteSerMelhor(page: Page, id_interno: str) -> None:
-    
+    """
+    Function that adjusts that link in the 'Ser Melhor' item;
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this Function to run
+        id_interno (str): internal ID of the classroom
+    """
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/'
     urlClassUltra = f'{classURL}{id_interno}/outline'

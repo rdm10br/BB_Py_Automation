@@ -3,7 +3,15 @@ from playwright.async_api import Playwright, async_playwright, expect, Page
 from Metodos.Login import getCredentials
 # from . import getCredentials
 
-async def login(page: Page) -> None:        
+async def login(page: Page) -> None:
+        """
+        Function that attempts to login;
+        This function ask for your credentials and tries to login with it
+
+        Args:
+            page (Page): Page constructor form Playwright that
+        you want this Function to run
+        """
         baseURL = "https://sereduc.blackboard.com/"
         ultraURL = f'{baseURL}ultra/course'
         

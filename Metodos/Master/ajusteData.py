@@ -1,8 +1,16 @@
 from playwright.async_api import Playwright, async_playwright, expect, Page
 
 
-async def ajusteData(page: Page, dataShow, dataHide) -> None:
-    
+async def ajusteData(page: Page, dataShow: str, dataHide: str) -> None:
+    """
+    Function that sets the ```dataShow``` and ```dataHide``` of an item
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this Function to run
+        dataShow (str): Date to show the item in classroom
+        dataHide (str): Date to hide the item in classroom
+    """
     baseURL = "https://sereduc.blackboard.com/"
     # rootURL = f'{baseURL}webapps/blackboard/execute/content/adaptiveReleaseRules?course_id={internalID}&content_id={contentID}'
     

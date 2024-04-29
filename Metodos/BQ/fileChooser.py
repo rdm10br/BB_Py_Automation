@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import (QApplication, QMainWindow, 
+from PySide6.QtWidgets import (QApplication, QMainWindow,
     QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog)
 from PySide6.QtGui import QIcon
 import sys, os
@@ -28,7 +28,7 @@ class MainWindow(QMainWindow):
         self.fileName, _ = QFileDialog.getOpenFileName(
             parent=self,
             caption="Escolha o arquivo",
-            #apenas informando que a separação de cada opção de 
+            #apenas informando que a separação de cada opção de
             # filtro é por ';;'
             filter=f"{todosArquivos};;{arquivosTexto}",
             selectedFilter=arquivosTexto

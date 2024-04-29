@@ -63,10 +63,10 @@ async def run(playwright: Playwright) -> None:
                          'Segunda Licenciatura em Pedagogia']
                 
                 for i in range(len(curso)):
-                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1
@@ -88,10 +88,10 @@ async def run(playwright: Playwright) -> None:
                          "Letras - Português"]
                 
                 for i in range(len(curso)):
-                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1
@@ -108,7 +108,7 @@ async def run(playwright: Playwright) -> None:
                     await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1
@@ -126,10 +126,10 @@ async def run(playwright: Playwright) -> None:
                          "Ciências Aeronáuticas"]
                 
                 for i in range(len(curso)):
-                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1
@@ -146,10 +146,10 @@ async def run(playwright: Playwright) -> None:
                          "Gestão Hospitalar"]
                 
                 for i in range(len(curso)):
-                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1
@@ -174,10 +174,10 @@ async def run(playwright: Playwright) -> None:
                          "Negócios Imobiliários"]
                 
                 for i in range(len(curso)):
-                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1
@@ -194,10 +194,10 @@ async def run(playwright: Playwright) -> None:
                          "Segurança Pública"]
                 
                 for i in range(len(curso)):
-                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1
@@ -213,10 +213,10 @@ async def run(playwright: Playwright) -> None:
                          "Biomedicina"]
                 
                 for i in range(len(curso)):
-                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1
@@ -231,10 +231,10 @@ async def run(playwright: Playwright) -> None:
                          "Podologia"]
                 
                 for i in range(len(curso)):
-                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1
@@ -251,10 +251,10 @@ async def run(playwright: Playwright) -> None:
                          "Nutrição"]
                 
                 for i in range(len(curso)):
-                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1
@@ -269,10 +269,10 @@ async def run(playwright: Playwright) -> None:
                          "Teologia"]
                  
                 for i in range(len(curso)):
-                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1
@@ -297,10 +297,10 @@ async def run(playwright: Playwright) -> None:
                          "Service Design"]
                 
                 for i in range(len(curso)):
-                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV1(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
-                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright, 
+                    await gruposAtividades.inserirGruposAtividadesAV2(playwright=playwright,
                                                                 id_interno=id_interno, curso=curso[i])
                     page.wait_for_load_state('load')
                     i+=1

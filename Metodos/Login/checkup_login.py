@@ -4,6 +4,14 @@ from Metodos.Login import login
 # from . import login
     
 async def checkup_login(page: Page) -> None:
+    """
+    Function that verify if you're loged in or not, and tries (3 times attempt) to login if
+    you're not loged in
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this function to run
+    """
     baseURL = "https://sereduc.blackboard.com/"
     loginURL = f'{baseURL}webapps/login/'
         

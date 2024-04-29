@@ -3,7 +3,16 @@ from Metodos.API import getApiContent
 from unidecode import unidecode
 
 # teste para unificar os metodos de inserir arquivos
-async def inserirArquivo(page: Page, id_interno , Area: str) -> None:
+async def inserirArquivo(page: Page, id_interno: str, Area: str) -> None:
+    """
+    Function that uploads the groups file according to the ```Area```.
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this Function to run
+        id_interno (str): internal ID of the classroom
+        Area (str): Course Area of the classroom
+    """
     baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = f'BB_Py_Automation\\Planilhas\\GRUPOS - {Area.upper()}.csv'
@@ -249,21 +258,21 @@ async def inserirArquivoInfo(page: Page, id_interno) -> None:
     await page.get_by_role("button", name="Enviar").click()
 
 
-async def ID_FolderAV1(page: Page, id_interno) -> None:    
+async def ID_FolderAV1(page: Page, id_interno) -> None:
     itemSearch = 'AV1 - Atividade Prática de Extensão'
-    id_item = str(getApiContent.API_Req_Content(page=page, 
+    id_item = str(getApiContent.API_Req_Content(page=page,
                                                 id_interno=id_interno, item_Search=itemSearch))
     return id_item
 
     
 async def ID_FolderAV2(page: Page, id_interno) -> None:
     itemSearch = 'AV2 - Atividade Prática de Extensão'
-    id_item = str(getApiContent.API_Req_Content(page=page, 
+    id_item = str(getApiContent.API_Req_Content(page=page,
                                                 id_interno=id_interno, item_Search=itemSearch))
     return id_item
 
     
-async def inserirGruposAtividadesAV1(page: Page, id_interno , curso):    
+async def inserirGruposAtividadesAV1(page: Page, id_interno , curso):
     classUrlUltra = await page.url
     item = f'Envio AV1 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
@@ -287,7 +296,7 @@ async def inserirGruposAtividadesAV1(page: Page, id_interno , curso):
     await page.wait_for_load_state('load')
 
 
-async def inserirGruposAtividadesAV2(page: Page,id_interno ,curso):    
+async def inserirGruposAtividadesAV2(page: Page,id_interno ,curso):
     classUrlUltra = await page.url
     item = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
