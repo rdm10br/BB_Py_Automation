@@ -1,3 +1,4 @@
+aiofiles
 openpyxl
 pandas
 playwright
