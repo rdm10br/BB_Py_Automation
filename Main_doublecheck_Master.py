@@ -1,4 +1,4 @@
-import asyncio, gc
+import asyncio, gc, time
 from playwright.async_api import Playwright, async_playwright, expect
 # from memory_profiler import profile
 # from line_profiler import LineProfiler
@@ -31,6 +31,7 @@ async def run(playwright: Playwright) -> None:
         index +=1
         
         cell_status = getPlanilha.getCell_status(index=index)
+        start_time = time.time()
         
         if cell_status != "nan" :
             pass
@@ -54,16 +55,19 @@ async def run(playwright: Playwright) -> None:
             
             # await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page, id_interno=id_interno)
             
-            await AjusteSermelhor.ajusteSerMelhor(page=new_page)
+            await AjusteSermelhor.ajusteSerMelhor(page=new_page, id_interno=id_interno)
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
             await new_context.close()
             await new_browser.close()
+            end_time = time.time()
+            execution_time = end_time - start_time
             
+            print("\r | Execution time: {:.2f}".format(execution_time), "seconds")
             # Force garbage collection
             gc.collect()
-    
+
 
 async def main():
     async with async_playwright() as playwright:

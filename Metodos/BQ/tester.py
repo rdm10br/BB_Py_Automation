@@ -6,7 +6,7 @@ from spacy.matcher import Matcher
 # nlp = spacy.load("pt_core_news_sm")
 nlp = spacy.load("pt_core_news_lg")
 matcher = Matcher(nlp.vocab)
-texto = getBQ.read_document(r'')
+texto = getBQ.read_document(r'C:\Users\013190873\Downloads\teste.docx')
 doc = nlp(texto)
 pattern = [{"TEXT": "Questão"}, {"IS_DIGIT": True}]
 matcher.add("Questions", [pattern])
