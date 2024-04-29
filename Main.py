@@ -3,9 +3,9 @@ from playwright.async_api import Playwright, async_playwright, expect
 
 
 #importando Metodos principais
-from Metodos import getPlanilha, checkup_login, getFromAPI
+from Metodos import getPlanilha, checkup_login, getFromAPI, capture_console_output_async
 
-
+@capture_console_output_async
 async def run(playwright: Playwright) -> None:
     browser = await playwright.chromium.launch(headless=False)
     context = await browser.new_context(no_viewport=True)
@@ -16,7 +16,7 @@ async def run(playwright: Playwright) -> None:
     total_lines_plan1 = getPlanilha.total_lines
     
     # Access page
-    # await page.goto(baseURL) 
+    # await page.goto(baseURL)
     
     # Verificar se está logado e logar
     await checkup_login.checkup_login(page=page)
@@ -50,10 +50,10 @@ async def run(playwright: Playwright) -> None:
 
             # // espaço onde você insere suas funções para executar no Loop //
             
-            # // para criação de novos métodos utilizar o comando 'python -m playwright codegen' 
+            # // para criação de novos métodos utilizar o comando 'python -m playwright codegen'
             # dentro do console para auxiliar na criação//
             
-            # // Lembre-se de sempre que criar um método novo adicionar a importação dele ao 
+            # // Lembre-se de sempre que criar um método novo adicionar a importação dele ao
             # '__init__.py' do diretório de Metodos para facilitar sua importação//
             
             # Função para escrever na primeira planilha
