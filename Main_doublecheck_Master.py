@@ -6,11 +6,10 @@ from playwright.async_api import Playwright, async_playwright, expect
 
 
 from Metodos import (checkup_login, getFromAPI, getPlanilha, AjusteSofiaV2,
-                     AjusteAvaliaçãoV2, AjusteSermelhor, capture_console_output_async,
-                     consoleWrapper)
+                     AjusteAvaliaçãoV2, AjusteSermelhor, capture_console_output_async)
 
 
-# @profile
+#Decorator for log
 @capture_console_output_async
 async def run(playwright: Playwright) -> None:
     browser = await playwright.chromium.launch(headless=False)
