@@ -5,10 +5,13 @@ from playwright.async_api import Playwright, async_playwright, expect
 # import cProfile
 
 
-from Metodos import checkup_login, getFromAPI, getPlanilha, AjusteSofiaV2, AjusteAvaliaçãoV2, AjusteSermelhor
+from Metodos import (checkup_login, getFromAPI, getPlanilha, AjusteSofiaV2,
+                     AjusteAvaliaçãoV2, AjusteSermelhor, capture_console_output,
+                     consoleWrapper)
 
 
 # @profile
+@capture_console_output
 async def run(playwright: Playwright) -> None:
     browser = await playwright.chromium.launch(headless=False)
     context = await browser.new_context(no_viewport=True)
@@ -51,20 +54,22 @@ async def run(playwright: Playwright) -> None:
             print(id_externo)
             await new_page.goto(classUrlUltra)
             
-            await AjusteSofiaV2.ajusteSofia(page=new_page, id_interno=id_interno)
+            # await AjusteSofiaV2.ajusteSofia(page=new_page, id_interno=id_interno)
             
             # await AjusteAvaliaçãoV2.ajusteAvaliacao(page=new_page, id_interno=id_interno)
             
-            await AjusteSermelhor.ajusteSerMelhor(page=new_page, id_interno=id_interno)
+            # await AjusteSermelhor.ajusteSerMelhor(page=new_page, id_interno=id_interno)
             
-            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            # getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             
             await new_context.close()
             await new_browser.close()
+            
             end_time = time.time()
             execution_time = end_time - start_time
+            executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
+            print('{:5} | {}'.format(f'Run: {index}',executionTime))
             
-            print("\r | Execution time: {:.2f}".format(execution_time), "seconds")
             # Force garbage collection
             gc.collect()
 
