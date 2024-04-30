@@ -1,5 +1,30 @@
 import sys, io, asyncio, aiofiles, time
 
+
+class TimeStampedStream:
+    def __init__(self, stream):
+        self.stream = stream
+
+    def write(self, data):
+        timestamp = time.strftime("[%Y-%m-%d %H:%M:%S] ")
+        lines = data.split("\n")
+        for line in lines :
+            if line.strip():
+                self.stream.write(timestamp + line)
+            else:
+                self.stream.write("\n")
+        
+    def flush(self):
+        self.stream.flush()
+
+# Example usage
+# print("This will be printed with time.")
+# print("Another message.")
+
+# Redirect sys.stdout to TimeStampedStream
+sys.stdout = TimeStampedStream(sys.stdout)
+
+
 def capture_console_output(func):
     class ConsoleAndFile(io.StringIO):
         def write(self, data):
