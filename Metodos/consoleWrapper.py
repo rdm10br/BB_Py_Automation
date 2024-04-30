@@ -60,10 +60,10 @@ def capture_console_output_async(func):
     return wrapper
 
 # Example usage
-@capture_console_output_async
-async def example_async_function():
-    print("This will be printed on the console and captured in an async function.")
-    print("Another message.")
+# @capture_console_output_async
+# async def example_async_function():
+#     print("This will be printed on the console and captured in an async function.")
+#     print("Another message.")
 
-# Call the async function
-asyncio.run(example_async_function())
+# # Call the async function
+# asyncio.run(example_async_function())
