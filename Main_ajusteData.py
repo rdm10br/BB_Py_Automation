@@ -1,13 +1,16 @@
-import asyncio, gc
+import asyncio, gc, sys
 from playwright.async_api import Playwright, async_playwright, expect
 
 
-from Metodos import checkup_login, getFromAPI, getPlanilha, ajusteData, getData
+from Metodos import (checkup_login, getFromAPI, getPlanilha, ajusteData, getData,
+capture_console_output_async, TimeStampedStream)
 
 
+# @capture_console_output_async
 async def run(playwright: Playwright) -> None:
+    sys.stdout = TimeStampedStream(sys.stdout)
     browser = await playwright.chromium.launch(headless=False)
-    context = await browser.new_context(no_viewport=True) 
+    context = await browser.new_context(no_viewport=True)
     page = await context.new_page()
     
     baseURL = "https://sereduc.blackboard.com/"
@@ -24,7 +27,7 @@ async def run(playwright: Playwright) -> None:
     index = 0
     total_lines_plan1 = getPlanilha.total_lines
     
-    cookies = await page.context.cookies(urls=baseURL)  
+    cookies = await page.context.cookies(urls=baseURL)
     
     for index in range(total_lines_plan1) :
         index +=1

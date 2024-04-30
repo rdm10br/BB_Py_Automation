@@ -1,12 +1,15 @@
-import asyncio, gc, pytest, docx
+import asyncio, gc, pytest, docx, sys
 from playwright.async_api import Playwright, async_playwright, expect
 
 
 #importando Metodos principais
-from Metodos import checkup_login, getFromAPI, getBQ, fileChooser
+from Metodos import (checkup_login, getFromAPI, getBQ, fileChooser,
+capture_console_output_async, TimeStampedStream)
 
 
+# @capture_console_output_async
 async def run(playwright: Playwright) -> None:
+    sys.stdout = TimeStampedStream(sys.stdout)
     browser = await playwright.chromium.launch(headless=False)
     context = await browser.new_context(no_viewport=True)
     page = await context.new_page()

@@ -1,16 +1,19 @@
-import asyncio
+import asyncio, sys
 from playwright.async_api import Playwright, async_playwright, expect
 
 
-from Metodos.API import getApiContent
+from Metodos import getApiContent, capture_console_output_async, TimeStampedStream
 
 
+@capture_console_output_async
 async def run(playwright: Playwright) -> None:
+    sys.stdout = TimeStampedStream(sys.stdout)
+    print('teste')
     browser = await playwright.chromium.launch(headless=False)
     context = await browser.new_context(no_viewport=True)
     page = await context.new_page()
-    username = ''
-    password = ''
+    username = 'rafael.dias'
+    password = '123321!'
     await page.goto("https://sereduc.blackboard.com/")
     await page.get_by_label("Privacidade, cookies e termos").locator("div").nth(1).click()
     await page.get_by_role("button", name="OK").click()
@@ -20,12 +23,14 @@ async def run(playwright: Playwright) -> None:
     await page.get_by_label("Senha").fill(password)
     await page.get_by_label("Senha").press("Enter")
     await page.wait_for_load_state('domcontentloaded')
-    await page.goto(url='https://sereduc.blackboard.com/ultra/courses/_139625_1/outline', wait_until='domcontentloaded')
+    await page.goto(url='https://sereduc.blackboard.com/ultra/courses/_139625_1/outline',
+                    wait_until='domcontentloaded')
     await page.wait_for_timeout(4*1000)
     Classurl = page.url
     id_interno = '_139625_1'
     itemSearch = 'Avaliações'
-    id_avaliacao = await getApiContent.API_Req_Content(page=page, id_interno=id_interno, item_Search=itemSearch)
+    id_avaliacao = await getApiContent.API_Req_Content(page=page,
+                            id_interno=id_interno, item_Search=itemSearch)
     # await page.wait_for_selector(selector='Avaliações', state='attached')
     await page.goto(f'{Classurl}?search=Avaliações')
     await page.locator(f'#folder-title-{id_avaliacao}').click()
@@ -38,6 +43,7 @@ async def run(playwright: Playwright) -> None:
     await page.wait_for_load_state('domcontentloaded')
     await page.get_by_role("button", name="Salvar").click()
     await page.wait_for_timeout(4*1000)
+    print('teste 2')
     
     # ---------------------
     await context.close()

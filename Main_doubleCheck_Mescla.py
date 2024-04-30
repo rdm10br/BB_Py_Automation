@@ -1,12 +1,14 @@
-import asyncio, gc
+import asyncio, gc, sys
 from playwright.async_api import Playwright, async_playwright, expect
 
 
-from Metodos import checkup_login, getFromAPI, getPlanilha, atribGrup, AjusteNotaZero, AjusteAvaliaçãoV2
+from Metodos import (checkup_login, getFromAPI, getPlanilha, atribGrup,
+AjusteNotaZero, AjusteAvaliaçãoV2, TimeStampedStream,
+capture_console_output_async)
 
-
+# @capture_console_output_async
 async def run(playwright: Playwright) -> None:
-    # Connect to the existing browser
+    sys.stdout = TimeStampedStream(sys.stdout)
     browser = await playwright.chromium.launch(headless=False)
     context = await browser.new_context(no_viewport=True)
     page = await context.new_page()
