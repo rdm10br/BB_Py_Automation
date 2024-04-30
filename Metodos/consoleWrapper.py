@@ -2,6 +2,12 @@ import sys, io, asyncio, aiofiles, time, logging
 
 
 class TimeStampedStream:
+    """
+    Class to make the main print/output stream show the time when it's executed.
+    
+    usually like this in the main method
+    `sys.stdout = TimeStampedStream(sys.stdout)`
+    """
     def __init__(self, stream):
         self.stream = stream
 
@@ -26,6 +32,15 @@ sys.stdout = TimeStampedStream(sys.stdout)
 
 
 def capture_console_output(func):
+    """
+    Function to create a log file of the console.
+
+    Args:
+        func (func): the main function you want a log
+
+    Returns:
+        creates a log file of what's showned on the console.
+    """
     class ConsoleAndFile(io.StringIO):
         def write(self, data):
             sys.__stdout__.write(data)  # Write to the original stdout
@@ -56,6 +71,15 @@ def capture_console_output(func):
 
 
 def capture_console_output_async(func):
+    """
+    Function to create a log file of the console for async methods.
+
+    Args:
+        func (func): the main function you want a log
+
+    Returns:
+        creates a log file of what's showned on the console.
+    """
     class ConsoleAndFile(io.StringIO):
         def write(self, data):
             sys.__stdout__.write(data)  # Write to the original stdout
