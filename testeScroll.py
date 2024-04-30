@@ -12,8 +12,8 @@ async def run(playwright: Playwright) -> None:
     browser = await playwright.chromium.launch(headless=False)
     context = await browser.new_context(no_viewport=True)
     page = await context.new_page()
-    username = 'rafael.dias'
-    password = '123321!'
+    username = ''
+    password = ''
     await page.goto("https://sereduc.blackboard.com/")
     await page.get_by_label("Privacidade, cookies e termos").locator("div").nth(1).click()
     await page.get_by_role("button", name="OK").click()
