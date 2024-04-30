@@ -1,4 +1,4 @@
-import sys, io, asyncio, aiofiles
+import sys, io, asyncio, aiofiles, time
 
 def capture_console_output(func):
     class ConsoleAndFile(io.StringIO):
@@ -19,8 +19,9 @@ def capture_console_output(func):
         # Get the captured output as a string
         captured_output = console_output.getvalue()
 
+        timer = time.strftime('%d-%m-%Y-%H-%M-%S')
         # Write the captured output to a log file
-        log_file_name = "output.log"
+        log_file_name = f"output-{timer}.log"
         with open(log_file_name, 'w') as log_file:
             log_file.write(captured_output)
 
@@ -48,8 +49,9 @@ def capture_console_output_async(func):
         # Get the captured output as a string
         captured_output = console_output.getvalue()
 
+        timer = time.strftime('%d-%m-%Y-%H-%M-%S')
         # Write the captured output to a log file
-        log_file_name = "output.log"
+        log_file_name = f"output-{timer}.log"
         async with aiofiles.open(log_file_name, 'w') as log_file:
             await log_file.write(captured_output)
 
@@ -58,10 +60,10 @@ def capture_console_output_async(func):
     return wrapper
 
 # Example usage
-# @capture_console_output_async
-# async def example_async_function():
-#     print("This will be printed on the console and captured in an async function.")
-#     print("Another message.")
+@capture_console_output_async
+async def example_async_function():
+    print("This will be printed on the console and captured in an async function.")
+    print("Another message.")
 
-# # Call the async function
-# asyncio.run(example_async_function())
+# Call the async function
+asyncio.run(example_async_function())
