@@ -1,4 +1,4 @@
-import sys, io, asyncio, aiofiles, time
+import sys, io, asyncio, aiofiles, time, logging
 
 
 class TimeStampedStream:
