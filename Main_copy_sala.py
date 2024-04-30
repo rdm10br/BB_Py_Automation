@@ -6,7 +6,7 @@ from Metodos import (checkup_login, getPlanilha, copiaSala,
 capture_console_output_async, TimeStampedStream)
 
 
-# @capture_console_output_async
+@capture_console_output_async
 async def run(playwright: Playwright) -> None:
     sys.stdout = TimeStampedStream(sys.stdout)
     browser = await playwright.chromium.launch(headless=False)
