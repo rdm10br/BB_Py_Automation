@@ -31,4 +31,5 @@ matches = matcher(doc)
 #     matched_span = doc[start:end]
 #     print(matched_span.text)
 
-# print([doc])
+print(len(matches))
+print(doc)

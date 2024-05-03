@@ -1,5 +1,6 @@
 import regex as re
-import docx
+import docx, spacy
+from spacy.matcher import Matcher
 
 regex_Enunciado = r'(?<=Questão\s\d\n\n)?.*(?=\n+\s+[a][)])'
 regex_Alternativa_A = r'(?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*'\
@@ -37,10 +38,22 @@ def read_document(path) -> str:
 def enunciado_count (path: str) -> int:
     """
     Return how many statments on the file
+
+    Args:
+        path (str): Doc Path to the Questionary
+
+    Returns:
+        int: mathes - how many Statements this questionary have
     """
-    doc = read_document(path=path)
-    enunciadosAll = len(re.findall(pattern=regex_Enunciado, string=doc))
-    return enunciadosAll
+    nlp = spacy.load("pt_core_news_sm")
+    matcher = Matcher(nlp.vocab)
+    texto = read_document(path)
+    doc = nlp(texto)
+    pattern = [{"TEXT": "Questão"}, {"IS_DIGIT": True}]
+    matcher.add("Questions", [pattern])
+    matches = len(matcher(doc))
+    
+    return matches
 
 def get_Enunciado(index: int, path: str) -> str:
     '''
