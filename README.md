@@ -40,7 +40,12 @@ then:
 ```
 pip install -r dependencies.txt
 ```
-and
+or if this file could not be found
+
+```
+pip install -r BB_PY_Automation\dependencies.txt
+```
+and to fully install spacy, install those models
 ```
 python -m spacy download en_core_web_sm
 ```
@@ -48,13 +53,7 @@ python -m spacy download en_core_web_sm
 python -m spacy download pt_core_news_sm
 ```
 
-or if this file could not be found
-
-```
-pip install -r BB_PY_Automation\dependencies.txt
-```
-
-to fully install pplaywright use this command
+to fully install playwright use this command
 
 ```
 python -m playwright install
@@ -107,18 +106,16 @@ então:
 ```
 pip install -r dependencies.txt
 ```
-e
+ou se o arquivo não foi encontrado
+```
+pip install -r BB_PY_Automation\dependencies.txt
+```
+e para instalar completamente o spacy, instale esses modelos:
 ```
 python -m spacy download en_core_web_sm
 ```
 ```
 python -m spacy download pt_core_news_sm
-```
-
-ou se o arquivo não foi encontrado
-
-```
-pip install -r BB_PY_Automation\dependencies.txt
 ```
 
 para instalar completamente o playwright use esse comando
