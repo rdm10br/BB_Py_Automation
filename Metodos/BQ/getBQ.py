@@ -2,18 +2,28 @@ import regex as re
 import docx, spacy
 from spacy.matcher import Matcher
 
+nlp = spacy.load("pt_core_news_sm")
+matcher = Matcher(nlp.vocab)
+
 regex_Enunciado = r'(?<=Questão\s\d\n\n)?.*(?=\n+\s+[a][)])'
+
 regex_Alternativa_A = r'(?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*'\
 r'(?=[b][)]|\s+[b][)]|[b][.]\s+|\s+[b][.]\s+)'
+
 regex_Alternativa_B = r'(?<=[b][)]\s|\s[b][)]\s|[b][.]\s).*'\
 r'(?=[c][)]|\s+[c][)]|[c][.]\s+|\s+[c][.]\s+)'
+
 regex_Alternativa_C = r'(?<=[c][)]\s|\s[c][)]\s|[c][.]\s).*'\
 r'(?=[d][)]|\s+[d][)]|[d][.]\s+|\s+[d][.]\s+)'
+
 regex_Alternativa_D = r'(?<=[d][)]\s|\s[d][)]\s|[d][.]\s).*'\
 r'(?=[e][)]|\s+[e][)]|[e][.]\s+|\s+[e][.]\s+)'
+
 regex_Alternativa_E = r'(?<=[e][)]\s|[e][.]\s|[e][.]).*'\
 r'(?=\s+\d[.]|[.]|\z)'
+
 regex_alternativas = r"(?ms)(?<=[[][']).*(?=['][]])"
+
 #(?<=Questão\s\d\n)(?ms).*(?=\s+[a][)])
 #(?<=Questão\s\d\n).*(?=\s+[a][)])
 #(?<=Questão\s\d\n\n)(?ms).*(?=\n+\s+[a][)])
@@ -45,9 +55,6 @@ def enunciado_count (path: str) -> int:
     Returns:
         int: mathes - how many Statements this questionary have
     """
-    nlp = spacy.load("pt_core_news_sm")
-    matcher = Matcher(nlp.vocab)
-    
     texto = read_document(path)
     doc = nlp(texto)
     
