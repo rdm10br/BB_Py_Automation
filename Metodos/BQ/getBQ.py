@@ -47,10 +47,13 @@ def enunciado_count (path: str) -> int:
     """
     nlp = spacy.load("pt_core_news_sm")
     matcher = Matcher(nlp.vocab)
+    
     texto = read_document(path)
     doc = nlp(texto)
+    
     pattern = [{"TEXT": "Questão"}, {"IS_DIGIT": True}]
     matcher.add("Questions", [pattern])
+    
     matches = len(matcher(doc))
     
     return matches
