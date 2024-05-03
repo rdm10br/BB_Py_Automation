@@ -12,17 +12,18 @@
 BlackBoard Python Automation with Playwright
 
 Code made in Python and JavaScript with libraries:
-aiofiles
-openpyxl
-pandas
-playwright
-pyarrow
-pyperclip
-pyside6
-python-docx
-pytest-playwright
-regex
-spacy
+
+aiofiles,
+openpyxl,
+pandas,
+playwright,
+pyarrow,
+pyperclip,
+pyside6,
+python-docx,
+pytest-playwright,
+regex,
+spacy,
 unidecode
 
 ### Getting Started
@@ -78,17 +79,18 @@ search and modifying items to whats preset
 Automação em Python para BlackBoard com Playwright
 
 Código feito em Python e JavaScript com as bibliotecas:
-aiofiles
-openpyxl
-pandas
-playwright
-pyarrow
-pyperclip
-pyside6
-python-docx
-pytest-playwright
-regex
-spacy
+
+aiofiles,
+openpyxl,
+pandas,
+playwright,
+pyarrow,
+pyperclip,
+pyside6,
+python-docx,
+pytest-playwright,
+regex,
+spacy,
 unidecode
 
 ### Começar a utilizar
