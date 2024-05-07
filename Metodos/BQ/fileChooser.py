@@ -9,6 +9,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("Escolha o BQ")
         self.setWindowOpacity(0.95)
+        self.setWindowIcon(QIcon())
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
 
