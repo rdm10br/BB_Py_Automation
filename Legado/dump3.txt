@@ -42,3 +42,6 @@ https://github.com/explosion/spaCy
 https://spacy.io/usage
 
 https://www.nltk.org/#
+
+# Scroll to the bottom of the page.
+await page.evaluate('window.scrollTo(0, document.body.scrollHeight);')
