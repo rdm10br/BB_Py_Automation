@@ -5,7 +5,7 @@ import pytest
 from playwright.sync_api import Playwright, APIRequestContext
 
 GITHUB_API_TOKEN = os.getenv("GITHUB_API_TOKEN")
-assert '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', "GITHUB_API_TOKEN is not set"
+assert '', "GITHUB_API_TOKEN is not set"
 
 
 @pytest.fixture(scope="session")
