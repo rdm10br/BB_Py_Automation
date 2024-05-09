@@ -6,7 +6,7 @@ from playwright.async_api import Playwright, async_playwright, expect
 
 
 from Metodos import (checkup_login, getFromAPI, getPlanilha, AjusteSofiaV2,
-AjusteAvaliaçãoV2, AjusteSermelhor, capture_console_output_async)
+AjusteAvaliaçãoV2, AjusteSermelhor, capture_console_output_async, TimeStampedStream)
 
 
 #Decorator for log
@@ -17,9 +17,6 @@ async def run(playwright: Playwright) -> None:
     page = await context.new_page()
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/'
-    
-    # Access page
-    await page.goto(baseURL)
     
     # Verificar se está logado e logar
     await checkup_login.checkup_login(page=page)
