@@ -50,6 +50,7 @@ and to fully install spacy, install those models
 ```
 python -m spacy download en_core_web_sm
 ```
+&
 ```
 python -m spacy download pt_core_news_sm
 ```
@@ -116,6 +117,7 @@ e para instalar completamente o spacy, instale esses modelos:
 ```
 python -m spacy download en_core_web_sm
 ```
+&
 ```
 python -m spacy download pt_core_news_sm
 ```
