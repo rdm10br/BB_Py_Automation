@@ -1,5 +1,5 @@
 import asyncio
-from playwright.async_api import Page
+from playwright.async_api import Page, expect
 
 
 from Metodos import getPlanilha, getFromAPI, atribGrup, AjusteNotaZero, AjusteAvaliaçãoV2
