@@ -2,9 +2,10 @@ import asyncio, gc, pytest, os, sys, time
 from functools import wraps
 from playwright.async_api import Playwright, async_playwright, Page
 
-from modulefinder import ModuleFinder
-finder = ModuleFinder()
-finder.run_script('Metodos')
+# from modulefinder import ModuleFinder
+# finder = ModuleFinder()
+# finder.find_module(name='Metodos', path='..')
+
 from Metodos import (getPlanilha, checkup_login, getFromAPI,
                     capture_console_output_async, TimeStampedStream)
 
