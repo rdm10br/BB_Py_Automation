@@ -54,20 +54,3 @@ def playwright_StartUp(func):
             await browser.close()
 
     return wrapper
-
-@playwright_StartUp
-async def run(page: Page, index) -> None:
-    
-        id_externo = getPlanilha.getCell(index=index)
-        id_interno = await getFromAPI.API_Req(page=page, index=index)
-        
-        classUrlUltra = f'https://sereduc.blackboard.com/ultra/courses/{id_interno}/outline'
-        
-        print(id_externo)
-        
-        page.goto(classUrlUltra)
-
-async def main():
-    await run()
-
-asyncio.run(main())
