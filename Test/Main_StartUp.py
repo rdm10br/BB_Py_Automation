@@ -11,6 +11,7 @@ from Metodos import (getPlanilha, checkup_login, getFromAPI,
 
 def playwright_StartUp(func):
     @wraps(func)
+    @capture_console_output_async
     async def wrapper(*args, **kwargs):
         async with async_playwright() as playwright:
             
