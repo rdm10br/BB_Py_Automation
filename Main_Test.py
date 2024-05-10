@@ -1,8 +1,8 @@
-import asyncio, gc, pytest, os, sys, time
-from playwright.async_api import Playwright, async_playwright, Page
+import asyncio
+from playwright.async_api import Page
 
-from Metodos import (getPlanilha, getFromAPI)
-from Test.Main_StartUp import playwright_StartUp
+from Metodos import getPlanilha, getFromAPI
+from Decorators.Main_StartUp import playwright_StartUp
 
 
 @playwright_StartUp
