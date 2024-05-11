@@ -1,28 +1,17 @@
 import spacy
 from spacy.matcher import Matcher
 
-# Load the English model
-# nlp = spacy.load("en_core_web_sm")
+
 nlp = spacy.load("pt_core_news_sm")
 
-# Define your pattern
-# pattern = [{"TEXT": "start_token"}, {"OP": "*"}, {"TEXT": "end_token"}]
-
-# pattern_questions = [{"TEXT": "Questão"}, {"IS_DIGIT": True}]
-# pattern_choices = [{"TEXT": "a"}, {"IS_PUNCT": True}, {"IS_UPPER": True}]
 
 pattern = [{"TEXT": "Questão"}, {"IS_DIGIT": True},
-           {"OP": "?"},
-           {"TEXT": "a"}, {"IS_PUNCT": True}, {"IS_UPPER": True}]
+           {"OP": "+"}, {"TEXT": "a"}, {"IS_PUNCT": True}, {"IS_UPPER": True}]
 
 # Initialize the Matcher with the pattern
 matcher = Matcher(nlp.vocab)
 matcher.add("Question_Statment_Pattern", [pattern])
 
-# Your text
-# text = '''This is some text
-# start_token that I want to capture
-# end_token this part.'''
 
 text = '''Questão 1
 Há uma comparação do Big Data com as soluções de BI (Business Intelligence)
@@ -47,12 +36,10 @@ matches = matcher(doc)
 
 # Extract text between matches
 for match_id, start, end in matches:
-    
+
     # Get the text between start and end tokens
-    # captured_text = doc[start:end].text
     captured_text = doc[start+2:end-3].text
-    # captured_text = doc[start+1:end-1].text
     # captured_text = doc[start+1:end-1].root.pos_
-    
+
     # Output the captured text
     print("Captured text:", captured_text)
