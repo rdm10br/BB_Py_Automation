@@ -6,7 +6,7 @@ from spacy.matcher import Matcher
 # nlp = spacy.load("pt_core_news_sm")
 nlp = spacy.load("pt_core_news_lg")
 matcher = Matcher(nlp.vocab)
-texto = getBQ.read_document(r'C:\Users\013190873\Downloads\teste.docx')
+texto = getBQ.read_document(r'C:\Users\rafad\Downloads\Questionário_Legislação e Rotina Trabalhista e Previdenciária _unidade 1_DIGITAL PAGES_ORIGINAL (revisado).docx')
 doc = nlp(texto)
 pattern = [{"TEXT": "Questão"}, {"IS_DIGIT": True}]
 matcher.add("Questions", [pattern])
@@ -32,4 +32,4 @@ matches = matcher(doc)
 #     print(matched_span.text)
 
 print(len(matches))
-print(doc)
+# print(doc)

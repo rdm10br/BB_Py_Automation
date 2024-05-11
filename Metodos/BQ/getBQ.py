@@ -5,7 +5,7 @@ from spacy.matcher import Matcher
 nlp = spacy.load("pt_core_news_sm")
 matcher = Matcher(nlp.vocab)
 
-regex_Enunciado = r'(?<=Questão\s\d\n\n)?.*(?=\n+\s+[a][)])'
+# regex_Enunciado = r'(?<=Questão\s\d\n\n)?.*(?=\n+\s+[a][)])'
 
 regex_Alternativa_A = r'(?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*'\
 r'(?=[b][)]|\s+[b][)]|[b][.]\s+|\s+[b][.]\s+)'
@@ -72,9 +72,9 @@ def get_Enunciado(index: int, path: str) -> str:
     Function to get the statement from the ```path``` file you get
     the ```index```+1 question
     '''
-    doc = read_document(path=path)
-    enunciado = re.findall(pattern=regex_Enunciado, string=doc).copy()[index]
-    return enunciado
+    # doc = read_document(path=path)
+    # enunciado = re.findall(pattern=regex_Enunciado, string=doc).copy()[index]
+    # return enunciado
 
 def get_Alternativa(index: int, path: str, choices: str) -> str:
     '''
