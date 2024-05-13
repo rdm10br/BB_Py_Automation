@@ -21,7 +21,7 @@ async def QuestionOnBB(page: Page, index: int, path: str) -> None:
     choiceD = getBQ.get_Alternativa(index=index, path=path, choices="D")
     choiceE = getBQ.get_Alternativa(index=index, path=path, choices="E")
     
-    # await page.hover("menuitem")
+    # await page.get_by_text('Criar pergunta').click()
     # await page.get_by_role("menuitem", name="Múltipla Escolha").click()
 
     await page.wait_for_load_state('domcontentloaded')
