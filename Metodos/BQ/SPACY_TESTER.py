@@ -7,8 +7,10 @@ nlp = spacy.load("pt_core_news_sm")
 
 pattern_questions = [{"TEXT": "Questão"}, {"IS_DIGIT": True}]
 pattern_choices = [{"TEXT": "a"}, {"IS_PUNCT": True}, {"IS_UPPER": True}]
+
 pattern_statment = [{"TEXT": "Questão"}, {"IS_DIGIT": True},
-                    {"OP": "+"}, {"TEXT": "a"}, {"IS_PUNCT": True}, {"IS_UPPER": True}]
+                    {"OP": "+"},
+                    {"TEXT": "a"}, {"IS_PUNCT": True}, {"IS_UPPER": True}]
 
 # Initialize the Matcher with the pattern
 matcher = Matcher(nlp.vocab)
@@ -37,7 +39,13 @@ e) O Volume associa às soluções de Big Data aos processos de negócio,
 que justificam os esforços de implantação.
 
 Questão 2
+
 Esta é outra questão com suas alternativas.
+Há uma comparação do Big Data com as soluções de BI (Business Intelligence)
+, e podemos afirmar que existem semelhanças, mas é importante o entendimento do
+que caracteriza e diferencia as soluções de Big Data de outras. Com relação à
+caracterização das soluções de Big Data, assinale a alternativa correta:
+
 a) Alternativa A
 b) Alternativa B
 c) Alternativa C
@@ -46,6 +54,10 @@ e) Alternativa E
 
 Questão 3
 Esse é um teste
+Há uma comparação do Big Data com as soluções de BI (Business Intelligence)
+, e podemos afirmar que existem semelhanças, mas é importante o entendimento do
+que caracteriza e diferencia as soluções de Big Data de outras. Com relação à
+caracterização das soluções de Big Data, assinale a alternativa correta:
 a) Alternativa A2
 b) Alternativa B2
 c) Alternativa C2
@@ -53,7 +65,12 @@ d) Alternativa D2
 e) Alternativa E2
 
 Questão 4
+
 Esse é um teste2
+Há uma comparação do Big Data com as soluções de BI (Business Intelligence)
+, e podemos afirmar que existem semelhanças, mas é importante o entendimento do
+que caracteriza e diferencia as soluções de Big Data de outras. Com relação à
+caracterização das soluções de Big Data, assinale a alternativa correta:
 a) Alternativa A2
 b) Alternativa B2
 c) Alternativa C2
@@ -75,6 +92,7 @@ for match_id, start, end in matches:
 
     # Output the captured text
     print("Captured text:", captured_text)
+print(len(matches))
 
 # if matches:
 #     match_id, start, end = matches[0]  # Get the first match
