@@ -1,16 +1,21 @@
 import spacy
+import spacy.training
+from spacy.training.initialize import init_nlp
 import getBQ
 from spacy.matcher import Matcher
 
+# nlp = init_nlp(config=r'Metodos\BQ\config.cfg')
+nlp = spacy.load("pt_core_news_lg")
 
-nlp = spacy.load("pt_core_news_sm")
+# pattern_questions = [{"TEXT": "Questão"}, {"IS_DIGIT": True}]
+# pattern_choices = [{"TEXT": "a"}, {"IS_PUNCT": True}, {"IS_UPPER": True}]
 
-pattern_questions = [{"TEXT": "Questão"}, {"IS_DIGIT": True}]
-pattern_choices = [{"TEXT": "a"}, {"IS_PUNCT": True}, {"IS_UPPER": True}]
-
-pattern_statment = [{"TEXT": "Questão"}, {"IS_DIGIT": True},
-                    {"OP": "+"},
-                    {"TEXT": "a"}, {"IS_PUNCT": True}, {"IS_UPPER": True}]
+pattern_statment = [{'LEMMA': 'Questão'},
+           {'IS_DIGIT': True},
+           {'OP': '+'},
+           {'LEMMA': 'a', 'LENGTH': 1},
+           {'IS_PUNCT': True, 'LEMMA': ')'},
+           {'IS_UPPER': True}]
 
 # Initialize the Matcher with the pattern
 matcher = Matcher(nlp.vocab)
