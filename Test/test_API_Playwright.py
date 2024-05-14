@@ -9,9 +9,7 @@ assert '', "GITHUB_API_TOKEN is not set"
 
 
 @pytest.fixture(scope="session")
-def api_request_context(
-    playwright: Playwright,
-) -> Generator[APIRequestContext, None, None]:
+def api_request_context(playwright: Playwright) -> Generator[APIRequestContext, None, None]:
     headers = {
         # We set this header per GitHub guidelines.
         "Accept": "application/vnd.github.v3+json",
