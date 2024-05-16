@@ -3,7 +3,7 @@ import openpyxl
 import pyarrow
 
 # Acessando o arquivo
-arq_excel = 'BB_Py_Automation\\Planilhas\\SALAS.xlsx'
+arq_excel = r'Planilhas\SALAS.xlsx'
 
 # Lendo o arquivo
 col = "ID"
@@ -22,7 +22,17 @@ col_plan3_GA = 'GRANDE ÁREA'
 df_map_plan3 = pd.read_excel(arq_excel, sheet_name='atividades')
 total_lines_plan3 = len(df_map_plan3)
 
-def getCell(index):
+def getCell(index: int):
+    """
+    Function to get cell content from the 'salas' plan sheet and collum 'ID'
+    of the excel file.
+
+    Args:
+        index (int): index of the line that you want to get from the excel file.
+
+    Returns:
+        Any: this function returns Any content that is on the cell
+    """
     # Ajustando o índice para começar do zero
     index -= 1
     try :
@@ -36,7 +46,17 @@ def getCell(index):
     except Exception as e:
             print("index does not exist")
             
-def getCell_status(index):
+def getCell_status(index: int):
+    """
+    Function to get cell content from the 'salas' plan sheet and collum 'STATUS'
+    of the excel file.
+
+    Args:
+        index (int): index of the line that you want to get from the excel file.
+
+    Returns:
+        Any: this function returns Any content that is on the cell
+    """
     # Ajustando o índice para começar do zero
     index -= 1
     # Verificando se o índice está dentro do intervalo válido
@@ -47,7 +67,17 @@ def getCell_status(index):
     else:
         return str(cell_value)
 
-def getCell_plan2(index):
+def getCell_plan2(index: int):
+    """
+    Function to get cell content from the 'salaCopia' plan sheet and collum 'ID_ORIGIN'
+    of the excel file.
+
+    Args:
+        index (int): index of the line that you want to get from the excel file.
+
+    Returns:
+        Any: this function returns Any content that is on the cell
+    """
     # Ajustando o índice para começar do zero
     index -= 1
     try :
@@ -61,7 +91,17 @@ def getCell_plan2(index):
     except Exception as e:
             print("index does not exist")
             
-def getCell_plan2_status(index):
+def getCell_plan2_status(index: int):
+    """
+    Function to get cell content from the 'salaCopia' plan sheet and collum 'STATUS'
+    of the excel file.
+
+    Args:
+        index (int): index of the line that you want to get from the excel file.
+
+    Returns:
+        Any: this function returns Any content that is on the cell
+    """
     # Ajustando o índice para começar do zero
     index -= 1
     # Verificando se o índice está dentro do intervalo válido
@@ -72,7 +112,17 @@ def getCell_plan2_status(index):
     else:
         return str(cell_value2)
             
-def getCell_copy_plan2(index):
+def getCell_copy_plan2(index: int):
+    """
+    Function to get cell content from the 'salaCopia' plan sheet and collum 'ID_DESTINY'
+    of the excel file.
+
+    Args:
+        index (int): index of the line that you want to get from the excel file.
+
+    Returns:
+        Any: this function returns Any content that is on the cell
+    """
     # Ajustando o índice para começar do zero
     index -= 1
     try :
@@ -86,25 +136,25 @@ def getCell_copy_plan2(index):
     except Exception as e:
             print("index does not exist")
             
-def getCell_curso(index):
-    # Ajustando o índice para começar do zero
-    index -= 1
-    try :
-    # Verificando se o índice está dentro do intervalo válido
-        if 0 <= index < total_lines_plan3:
-            # Obtendo o valor da célula na linha e coluna especificadas
-            cell_value = df_map_plan3.at[index, col_plan3_curso]
-            return str(cell_value)
-        else:
-            return total_lines
-    except Exception as e:
-            print("index does not exist")
+# def getCell_curso(index):
+#     # Ajustando o índice para começar do zero
+#     index -= 1
+#     try :
+#     # Verificando se o índice está dentro do intervalo válido
+#         if 0 <= index < total_lines_plan3:
+#             # Obtendo o valor da célula na linha e coluna especificadas
+#             cell_value = df_map_plan3.at[index, col_plan3_curso]
+#             return str(cell_value)
+#         else:
+#             return total_lines
+#     except Exception as e:
+#             print("index does not exist")
             
-def filter_GA(GA):
+# def filter_GA(GA):
     
-    cursos_filtrados = df_map_plan3.loc[df_map_plan3[col_plan3_GA] == GA, 'CURSO']
+#     cursos_filtrados = df_map_plan3.loc[df_map_plan3[col_plan3_GA] == GA, 'CURSO']
     
-    return str(cursos_filtrados)
+#     return str(cursos_filtrados)
     
     
             

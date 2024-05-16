@@ -1,45 +1,52 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
-from playwright.sync_api import *
+import asyncio, gc, sys
+from playwright.async_api import Playwright, async_playwright, expect
 
-from Metodos.Login import checkup_login
-from Metodos.API import getPlanilha
-from Metodos.Copia import copiaMaterial
 
-def run(playwright: Playwright) -> None:
-    # Connect to the existing browser
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    # Access page context
-    context = browser.contexts[0]
-    baseURL = "https://sereduc.blackboard.com/"
-    # Access page
-    page = context.pages[0]
+from Metodos import (checkup_login, getPlanilha, copiaMaterial,
+capture_console_output_async, TimeStampedStream)
+
+
+# @capture_console_output_async
+async def run(playwright: Playwright) -> None:
+    sys.stdout = TimeStampedStream(sys.stdout)
+    browser = await playwright.chromium.launch(headless=False)
+    context = await browser.new_context(no_viewport=True)
+    page = await context.new_page()
     
-    page.goto(baseURL)
+    baseURL = 'https://sereduc.blackboard.com/'
+    await page.goto(baseURL)
     # Verificar se está logado e logar
-    checkup_login.checkup_login(playwright)
+    await checkup_login.checkup_login(page=page)
+    
     index = 0
     totalplan2 = getPlanilha.total_lines_plan2
-    context.new_page()
+    
+    cookies = await page.context.cookies(urls=baseURL)
     
     for index in range(totalplan2) :
         index +=1
         
-        cell_status = getPlanilha.getCell_plan2_status(index)
+        cell_status = getPlanilha.getCell_plan2_status(index=index)
         
         if cell_status != 'nan':
             pass
         else :
-            new_page = context.pages[1]
-            page = context.pages[0]
+            new_browser = await playwright.chromium.launch(headless=False)
+            new_context = await new_browser.new_context(no_viewport=True)
+            # Assuming 'cookies' is the list of cookies obtained earlier
+            await new_context.add_cookies(cookies)
+            new_page = await new_context.new_page()
             
-            page.close()
+            await copiaMaterial.copyMaterial(page=new_page, index=index)
+            getPlanilha.writeOnExcel_Plan2(index=index, return_status='OK')
             
-            copiaMaterial.copyMaterial(playwright,index)
-            getPlanilha.writeOnExcel_Plan2(index,'OK')
+            await new_context.close()
+            await new_browser.close()
             
-            context.new_page()
-        
-    context.close()
+            gc.collect()
     
-with sync_playwright() as playwright:
-    run(playwright)
+    
+async def main():
+    async with async_playwright() as playwright: # COLOCAR NAS OUTRAS
+        await run(playwright)
+asyncio.run(main())

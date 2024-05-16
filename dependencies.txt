@@ -1,9 +1,12 @@
+aiofiles
+openpyxl
+pandas
 playwright
 pyarrow
-pandas
-openpyxl
-docx
 pyperclip
+pyside6
+python-docx
 pytest-playwright
-unidecode
 regex
+spacy
+unidecode
