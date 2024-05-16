@@ -2,8 +2,8 @@ import asyncio, gc,  sys
 from playwright.async_api import Playwright, async_playwright, expect
 
 
-from Metodos import (checkup_login, getPlanilha, copiaSala,
-capture_console_output_async, TimeStampedStream)
+from Metodos import checkup_login, getPlanilha, copiaSala
+from Decorators import capture_console_output_async, TimeStampedStream
 
 
 @capture_console_output_async
