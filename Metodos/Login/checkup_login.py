@@ -1,30 +1,34 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
-from Metodos.Login import login
+from playwright.async_api import Playwright, async_playwright, expect, Page
 
-def wait_for_page_to_load(page):
-    page.wait_for_load_state('domcontentloaded')
-    page.wait_for_load_state("load")
-    page.wait_for_load_state("networkidle")
+from Metodos.Login import login
+# from . import login
     
-def checkup_login(playwright: Playwright) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    context = browser.contexts[0]
-    page = context.pages[0]
-    
+async def checkup_login(page: Page) -> None:
+    """
+    Function that verify if you're loged in or not, and tries (3 times attempt) to login if
+    you're not loged in
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this function to run
+    """
     baseURL = "https://sereduc.blackboard.com/"
+    loginURL = f'{baseURL}webapps/login/'
+        
+    await page.goto(loginURL)
+    await page.wait_for_load_state('networkidle')
     
     for attempt in range(3):
         try:
-            if "Disciplinas" in page.title():
+            if "Disciplinas" in await page.title():
                 break
             else:
                 attempt += 1
-                login.login(playwright)
-                wait_for_page_to_load(page)
+                await login.login(page=page)
+                await page.wait_for_load_state('networkidle')
+                await page.wait_for_load_state('domcontentloaded')
+                await page.wait_for_load_state('load')
         except Exception as e:
-            if "Blackboard Learn" in page.title():
+            if "Blackboard Learn" in await page.title():
                 print(f"Error during login attempt: {attempt}")
-                
-# Function test
-# with sync_playwright() as playwright:
-#     checkup_login(playwright)
+                print(repr(e))

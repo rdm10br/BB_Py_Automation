@@ -1,23 +1,34 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
+from playwright.async_api import Playwright, async_playwright, expect, Page
 
 
-def ajusteSerMelhor(playwright: Playwright) -> None:
-    browser = playwright.chromium.connect_over_cdp("http://localhost:9222")
-    # Access page context
-    context = browser.contexts[0]
-    # Access page
-    page = context.pages[0]
-    # page.set_default_timeout(timeout=5000)
+async def ajusteSerMelhor(page: Page, id_interno: str) -> None:
+    """
+    Function that adjusts that link in the 'Ser Melhor' item;
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this Function to run
+        id_interno (str): internal ID of the classroom
+    """
+    baseURL = "https://sereduc.blackboard.com/"
+    classURL = f'{baseURL}ultra/courses/'
+    urlClassUltra = f'{classURL}{id_interno}/outline'
+    urlSearch = f'{urlClassUltra}?search=Ser Melhor'
     
-    # page.wait_for_load_state('domcontentloaded')
-    page.press('body','End')
-    page.press('body','End')
-    page.get_by_label("Mais opções para SER Melhor (").click()
-    page.get_by_text("Editar", exact=True).click()
-    page.get_by_placeholder("Digite um URL").click()
-    page.get_by_placeholder("Digite um URL").press("Control+a")
-    page.get_by_placeholder("Digite um URL").fill("https://forms.office.com/r/wX8V5625hs")
-    page.wait_for_load_state('networkidle')
-    page.locator('#tabpanel-webLink > div.additional-tools.panel-section > h2').click()
-    page.get_by_role("button", name="Salvar").click()
-    page.wait_for_load_state('networkidle')
+    await page.goto(urlSearch)
+    await page.wait_for_load_state('domcontentloaded')
+    # await page.get_by_role("heading", name='Módulo').press("End")
+    # await page.get_by_role("heading", name='Módulo').press("End")
+    # await page.press('body','End')
+    # await page.wait_for_load_state('domcontentloaded')
+    # await page.press('body','End')
+    # await page.evaluate('window.scrollTo(0, document.body.scrollHeight)')
+    # await page.wait_for_load_state('load')
+    await page.get_by_label("Mais opções para SER Melhor (").click()
+    await page.get_by_text("Editar", exact=True).click()
+    await page.get_by_placeholder("Digite um URL").click(click_count=3)
+    await page.get_by_placeholder("Digite um URL").fill("https://forms.office.com/r/wX8V5625hs")
+    # await page.wait_for_load_state('networkidle')
+    await page.get_by_text("Máximo de 750 caracteres").click()
+    await page.get_by_role("button", name="Salvar").click()
+    await page.wait_for_load_state('load')

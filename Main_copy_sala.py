@@ -1,20 +1,22 @@
-import asyncio, gc, sys
+import asyncio, gc,  sys
 from playwright.async_api import Playwright, async_playwright, expect
 
 
-from Metodos import (checkup_login, getPlanilha, copiaMaterial,
+from Metodos import (checkup_login, getPlanilha, copiaSala,
 capture_console_output_async, TimeStampedStream)
 
 
-# @capture_console_output_async
+@capture_console_output_async
 async def run(playwright: Playwright) -> None:
     sys.stdout = TimeStampedStream(sys.stdout)
     browser = await playwright.chromium.launch(headless=False)
     context = await browser.new_context(no_viewport=True)
     page = await context.new_page()
-    
+
     baseURL = 'https://sereduc.blackboard.com/'
+    
     await page.goto(baseURL)
+    
     # Verificar se está logado e logar
     await checkup_login.checkup_login(page=page)
     
@@ -37,14 +39,14 @@ async def run(playwright: Playwright) -> None:
             await new_context.add_cookies(cookies)
             new_page = await new_context.new_page()
             
-            await copiaMaterial.copyMaterial(page=new_page, index=index)
-            getPlanilha.writeOnExcel_Plan2(index=index, return_status='OK')
+            await copiaSala.copySala(page=new_page, index=index)
+            getPlanilha.writeOnExcel_Plan2(index=index, return_status='CRIADA')
             
             await new_context.close()
             await new_browser.close()
             
             gc.collect()
-    
+        
     
 async def main():
     async with async_playwright() as playwright: # COLOCAR NAS OUTRAS
