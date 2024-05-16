@@ -61,6 +61,12 @@ to fully install playwright use this command
 python -m playwright install
 ```
 
+or if this file could not be found
+
+```
+pip install -r BB_PY_Automation\dependencies.txt
+```
+
 To create new Methods use the command on console
 
 ```
@@ -126,6 +132,12 @@ para instalar completamente o playwright use esse comando
 
 ```
 python -m playwright install
+```
+
+ou se o arquivo não foi encontrado
+
+```
+pip install -r BB_PY_Automation\dependencies.txt
 ```
 
 Para criar novos métodos, utilize o seguinte comando no console:
