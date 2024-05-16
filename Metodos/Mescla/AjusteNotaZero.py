@@ -14,11 +14,16 @@ async def AjusteNotaZero(page: Page, id_interno: str) -> None:
     classURL = f'{baseURL}ultra/courses/'
     ContentURL = f'{classURL}{id_interno}/outline'
     GradeURL = f'{classURL}{id_interno}/grades?gradebookView=list&listViewType=assignments'
-    
+
+    print('Starting adjustments: "Nota Zero"')
     await page.goto(GradeURL)
+    print('Opening config...')
     await page.get_by_label("Configurações", exact=True).click()
+    print('Opening "Nota Zero"...')
     await page.get_by_text("Atribui nota zero").click()
+    print('Removing...')
     await page.get_by_text("Remover notas zero atribuídas").click()
+    print('Saving...')
     await page.get_by_role("button", name="Confirmar").click()
     await page.locator("#main-content > div:nth-child(4)").click()
     await page.goto(ContentURL)

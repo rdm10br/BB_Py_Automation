@@ -20,9 +20,10 @@ async def login(page: Page) -> None:
                 await page.get_by_role("button", name="OK").click()
         else :
                 pass
-        
+        print('Getting credentials to log in.')
         username, password = getCredentials.get_credentials()
-                
+
+        print('Caught credentials!')
         await page.get_by_label("Nome de usuário").fill(value=username)
         await page.get_by_label("Senha").fill(value=password)
         await page.locator('#entry-login').click()

@@ -24,7 +24,9 @@ async def API_Req(page: Page, index: int) -> str:
     
     baseURL = "https://sereduc.blackboard.com/"
     internalID_API = f'{baseURL}learn/api/public/v3/courses/courseId:{id_externo}'
-    
+
+    print(f'Looking on Api Request to find internal ID of {id_externo}')
+
     await page.goto(internalID_API)
     id_interno = await page.evaluate('() => {return JSON.parse(document.body.innerText).id}')
     return str(id_interno)
@@ -46,7 +48,9 @@ async def API_Ativ_Course(page: Page, id_externo: str) -> str:
     internalID_API = f'{baseURL}learn/api/public/v3/courses/courseId:{id_externo}'
     
     request = '() => {return JSON.parse(document.body.innerText).name.match(/(?<=[(]).*(?=[)])/)}'
-    
+
+    print(f'Looking on Api Request Activity to find course area of {id_externo}')
+
     await page.goto(internalID_API)
     course_area = await page.evaluate(request)
     # Remover caracteres especiais usando expressões regulares

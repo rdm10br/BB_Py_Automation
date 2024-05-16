@@ -25,6 +25,8 @@ async def API_Req_Content(page: Page, id_interno: str, item_Search: str) -> str:
     
     internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents?title={item_Search}'
     
+    print(f'Looking on Api Content for {item_Search} in {id_interno}')
+    
     await page.goto(internalID_API)
     
     # request = '() => {return JSON.parse(document.body.innerText).results[0].id}'
@@ -79,6 +81,8 @@ async def API_Req_Content_children(page: Page, id_interno: str, father_id: str, 
     
     internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'
     
+    print(f'Looking on Api Content Children for {item_Search} in {id_interno}')
+    
     await page.goto(internalID_API)
     
     # request = '() => {return JSON.parse(document.body.innerText).results[0].id}'
@@ -127,7 +131,9 @@ async def API_Req_Content_Discussion(page: Page, id_interno: str, item_Search: s
     baseURL = "https://sereduc.blackboard.com/"
     
     internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents?title={item_Search}'
-    
+
+    print(f'Looking on Api Content Discussion for {item_Search} in {id_interno}')
+
     await page.goto(internalID_API)
     
     # request = '() => {return JSON.parse(document.body.innerText).results[0].id}'

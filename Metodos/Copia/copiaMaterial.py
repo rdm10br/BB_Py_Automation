@@ -16,7 +16,9 @@ async def copyMaterial(page: Page , index: int) -> None:
     id_copia = getPlanilha.getCell_copy_plan2(index=index)
     baseURL = "https://sereduc.blackboard.com/"
     coppyOnBlack = f"{baseURL}webapps/blackboard/execute/copy_content?navItem=copy_course_content_new&target=no&type=course"
-    
+
+    print(f'Trying to copy material from {id_master} to {id_copia};')
+
     await page.goto(coppyOnBlack)
     
     await page.get_by_label("Selecionar Tipo de cópia").select_option("O") #curso existente
@@ -30,3 +32,5 @@ async def copyMaterial(page: Page , index: int) -> None:
     await page.evaluate('document.querySelector("#stepcontent2 > ol > li:nth-child(4) > div > div > a:nth-child(1)").click()')
     # await page.get_by_label('Imagem de banner').uncheck()
     await page.locator('#bottom_Submit').click()
+
+    print(f'Copy to {id_copia} worked!')
