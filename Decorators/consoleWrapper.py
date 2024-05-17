@@ -61,7 +61,7 @@ def capture_console_output(func):
 
         timer = time.strftime('%d-%m-%Y-%H-%M-%S')
         # Write the captured output to a log file
-        log_file_name = rf"Logs\output-{timer}.log"
+        log_file_name = rf"Logs\output-log-{timer}.log"
         with open(log_file_name, 'w') as log_file:
             log_file.write(captured_output)
 
@@ -100,7 +100,7 @@ def capture_console_output_async(func):
 
         timer = time.strftime('%d-%m-%Y-%H-%M-%S')
         # Write the captured output to a log file
-        log_file_name = rf"Logs\output-{timer}.log"
+        log_file_name = rf"Logs\output-log-{timer}.log"
         async with aiofiles.open(log_file_name, 'w') as log_file:
             await log_file.write(captured_output)
 

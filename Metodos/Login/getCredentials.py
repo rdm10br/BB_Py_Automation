@@ -9,7 +9,7 @@ ICON = zlib.decompress(base64.b64decode('eJxjYGAEQgEBBiDJwZDBy'
 _, ICON_PATH = tempfile.mkstemp()
 with open(ICON_PATH, 'wb') as icon_file:
     icon_file.write(ICON)
-
+    
 # Função para receber credenciais
 def get_credentials():
     # Criando a janela
@@ -70,6 +70,10 @@ def get_credentials():
     return username, password
 
 # Function Test
-# username, password = get_credentials()
-# print(username)
-# print(password)
+def main ():
+    username, password = get_credentials()
+    print(username)
+    print(password)
+
+if __name__ == "__main__":
+    main()
