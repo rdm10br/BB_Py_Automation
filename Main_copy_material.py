@@ -2,11 +2,11 @@ import asyncio, gc, sys
 from playwright.async_api import Playwright, async_playwright, expect
 
 
-from Metodos import (checkup_login, getPlanilha, copiaMaterial,
-capture_console_output_async, TimeStampedStream)
+from Metodos import checkup_login, getPlanilha, copiaMaterial
+from Decorators import capture_console_output_async, TimeStampedStream
 
 
-# @capture_console_output_async
+@capture_console_output_async
 async def run(playwright: Playwright) -> None:
     sys.stdout = TimeStampedStream(sys.stdout)
     browser = await playwright.chromium.launch(headless=False)

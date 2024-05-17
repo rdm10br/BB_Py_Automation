@@ -38,10 +38,12 @@ class MainWindow(QMainWindow):
             print(f'\n O arquivo selecionado tem o caminho: {self.fileName}\n')
             self.setDisabled(True)
             self.close()
+            print(f'file choosen path: {self.fileName}')
             return self.fileName
 
 
 def window_file():
+    print('choosing file...')
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
