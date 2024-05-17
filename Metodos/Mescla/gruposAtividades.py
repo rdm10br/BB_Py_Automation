@@ -330,7 +330,7 @@ async def inserirGruposAtividadesAV1(page: Page, id_interno, curso):
     item = f'Envio AV1 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
     # folder_id = ID_FolderAV1(playwright , id_interno)
-    # content_ID = getApiContent.API_Req_Content_children(playwright=playwright, id_interno=id_interno, folder_id=folder_id, item_Search=item)
+    # content_ID = getApiContent.API_Req_Content_children(page=page, id_interno=id_interno, father_id=folder_id, item_Search=item)
     # URLConditional = f'{classUrlUltra}/conditionalRelease?contentId={content_ID}'
 
     print(f'Opening {item}...')
