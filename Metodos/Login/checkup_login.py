@@ -47,7 +47,7 @@ async def checkup_login(page: Page) -> None:
     await page.wait_for_load_state('networkidle')
     
     if await load_cookies_from_cache(page):
-        print('Cache used to login...')
+        print('Using cache to login...')
         await page.goto(baseURL)
         await page.wait_for_load_state('networkidle')
         if "Disciplinas" in await page.title():
