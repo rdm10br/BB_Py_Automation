@@ -1,0 +1,131 @@
+    # API to review general content config from the classroom
+    APIContent = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents'
+
+    # API to review general config from gradebook
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
+    # API to review general config form gradebook filtered to Activity by name
+    APIGradeCollumActivity = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns?Name=Atividade%20de%20Autoaprendizagem'
+
+    
+    # // visivel para o aluno
+    # "visible": true,
+
+    # // nota maxima no item
+    # "possible": 10,
+
+    # // quantidade de tentativas do item (0 = ilimitada)
+    # "multipleAttempts": 0,
+
+    # // visbilidade no boletim
+    # "visibleInBook": false,
+    
+    # //configuração de maior nota
+    # "aggregationModel": "HIGHEST",
+    
+    # //Data da atividade
+    # "dueDate": "2024-06-11T02:59:59.999Z",
+    # genericReadOnlyData.dueDate
+    
+    # //BQ associado
+    #
+    
+    # //link de LTI e link
+    # "url": ""
+    # LTI = 'contentDetail["resource/x-bb-blti-link"].url'
+    # Link = 'contentDetail["resource/x-bb-externallink"].url'
+    
+    # //item description
+    # "description": "",
+    
+    #all items
+    itemSearch = ['Fórum de Interação entre Professores e Tutores',
+                  'Meu Desempenho',
+                  'Organize seus estudos com a Sofia',
+                  'Fale com o Tutor',
+                  'Desafio Colaborativo',
+                  'Unidade 1',
+                  'Unidade 2',
+                  'Unidade 3',
+                  'Unidade 4',
+                  'Atividade Contextualizada',
+                  'WebAula',
+                  'Avaliações',
+                  'Solicite seu livro impresso',
+                  'SER Melhor (Clique Aqui para deixar seu elogio,'\
+                    ' crítica ou sugestão)',
+                    'AV1',
+                    'AV2',
+                    'AF',
+                    'Avaliação On-Line 1 (AOL 1) - Questionário',
+                    'Avaliação On-Line 2 (AOL 2) - Questionário',
+                    'Avaliação On-Line 3 (AOL 3) - Questionário',
+                    'Avaliação On-Line 4 (AOL 4) - Questionário',
+                    'Atividade de Autoaprendizagem 1',
+                    'Atividade de Autoaprendizagem 2',
+                    'Atividade de Autoaprendizagem 3',
+                    'Atividade de Autoaprendizagem 4',
+                    'Material Didático Interativo',
+                    'Biblioteca Virtual: e-Book',
+                    'Videoteca: Videoaulas']
+    
+    #all configs
+    config = ['visible',
+        'visibleInBook',
+        'multipleAttempts',
+        'aggregationModel',
+        'possible',
+        '',
+        '',
+        'contentDetail["resource/x-bb-externallink"].url',
+        'contentDetail["resource/x-bb-blti-link"].url',
+        'description']
+    
+    # Needs exact name of the item to filter
+    filteredRequest = f'''
+    const data = JSON.parse(document.body.innerText).results
+    const filteredResults = data.filter(item => item.name === {itemSearch})[0]
+    console.log(filteredResults);'''
+    
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
+
+    filteredRequestByCollumnName = f'''
+    const data = JSON.parse(document.body.innerText).results
+    const filteredResults = data.filter(item => item.columnName ===
+    {itemSearch[0]})[0].{config[0]}
+    console.log(filteredResults);'''
+
+    APIContent = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents'
+
+    filteredRequestByTitle = f'''
+    const data = JSON.parse(document.body.innerText).results
+    const filteredResults = data.filter(item => item.title ===
+    {itemSearch[0]})[0].{config[0]}
+    console.log(filteredResults);'''
+
+===========================convert time========================================
+from datetime import datetime
+import pytz
+
+# Define the UTC time string
+utc_time_str = '2024-06-11T02:59:59.999Z'
+
+# Parse the string into a datetime object
+utc_time = datetime.strptime(utc_time_str, '%Y-%m-%dT%H:%M:%S.%fZ')
+
+# Replace timezone info to UTC
+utc_time = utc_time.replace(tzinfo=pytz.UTC)
+
+# Convert to your local timezone (Recife, Pernambuco)
+local_tz = pytz.timezone('America/Recife')
+local_time = utc_time.astimezone(local_tz)
+
+# Format the local time as desired
+#formatted_local_time = local_time.strftime('%d/%m/%Y %H:%M:%S.%f')[:-3]
+formatted_local_time = local_time.strftime('%d/%m/%Y %H:%M')
+# Example format: 'DD/MM/YYYY HH:MM:SS.mmm'
+print("Formatted Local Time:", formatted_local_time)
+
+===============================================================================
