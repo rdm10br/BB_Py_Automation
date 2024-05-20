@@ -1,6 +1,7 @@
 import asyncio
 from playwright.async_api import Page, expect
 
+
 from Metodos import getPlanilha, getFromAPI
 from Decorators.Main_StartUp import playwright_StartUp
 
