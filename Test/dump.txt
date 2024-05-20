@@ -29,8 +29,32 @@
     # genericReadOnlyData.dueDate
     
     # //BQ associado
-    #
     
+    APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents
+    /{id_atividade}/children'''
+    #contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id
+    
+    APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}
+    /assessments/{id_assesment}/questions/'''
+    #JSON.parse(document.body.innerText).results[0].id
+
+    APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments
+    /{id_assesment}/questions/{id_encapsulamento}/questions?expand=sourceInfo'''
+    #JSON.parse(document.body.innerText).results[0].sourceInfo.name
+
+    or
+    #contentDetail["resource/x-bb-asmt-test-link"].test.assessment.questionCount
+    
+    # //Questionário com alternativas aleatórias
+    #contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings
+    #.isRandomizationOfAnswersRequired
+    #"ALWAYS"
+
+    # //Questionário com alternativas aleatórias
+    #contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings
+    #.isRandomizationOfQuestionsRequired
+    #true
+
     # //link de LTI e link
     # "url": ""
     # LTI = 'contentDetail["resource/x-bb-blti-link"].url'
@@ -98,6 +122,15 @@
     console.log(filteredResults);'''
 
     APIContent = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents'
+
+    filteredRequestByTitle = f'''
+    const data = JSON.parse(document.body.innerText).results
+    const filteredResults = data.filter(item => item.title ===
+    {itemSearch[0]})[0].{config[0]}
+    console.log(filteredResults);'''
+
+    APIContent = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents/
+    {folder_id}/children'''
 
     filteredRequestByTitle = f'''
     const data = JSON.parse(document.body.innerText).results
