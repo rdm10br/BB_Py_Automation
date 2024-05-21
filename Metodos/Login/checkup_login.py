@@ -7,7 +7,7 @@ from Metodos.Login import login
 
 timer = time.strftime('%d-%m-%Y-%H-%M-%S')
 CACHE_FILE = r'Metodos\Login\__pycache__\login_cache.json'
-CACHE_DURATION_HOURS = 6
+CACHE_DURATION_HOURS = 3
 
 
 async def load_cookies_from_cache(page: Page) -> bool:

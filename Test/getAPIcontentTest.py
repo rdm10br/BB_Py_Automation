@@ -1,201 +1,160 @@
-import asyncio, pytest
-from typing import Generator
-from playwright.async_api import Playwright, async_playwright, expect, Page, APIRequestContext
+import asyncio, json, typing, pytz
+from datetime import datetime
+from playwright.async_api import (async_playwright, expect, Page)
 
 
-async def API_Req_Content(page: Page, id_interno: str, item_Search: str) -> str:
-    """
-    Async Function to return if the id of the item was found, or not,
-    This function find and return content ID with the API
-    if it does not find then it returns the text
-    'Erro na sala: ```id_interno``` no item: ```item_Search``` não foi
-    encontrado'
-
-    Args:
-        page (Page): Page constructor form Playwright that
-        you want this API to run
-        id_interno (str): internal ID of the classroom you want to find
-        that item
-        item_Search (str): The name of the item you're searching
-
-    Returns:
-        str: Content_ID or if it doesn't find
-        'Erro na sala: ```id_interno``` no item: ```item_Search``` não foi
-        encontrado'
-    """
-    baseURL = "https://sereduc.blackboard.com/"
-    
-    internalID_API = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents?title={item_Search}'''
-    
-    print(f'Looking on Api Content for {item_Search} in {id_interno}')
-    
-    await page.goto(internalID_API)
-    
-    #request = '()=> {return JSON.parse(document.body.innerText).results[0].id}'
-    
-    request = '''() => {
-    const data = JSON.parse(document.body.innerText).results;
-    if (data && data.length > 0 && data[0].id) {
-        return data[0].id;
-    } else {
-        throw new Error('Item não encontrado');
-    }
-    }'''
-
-    try:
-        id_sofia = await page.evaluate(request)
-        # print(str(id_sofia))
-        return str(id_sofia)
-    except Exception as e:
-        if 'Item não encontrado' in str(e):
-            print(f'Erro na sala: {id_interno} no Item:'\
-                  f'{item_Search} não foi encontrado')
-            return
-        else:
-            print('Erro ao processar request:', e)
-
-
-async def API_Req_Content_children(
-    page: Page,
+async def API_Config(page: Page,
     id_interno: str,
-    father_id: str,
-    item_Search: str) -> str:
-    """
-    Async Function to return if the id of the item was found, or not, but the
-    item is a child node in the classroom
-    This function find and return content ID with the API
-    if it does not find then it returns the text
-    'Erro na sala: ```id_interno``` no item: ```item_Search``` não foi
-    encontrado'
+    item_Search: typing.Optional[typing.Literal[
+        'Fórum de Interação entre Professores e Tutores',
+        'Meu Desempenho',
+        'Organize seus estudos com a Sofia',
+        'Fale com o Tutor',
+        'Desafio Colaborativo',
+        'Unidade 1',
+        'Unidade 2',
+        'Unidade 3',
+        'Unidade 4',
+        'Atividade Contextualizada',
+        'Relatório de Aulas Práticas',
+        'WebAula',
+        'Avaliações',
+        'Solicite seu livro impresso',
+        'SER Melhor (Clique Aqui para deixar seu elogio,'\
+        ' crítica ou sugestão)',
+        'AV1',
+        'AV2',
+        'AF',
+        'Avaliação On-Line 1 (AOL 1) - Questionário',
+        'Avaliação On-Line 2 (AOL 2) - Questionário',
+        'Avaliação On-Line 3 (AOL 3) - Questionário',
+        'Avaliação On-Line 4 (AOL 4) - Questionário',
+        'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada',
+        'Atividade de Autoaprendizagem 1',
+        'Atividade de Autoaprendizagem 2',
+        'Atividade de Autoaprendizagem 3',
+        'Atividade de Autoaprendizagem 4',
+        'Material Didático Interativo',
+        'Biblioteca Virtual: e-Book',
+        'Videoteca: Videoaulas']] = None,
+    config: typing.Optional[typing.Literal[
+        'visible',
+        'visibleInBook',
+        'multipleAttempts',
+        'aggregationModel',
+        'possible',
+        'availability.available',
+        'genericReadOnlyData.dueDate',
+        'aggregationModel',
+        'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id',
+        'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired',
+        'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired',
+        'contentDetail["resource/x-bb-externallink"].url',
+        'contentDetail["resource/x-bb-blti-link"].url',
+        'contentHandler.url',
+        'description']] = None ) -> str:
+    
+    """_summary_
 
     Args:
-        page (Page): Page constructor form Playwright that
-        you want this API to run
-        id_interno (str): internal ID of the classroom you want to find
-        that item
-        item_Search (str): The name of the item you're searching
+        page (Page): _description_
+        id_interno (str): _description_
+        item_Search (_type_, optional): _description_. Defaults to None.
+        config (typing.Optional[typing.Literal[ &#39;visible&#39;, &#39;visibleInBook&#39;, &#39;multipleAttempts&#39;, &#39;aggregationModel&#39;, &#39;possible&#39;, &#39;availability.available&#39;, &#39;genericReadOnlyData.dueDate&#39;, &#39;aggregationModel&#39;, &#39;contentDetail[&quot;resource, optional): _description_. Defaults to None.
 
     Returns:
-        str: Content_ID or if it doesn't find
-        'Erro na sala: ```id_interno``` no item: ```item_Search``` não foi
-        encontrado'
+        str: _description_
     """
-    baseURL = "https://sereduc.blackboard.com/"
     
-    internalID_API = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'''
+    baseURL = 'https://sereduc.blackboard.com/'
+    # id_externo=''
+    # externalID_API = f'{baseURL}learn/api/public/v1/courses/externalId:{id_externo}/contents'
+    internalID_API = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
     
-    print(f'Looking on Api Content Children for {item_Search} in {id_interno}')
+    # father_id = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
+    # id_atividade = internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'
+    # APIGradeCollum = f'{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'
+    # id_assesment = APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{id_atividade}/children'''
+    # id_encapsulamento = APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/'''
+    # APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/{id_encapsulamento}/questions?expand=sourceInfo'''
     
-    await page.goto(internalID_API)
     
-    #request = '()=> {return JSON.parse(document.body.innerText).results[0].id}'
-    
-    request = '''() => {
+    filteredRequest_title = f'''function getFilteredResults(){{
     const data = JSON.parse(document.body.innerText).results;
-    if (data && data.length > 0 && data[0].id) {
-        return data[0].id;
-    } else {
-        throw new Error('Item não encontrado');
-    }
-    }'''
-
-    try:
-        id_sofia = await page.evaluate(request)
-        # print(str(id_sofia))
-        return str(id_sofia)
-    except Exception as e:
-        if 'Item não encontrado' in str(e):
-            print(f'Erro na sala: {id_interno} no Item: {item_Search} não foi'\
-                  'encontrado')
-            return
-        else:
-            print('Erro ao processar request:', e)
-            
-async def API_Req_Content_Discussion(
-    page: Page,
-    id_interno: str,
-    item_Search: str) -> str:
-    """
-    Async Function to return if the id of the item was found, or not,
-    but the item_search is a Discussion type in the classroom
-    This function find and return content ID with the API
-    if it does not find then it returns the text
-    'Erro na sala: ```id_interno``` no item: ```item_Search``` não foi
-    encontrado'
-
-    Args:
-        page (Page): Page constructor form Playwright that
-        you want this API to run
-        id_interno (str): internal ID of the classroom you want to find
-        that item
-        item_Search (str): The name of the item you're searching
-
-    Returns:
-        str: TargetID or if it doesn't find
-        'Erro na sala: ```id_interno``` no item: ```item_Search``` não foi
-        encontrado'
-    """
-    baseURL = "https://sereduc.blackboard.com/"
+    const filteredResults = data.filter(item => item.title === "{item_Search}")[0].{config};
+    return filteredResults;}}'''
     
-    internalID_API = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents?title={item_Search}'''
-
-    print(f'Looking on Api Content Discussion for {item_Search} in'\
+    filteredRequest_name = f'''function getFilteredResults(){{
+    const data = JSON.parse(document.body.innerText).results;
+    const filteredResults = data.filter(item => item.name === "{item_Search}")[0].{config};
+    return filteredResults;}}'''
+    
+    filteredRequest_columnName = f'''function getFilteredResults(){{
+    const data = JSON.parse(document.body.innerText).results;
+    const filteredResults = data.filter(item => item.columnName === "{item_Search}")[0].{config};
+    return filteredResults;}}'''
+    
+    print(f'Looking on Api Content for {item_Search} config {config} in'\
           f'{id_interno}')
+    
+    await page.goto(url=internalID_API, wait_until='networkidle')
+    
+    result = await page.evaluate(filteredRequest_title)
+    
+    return result
 
-    await page.goto(internalID_API)
-    
-    #request = '()=> {return JSON.parse(document.body.innerText).results[0].id}'
-    
-    request = '''() => {
-    const data = JSON.parse(document.body.innerText).results;
-    if (data && data.length > 0 && data[0].contentHandler.targetId) {
-        return data[0].contentHandler.targetId;
-    } else {
-        throw new Error('Item não encontrado');
-    }
-    }'''
 
-    try:
-        id_sofia = await page.evaluate(request)
-        # print(str(id_sofia))
-        return str(id_sofia)
-    except Exception as e:
-        if 'Item não encontrado' in str(e):
-            print(f'Erro na sala: {id_interno} no Item:'\
-                  f'{item_Search} não foi encontrado')
-            return
-        else:
-            print('Erro ao processar request:', e)
-         
-@pytest.fixture(scope="session")
-def api_request_context(playwright: Playwright) -> Generator[APIRequestContext, None, None]:
-    headers = {
-    }
-    request_context = playwright.request.new_context(
-        base_url="https://sereduc.blackboard.com/", extra_http_headers=headers
-    )
-    yield request_context
-    request_context.dispose()
+async def date_adjust(utc_time_str: str):
+    """_summary_
+
+    Args:
+        utc_time_str (str): _description_
+
+    Returns:
+        _type_: _description_
+    """
     
+    # Define the UTC time string
+    # utc_time_str = '2024-06-11T02:59:59.999Z'
+
+    utc_time = datetime.strptime(utc_time_str, '%Y-%m-%dT%H:%M:%S.%fZ')
+
+    utc_time = utc_time.replace(tzinfo=pytz.UTC)
+
+    local_tz = pytz.timezone('America/Recife')
+    local_time = utc_time.astimezone(local_tz)
+
+    # Format the local time as desired
+    #formatted_local_time = local_time.strftime('%d/%m/%Y %H:%M:%S.%f')[:-3]
+    formatted_local_time = local_time.strftime('%d/%m/%Y %H:%M')
+    print("Formatted Local Time:", formatted_local_time)
+    
+    return formatted_local_time
+
 
 async def main():
     async with async_playwright() as playwright:
+        
         browser = await playwright.chromium.launch(headless=False)
         context = await browser.new_context()
         page = await context.new_page()
+        
+        CACHE_FILE = r'Metodos\Login\__pycache__\login_cache.json'
+        with open(CACHE_FILE, 'r') as f:
+            cache_data = json.load(f)
+        await page.context.add_cookies(cache_data['cookies'])
+        
         baseURL = "https://sereduc.blackboard.com/"
+        id_interno = '_187869_1'
+        
         await page.goto(baseURL)
         await page.wait_for_load_state('domcontentloaded')
-        await page.wait_for_timeout(10000)
-        id_interno = '_187869_1'
-        father_id = await API_Req_Content(page=page, id_interno=id_interno,
-                    item_Search='Unidade 1')
         await page.wait_for_timeout(5000)
-        folder_id = await API_Req_Content_children(page=page,
-                    id_interno=id_interno, father_id=father_id,
-                    item_Search='Atividade - Unidade 1')
-        print(folder_id)
-    return
+        
+        teste = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso', config='contentHandler.url')
+        
+        print(teste)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
