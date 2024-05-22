@@ -43,10 +43,12 @@ async def API_Config(page: Page,
         'multipleAttempts',
         'aggregationModel',
         'possible',
+        'score.possible',
         'availability.available',
         'genericReadOnlyData.dueDate',
-        'aggregationModel',
+        'grading.scoringModel',
         'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id',
+        '.contentHandler.assessmentId',
         'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired',
         'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired',
         'contentDetail["resource/x-bb-externallink"].url',
@@ -57,10 +59,16 @@ async def API_Config(page: Page,
     baseURL = 'https://sereduc.blackboard.com/'
     internalID_API = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
     APIGradeCollum = f'''{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'''
+    APIGradeColumn = f'''{baseURL}learn/api/public/v2/courses/{id_interno}/gradebook/columns'''
     
     # id_externo=''
     # externalID_API = f'{baseURL}learn/api/public/v1/courses/externalId:{id_externo}/contents'
-
+    
+    id_discussion = '' #f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents'+'JSON.parse(document.body.innerText).results[1].contentHandler.targetId'
+    discussionGroups = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{id_discussion}/groups'
+    groupsID = f'{baseURL}learn/api/public/v2/courses/{id_interno}/groups/sets'
+    req_len = 'JSON.parse(document.body.innerText).results.length' #to see request length, especially groups
+    
     father_id = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
     # internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'->id_atividade
     # APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{id_atividade}/children'''->id_assesment
@@ -94,6 +102,7 @@ async def API_Config(page: Page,
     # return result
     
     match item_Search:
+        
         case 'Fórum de Interação entre Professores e Tutores':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -102,6 +111,7 @@ async def API_Config(page: Page,
             result = await page.evaluate(filteredRequest_title(item_Search, config))
             
             return result
+        
         case 'Meu Desempenho':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -115,7 +125,9 @@ async def API_Config(page: Page,
             
             #Verificar se o link está correto
             
-            return result, result2
+            results = f'{item_Search}: visibility: {result} | URL: {result2}'
+            return results
+        
         case 'Organize seus estudos com a Sofia':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -129,7 +141,9 @@ async def API_Config(page: Page,
             
             #Verificar se o link está correto
             
-            return result, result2
+            results = f'{item_Search}: visibility: {result} | URL: {result2}'
+            return results
+        
         case 'Fale com o Tutor':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -138,6 +152,7 @@ async def API_Config(page: Page,
             result = await page.evaluate(filteredRequest_title(item_Search, config))
             
             return result
+        
         case 'Desafio Colaborativo':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -148,6 +163,7 @@ async def API_Config(page: Page,
             #verificar se está com os grupos
             
             return result
+        
         case 'Unidade 1':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -156,6 +172,7 @@ async def API_Config(page: Page,
             result = await page.evaluate(filteredRequest_title(item_Search, config))
             
             return result
+        
         case 'Unidade 2':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -164,6 +181,7 @@ async def API_Config(page: Page,
             result = await page.evaluate(filteredRequest_title(item_Search, config))
             
             return result
+        
         case 'Unidade 3':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -172,6 +190,7 @@ async def API_Config(page: Page,
             result = await page.evaluate(filteredRequest_title(item_Search, config))
             
             return result
+        
         case 'Unidade 4':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -180,6 +199,7 @@ async def API_Config(page: Page,
             result = await page.evaluate(filteredRequest_title(item_Search, config))
             
             return result
+        
         case 'Material Didático Interativo':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -193,7 +213,9 @@ async def API_Config(page: Page,
             
             #verificar validade do link
             
-            return result, result2
+            results = f'{item_Search}: visibility: {result} | URL: {result2}'
+            return results
+        
         case 'Videoteca: Videoaulas':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -207,7 +229,9 @@ async def API_Config(page: Page,
             
             #verificar validade do link
             
-            return result, result2
+            results = f'{item_Search}: visibility: {result} | URL: {result2}'
+            return results
+        
         case 'Biblioteca Virtual: e-Book':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -221,7 +245,9 @@ async def API_Config(page: Page,
             
             #verificar validade do link
             
-            return result, result2
+            results = f'{item_Search}: visibility: {result} | URL: {result2}'
+            return results
+        
         case 'WebAula':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -230,6 +256,7 @@ async def API_Config(page: Page,
             result = await page.evaluate(filteredRequest_title(item_Search, config))
             
             return result
+        
         case 'Avaliações':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -238,6 +265,7 @@ async def API_Config(page: Page,
             result = await page.evaluate(filteredRequest_title(item_Search, config))
             
             return result
+        
         case 'Atividade Contextualizada':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -246,6 +274,7 @@ async def API_Config(page: Page,
             result = await page.evaluate(filteredRequest_title(item_Search, config))
             
             return result
+        
         case 'AV1':
             await page.goto(url=APIGradeCollum, wait_until='networkidle')
             
@@ -256,6 +285,7 @@ async def API_Config(page: Page,
             #other configs
             
             return result
+        
         case 'AV2':
             await page.goto(url=APIGradeCollum, wait_until='networkidle')
             
@@ -264,15 +294,17 @@ async def API_Config(page: Page,
             #other configs
             
             return result
+        
         case 'AF':
             await page.goto(url=APIGradeCollum, wait_until='networkidle')
             
             result = await page.evaluate(filteredRequest_columnName(item_Search, config))
             
-            #other configs
+            #configs valor da note, nomeclatura certa, se está visivel para o aluno
             
             return result
-        case 'SER Melhor (Clique Aqui para deixar seu elogio, cr…':
+        
+        case 'SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
             config = 'availability.available'
@@ -285,7 +317,9 @@ async def API_Config(page: Page,
             
             #Verificar se o link está correto
             
-            return result, result2
+            results = f'{item_Search}: visibility: {result} | URL: {result2}'
+            return results
+        
         case 'Solicite seu livro impresso':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -299,7 +333,9 @@ async def API_Config(page: Page,
             
             #Verificar se o link está correto
             
-            return result, result2
+            results = f'{item_Search}: visibility: {result} | URL: {result2}'
+            return results
+        
         case 'Relatório de Aulas Práticas':
             await page.goto(url=internalID_API, wait_until='networkidle')
             
@@ -308,30 +344,39 @@ async def API_Config(page: Page,
             #other configs
             
             return result
+        
         case 'Atividade de Autoaprendizagem 1':
             #all configs
             return result
+        
         case 'Atividade de Autoaprendizagem 2':
             #all configs
             return result
+        
         case 'Atividade de Autoaprendizagem 3':
             #all configs
             return result
+        
         case 'Atividade de Autoaprendizagem 4':
             #all configs
             return result
+        
         case 'Avaliação On-Line 1 (AOL 1) - Questionário':
             #all configs
             return result
+        
         case 'Avaliação On-Line 2 (AOL 2) - Questionário':
             #all configs
             return result
+        
         case 'Avaliação On-Line 3 (AOL 3) - Questionário':
             #all configs
             return result
+        
         case 'Avaliação On-Line 4 (AOL 4) - Questionário':
-            #all configs
+            #all configsl
             return result
+        
         case 'Avaliação On-Line 5 (AOL 5) - Atividade Contextual…':
             #all configs
             
@@ -340,6 +385,7 @@ async def API_Config(page: Page,
             # result = await page.evaluate(filteredRequest_title(item_Search, config))
 
             return result
+        
         case _:
             result = f'Item ({item_Search}) não encontrado ou nomeclatura errada'
             print(result)
@@ -384,7 +430,8 @@ async def main():
         await page.wait_for_load_state('domcontentloaded')
         await page.wait_for_timeout(5000)
 
-        visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+        # visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+        visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
         await page.wait_for_timeout(5*1000)
         print(visibility, item_URL)
 
