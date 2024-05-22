@@ -1,7 +1,4 @@
-import asyncio
-import json
-import typing
-import pytz
+import asyncio, json, typing, pytz
 from datetime import datetime
 from playwright.async_api import (async_playwright, expect, Page)
 
@@ -23,8 +20,7 @@ async def API_Config(page: Page,
         'WebAula',
         'Avaliações',
         'Solicite seu livro impresso',
-        'SER Melhor (Clique Aqui para deixar seu elogio,'
-        ' crítica ou sugestão)',
+        'SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)',
         'AV1',
         'AV2',
         'AF',
@@ -39,7 +35,8 @@ async def API_Config(page: Page,
         'Atividade de Autoaprendizagem 4',
         'Material Didático Interativo',
         'Biblioteca Virtual: e-Book',
-        'Videoteca: Videoaulas']] = None,
+        'Videoteca: Videoaulas']] = None) -> str:
+
     config: typing.Optional[typing.Literal[
         'visible',
         'visibleInBook',
@@ -55,68 +52,301 @@ async def API_Config(page: Page,
         'contentDetail["resource/x-bb-externallink"].url',
         'contentDetail["resource/x-bb-blti-link"].url',
         'contentHandler.url',
-        'description']] = None) -> str:
-    """_summary_
-
-    Args:
-        page (Page): _description_
-        id_interno (str): _description_
-        item_Search (_type_, optional): _description_. Defaults to None.
-        config (typing.Optional[typing.Literal[ &#39;visible&#39;, &#39;visibleInBook&#39;, &#39;multipleAttempts&#39;, &#39;aggregationModel&#39;, &#39;possible&#39;, &#39;availability.available&#39;, &#39;genericReadOnlyData.dueDate&#39;, &#39;aggregationModel&#39;, &#39;contentDetail[&quot;resource, optional): _description_. Defaults to None.
-
-    Returns:
-        str: _description_
-    """
-
+        'description']] = None
+    
     baseURL = 'https://sereduc.blackboard.com/'
+    internalID_API = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
+    APIGradeCollum = f'''{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'''
+    
     # id_externo=''
     # externalID_API = f'{baseURL}learn/api/public/v1/courses/externalId:{id_externo}/contents'
-    internalID_API = f'''{baseURL}
-    learn/api/public/v1/courses/{id_interno}/contents'''
 
-    father_id = f'''{baseURL}
-    learn/api/public/v1/courses/{id_interno}/contents'''
+    father_id = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
     # internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'->id_atividade
-    APIGradeCollum = f'''
-    {baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'''
     # APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{id_atividade}/children'''->id_assesment
     # APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/'''->id_encapsulamento
     # APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/{id_encapsulamento}/questions?expand=sourceInfo'''->BQ associado
 
-    filteredRequest_title = f'''function getFilteredResults(){{
-    const data = JSON.parse(document.body.innerText).results;
-    const filteredResults = data.filter(item => item.title === "{item_Search}")[0].{config};
-    return filteredResults;}}'''
+    def filteredRequest_title(item_search: str, config: str):
+        request = f'''function getFilteredResults(){{const data = JSON.parse(document.body.innerText).results;
+        const filteredResults = data.filter(item => item.title === "{item_Search}")[0].{config};
+        return filteredResults;}}'''
+        return request
 
-    filteredRequest_name = f'''function getFilteredResults(){{
-    const data = JSON.parse(document.body.innerText).results;
-    const filteredResults = data.filter(item => item.name === "{item_Search}")[0].{config};
-    return filteredResults;}}'''
+    def filteredRequest_name(item_search: str, config: str):
+        request= f'''function getFilteredResults(){{
+        const data = JSON.parse(document.body.innerText).results;
+        const filteredResults = data.filter(item => item.name === "{item_Search}")[0].{config};
+        return filteredResults;}}'''
+        return request
 
-    filteredRequest_columnName = f'''function getFilteredResults(){{
-    const data = JSON.parse(document.body.innerText).results;
-    const filteredResults = data.filter(item => item.columnName === "{item_Search}")[0].{config};
-    return filteredResults;}}'''
+    def filteredRequest_columnName(item_search: str, config: str):
+        request= f'''function getFilteredResults(){{
+        const data = JSON.parse(document.body.innerText).results;
+        const filteredResults = data.filter(item => item.columnName === "{item_Search}")[0].{config};
+        return filteredResults;}}'''
+        return request
 
-    print(f'Looking on Api Content for {item_Search} config {config} in'
-          f'{id_interno}')
+    # print(f'Looking on Api Content for {item_Search} config {config} in'
+    #       f'{id_interno}')
+    # await page.goto(url=internalID_API, wait_until='networkidle')
+    # result = await page.evaluate(filteredRequest_columnName(item_Search, config))
+    # return result
+    
+    match item_Search:
+        case 'Fórum de Interação entre Professores e Tutores':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            return result
+        case 'Meu Desempenho':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            config = 'contentHandler.url'
+            print(f'Checking {item_Search} associated URL...')
+            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            #Verificar se o link está correto
+            
+            return result, result2
+        case 'Organize seus estudos com a Sofia':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            config = 'contentHandler.url'
+            print(f'Checking {item_Search} associated URL...')
+            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            #Verificar se o link está correto
+            
+            return result, result2
+        case 'Fale com o Tutor':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            return result
+        case 'Desafio Colaborativo':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            #verificar se está com os grupos
+            
+            return result
+        case 'Unidade 1':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            return result
+        case 'Unidade 2':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            return result
+        case 'Unidade 3':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            return result
+        case 'Unidade 4':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            return result
+        case 'Material Didático Interativo':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            config = 'contentHandler.url'
+            print(f'Checking {item_Search} associated URL...')
+            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            #verificar validade do link
+            
+            return result, result2
+        case 'Videoteca: Videoaulas':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            config = 'contentHandler.url'
+            print(f'Checking {item_Search} associated URL...')
+            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            #verificar validade do link
+            
+            return result, result2
+        case 'Biblioteca Virtual: e-Book':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            config = 'contentHandler.url'
+            print(f'Checking {item_Search} associated URL...')
+            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            #verificar validade do link
+            
+            return result, result2
+        case 'WebAula':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            return result
+        case 'Avaliações':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            return result
+        case 'Atividade Contextualizada':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            return result
+        case 'AV1':
+            await page.goto(url=APIGradeCollum, wait_until='networkidle')
+            
+            config = 'genericReadOnlyData.dueDate'
+            print(f'Checking {item_Search} hand in date...')
+            result = await page.evaluate(filteredRequest_columnName(item_Search, config))
+            
+            #other configs
+            
+            return result
+        case 'AV2':
+            await page.goto(url=APIGradeCollum, wait_until='networkidle')
+            
+            result = await page.evaluate(filteredRequest_columnName(item_Search, config))
+            
+            #other configs
+            
+            return result
+        case 'AF':
+            await page.goto(url=APIGradeCollum, wait_until='networkidle')
+            
+            result = await page.evaluate(filteredRequest_columnName(item_Search, config))
+            
+            #other configs
+            
+            return result
+        case 'SER Melhor (Clique Aqui para deixar seu elogio, cr…':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            config = 'contentHandler.url'
+            print(f'Checking {item_Search} associated URL...')
+            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            #Verificar se o link está correto
+            
+            return result, result2
+        case 'Solicite seu livro impresso':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            config = 'contentHandler.url'
+            print(f'Checking {item_Search} associated URL...')
+            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            #Verificar se o link está correto
+            
+            return result, result2
+        case 'Relatório de Aulas Práticas':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            
+            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            #other configs
+            
+            return result
+        case 'Atividade de Autoaprendizagem 1':
+            #all configs
+            return result
+        case 'Atividade de Autoaprendizagem 2':
+            #all configs
+            return result
+        case 'Atividade de Autoaprendizagem 3':
+            #all configs
+            return result
+        case 'Atividade de Autoaprendizagem 4':
+            #all configs
+            return result
+        case 'Avaliação On-Line 1 (AOL 1) - Questionário':
+            #all configs
+            return result
+        case 'Avaliação On-Line 2 (AOL 2) - Questionário':
+            #all configs
+            return result
+        case 'Avaliação On-Line 3 (AOL 3) - Questionário':
+            #all configs
+            return result
+        case 'Avaliação On-Line 4 (AOL 4) - Questionário':
+            #all configs
+            return result
+        case 'Avaliação On-Line 5 (AOL 5) - Atividade Contextual…':
+            #all configs
+            
+            # config = 'genericReadOnlyData.dueDate'
+            # print(f'Checking {item_Search} hand in date...')
+            # result = await page.evaluate(filteredRequest_title(item_Search, config))
 
-    await page.goto(url=internalID_API, wait_until='networkidle')
-
-    result = await page.evaluate(filteredRequest_title)
-
-    return result
+            return result
+        case _:
+            result = f'Item ({item_Search}) não encontrado ou nomeclatura errada'
+            print(result)
+            return result
 
 
 async def date_adjust(utc_time_str: str):
-    """_summary_
-
-    Args:
-        utc_time_str (str): _description_
-
-    Returns:
-        _type_: _description_
-    """
 
     # Define the UTC time string
     # utc_time_str = '2024-06-11T02:59:59.999Z'
@@ -138,7 +368,6 @@ async def date_adjust(utc_time_str: str):
 
 async def main():
     async with async_playwright() as playwright:
-
         browser = await playwright.chromium.launch(headless=False)
         context = await browser.new_context()
         page = await context.new_page()
@@ -148,16 +377,16 @@ async def main():
             cache_data = json.load(f)
         await page.context.add_cookies(cache_data['cookies'])
 
-        baseURL = "https://sereduc.blackboard.com/"
+        baseURL = 'https://sereduc.blackboard.com/'
         id_interno = '_187869_1'
 
         await page.goto(baseURL)
         await page.wait_for_load_state('domcontentloaded')
         await page.wait_for_timeout(5000)
 
-        teste = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso', config='contentHandler.url')
-
-        print(teste)
+        visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+        await page.wait_for_timeout(5*1000)
+        print(visibility, item_URL)
 
 
 if __name__ == "__main__":
