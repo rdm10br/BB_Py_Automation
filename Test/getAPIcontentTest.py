@@ -1,11 +1,14 @@
-import asyncio, json, typing, pytz
+import asyncio
+import json
+import typing
+import pytz
 from datetime import datetime
 from playwright.async_api import (async_playwright, expect, Page)
 
 
 async def API_Config(page: Page,
-    id_interno: str,
-    item_Search: typing.Optional[typing.Literal[
+                     id_interno: str,
+                     item_Search: typing.Optional[typing.Literal[
         'Fórum de Interação entre Professores e Tutores',
         'Meu Desempenho',
         'Organize seus estudos com a Sofia',
@@ -20,7 +23,7 @@ async def API_Config(page: Page,
         'WebAula',
         'Avaliações',
         'Solicite seu livro impresso',
-        'SER Melhor (Clique Aqui para deixar seu elogio,'\
+        'SER Melhor (Clique Aqui para deixar seu elogio,'
         ' crítica ou sugestão)',
         'AV1',
         'AV2',
@@ -52,8 +55,7 @@ async def API_Config(page: Page,
         'contentDetail["resource/x-bb-externallink"].url',
         'contentDetail["resource/x-bb-blti-link"].url',
         'contentHandler.url',
-        'description']] = None ) -> str:
-    
+        'description']] = None) -> str:
     """_summary_
 
     Args:
@@ -65,42 +67,44 @@ async def API_Config(page: Page,
     Returns:
         str: _description_
     """
-    
+
     baseURL = 'https://sereduc.blackboard.com/'
     # id_externo=''
     # externalID_API = f'{baseURL}learn/api/public/v1/courses/externalId:{id_externo}/contents'
-    internalID_API = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
-    
-    # father_id = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
-    # id_atividade = internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'
-    # APIGradeCollum = f'{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'
-    # id_assesment = APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{id_atividade}/children'''
-    # id_encapsulamento = APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/'''
-    # APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/{id_encapsulamento}/questions?expand=sourceInfo'''
-    
-    
+    internalID_API = f'''{baseURL}
+    learn/api/public/v1/courses/{id_interno}/contents'''
+
+    father_id = f'''{baseURL}
+    learn/api/public/v1/courses/{id_interno}/contents'''
+    # internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'->id_atividade
+    APIGradeCollum = f'''
+    {baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'''
+    # APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{id_atividade}/children'''->id_assesment
+    # APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/'''->id_encapsulamento
+    # APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/{id_encapsulamento}/questions?expand=sourceInfo'''->BQ associado
+
     filteredRequest_title = f'''function getFilteredResults(){{
     const data = JSON.parse(document.body.innerText).results;
     const filteredResults = data.filter(item => item.title === "{item_Search}")[0].{config};
     return filteredResults;}}'''
-    
+
     filteredRequest_name = f'''function getFilteredResults(){{
     const data = JSON.parse(document.body.innerText).results;
     const filteredResults = data.filter(item => item.name === "{item_Search}")[0].{config};
     return filteredResults;}}'''
-    
+
     filteredRequest_columnName = f'''function getFilteredResults(){{
     const data = JSON.parse(document.body.innerText).results;
     const filteredResults = data.filter(item => item.columnName === "{item_Search}")[0].{config};
     return filteredResults;}}'''
-    
-    print(f'Looking on Api Content for {item_Search} config {config} in'\
+
+    print(f'Looking on Api Content for {item_Search} config {config} in'
           f'{id_interno}')
-    
+
     await page.goto(url=internalID_API, wait_until='networkidle')
-    
+
     result = await page.evaluate(filteredRequest_title)
-    
+
     return result
 
 
@@ -113,7 +117,7 @@ async def date_adjust(utc_time_str: str):
     Returns:
         _type_: _description_
     """
-    
+
     # Define the UTC time string
     # utc_time_str = '2024-06-11T02:59:59.999Z'
 
@@ -125,34 +129,34 @@ async def date_adjust(utc_time_str: str):
     local_time = utc_time.astimezone(local_tz)
 
     # Format the local time as desired
-    #formatted_local_time = local_time.strftime('%d/%m/%Y %H:%M:%S.%f')[:-3]
+    # formatted_local_time = local_time.strftime('%d/%m/%Y %H:%M:%S.%f')[:-3]
     formatted_local_time = local_time.strftime('%d/%m/%Y %H:%M')
     print("Formatted Local Time:", formatted_local_time)
-    
+
     return formatted_local_time
 
 
 async def main():
     async with async_playwright() as playwright:
-        
+
         browser = await playwright.chromium.launch(headless=False)
         context = await browser.new_context()
         page = await context.new_page()
-        
+
         CACHE_FILE = r'Metodos\Login\__pycache__\login_cache.json'
         with open(CACHE_FILE, 'r') as f:
             cache_data = json.load(f)
         await page.context.add_cookies(cache_data['cookies'])
-        
+
         baseURL = "https://sereduc.blackboard.com/"
         id_interno = '_187869_1'
-        
+
         await page.goto(baseURL)
         await page.wait_for_load_state('domcontentloaded')
         await page.wait_for_timeout(5000)
-        
+
         teste = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso', config='contentHandler.url')
-        
+
         print(teste)
 
 
