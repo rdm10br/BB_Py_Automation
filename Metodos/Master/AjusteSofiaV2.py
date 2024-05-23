@@ -15,18 +15,30 @@ async def ajusteSofia(page: Page, id_interno: str) -> None:
     itemSearch = 'Sofia'
     url = page.url
     print(f'Getting API ID for {itemSearch}')
-    id_sofia = await getApiContent.API_Req_Content(page=page, id_interno=id_interno, item_Search=itemSearch)
-    await page.wait_for_load_state('domcontentloaded')
-    
-    LinkEdit = f'{url}/edit/lti/{id_sofia}'
+    try:
+        id_sofia = await getApiContent.API_Req_Content(page=page, id_interno=id_interno, item_Search=itemSearch)
+        await page.wait_for_load_state('domcontentloaded')
+        # print(id_sofia)
+    except Exception as e:
+        if 'Item não encontrado' in str(e):
+            print(f'Erro na sala: {id_interno}; Item: {itemSearch} não foi encontrado')
+            pass
+        else:
+            print('Erro ao processar request:', e)
+            pass
+    if id_sofia != None:
+        LinkEdit = f'{url}/edit/lti/{id_sofia}'
 
-    print('Starting adjustments: "Sofia"')
-    await page.goto(LinkEdit)
-    await page.get_by_placeholder("Formato: meuwebsite.com").click(click_count=3)
-    print('Changing link...')
-    await page.get_by_placeholder("Formato: meuwebsite.com").fill("sofialti.ldmedtech.com.br/v1/launch/ser-sofia-plano-estudos")
-    await page.wait_for_load_state('networkidle')
-    await page.get_by_text("Você precisará desta informa").click()
-    print('Saving...')
-    await page.get_by_role("button", name="Salvar").click()
-    await page.wait_for_load_state('load')
+        print('Starting adjustments: "Sofia"')
+        await page.goto(LinkEdit)
+        await page.get_by_placeholder("Formato: meuwebsite.com").click(click_count=3)
+        print('Changing link...')
+        await page.get_by_placeholder("Formato: meuwebsite.com").fill("sofialti.ldmedtech.com.br/v1/launch/ser-sofia-plano-estudos")
+        await page.wait_for_load_state('networkidle')
+        await page.get_by_text("Você precisará desta informa").click()
+        print('Saving...')
+        await page.get_by_role("button", name="Salvar").click()
+        await page.wait_for_load_state('load')
+    else:
+        print(f'Item: {itemSearch} não encontrado!')
+        pass

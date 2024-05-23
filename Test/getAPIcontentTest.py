@@ -105,15 +105,36 @@ async def API_Config(page: Page,
             
             config = 'availability.available'
             print(f'Checking {item_search} visibility...')
-            result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
+            
+            try:
+                result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
+            except Exception as e:
+                if f'{item_search} not found in room {id_interno}' in str(e):
+                    print(f'Erro na sala: {id_interno}; Item: {item_Search} não foi encontrado')
+                    continue
+                else:
+                    print('Erro ao processar request:', e)
+                    continue
             
             config = 'contentHandler.url'
             print(f'Checking {item_search} associated URL...')
-            result_url = await page.evaluate(filteredRequest_title(item_search, config))
+            
+            try:
+                result_url = await page.evaluate(filteredRequest_title(item_search, config))
+            except Exception as e:
+                if f'{item_search} not found in room {id_interno}' in str(e):
+                    print(f'Erro na sala: {id_interno}; Item: {item_Search} não foi encontrado')
+                    continue
+                else:
+                    print('Erro ao processar request:', e)
+                    continue
             
             #verificar validade do link
             
-            results = f'{results}{item_Search} from Unidade {i} : visibility: {result_visibility} | URL: {result_url}\n'
+            if result_visibility != f'{item_search} not found in room {id_interno}':
+                results = f'{results}{item_Search} from Unidade {i} : visibility: {result_visibility} | URL: {result_url}\n'
+            else:
+                results = f'{results}{item_search} não encontrado na Unidade {i}\n'
         
         return results
 
