@@ -1,0 +1,46 @@
+APIGradeColumn = f'''{baseURL}learn/api/public/v2/courses/{id_interno}/gradebook/columns'''
+
+# id_externo=''
+# externalID_API = f'{baseURL}learn/api/public/v1/courses/externalId:{id_externo}/contents'
+
+# father_id = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
+# internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'->id_atividade
+# APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{id_atividade}/children'''->id_assesment
+# APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/'''->id_encapsulamento
+# APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/{id_encapsulamento}/questions?expand=sourceInfo'''->BQ associado
+
+# JSON.parse(document.body.innerText).results.filter(item => item.title === "{item_Search}")[0].{config}
+
+# request = '''() => {
+# const data = JSON.parse(document.body.innerText).results;
+# if (data && data.length > 0 && data[0].id) {
+#     return data[0].id;
+# } else {
+#     throw new Error('{item_search} não encontrado na sala {id_interno}');
+# }
+# }'''
+
+id_discussion = '' #f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents'+'JSON.parse(document.body.innerText).results[1].contentHandler.targetId'
+discussionGroups = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{id_discussion}/groups'
+groupsID = f'{baseURL}learn/api/public/v2/courses/{id_interno}/groups/sets'
+req_len = 'JSON.parse(document.body.innerText).results.length' #to see request length, especially groups
+
+    config: typing.Optional[typing.Literal[
+        'visible',
+        'visibleInBook',
+        'multipleAttempts',
+        'aggregationModel',
+        'possible',
+        'id',
+        'score.possible',
+        'availability.available',
+        'genericReadOnlyData.dueDate',
+        'grading.scoringModel',
+        'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id',
+        'contentHandler.assessmentId',
+        'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired',
+        'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired',
+        'contentDetail["resource/x-bb-externallink"].url',
+        'contentDetail["resource/x-bb-blti-link"].url',
+        'contentHandler.url',
+        'description']] = None
