@@ -80,25 +80,53 @@ async def API_Config(page: Page,
     # APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/'''->id_encapsulamento
     # APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/{id_encapsulamento}/questions?expand=sourceInfo'''->BQ associado
 
+    # JSON.parse(document.body.innerText).results.filter(item => item.title === "{item_Search}")[0].{config}
     def filteredRequest_title(item_search: str, config: str):
-        request = f'''function getFilteredResults(){{const data = JSON.parse(document.body.innerText).results;
-        const filteredResults = data.filter(item => item.title === "{item_search}")[0].{config};
-        return filteredResults;}}'''
+        request = f'''JSON.parse(document.body.innerText).results.filter(item => item.title === "{item_search}")[0].{config}'''
         return request
 
     def filteredRequest_name(item_search: str, config: str):
-        request= f'''function getFilteredResults(){{
-        const data = JSON.parse(document.body.innerText).results;
-        const filteredResults = data.filter(item => item.name === "{item_Search}")[0].{config};
-        return filteredResults;}}'''
+        request= f'''JSON.parse(document.body.innerText).results.filter(item => item.name === "{item_search}")[0].{config}'''
         return request
 
     def filteredRequest_columnName(item_search: str, config: str):
-        request= f'''function getFilteredResults(){{
-        const data = JSON.parse(document.body.innerText).results;
-        const filteredResults = data.filter(item => item.columnName === "{item_Search}")[0].{config};
-        return filteredResults;}}'''
+        request= f'''JSON.parse(document.body.innerText).results.filter(item => item.columnName === "{item_search}")[0].{config}'''
         return request
+    
+    async def check_item_all_folders_unidade():
+        
+        results = ''
+        id_folder: list = []
+
+        await page.goto(url=internalID_API, wait_until='networkidle')
+
+        for index in range(4):
+            index+=1
+            config = 'id'
+            unidade = f'Unidade {index}'
+            print(f'Checking Unidade {index} id...')
+            id_value = await page.evaluate(filteredRequest_title(item_search=unidade, config=config))
+            id_folder.append(id_value)
+            print(id_folder[index-1])
+        
+        for i in range(4):
+            
+            await page.goto(url=APIFolder(id_folder[i]), wait_until='networkidle')
+            i+=1
+            
+            config = 'availability.available'
+            print(f'Checking {item_Search} visibility...')
+            result1 = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            config = 'contentHandler.url'
+            print(f'Checking {item_Search} associated URL...')
+            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            #verificar validade do link
+            
+            results = f'{results}{item_Search} from Unidade {i} : visibility: {result1} | URL: {result2}\n'
+        
+        return results
 
     # print(f'Looking on Api Content for {item_Search} config {config} in'
     #       f'{id_interno}')
