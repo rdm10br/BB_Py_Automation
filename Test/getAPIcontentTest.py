@@ -43,12 +43,13 @@ async def API_Config(page: Page,
         'multipleAttempts',
         'aggregationModel',
         'possible',
+        'id',
         'score.possible',
         'availability.available',
         'genericReadOnlyData.dueDate',
         'grading.scoringModel',
         'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id',
-        '.contentHandler.assessmentId',
+        'contentHandler.assessmentId',
         'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired',
         'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired',
         'contentDetail["resource/x-bb-externallink"].url',
@@ -61,6 +62,10 @@ async def API_Config(page: Page,
     APIGradeCollum = f'''{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'''
     APIGradeColumn = f'''{baseURL}learn/api/public/v2/courses/{id_interno}/gradebook/columns'''
     
+    def APIFolder(father_id: str):
+        API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children'
+        return API
+    
     # id_externo=''
     # externalID_API = f'{baseURL}learn/api/public/v1/courses/externalId:{id_externo}/contents'
     
@@ -69,7 +74,7 @@ async def API_Config(page: Page,
     groupsID = f'{baseURL}learn/api/public/v2/courses/{id_interno}/groups/sets'
     req_len = 'JSON.parse(document.body.innerText).results.length' #to see request length, especially groups
     
-    father_id = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
+    # father_id = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
     # internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'->id_atividade
     # APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{id_atividade}/children'''->id_assesment
     # APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/'''->id_encapsulamento
@@ -77,7 +82,7 @@ async def API_Config(page: Page,
 
     def filteredRequest_title(item_search: str, config: str):
         request = f'''function getFilteredResults(){{const data = JSON.parse(document.body.innerText).results;
-        const filteredResults = data.filter(item => item.title === "{item_Search}")[0].{config};
+        const filteredResults = data.filter(item => item.title === "{item_search}")[0].{config};
         return filteredResults;}}'''
         return request
 
@@ -201,51 +206,108 @@ async def API_Config(page: Page,
             return result
         
         case 'Material Didático Interativo':
+            
+            results = ''
+            id_folder: list = []
+
             await page.goto(url=internalID_API, wait_until='networkidle')
+
+            for index in range(4):
+                index+=1
+                config = 'id'
+                unidade = f'Unidade {index}'
+                print(f'Checking Unidade {index} id...')
+                id_value = await page.evaluate(filteredRequest_title(item_search=unidade, config=config))
+                id_folder.append(id_value)
+                print(id_folder[index-1])
             
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            for i in range(4):
+                
+                await page.goto(url=APIFolder(id_folder[i]), wait_until='networkidle')
+                i+=1
+                
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result1 = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                config = 'contentHandler.url'
+                print(f'Checking {item_Search} associated URL...')
+                result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                #verificar validade do link
+                
+                results = f'{results}{item_Search} from Unidade {i} : visibility: {result1} | URL: {result2}\n'
             
-            config = 'contentHandler.url'
-            print(f'Checking {item_Search} associated URL...')
-            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
-            
-            #verificar validade do link
-            
-            results = f'{item_Search}: visibility: {result} | URL: {result2}'
             return results
         
         case 'Videoteca: Videoaulas':
+            
+            results = ''
+            id_folder: list = []
+
             await page.goto(url=internalID_API, wait_until='networkidle')
+
+            for index in range(4):
+                index+=1
+                config = 'id'
+                unidade = f'Unidade {index}'
+                print(f'Checking Unidade {index} id...')
+                id_value = await page.evaluate(filteredRequest_title(item_search=unidade, config=config))
+                id_folder.append(id_value)
+                print(id_folder[index-1])
             
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            for i in range(4):
+                
+                await page.goto(url=APIFolder(id_folder[i]), wait_until='networkidle')
+                i+=1
+                
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result1 = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                config = 'contentHandler.url'
+                print(f'Checking {item_Search} associated URL...')
+                result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                #verificar validade do link
+                
+                results = f'{results}{item_Search} from Unidade {i} : visibility: {result1} | URL: {result2}\n'
             
-            config = 'contentHandler.url'
-            print(f'Checking {item_Search} associated URL...')
-            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
-            
-            #verificar validade do link
-            
-            results = f'{item_Search}: visibility: {result} | URL: {result2}'
             return results
         
         case 'Biblioteca Virtual: e-Book':
+            
+            results = ''
+            id_folder: list = []
+            
             await page.goto(url=internalID_API, wait_until='networkidle')
             
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            for index in range(4):
+                index+=1
+                config = 'id'
+                unidade = f'Unidade {index}'
+                print(f'Checking Unidade {index} id...')
+                id_value = await page.evaluate(filteredRequest_title(item_search=unidade, config=config))
+                id_folder.append(id_value)
+                print(id_folder[index-1])
             
-            config = 'contentHandler.url'
-            print(f'Checking {item_Search} associated URL...')
-            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+            for i in range(4):
+                
+                await page.goto(url=APIFolder(id_folder[i]), wait_until='networkidle')
+                i+=1
+                
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result1 = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                config = 'contentHandler.url'
+                print(f'Checking {item_Search} associated URL...')
+                result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                #verificar validade do link
+                
+                results = f'{results}{item_Search} from Unidade {i} : visibility: {result1} | URL: {result2}\n'
             
-            #verificar validade do link
-            
-            results = f'{item_Search}: visibility: {result} | URL: {result2}'
             return results
         
         case 'WebAula':
@@ -431,9 +493,11 @@ async def main():
         await page.wait_for_timeout(5000)
 
         # visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
-        visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+        # visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+        result = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
         await page.wait_for_timeout(5*1000)
-        print(visibility, item_URL)
+        # print(visibility, item_URL)
+        print(result)
 
 
 if __name__ == "__main__":

@@ -70,6 +70,45 @@ def capture_console_output(func):
     return wrapper
 
 
+# def capture_console_output_async(func):
+#     """
+#     Function to create a log file of the console for async methods.
+
+#     Args:
+#         func (func): the main function you want a log
+
+#     Returns:
+#         creates a log file of what's showned on the console.
+#     """
+#     class ConsoleAndFile(io.StringIO):
+#         def write(self, data):
+#             sys.__stdout__.write(data)  # Write to the original stdout
+#             super().write(data)  # Write to the StringIO buffer
+
+#     async def wrapper(*args, **kwargs):
+#         console_output = ConsoleAndFile()
+#         sys.stdout = console_output
+
+#         # Call the original async function
+#         result = await func(*args, **kwargs)
+
+#         # Restore the original stdout
+#         sys.stdout = sys.__stdout__
+
+#         # Get the captured output as a string
+#         captured_output = console_output.getvalue()
+
+#         timer = time.strftime('%d-%m-%Y-%H-%M-%S')
+#         # Write the captured output to a log file
+#         log_file_name = rf"Logs\output-log-{timer}.log"
+#         async with aiofiles.open(log_file_name, 'w') as log_file:
+#             await log_file.write(captured_output)
+
+#         return result
+
+#     return wrapper
+
+
 def capture_console_output_async(func):
     """
     Function to create a log file of the console for async methods.
@@ -78,7 +117,7 @@ def capture_console_output_async(func):
         func (func): the main function you want a log
 
     Returns:
-        creates a log file of what's showned on the console.
+        creates a log file of what's shown on the console.
     """
     class ConsoleAndFile(io.StringIO):
         def write(self, data):
@@ -89,24 +128,34 @@ def capture_console_output_async(func):
         console_output = ConsoleAndFile()
         sys.stdout = console_output
 
-        # Call the original async function
-        result = await func(*args, **kwargs)
-
-        # Restore the original stdout
-        sys.stdout = sys.__stdout__
-
-        # Get the captured output as a string
-        captured_output = console_output.getvalue()
-
-        timer = time.strftime('%d-%m-%Y-%H-%M-%S')
-        # Write the captured output to a log file
-        log_file_name = rf"Logs\output-log-{timer}.log"
-        async with aiofiles.open(log_file_name, 'w') as log_file:
-            await log_file.write(captured_output)
-
-        return result
+        try:
+            # Call the original async function
+            result = await func(*args, **kwargs)
+        except Exception as e:
+            # Capture the exception and the output
+            captured_output = console_output.getvalue()
+            timer = time.strftime('%d-%m-%Y-%H-%M-%S')
+            log_file_name = rf"Logs\output-log-{timer}.log"
+            async with aiofiles.open(log_file_name, 'w') as log_file:
+                await log_file.write(captured_output)
+                await log_file.write(f"\nException occurred: {str(e)}")
+            # Re-raise the exception to maintain the original behavior
+            raise
+        else:
+            # Get the captured output as a string
+            captured_output = console_output.getvalue()
+            timer = time.strftime('%d-%m-%Y-%H-%M-%S')
+            # Write the captured output to a log file
+            log_file_name = rf"Logs\output-log-{timer}.log"
+            async with aiofiles.open(log_file_name, 'w') as log_file:
+                await log_file.write(captured_output)
+            return result
+        finally:
+            # Restore the original stdout
+            sys.stdout = sys.__stdout__
 
     return wrapper
+
 
 # Example usage
 # @capture_console_output_async
