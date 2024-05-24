@@ -18,7 +18,7 @@ async def copySala(page: Page, index: int) -> None:
 
     print(f'Trying to copy classroom from {id_master} to {id_copia};')
 
-    await page.goto(coppyOnBlack)
+    await page.goto(url=coppyOnBlack,wait_until='domcontentloaded')
     
     # await page.get_by_label("Selecionar Tipo de cópia").select_option("O") #curso existente
     await page.get_by_label("Selecionar Tipo de cópia").select_option("N") #nova disciplina
