@@ -3,39 +3,7 @@ from datetime import datetime
 from playwright.async_api import (async_playwright, expect, Page)
 
 
-async def API_Config(page: Page,
-                     id_interno: str,
-                     item_Search: typing.Optional[typing.Literal[
-        'Fórum de Interação entre Professores e Tutores',
-        'Meu Desempenho',
-        'Organize seus estudos com a Sofia',
-        'Fale com o Tutor',
-        'Desafio Colaborativo',
-        'Unidade 1',
-        'Unidade 2',
-        'Unidade 3',
-        'Unidade 4',
-        'Atividade Contextualizada',
-        'Relatório de Aulas Práticas',
-        'WebAula',
-        'Avaliações',
-        'Solicite seu livro impresso',
-        'SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)',
-        'AV1',
-        'AV2',
-        'AF',
-        'Avaliação On-Line 1 (AOL 1) - Questionário',
-        'Avaliação On-Line 2 (AOL 2) - Questionário',
-        'Avaliação On-Line 3 (AOL 3) - Questionário',
-        'Avaliação On-Line 4 (AOL 4) - Questionário',
-        'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada',
-        'Atividade de Autoaprendizagem 1',
-        'Atividade de Autoaprendizagem 2',
-        'Atividade de Autoaprendizagem 3',
-        'Atividade de Autoaprendizagem 4',
-        'Material Didático Interativo',
-        'Biblioteca Virtual: e-Book',
-        'Videoteca: Videoaulas']] = None) -> str:
+async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
     
     baseURL = 'https://sereduc.blackboard.com/'
     internalID_API = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
@@ -45,6 +13,17 @@ async def API_Config(page: Page,
     def APIFolder(father_id: str):
         API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children'
         return API
+    
+    def request_unfiltered(config: str):
+        request = f'''() => {{
+            const data = JSON.parse(document.body.innerText).results;
+            if (data && data.{config}) {{
+                return data.{config};
+            }} else {{
+                throw new Error('item not found in room {id_interno}');
+                }}
+            }}'''
+        return request
     
     def filteredRequest_title(item_search: str, config: str):
         request = f'''() => {{
@@ -66,7 +45,6 @@ async def API_Config(page: Page,
                 throw new Error('{item_search} not found in room {id_interno}');
                 }}
             }}'''
-
         return request
 
     def filteredRequest_columnName(item_search: str, config: str):
@@ -78,7 +56,6 @@ async def API_Config(page: Page,
                 throw new Error('{item_search} not found in room {id_interno}');
                 }}
             }}'''
-
         return request
     
     async def check_item_in_all_folders_unidade(item_search: str):
@@ -165,7 +142,9 @@ async def API_Config(page: Page,
             print(f'Checking {item_Search} associated URL...')
             result2 = await page.evaluate(filteredRequest_title(item_Search, config))
             
-            #Verificar se o link está correto
+            if result2 != 'lti-kyryon.andrios.tech/v1/lti/launch':
+                text =f'This link for {item_Search} is wrong: '
+                result2 = f'{text}{result2}'
             
             results = f'{item_Search}: visibility: {result} | URL: {result2}'
             return results
@@ -181,6 +160,9 @@ async def API_Config(page: Page,
             print(f'Checking {item_Search} associated URL...')
             result2 = await page.evaluate(filteredRequest_title(item_Search, config))
             
+            if result2 !='sofialti.ldmedtech.com.br/v1/launch/ser-sofia-plano-estudos':
+                text =f'This link for {item_Search} is wrong: '
+                result2 = f'{text}{result2}'
             #Verificar se o link está correto
             
             results = f'{item_Search}: visibility: {result} | URL: {result2}'
@@ -191,8 +173,17 @@ async def API_Config(page: Page,
             
             config = 'availability.available'
             print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
-            # verificar configurações
+            result_visibility = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            config = 'contentDetail["resource/x-bb-journallink"].blog.entryModificationAllowed'
+            print(f'Checking {item_Search} entryModificationAllowed...')
+            result_entry_modifucation = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            config = 'contentDetail["resource/x-bb-journallink"].blog.commentModificationAllowed'
+            print(f'Checking {item_Search} commentModificationAllowed...')
+            result_comment_Modification = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            result = f'{item_Search}: visibility : {result_visibility} | entryModificationAllowed: {result_entry_modifucation} | commentModificationAllowed: {result_comment_Modification}'
             return result
         
         case 'Desafio Colaborativo':
@@ -266,7 +257,18 @@ async def API_Config(page: Page,
             config = 'availability.available'
             print(f'Checking {item_Search} visibility...')
             result = await page.evaluate(filteredRequest_title(item_Search, config))
-            # verificar se pasta está vazia
+            
+            config = 'id'
+            print(f'Checking {item_Search} id...')
+            father_id = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            await page.goto(url=APIFolder(father_id), wait_until='commit')
+            
+            config = 'lenght'
+            result2 = await page.evaluate(request_unfiltered(config=config))
+            
+            result = f'{result} | {result2} itens in {item_Search}'
+            
             return result
         
         case 'Avaliações':
@@ -275,7 +277,24 @@ async def API_Config(page: Page,
             config = 'availability.available'
             print(f'Checking {item_Search} visibility...')
             result = await page.evaluate(filteredRequest_title(item_Search, config))
-            # verificar se nomeclatura está certa
+            
+            config = 'id'
+            print(f'Checking {item_Search} id...')
+            father_id = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            await page.goto(url=APIFolder(father_id), wait_until='commit')
+            
+            config = 'title'
+            item_search = 'Regras da Avaliação - Resolução CONSU'
+            print(f'Checking {item_search} title...')
+            result2 = await page.evaluate(filteredRequest_title(item_search, config))
+            
+            if result2 != 'Regras da Avaliação - Resolução CONSU':
+                text = f'{item_search} title is incorrect!'
+                result = f'{result}{text}'
+            else:
+                result = f'{result} | {item_search} is correct!'
+            
             return result
         
         case 'Atividade Contextualizada':
@@ -446,12 +465,12 @@ async def main():
         # visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
         # visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
         # result0 = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
-        result1 = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaulas')
+        # result1 = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaulas')
         # result2 = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
         await page.wait_for_timeout(5*1000)
         # print(visibility, item_URL)
         # print(result0)
-        print(result1)
+        # print(result1)
         # print(result2)
 
 
