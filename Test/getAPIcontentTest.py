@@ -46,7 +46,6 @@ async def API_Config(page: Page,
         API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children'
         return API
     
-    
     def filteredRequest_title(item_search: str, config: str):
         request = f'''() => {{
             const data = JSON.parse(document.body.innerText).results.find(item => item.title === "{item_search}");
@@ -193,7 +192,7 @@ async def API_Config(page: Page,
             config = 'availability.available'
             print(f'Checking {item_Search} visibility...')
             result = await page.evaluate(filteredRequest_title(item_Search, config))
-            
+            # verificar configurações
             return result
         
         case 'Desafio Colaborativo':
@@ -267,7 +266,7 @@ async def API_Config(page: Page,
             config = 'availability.available'
             print(f'Checking {item_Search} visibility...')
             result = await page.evaluate(filteredRequest_title(item_Search, config))
-            
+            # verificar se pasta está vazia
             return result
         
         case 'Avaliações':
@@ -276,7 +275,7 @@ async def API_Config(page: Page,
             config = 'availability.available'
             print(f'Checking {item_Search} visibility...')
             result = await page.evaluate(filteredRequest_title(item_Search, config))
-            
+            # verificar se nomeclatura está certa
             return result
         
         case 'Atividade Contextualizada':
@@ -285,7 +284,7 @@ async def API_Config(page: Page,
             config = 'availability.available'
             print(f'Checking {item_Search} visibility...')
             result = await page.evaluate(filteredRequest_title(item_Search, config))
-            
+            # verificar se tem conteúdo na atividade
             return result
         
         case 'AV1':
