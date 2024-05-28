@@ -116,7 +116,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
         return results
 
-    # print(f'Looking on Api Content for {item_Search} config {config} in'
+    # print(f'Looking on Api Content for {item_Search} config {config} in'\
     #       f'{id_interno}')
     # await page.goto(url=internalID_API, wait_until='networkidle')
     # result = await page.evaluate(filteredRequest_columnName(item_Search, config))
@@ -315,7 +315,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             config = 'genericReadOnlyData.dueDate'
             print(f'Checking {item_Search} hand in date...')
             result = await page.evaluate(filteredRequest_columnName(item_Search, config))
-
+            # verificar se é uma pasta, um cálculo ou um item
             # other configs
 
             return result
