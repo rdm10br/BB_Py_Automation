@@ -266,7 +266,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
             await page.goto(url=APIFolder(father_id), wait_until='commit')
 
-            config = 'lenght'
+            config = 'length'
             result2 = await page.evaluate(request_unfiltered(config=config))
 
             result = f'{result} | {result2} itens in {item_Search}'
@@ -447,7 +447,7 @@ async def date_adjust(utc_time_str: str):
     return formatted_local_time
 
 
-async def main():
+async def doublecheck_config_main():
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(headless=False)
         context = await browser.new_context()
@@ -478,4 +478,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(doublecheck_config_main())
