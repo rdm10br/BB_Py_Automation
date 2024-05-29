@@ -195,7 +195,12 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             print(f'Checking {item_Search} visibility...')
             result = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            # verificar se está com os grupos
+            # verificar se está com os grupos contentHandler.targetId
+            # {baseURL}learn/api/public/v1/courses/{id_interno}/contents/{targetID}
+            # contentHandler.discussionId
+            # {baseURL}learn/api/public/v1/courses/{id_interno}/discussions/{discussionID}
+            # {baseURL}learn/api/public/v1/courses/{id_interno}/discussions/{discussionID}/groups
+            # length
 
             return result
 
@@ -305,6 +310,18 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             config = 'availability.available'
             print(f'Checking {item_Search} visibility...')
             result = await page.evaluate(filteredRequest_title(item_Search, config))
+
+            config = 'hasChildren'
+            print(f'Checking {item_Search} hasChildren...')
+            result_hasChidren = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            match result_hasChidren:
+                case 'true':
+                    
+                    pass
+                case 'false':
+                    # verificar configs e conteúdo
+                    return
             # verificar se tem conteúdo na atividade
             
             return result
