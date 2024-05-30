@@ -2,6 +2,7 @@ import asyncio, pytz, json, typing
 from datetime import datetime
 from playwright.async_api import (async_playwright, expect, Page)
 
+
 from src.Metodos import getPlanilha
 
 
@@ -128,6 +129,55 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
         return results
 
+    async def activity_configs(item_search: str):
+            
+        # // visivel para o aluno
+        # "visible": true,
+
+        # // nota maxima no item
+        # "possible": 10,
+
+        # // quantidade de tentativas do item (0 = ilimitada)
+        # "multipleAttempts": 0,
+
+        # // visbilidade no boletim
+        # "visibleInBook": false,
+        
+        # //configuração de maior nota
+        # "aggregationModel": "HIGHEST",'
+        
+        # "dueDate": "2024-06-11T02:59:59.999Z",
+        # genericReadOnlyData.dueDate
+        
+        # //item description
+        # "description": "",
+        
+        # //Questionário com alternativas aleatórias
+        #contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings
+        #.isRandomizationOfAnswersRequired
+        #"ALWAYS"
+
+        # //Questionário com alternativas aleatórias
+        #contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings
+        #.isRandomizationOfQuestionsRequired
+        #true
+            
+        return
+        
+    async def activity_BQ(item_search: str):
+        
+        # //BQ associado
+        #APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{id_atividade}/children'''
+        #contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id
+        
+        #APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/'''
+        #JSON.parse(document.body.innerText).results[0].id
+
+        #APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/{id_encapsulamento}/questions?expand=sourceInfo'''
+        #JSON.parse(document.body.innerText).results[0].sourceInfo.name
+        
+        return
+    
     # print(f'Looking on Api Content for {item_Search} config {config} in'\
     #       f'{id_interno}')
     # await page.goto(url=internalID_API, wait_until='networkidle')
@@ -351,9 +401,14 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                     
                     config = 'id'
                     folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
+                    
                     await page.goto(url=APIFolder(father_id=folderID), wait_until='commit')
                     
-                    pass
+                    await page.goto(url=APIGradeCollum, wait_until='commit')
+                    
+                    # contentHandler.assessmentId
+                    
+                    return result
                 case 'false':
                     
                     # verificar configs e conteúdo
@@ -361,14 +416,14 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                     print(f'Checking {item_Search} visibility...')
                     result = await page.evaluate(filteredRequest_title(item_Search, config))
                     
-                    return
+                    return result
             # verificar se tem conteúdo na atividade
             
             return result
 
         case 'AV1':
             
-            await page.goto(url=APIGradeCollum, wait_until='networkidle')
+            await page.goto(url=APIGradeCollum, wait_until='commit')
 
             config = 'genericReadOnlyData.dueDate'
             print(f'Checking {item_Search} hand in date...')
@@ -380,7 +435,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
         case 'AV2':
             
-            await page.goto(url=APIGradeCollum, wait_until='networkidle')
+            await page.goto(url=APIGradeCollum, wait_until='commit')
 
             result = await page.evaluate(filteredRequest_columnName(item_Search, config))
 
@@ -390,7 +445,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
         case 'AF':
             
-            await page.goto(url=APIGradeCollum, wait_until='networkidle')
+            await page.goto(url=APIGradeCollum, wait_until='commit')
 
             result = await page.evaluate(filteredRequest_columnName(item_Search, config))
 
@@ -440,47 +495,100 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
             
             await page.goto(url=APIFolder(father_id=folderID), wait_until='commit')
+            #verify other itens in folder
             
-            
-
-            # other configs
+            await page.goto(url=APIGradeCollum, wait_until='commit')
 
             return result
 
         case 'Atividade de Autoaprendizagem 1':
-            # all configs
+            
+            result_configs = await activity_configs(item_Search)
+            
+            resultBQ = await activity_BQ(item_Search)
+            
+            result = f'{result_configs} | {resultBQ}'
+            
             return result
 
         case 'Atividade de Autoaprendizagem 2':
-            # all configs
+            
+            result_configs = await activity_configs(item_Search)
+            
+            resultBQ = await activity_BQ(item_Search)
+            
+            result = f'{result_configs} | {resultBQ}'
+            
             return result
 
         case 'Atividade de Autoaprendizagem 3':
-            # all configs
+            
+            result_configs = await activity_configs(item_Search)
+            
+            resultBQ = await activity_BQ(item_Search)
+            
+            result = f'{result_configs} | {resultBQ}'
+            
             return result
 
         case 'Atividade de Autoaprendizagem 4':
-            # all configs
+            
+            result_configs = await activity_configs(item_Search)
+            
+            resultBQ = await activity_BQ(item_Search)
+            
+            result = f'{result_configs} | {resultBQ}'
+
             return result
 
         case 'Avaliação On-Line 1 (AOL 1) - Questionário':
-            # all configs
+            
+            result_configs = await activity_configs(item_Search)
+            
+            resultBQ = await activity_BQ(item_Search)
+            
+            result = f'{result_configs} | {resultBQ}'
+
             return result
 
         case 'Avaliação On-Line 2 (AOL 2) - Questionário':
-            # all configs
+            
+            result_configs = await activity_configs(item_Search)
+            
+            resultBQ = await activity_BQ(item_Search)
+            
+            result = f'{result_configs} | {resultBQ}'
+
             return result
 
         case 'Avaliação On-Line 3 (AOL 3) - Questionário':
-            # all configs
+            
+            result_configs = await activity_configs(item_Search)
+            
+            resultBQ = await activity_BQ(item_Search)
+            
+            result = f'{result_configs} | {resultBQ}'
+
             return result
 
         case 'Avaliação On-Line 4 (AOL 4) - Questionário':
-            # all configsl
+            
+            result_configs = await activity_configs(item_Search)
+            
+            resultBQ = await activity_BQ(item_Search)
+            
+            result = f'{result_configs} | {resultBQ}'
+            
             return result
 
         case 'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada':
-            # all configs
+            
+            result_configs = await activity_configs(item_Search)
+            
+            resultBQ = await activity_BQ(item_Search)
+            
+            result = f'{result_configs} | {resultBQ}'
+
 
             # config = 'genericReadOnlyData.dueDate'
             # print(f'Checking {item_Search} hand in date...')
