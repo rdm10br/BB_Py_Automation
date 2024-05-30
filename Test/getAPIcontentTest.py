@@ -2,6 +2,8 @@ import asyncio, pytz, json, typing
 from datetime import datetime
 from playwright.async_api import (async_playwright, expect, Page)
 
+from src.Metodos import getPlanilha
+
 
 async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
@@ -10,10 +12,20 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
     APIGradeCollum = f'''{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'''
 
     def APIFolder(father_id: str):
-        API = f'{
-            baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children'
+        API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children'
         return API
 
+    def request_unfiltered_noResults(config: str):
+        request = f'''() => {{
+            const data = JSON.parse(document.body.innerText);
+            if (data && data.{config}) {{
+                return data.{config};
+            }} else {{
+                throw new Error('item not found in room {id_interno}');
+                }}
+            }}'''
+        return request
+    
     def request_unfiltered(config: str):
         request = f'''() => {{
             const data = JSON.parse(document.body.innerText).results;
@@ -195,12 +207,31 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             print(f'Checking {item_Search} visibility...')
             result = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            # verificar se está com os grupos contentHandler.targetId
-            # {baseURL}learn/api/public/v1/courses/{id_interno}/contents/{targetID}
-            # contentHandler.discussionId
-            # {baseURL}learn/api/public/v1/courses/{id_interno}/discussions/{discussionID}
-            # {baseURL}learn/api/public/v1/courses/{id_interno}/discussions/{discussionID}/groups
-            # length
+            config = 'contentHandler.targetId'
+            print(f'Checking {item_Search} contentHandler.targetId...')
+            targetID = await page.evaluate(filteredRequest_title(item_Search, config))
+             
+            APITargetID = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{targetID}'
+            await page.goto(url=APITargetID, wait_until='commit')
+            
+            config = 'contentHandler.discussionId'
+            print(f'Checking {item_Search} contentHandler.discussionId...')
+            discussionID = await page.evaluate(request_unfiltered_noResults(config=config))
+            
+            API_Discussion_groups = f'{baseURL}learn/api/public/v1/courses/{id_interno}/discussions/{discussionID}/groups'
+            await page.goto(url=API_Discussion_groups, wait_until='commit')
+            
+            config = 'length'
+            print(f'Checking {item_Search} groups length...')
+            Groups_length = await page.evaluate(request_unfiltered(config=config))
+            
+            if Groups_length > 0:
+                text = 'Group is associated'
+                result = f'{result} | {text}'
+            else:
+                text = 'No group associated'
+                result = f'{result} | {text}'
+                return
 
             return result
 
@@ -307,10 +338,6 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
         case 'Atividade Contextualizada':
             await page.goto(url=internalID_API, wait_until='networkidle')
 
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
-
             config = 'hasChildren'
             print(f'Checking {item_Search} hasChildren...')
             result_hasChidren = await page.evaluate(filteredRequest_title(item_Search, config))
@@ -318,15 +345,29 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             match result_hasChidren:
                 case 'true':
                     
+                    config = 'availability.available'
+                    print(f'Checking {item_Search} visibility...')
+                    result = await page.evaluate(filteredRequest_title(item_Search, config))
+                    
+                    config = 'id'
+                    folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
+                    await page.goto(url=APIFolder(father_id=folderID), wait_until='commit')
+                    
                     pass
                 case 'false':
+                    
                     # verificar configs e conteúdo
+                    config = 'availability.available'
+                    print(f'Checking {item_Search} visibility...')
+                    result = await page.evaluate(filteredRequest_title(item_Search, config))
+                    
                     return
             # verificar se tem conteúdo na atividade
             
             return result
 
         case 'AV1':
+            
             await page.goto(url=APIGradeCollum, wait_until='networkidle')
 
             config = 'genericReadOnlyData.dueDate'
@@ -338,6 +379,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             return result
 
         case 'AV2':
+            
             await page.goto(url=APIGradeCollum, wait_until='networkidle')
 
             result = await page.evaluate(filteredRequest_columnName(item_Search, config))
@@ -347,6 +389,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             return result
 
         case 'AF':
+            
             await page.goto(url=APIGradeCollum, wait_until='networkidle')
 
             result = await page.evaluate(filteredRequest_columnName(item_Search, config))
@@ -389,9 +432,16 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             return results
 
         case 'Relatório de Aulas Práticas':
+            
             await page.goto(url=internalID_API, wait_until='networkidle')
 
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
+            item = 'Atividade de Aulas Práticas'
+            config = 'id'
+            folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
+            
+            await page.goto(url=APIFolder(father_id=folderID), wait_until='commit')
+            
+            
 
             # other configs
 
@@ -439,7 +489,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             return result
 
         case _:
-            result = f'Item ({item_Search}) não encontrado ou nomeclatura errada'
+            result = f'Item: [{item_Search}] não encontrado ou nomeclatura errada'
             print(result)
             return result
 
@@ -476,15 +526,16 @@ async def doublecheck_config_main():
         await page.context.add_cookies(cache_data['cookies'])
 
         baseURL = 'https://sereduc.blackboard.com/'
-        # id_interno = '_187869_1' # sala carlos
-        id_interno = '_139625_1' #sala modelo
+        id_interno = '_187869_1' # sala carlos
+        # id_interno = '_139625_1' #sala modelo
 
         await page.goto(url=baseURL, wait_until='domcontentloaded')
         await page.wait_for_timeout(5000)
 
         # visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
         # visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
-        result0 = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
+        # result0 = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
+        result0 =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
         # result1 = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaulas')
         # result2 = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
         await page.wait_for_timeout(5*1000)
