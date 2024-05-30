@@ -1,6 +1,6 @@
 import asyncio, pytz, json, typing
 from datetime import datetime
-from playwright.async_api import (async_playwright, expect, Page)
+from playwright.async_api import async_playwright, expect, Page
 
 
 from src.Metodos import getPlanilha
@@ -12,6 +12,10 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
     internalID_API = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
     APIGradeCollum = f'''{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'''
 
+    def APIinternalID_API(fatherID: str):
+        API = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{father_id}/children'''
+        return API
+    
     def APIFolder(father_id: str):
         API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children'
         return API
@@ -129,34 +133,129 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
         return results
 
-    async def activity_configs(item_search: str):
-            
-        # // visivel para o aluno
+    async def activity_configs(item_search: str): #
+        
+        #API Grade configs
+        await page.goto(url=APIGradeCollum, wait_until='commit')
+        
+        config = 'visible'
+        print(f'Checking {item_search} visible...')
+        result_visibility = await page.evaluate(filteredRequest_columnName(item_search, config))
+        
         # "visible": true,
 
-        # // nota maxima no item
+        config = 'possible'
+        print(f'Checking {item_search} possible...')
+        result_possible_note = await page.evaluate(filteredRequest_columnName(item_search, config))
+        
         # "possible": 10,
 
-        # // quantidade de tentativas do item (0 = ilimitada)
+        config = 'multipleAttempts'
+        print(f'Checking {item_search} possible...')
+        result_attempts = await page.evaluate(filteredRequest_columnName(item_search, config))
+        
         # "multipleAttempts": 0,
 
-        # // visbilidade no boletim
+        config = 'visibleInBook'
+        print(f'Checking {item_search} visibleInBook...')
+        result_visibleInBook = await page.evaluate(filteredRequest_columnName(item_search, config))
+        
         # "visibleInBook": false,
         
-        # //configuração de maior nota
+        config = 'aggregationModel'
+        print(f'Checking {item_search} aggregationModel...')
+        result_aggregationModel = await page.evaluate(filteredRequest_columnName(item_search, config))
+        
         # "aggregationModel": "HIGHEST",'
         
-        # "dueDate": "2024-06-11T02:59:59.999Z",
-        # genericReadOnlyData.dueDate
+        # config = 'genericReadOnlyData.dueDate'
+        config = 'dueDate'
+        print(f'Checking {item_search} hand in date...')
+        result_dueDate = await page.evaluate(filteredRequest_columnName(item_search, config))
+        result_dueDate = date_adjust(result_dueDate)
+        
+        #=======================================================================
+        
+        #API contents
+        await page.goto(url=internalID_API, wait_until='commit')
+        config = 'id'
+        
+        match item_search.isdigit()[0]:
+            case '1' :
+                item = 'Unidade 1'
+                return item
+            case '2' :
+                item = 'Unidade 2'
+                return item
+            case '3' :
+                item = 'Unidade 3'
+                return item
+            case '4' :
+                item = 'Unidade 4'
+                return item
+            
+        folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
+        
+        await page.goto(url=APIinternalID_API(folderID), wait_until='commit')
+        
+        try:
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
+            itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
+            
+            if itemID != f'{item_search} not found in room {id_interno}':
+                
+                APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/'''
+                
+                await page.goto(url=APIEncapsulamento, wait_until='commit')
+                config = 'id'
+                await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
+                
+                return
+        except Exception as e:
+                if f'{item_search} not found in room {id_interno}' in str(e):
+                    item_folder = f'Atividade - {item}'
+                    activity_folderID = await page.evaluate(filteredRequest_title(item_search=item_folder, config=config))
+                    await page.goto(url=APIinternalID_API(activity_folderID), wait_until='commit')
+                    
+                    itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
+                    
+                    return
+                else:
+                    print('Erro ao processar request:', e)
+                    return
+        
+        # config = 'description'
+        # print(f'Checking {item_search} description...')
+        # result_description = await page.evaluate(filteredRequest_columnName(item_search, config))
         
         # //item description
         # "description": "",
+        
+        
+        # config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired'
+        # print(f'Checking {item_search} Randomization of Answers Required...')
+        # result_isRandomizationOfAnswersRequired = await page.evaluate(filteredRequest_columnName(item_search, config))
+        
+        # if result_isRandomizationOfAnswersRequired == "ALWAYS":
+        #     return
+        # else:
+        #     print()
         
         # //Questionário com alternativas aleatórias
         #contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings
         #.isRandomizationOfAnswersRequired
         #"ALWAYS"
 
+        
+        # config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired'
+        # print(f'Checking {item_search} Randomization of Answers Required...')
+        # result_isRandomizationOfQuestionsRequired = await page.evaluate(filteredRequest_columnName(item_search, config))
+        
+        # if result_isRandomizationOfQuestionsRequired == "true":
+        #     return
+        # else:
+        #     print()
+        
         # //Questionário com alternativas aleatórias
         #contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings
         #.isRandomizationOfQuestionsRequired
@@ -166,6 +265,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
         
     async def activity_BQ(item_search: str):
         
+        await page.goto(APIFolder())
         # //BQ associado
         #APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{id_atividade}/children'''
         #contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id
@@ -276,7 +376,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             Groups_length = await page.evaluate(request_unfiltered(config=config))
             
             if Groups_length > 0:
-                text = 'Group is associated'
+                text = f'{Groups_length} Groups associated'
                 result = f'{result} | {text}'
             else:
                 text = 'No group associated'
@@ -385,7 +485,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
             return result
 
-        case 'Atividade Contextualizada':
+        case 'Atividade Contextualizada': #
             await page.goto(url=internalID_API, wait_until='networkidle')
 
             config = 'hasChildren'
@@ -421,7 +521,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             return result
 
-        case 'AV1':
+        case 'AV1': #
             
             await page.goto(url=APIGradeCollum, wait_until='commit')
 
@@ -433,7 +533,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
             return result
 
-        case 'AV2':
+        case 'AV2': #
             
             await page.goto(url=APIGradeCollum, wait_until='commit')
 
@@ -443,7 +543,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
             return result
 
-        case 'AF':
+        case 'AF': #
             
             await page.goto(url=APIGradeCollum, wait_until='commit')
 
@@ -486,7 +586,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             results = f'{item_Search}: visibility: {result} | URL: {result2}'
             return results
 
-        case 'Relatório de Aulas Práticas':
+        case 'Relatório de Aulas Práticas': #
             
             await page.goto(url=internalID_API, wait_until='networkidle')
 
@@ -581,7 +681,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             return result
 
-        case 'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada':
+        case 'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada': #
             
             result_configs = await activity_configs(item_Search)
             
