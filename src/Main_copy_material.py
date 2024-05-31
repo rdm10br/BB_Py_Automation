@@ -14,7 +14,7 @@ async def run(playwright: Playwright) -> None:
     page = await context.new_page()
     
     baseURL = 'https://sereduc.blackboard.com/'
-    await page.goto(baseURL)
+    # await page.goto(baseURL)
     # Verificar se está logado e logar
     await checkup_login.checkup_login(page=page)
     

@@ -1,4 +1,4 @@
-import asyncio, pytz, json, typing
+import asyncio, pytz, json
 from datetime import datetime
 from playwright.async_api import async_playwright, expect, Page
 
@@ -741,7 +741,121 @@ async def adjust_date(utc_time_str: str):
     return formatted_local_time
 
 
-async def doublecheck_config_main() -> None:
+async def doublecheck_config_main_Master(page: Page, id_interno: str) -> str:
+    
+    results_Forum = await API_Config(page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
+    results_MDesempenho = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+    result_Sofia =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
+    results_FTutor = await API_Config(page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
+    result_DC =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    result_top = f'\n{results_Forum}\n{results_MDesempenho}\n{result_Sofia}\n{results_FTutor}\n{result_DC}'
+    
+    result_Unidade1 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 1')
+    result_Unidade2 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 2')
+    result_Unidade3 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 3')
+    result_Unidade4 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 4')
+    result_folder = f'\n{result_Unidade1}\n{result_Unidade2}\n{result_Unidade3}\n{result_Unidade4}'
+    
+    result_Material = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
+    result_videoteca = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
+    result_Ebook = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
+    result_Materials = f'\n{result_Material}\n{result_videoteca}\n{result_Ebook}'
+    
+    results_AtivAuto1 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
+    results_AtivAuto2 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
+    results_AtivAuto3 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
+    results_AtivAuto4 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
+    result_AtivAuto = f'\n{results_AtivAuto1}\n{results_AtivAuto2}\n{results_AtivAuto3}\n{results_AtivAuto4}'
+    
+    results_AOL1 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 1 (AOL 1) - Questionário')
+    results_AOL2 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 2 (AOL 2) - Questionário')
+    results_AOL3 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 3 (AOL 3) - Questionário')
+    results_AOL4 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 4 (AOL 4) - Questionário')
+    result_AOLS = f'\n{results_AOL1}\n{results_AOL2}\n{results_AOL3}\n{results_AOL4}'
+    
+    results_Avaliacao = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliações')
+    results_Web = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
+    results_solicite = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
+    results_ser = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+    result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}'
+    
+    result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_AOLS}{result_bottom}'
+    return result
+
+
+async def doublecheck_config_main_TRAD(page: Page, id_interno: str) -> str:
+    
+    results_Forum = await API_Config(page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
+    results_MDesempenho = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+    result_Sofia =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
+    results_FTutor = await API_Config(page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
+    result_DC =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    result_top = f'\n{results_Forum}\n{results_MDesempenho}\n{result_Sofia}\n{results_FTutor}\n{result_DC}'
+    
+    result_Unidade1 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 1')
+    result_Unidade2 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 2')
+    result_Unidade3 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 3')
+    result_Unidade4 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 4')
+    result_folder = f'\n{result_Unidade1}\n{result_Unidade2}\n{result_Unidade3}\n{result_Unidade4}'
+    
+    result_Material = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
+    result_videoteca = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
+    result_Ebook = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
+    result_Materials = f'\n{result_Material}\n{result_videoteca}\n{result_Ebook}'
+    
+    results_AOL1 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 1 (AOL 1) - Questionário')
+    results_AOL2 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 2 (AOL 2) - Questionário')
+    results_AOL3 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 3 (AOL 3) - Questionário')
+    results_AOL4 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 4 (AOL 4) - Questionário')
+    result_AOLS = f'\n{results_AOL1}\n{results_AOL2}\n{results_AOL3}\n{results_AOL4}'
+    
+    results_Avaliacao = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliações')
+    results_Web = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
+    results_solicite = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
+    results_ser = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+    result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}'
+    
+    result =f'{result_top}{result_folder}{result_Materials}{result_AOLS}{result_bottom}'
+    return result
+
+
+async def doublecheck_config_main_DIG(page: Page, id_interno: str) -> str:
+    
+    results_Forum = await API_Config(page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
+    results_MDesempenho = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+    result_Sofia =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
+    results_FTutor = await API_Config(page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
+    result_DC =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    result_top = f'\n{results_Forum}\n{results_MDesempenho}\n{result_Sofia}\n{results_FTutor}\n{result_DC}'
+    
+    result_Unidade1 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 1')
+    result_Unidade2 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 2')
+    result_Unidade3 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 3')
+    result_Unidade4 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 4')
+    result_folder = f'\n{result_Unidade1}\n{result_Unidade2}\n{result_Unidade3}\n{result_Unidade4}'
+    
+    result_Material = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
+    result_videoteca = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
+    result_Ebook = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
+    result_Materials = f'\n{result_Material}\n{result_videoteca}\n{result_Ebook}'
+    
+    results_AtivAuto1 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
+    results_AtivAuto2 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
+    results_AtivAuto3 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
+    results_AtivAuto4 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
+    result_AtivAuto = f'\n{results_AtivAuto1}\n{results_AtivAuto2}\n{results_AtivAuto3}\n{results_AtivAuto4}'
+    
+    results_Avaliacao = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliações')
+    results_Web = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
+    results_solicite = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
+    results_ser = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+    result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}'
+    
+    result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_bottom}'
+    return result
+
+
+async def doublecheck_config_main_test() -> None:
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(headless=False)
         context = await browser.new_context(no_viewport=True)
@@ -790,4 +904,4 @@ async def doublecheck_config_main() -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(doublecheck_config_main())
+    asyncio.run(doublecheck_config_main_test())

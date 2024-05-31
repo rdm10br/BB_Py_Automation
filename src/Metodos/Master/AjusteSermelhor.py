@@ -14,6 +14,8 @@ async def ajusteSerMelhor(page: Page, id_interno: str) -> None:
     classURL = f'{baseURL}ultra/courses/'
     urlClassUltra = f'{classURL}{id_interno}/outline'
     urlSearch = f'{urlClassUltra}?search=Ser Melhor'
+    # linkSerMelhor = 'https://forms.office.com/r/wX8V5625hs'#20241
+    linkSerMelhor ='https://forms.office.com/r/i55D2gacpC #20242'
     
     print('Starting adjustments: "Ser Melhor"')
     await page.goto(urlSearch)
@@ -34,7 +36,7 @@ async def ajusteSerMelhor(page: Page, id_interno: str) -> None:
         await page.get_by_text("Editar", exact=True).click()
         await page.get_by_placeholder("Digite um URL").click(click_count=3)
         print('Changing link...')
-        await page.get_by_placeholder("Digite um URL").fill("https://forms.office.com/r/i55D2gacpC")
+        await page.get_by_placeholder("Digite um URL").fill(linkSerMelhor)
         # await page.wait_for_load_state('networkidle')
         await page.get_by_text("Máximo de 750 caracteres").click()
         print('Saving...')
