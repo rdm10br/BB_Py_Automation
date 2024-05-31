@@ -6,22 +6,33 @@
     APIGradeCollumActivity = f'{baseURL}learn/api/v1/courses/
     {id_interno}/gradebook/columns?Name=Atividade%20de%20Autoaprendizagem'
 
-    
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
     # // visivel para o aluno
     # "visible": true,
 
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
     # // nota maxima no item
     # "possible": 10,
 
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
     # // quantidade de tentativas do item (0 = ilimitada)
     # "multipleAttempts": 0,
 
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
     # // visbilidade no boletim
     # "visibleInBook": false,
     
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
     # //configuração de maior nota
-    # "aggregationModel": "HIGHEST",
+    # "aggregationModel": "HIGHEST"/"LAST"
     
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
     # //Data da atividade
     # "dueDate": "2024-06-11T02:59:59.999Z",
     # genericReadOnlyData.dueDate

@@ -3,17 +3,14 @@ from datetime import datetime
 from playwright.async_api import async_playwright, expect, Page
 
 
-from src.Metodos import getPlanilha
-
-
 async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
     baseURL = 'https://sereduc.blackboard.com/'
-    internalID_API = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents'''
-    APIGradeCollum = f'''{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'''
+    internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents'
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'
 
-    def APIinternalID_API(fatherID: str):
-        API = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{father_id}/children'''
+    def APIFolder_noPublic(fatherID: str):
+        API = f'{baseURL}learn/api/v1/courses/{id_interno}/contents/{fatherID}/children'
         return API
     
     def APIFolder(father_id: str):
@@ -23,7 +20,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
     def request_unfiltered_noResults(config: str):
         request = f'''() => {{
             const data = JSON.parse(document.body.innerText);
-            if (data && data.{config}) {{
+            if (data && (data.{config}).toString) {{
                 return data.{config};
             }} else {{
                 throw new Error('item not found in room {id_interno}');
@@ -41,11 +38,33 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 }}
             }}'''
         return request
+    
+    def request_unfiltered_toString(config: str):
+        request = f'''() => {{
+            const data = JSON.parse(document.body.innerText).results;
+            if (data && (data.{config}).toString) {{
+                return data.{config};
+            }} else {{
+                throw new Error('item not found in room {id_interno}');
+                }}
+            }}'''
+        return request
+    
+    def request_unfiltered0(config: str):
+        request = f'''() => {{
+            const data = JSON.parse(document.body.innerText).results[0];
+            if (data && data.{config}) {{
+                return data.{config};
+            }} else {{
+                throw new Error('item not found in room {id_interno}');
+                }}
+            }}'''
+        return request
 
     def filteredRequest_title(item_search: str, config: str):
         request = f'''() => {{
             const data = JSON.parse(document.body.innerText).results.find(item => item.title === "{item_search}");
-            if (data && data.{config}) {{
+            if (data && (data.{config}).toString) {{
                 return data.{config};
             }} else {{
                 throw new Error('{item_search} not found in room {id_interno}');
@@ -56,7 +75,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
     def filteredRequest_name(item_search: str, config: str):
         request = f'''() => {{
             const data = JSON.parse(document.body.innerText).results.find(item => item.name === "{item_search}");
-            if (data && data.{config}) {{
+            if (data && (data.{config}).toString) {{
                 return data.{config};
             }} else {{
                 throw new Error('{item_search} not found in room {id_interno}');
@@ -67,7 +86,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
     def filteredRequest_columnName(item_search: str, config: str):
         request = f'''() => {{
             const data = JSON.parse(document.body.innerText).results.find(item => item.columnName === "{item_search}");
-            if (data && data.{config}) {{
+            if (data && (data.{config}).toString) {{
                 return data.{config};
             }} else {{
                 throw new Error('{item_search} not found in room {id_interno}');
@@ -114,7 +133,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
             try:
                 result_url = await page.evaluate(filteredRequest_title(item_search, config))
-                if result_url == 'www.sereducacional.com' or 'www.sereducacional.com/':
+                if result_url == 'https://www.sereducacional.com' or result_url == 'https://www.sereducacional.com/':
                     result_url = f'{result_url} is wrong! | there is no content in {item_search} from Unidade {i}!'
             except Exception as e:
                 if f'{item_search} not found in room {id_interno}' in str(e):
@@ -171,38 +190,64 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
         # config = 'genericReadOnlyData.dueDate'
         config = 'dueDate'
         print(f'Checking {item_search} hand in date...')
-        result_dueDate = await page.evaluate(filteredRequest_columnName(item_search, config))
-        result_dueDate = date_adjust(result_dueDate)
         
+        try:
+            result_dueDate = await page.evaluate(filteredRequest_columnName(item_search, config))
+        except Exception as e:
+            result_dueDate = 'No date associated!'
+        
+        if result_dueDate != 'No date associated!':
+            result_dueDate = date_adjust(result_dueDate)
+        
+        # verificar depois, erro desconhecido, sala 1 de testes não funciona, sala 2 de testes funciona
+        # config = 'description'
+        # print(f'Checking {item_search} description...')
+        # result_description = await page.evaluate(filteredRequest_columnName(item_search, config))
         #=======================================================================
         
         #API contents
         await page.goto(url=internalID_API, wait_until='commit')
-        config = 'id'
         
-        match item_search.isdigit()[0]:
+        search_item = ''.join([ch for ch in item_search if ch.isdigit()])
+        
+        match search_item[0]:
             case '1' :
                 item = 'Unidade 1'
-                return item
             case '2' :
                 item = 'Unidade 2'
-                return item
             case '3' :
                 item = 'Unidade 3'
-                return item
             case '4' :
                 item = 'Unidade 4'
-                return item
             
+        config = 'id'
         folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
         
-        await page.goto(url=APIinternalID_API(folderID), wait_until='commit')
+        await page.goto(url=APIFolder_noPublic(folderID), wait_until='commit')
         
         try:
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
             itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
             
             if itemID != f'{item_search} not found in room {id_interno}':
+                
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired'
+                print(f'Checking {item_search} Randomization of Answers Required...')
+                result_isRandomizationOfAnswersRequired = await page.evaluate(filteredRequest_columnName(item_search, config))
+                
+                if result_isRandomizationOfAnswersRequired == "ALWAYS":
+                    result_isRandomizationOfAnswersRequired = f'{item_search} is set to always ramdomize Answers'
+                else:
+                    result_isRandomizationOfAnswersRequired = f'{item_search} is not set to always ramdomize Answers'
+                
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired'
+                print(f'Checking {item_search} Randomization of Questions Required...')
+                result_isRandomizationOfQuestionsRequired = await page.evaluate(filteredRequest_columnName(item_search, config))
+                
+                if result_isRandomizationOfQuestionsRequired == "true":
+                    result_isRandomizationOfQuestionsRequired = f'{item_search} is set to always ramdomize Questions'
+                else:
+                    result_isRandomizationOfQuestionsRequired = f'{item_search} is not set to always ramdomize Questions'
                 
                 APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/'''
                 
@@ -213,69 +258,50 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 return
         except Exception as e:
                 if f'{item_search} not found in room {id_interno}' in str(e):
+                    
+                    config = 'id'
                     item_folder = f'Atividade - {item}'
                     activity_folderID = await page.evaluate(filteredRequest_title(item_search=item_folder, config=config))
-                    await page.goto(url=APIinternalID_API(activity_folderID), wait_until='commit')
                     
+                    await page.goto(url=APIFolder_noPublic(activity_folderID), wait_until='commit')
+                    
+                    config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired'
+                    print(f'Checking {item_search} Randomization of Answers Required...')
+                    result_isRandomizationOfAnswersRequired = await page.evaluate(filteredRequest_title(item_search, config))
+                    
+                    if result_isRandomizationOfAnswersRequired == "ALWAYS":
+                        result_isRandomizationOfAnswersRequired = f'{item_search} is set to always ramdomize Answers'
+                    else:
+                        result_isRandomizationOfAnswersRequired = f'{item_search} is not set to always ramdomize Answers'
+                    
+                    config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired'
+                    print(f'Checking {item_search} Randomization of Answers Required...')
+                    result_isRandomizationOfQuestionsRequired = await page.evaluate(filteredRequest_title(item_search, config))
+                    
+                    if result_isRandomizationOfQuestionsRequired is True:
+                        result_isRandomizationOfQuestionsRequired = f'{item_search} is set to always ramdomize Questions'
+                    else:
+                        result_isRandomizationOfQuestionsRequired = f'{item_search} is not set to always ramdomize Questions'
+                    
+                    config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
                     itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
+                    APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/'''
+                
+                    await page.goto(url=APIEncapsulamento, wait_until='commit')
+                    config = 'id'
+                    IDcover = await page.evaluate(request_unfiltered0(config=config))
+                    
+                    APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/{IDcover}/questions?expand=sourceInfo'''
+                    
+                    await page.goto(url=APIBQItem, wait_until='commit')
                     
                     return
                 else:
                     print('Erro ao processar request:', e)
                     return
         
-        # config = 'description'
-        # print(f'Checking {item_search} description...')
-        # result_description = await page.evaluate(filteredRequest_columnName(item_search, config))
         
-        # //item description
-        # "description": "",
-        
-        
-        # config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired'
-        # print(f'Checking {item_search} Randomization of Answers Required...')
-        # result_isRandomizationOfAnswersRequired = await page.evaluate(filteredRequest_columnName(item_search, config))
-        
-        # if result_isRandomizationOfAnswersRequired == "ALWAYS":
-        #     return
-        # else:
-        #     print()
-        
-        # //Questionário com alternativas aleatórias
-        #contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings
-        #.isRandomizationOfAnswersRequired
-        #"ALWAYS"
-
-        
-        # config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired'
-        # print(f'Checking {item_search} Randomization of Answers Required...')
-        # result_isRandomizationOfQuestionsRequired = await page.evaluate(filteredRequest_columnName(item_search, config))
-        
-        # if result_isRandomizationOfQuestionsRequired == "true":
-        #     return
-        # else:
-        #     print()
-        
-        # //Questionário com alternativas aleatórias
-        #contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings
-        #.isRandomizationOfQuestionsRequired
-        #true
             
-        return
-        
-    async def activity_BQ(item_search: str):
-        
-        await page.goto(APIFolder())
-        # //BQ associado
-        #APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents/{id_atividade}/children'''
-        #contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id
-        
-        #APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/'''
-        #JSON.parse(document.body.innerText).results[0].id
-
-        #APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{id_assesment}/questions/{id_encapsulamento}/questions?expand=sourceInfo'''
-        #JSON.parse(document.body.innerText).results[0].sourceInfo.name
-        
         return
     
     # print(f'Looking on Api Content for {item_Search} config {config} in'\
@@ -306,7 +332,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             print(f'Checking {item_Search} associated URL...')
             result2 = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            if result2 != 'lti-kyryon.andrios.tech/v1/lti/launch':
+            if result2 != 'https://lti-kyryon.andrios.tech/v1/lti/launch':
                 text = f'This link for {item_Search} is wrong: '
                 result2 = f'{text}{result2}'
 
@@ -324,7 +350,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             print(f'Checking {item_Search} associated URL...')
             result2 = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            if result2 != 'sofialti.ldmedtech.com.br/v1/launch/ser-sofia-plano-estudos':
+            if result2 != 'https://sofialti.ldmedtech.com.br/v1/launch/ser-sofia-plano-estudos':
                 text = f'This link for {item_Search} is wrong: '
                 result2 = f'{text}{result2}'
 
@@ -373,7 +399,10 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             config = 'length'
             print(f'Checking {item_Search} groups length...')
-            Groups_length = await page.evaluate(request_unfiltered(config=config))
+            try:
+                Groups_length = await page.evaluate(request_unfiltered(config=config))
+            except Exception as e:
+                Groups_length = 0
             
             if Groups_length > 0:
                 text = f'{Groups_length} Groups associated'
@@ -427,7 +456,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
             return result
 
-        case 'Videoteca: Videoaulas':
+        case 'Videoteca: Videoaula':
 
             result = await check_item_in_all_folders_unidade(item_Search)
 
@@ -605,9 +634,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             result_configs = await activity_configs(item_Search)
             
-            resultBQ = await activity_BQ(item_Search)
-            
-            result = f'{result_configs} | {resultBQ}'
+            result = f'{result_configs}'
             
             return result
 
@@ -615,9 +642,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             result_configs = await activity_configs(item_Search)
             
-            resultBQ = await activity_BQ(item_Search)
-            
-            result = f'{result_configs} | {resultBQ}'
+            result = f'{result_configs}'
             
             return result
 
@@ -625,9 +650,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             result_configs = await activity_configs(item_Search)
             
-            resultBQ = await activity_BQ(item_Search)
-            
-            result = f'{result_configs} | {resultBQ}'
+            result = f'{result_configs}'
             
             return result
 
@@ -635,9 +658,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             result_configs = await activity_configs(item_Search)
             
-            resultBQ = await activity_BQ(item_Search)
-            
-            result = f'{result_configs} | {resultBQ}'
+            result = f'{result_configs}'
 
             return result
 
@@ -645,9 +666,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             result_configs = await activity_configs(item_Search)
             
-            resultBQ = await activity_BQ(item_Search)
-            
-            result = f'{result_configs} | {resultBQ}'
+            result = f'{result_configs}'
 
             return result
 
@@ -655,9 +674,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             result_configs = await activity_configs(item_Search)
             
-            resultBQ = await activity_BQ(item_Search)
-            
-            result = f'{result_configs} | {resultBQ}'
+            result = f'{result_configs}'
 
             return result
 
@@ -665,9 +682,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             result_configs = await activity_configs(item_Search)
             
-            resultBQ = await activity_BQ(item_Search)
-            
-            result = f'{result_configs} | {resultBQ}'
+            result = f'{result_configs}'
 
             return result
 
@@ -675,9 +690,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             result_configs = await activity_configs(item_Search)
             
-            resultBQ = await activity_BQ(item_Search)
-            
-            result = f'{result_configs} | {resultBQ}'
+            result = f'{result_configs}'
             
             return result
 
@@ -685,9 +698,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             result_configs = await activity_configs(item_Search)
             
-            resultBQ = await activity_BQ(item_Search)
-            
-            result = f'{result_configs} | {resultBQ}'
+            result = f'{result_configs}'
 
 
             # config = 'genericReadOnlyData.dueDate'
@@ -722,33 +733,38 @@ async def date_adjust(utc_time_str: str):
     return formatted_local_time
 
 
-async def doublecheck_config_main():
+async def doublecheck_config_main() -> None:
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(headless=False)
-        context = await browser.new_context()
+        context = await browser.new_context(no_viewport=True)
         page = await context.new_page()
-
-        CACHE_FILE = r'Metodos\Login\__pycache__\login_cache.json'
+        
+        CACHE_FILE = r'src\Metodos\Login\__pycache__\login_cache.json'
         with open(CACHE_FILE, 'r') as f:
             cache_data = json.load(f)
-        await page.context.add_cookies(cache_data['cookies'])
+            await page.context.add_cookies(cache_data['cookies'])
 
         baseURL = 'https://sereduc.blackboard.com/'
         id_interno = '_187869_1' # sala carlos
         # id_interno = '_139625_1' #sala modelo
-
-        await page.goto(url=baseURL, wait_until='domcontentloaded')
-        await page.wait_for_timeout(5000)
-
-        # visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
-        # visibility, item_URL = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+        
+        await page.goto(url=baseURL, wait_until='commit')
+        # await page.wait_for_timeout(5*1000)
+        
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+        # results01 = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+        # result02 =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+        # result03 =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
         # result0 = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
-        result0 =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
-        # result1 = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaulas')
+        # result1 = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
         # result2 = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
-        await page.wait_for_timeout(5*1000)
-        # print(visibility, item_URL)
-        print(result0)
+        # # await page.wait_for_timeout(5*1000)
+        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
+        print(results00)
+        # print(results01)
+        # print(result02)
+        # print(result03)
+        # print(result0)
         # print(result1)
         # print(result2)
 
