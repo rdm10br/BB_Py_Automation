@@ -285,9 +285,11 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                     
                     config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
                     itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
+                    
                     APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/'''
                 
                     await page.goto(url=APIEncapsulamento, wait_until='commit')
+                    
                     config = 'id'
                     IDcover = await page.evaluate(request_unfiltered0(config=config))
                     
@@ -295,7 +297,11 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                     
                     await page.goto(url=APIBQItem, wait_until='commit')
                     
-                    return
+                    config = 'sourceInfo.name'
+                    BQ_associated = await page.evaluate(request_unfiltered0(config=config))
+                    
+                    result = f''
+                    return result
                 else:
                     print('Erro ao processar request:', e)
                     return
