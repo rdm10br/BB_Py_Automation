@@ -7,6 +7,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
     baseURL = 'https://sereduc.blackboard.com/'
     internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents'
+    internalID_API_noPublic = f'{baseURL}learn/api/v1/courses/{id_interno}/contents'
     APIGradeCollum = f'{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'
 
     def APIFolder_noPublic(fatherID: str):
@@ -197,7 +198,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             result_dueDate = 'No date associated!'
         
         if result_dueDate != 'No date associated!':
-            result_dueDate = date_adjust(result_dueDate)
+            result_dueDate = await adjust_date(result_dueDate)
         
         # verificar depois, erro desconhecido, sala 1 de testes não funciona, sala 2 de testes funciona
         # config = 'description'
@@ -300,7 +301,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                     config = 'sourceInfo.name'
                     BQ_associated = await page.evaluate(request_unfiltered0(config=config))
                     
-                    result = f''
+                    result = f'{item_Search} : | visibility: {result_visibility}| visibility in Gradebook : {result_visibleInBook}| Grade Model: {result_aggregationModel}| hand in date: {result_dueDate}| Attempts: {result_attempts}| possible note: {result_possible_note}| Randomization Of Answers: {result_isRandomizationOfAnswersRequired}| Randomization Of Questions: {result_isRandomizationOfQuestionsRequired}| Associated BQ: {BQ_associated}'
                     return result
                 else:
                     print('Erro ao processar request:', e)
@@ -308,7 +309,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
         
         
             
-        return
+        return result
     
     # print(f'Looking on Api Content for {item_Search} config {config} in'\
     #       f'{id_interno}')
@@ -369,6 +370,8 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             config = 'availability.available'
             print(f'Checking {item_Search} visibility...')
             result_visibility = await page.evaluate(filteredRequest_title(item_Search, config))
+            
+            await page.goto(url=internalID_API_noPublic, wait_until='commit')
 
             config = 'contentDetail["resource/x-bb-journallink"].blog.entryModificationAllowed'
             print(f'Checking {item_Search} entryModificationAllowed...')
@@ -488,13 +491,13 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             await page.goto(url=APIFolder(father_id), wait_until='commit')
 
             config = 'length'
-            result2 = await page.evaluate(request_unfiltered(config=config))
+            result2 = await page.evaluate(request_unfiltered_toString(config=config))
 
             result = f'{result} | {result2} itens in {item_Search}'
 
             return result
 
-        case 'Avaliações':
+        case 'Avaliações':#
             await page.goto(url=internalID_API, wait_until='networkidle')
 
             config = 'availability.available'
@@ -510,13 +513,12 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             config = 'title'
             item_search = 'Regras da Avaliação - Resolução CONSU'
             print(f'Checking {item_search} title...')
-            result2 = await page.evaluate(filteredRequest_title(item_search, config))
-
-            if result2 != 'Regras da Avaliação - Resolução CONSU':
-                text = f'{item_search} title is incorrect!'
-                result = f'{result}{text}'
-            else:
+            try:
+                result2 = await page.evaluate(filteredRequest_title(item_search, config))
                 result = f'{result} | {item_search} is correct!'
+            except Exception as e:
+                text = f'{item_search} title is incorrect!'
+                result = f'{result} | {text}'
 
             return result
 
@@ -719,7 +721,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             return result
 
 
-async def date_adjust(utc_time_str: str):
+async def adjust_date(utc_time_str: str):
 
     # Define the UTC time string
     # utc_time_str = '2024-06-11T02:59:59.999Z'
@@ -757,22 +759,34 @@ async def doublecheck_config_main() -> None:
         await page.goto(url=baseURL, wait_until='commit')
         # await page.wait_for_timeout(5*1000)
         
-        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
-        # results01 = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
-        # result02 =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
-        # result03 =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
-        # result0 = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
-        # result1 = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
-        # result2 = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
-        # # await page.wait_for_timeout(5*1000)
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
-        print(results00)
-        # print(results01)
-        # print(result02)
-        # print(result03)
-        # print(result0)
-        # print(result1)
-        # print(result2)
+        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
+        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+        result03 =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
+        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
+        result02 =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 1')
+        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 2')
+        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 3')
+        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 4')
+        result0 = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
+        result1 = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
+        result2 = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
+        results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
+        results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
+        results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
+        results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
+        results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 1 (AOL 1) - Questionário')
+        results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 2 (AOL 2) - Questionário')
+        results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 3 (AOL 3) - Questionário')
+        results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 4 (AOL 4) - Questionário')
+        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliações')
+        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
+        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
+        results01 = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+        # result =f'\n{result0}\n{result1}\n{result2}\n{result02}\n{results00}\n{results01}\n{result02}\n{result03}\n{results04}\n{results05}'
+        # result_test = '\n*{}\n'.format(result)
+        # print('{:5} | {}'.format(f'Run: {index}',executionTime))
+        # print(result_test)
 
 
 if __name__ == "__main__":
