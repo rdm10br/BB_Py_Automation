@@ -14,8 +14,8 @@ async def ajusteSerMelhor(page: Page, id_interno: str) -> None:
     classURL = f'{baseURL}ultra/courses/'
     urlClassUltra = f'{classURL}{id_interno}/outline'
     urlSearch = f'{urlClassUltra}?search=Ser Melhor'
-    # linkSerMelhor = 'https://forms.office.com/r/wX8V5625hs'#20241
-    linkSerMelhor ='https://forms.office.com/r/i55D2gacpC #20242'
+    # linkSerMelhor = 'https://forms.office.com/r/wX8V5625hs' #20241
+    linkSerMelhor = 'https://forms.office.com/r/i55D2gacpC' #20242
     
     print('Starting adjustments: "Ser Melhor"')
     await page.goto(urlSearch)

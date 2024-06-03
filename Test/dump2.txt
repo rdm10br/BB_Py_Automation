@@ -86,3 +86,24 @@ req_len = 'JSON.parse(document.body.innerText).results.length' #to see request l
 # config = 'genericReadOnlyData.dueDate'
             # print(f'Checking {item_Search} hand in date...')
             # result = await page.evaluate(filteredRequest_title(item_Search, config))
+
+
+https://sereduc.blackboard.com/learn/api/v1/courses/_187869_1/contents/
+
+const jsonData = JSON.parse(document.body.innerText).results;
+const searchText = "";
+const results = [];
+const config = "";
+function searchInJson (jsonData, searchText){
+    for (const item of jsonData){
+    if(item.title.includes(searchText) || item.description.includes(searchText)){
+        results.push(item[config]);
+        }
+    }
+    return results;
+}
+const searchResults = searchInJson(jsonData, searchText);
+console.log(searchResults[0]);
+
+JSON.parse(document.body.innerText).results.filter(item => item.title.includes("{item_Search}") || item.description.includes("{item_Search}")).map(item => item["{config}"])[0]
+config = 'contentDetail"]["resource/x-bb-folder"].isFolder'

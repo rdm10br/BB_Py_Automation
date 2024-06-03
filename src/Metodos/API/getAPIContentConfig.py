@@ -254,9 +254,17 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 
                 await page.goto(url=APIEncapsulamento, wait_until='commit')
                 config = 'id'
-                await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
+                IDcover = await page.evaluate(request_unfiltered0(config=config))
+                    
+                APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/{IDcover}/questions?expand=sourceInfo'''
                 
-                return
+                await page.goto(url=APIBQItem, wait_until='commit')
+                
+                config = 'sourceInfo.name'
+                BQ_associated = await page.evaluate(request_unfiltered0(config=config))
+                
+                result = f'{item_Search} : | visibility: {result_visibility}| visibility in Gradebook : {result_visibleInBook}| Grade Model: {result_aggregationModel}| hand in date: {result_dueDate}| Attempts: {result_attempts}| possible note: {result_possible_note}| Randomization Of Answers: {result_isRandomizationOfAnswersRequired}| Randomization Of Questions: {result_isRandomizationOfQuestionsRequired}| Associated BQ: {BQ_associated}'
+                return result
         except Exception as e:
                 if f'{item_search} not found in room {id_interno}' in str(e):
                     
