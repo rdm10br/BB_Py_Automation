@@ -76,3 +76,13 @@ req_len = 'JSON.parse(document.body.innerText).results.length' #to see request l
         'Material Didático Interativo',
         'Biblioteca Virtual: e-Book',
         'Videoteca: Videoaulas']] = None
+
+# print(f'Looking on Api Content for {item_Search} config {config} in'\
+    #       f'{id_interno}')
+    # await page.goto(url=internalID_API, wait_until='networkidle')
+    # result = await page.evaluate(filteredRequest_columnName(item_Search, config))
+    # return result
+
+# config = 'genericReadOnlyData.dueDate'
+            # print(f'Checking {item_Search} hand in date...')
+            # result = await page.evaluate(filteredRequest_title(item_Search, config))
