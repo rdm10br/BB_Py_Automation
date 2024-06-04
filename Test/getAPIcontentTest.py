@@ -72,17 +72,6 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             }}'''
         return request
 
-    def filteredRequest_name(item_search: str, config: str):
-        request = f'''() => {{
-            const data = JSON.parse(document.body.innerText).results.find(item => item.name === "{item_search}");
-            if (data && (data.{config}).toString) {{
-                return data.{config};
-            }} else {{
-                throw new Error('{item_search} not found in room {id_interno}');
-                }}
-            }}'''
-        return request
-
     def filteredRequest_columnName(item_search: str, config: str):
         request = f'''() => {{
             const data = JSON.parse(document.body.innerText).results.find(item => item.columnName === "{item_search}");
@@ -149,59 +138,130 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
         return results
 
-    async def activity_configs(item_search: str): #
+    async def activity_configs(item_search: str):
+        search_item = ''.join([ch for ch in item_search if ch.isdigit()])
         
-        #API Grade configs
-        await page.goto(url=APIGradeCollum, wait_until='commit')
-        
-        config = 'visible'
-        print(f'Checking {item_search} visible...')
-        result_visibility = await page.evaluate(filteredRequest_columnName(item_search, config))
-        # "visible": true,
+        async def configs(item_search: str, id_interno: str, itemID: str):
+            
+            APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/'''
+            # search_item = ''.join([ch for ch in item_search if ch.isdigit()])
+            description_DIG = 'Já estudou o conteúdo desta unidade? Agora teste seus conhecimentos respondendo ao Questionário. Você pode realizá-lo quantas vezes desejar e descobrir o quanto aprendeu, sem interferir na sua nota da disciplina.'
+            description_TRAD = [
+                'Já se sente preparado(a) para esta Atividade Avaliativa? Então atenção ao prazo e sucesso!',
+                'Continue seus conhecimentos com mais informação e interatividade.',
+                'Você já acessou metade da sua disciplina! Ainda temos bastante o que aprender.',
+                'Chegamos à última unidade desta disciplina. É hora de concluir com muito conhecimento e aprendizado.']
+            options_correct = [
+                "SCORE",
+                "USER_ANSWERS",
+                "CORRECT_ANSWERS",
+                "INSTRUCTOR_FEEDBACK",
+                "ALL_ANSWERS"]
+            
+            config = 'description'
+            print(f'Checking {item_search} description...')
+            result_description = await page.evaluate(filteredRequest_title(item_search, config))
+            
+            if result_description == description_DIG:
+                result_description = f'{item_search} description is right.'
+            elif  result_description == description_TRAD[int(search_item[0])+1]:
+                result_description = f'{item_search} description is right.'
+            else:
+                result_description = f'{item_search} description is wrong.'
+                
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visible'
+            print(f'Checking {item_search} visible...')
+            result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
 
-        config = 'possible'
-        print(f'Checking {item_search} possible...')
-        result_possible_note = await page.evaluate(filteredRequest_columnName(item_search, config))
-        # "possible": 10,
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.possible'
+            print(f'Checking {item_search} possible...')
+            result_possible_note = await page.evaluate(filteredRequest_title(item_search, config))
 
-        config = 'multipleAttempts'
-        print(f'Checking {item_search} possible...')
-        result_attempts = await page.evaluate(filteredRequest_columnName(item_search, config))
-        # "multipleAttempts": 0,
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.multipleAttempts'
+            print(f'Checking {item_search} possible...')
+            result_attempts = await page.evaluate(filteredRequest_title(item_search, config))
 
-        config = 'visibleInBook'
-        print(f'Checking {item_search} visibleInBook...')
-        result_visibleInBook = await page.evaluate(filteredRequest_columnName(item_search, config))
-        # "visibleInBook": false,
-        
-        config = 'aggregationModel'
-        print(f'Checking {item_search} aggregationModel...')
-        result_aggregationModel = await page.evaluate(filteredRequest_columnName(item_search, config))
-        # "aggregationModel": "HIGHEST",'
-        
-        # config = 'genericReadOnlyData.dueDate'
-        config = 'dueDate'
-        print(f'Checking {item_search} hand in date...')
-        
-        try:
-            result_dueDate = await page.evaluate(filteredRequest_columnName(item_search, config))
-        except Exception as e:
-            result_dueDate = 'No date associated!'
-        
-        if result_dueDate != 'No date associated!':
-            result_dueDate = await adjust_date(result_dueDate)
-        
-        # verificar depois, erro desconhecido, sala 1 de testes não funciona, sala 2 de testes funciona
-        # config = 'description'
-        # print(f'Checking {item_search} description...')
-        # result_description = await page.evaluate(filteredRequest_columnName(item_search, config))
-        #=======================================================================
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visibleInBook'
+            print(f'Checking {item_search} visibleInBook...')
+            result_visibleInBook = await page.evaluate(filteredRequest_title(item_search, config))
+
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.aggregationModel'
+            print(f'Checking {item_search} aggregationModel...')
+            result_aggregationModel = await page.evaluate(filteredRequest_title(item_search, config))
+
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.autoPostGrades'
+            print(f'Checking {item_search} autoPostGrades...')
+            result_autoPostGrades = await page.evaluate(filteredRequest_title(item_search, config))
+
+            # config = 'genericReadOnlyData.dueDate'
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.dueDate'
+            print(f'Checking {item_search} hand in date...')
+
+            try:
+                result_dueDate = await page.evaluate(filteredRequest_title(item_search, config))
+            except Exception as e:
+                result_dueDate = 'No date associated!'
+
+            if result_dueDate != 'No date associated!':
+                result_dueDate = await adjust_date(result_dueDate)
+                    
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.feedbackSettings.as.options'
+            print(f'Checking {item_search} test result options...')
+            result_options = await page.evaluate(filteredRequest_title(item_search, config))
+            
+            if result_options == options_correct:
+                result_options = f'{item_search} test result options config is correct'
+            else:
+                result_options = f'{item_search} test result options config is wrong'
+            
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired'
+            print(f'Checking {item_search} Randomization of Answers Required...')
+            result_isRandomizationOfAnswersRequired = await page.evaluate(filteredRequest_title(item_search, config))
+            
+            if result_isRandomizationOfAnswersRequired == "ALWAYS":
+                result_isRandomizationOfAnswersRequired = f'{item_search} is set to always ramdomize Answers'
+            else:
+                result_isRandomizationOfAnswersRequired = f'{item_search} is not set to always ramdomize Answers'
+            
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired'
+            print(f'Checking {item_search} Randomization of Questions Required...')
+            result_isRandomizationOfQuestionsRequired = await page.evaluate(filteredRequest_title(item_search, config))
+            
+            if result_isRandomizationOfQuestionsRequired == "true":
+                result_isRandomizationOfQuestionsRequired = f'{item_search} is set to always ramdomize Questions'
+            else:
+                result_isRandomizationOfQuestionsRequired = f'{item_search} is not set to always ramdomize Questions'
+            
+            await page.goto(url=APIEncapsulamento, wait_until='commit')
+            
+            config = 'id'
+            IDcover = await page.evaluate(request_unfiltered0(config=config))
+                
+            APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/{IDcover}/questions?expand=sourceInfo'''
+            
+            await page.goto(url=APIBQItem, wait_until='commit')
+            
+            config = 'sourceInfo.name'
+            BQ_associated = await page.evaluate(request_unfiltered0(config=config))
+            
+            result = f'''{item_search}:
+            visibility: {result_visibility}|
+            visibility in Gradebook : {result_visibleInBook}|
+            Grade Model: {result_aggregationModel}|
+            hand in date: {result_dueDate}|
+            Attempts: {result_attempts}|
+            possible note: {result_possible_note}|
+            Randomization Of Answers: {result_isRandomizationOfAnswersRequired}|
+            Randomization Of Questions: {result_isRandomizationOfQuestionsRequired}|
+            Associated BQ: {BQ_associated}|
+            Auto post Grade : {result_autoPostGrades}|
+            Description: {result_description}|
+            Item result options: {result_options}'''
+            return result
         
         #API contents
         await page.goto(url=internalID_API, wait_until='commit')
-        
-        search_item = ''.join([ch for ch in item_search if ch.isdigit()])
-        
+
         match search_item[0]:
             case '1' :
                 item = 'Unidade 1'
@@ -222,85 +282,19 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
             
             if itemID != f'{item_search} not found in room {id_interno}':
-                
-                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired'
-                print(f'Checking {item_search} Randomization of Answers Required...')
-                result_isRandomizationOfAnswersRequired = await page.evaluate(filteredRequest_columnName(item_search, config))
-                
-                if result_isRandomizationOfAnswersRequired == "ALWAYS":
-                    result_isRandomizationOfAnswersRequired = f'{item_search} is set to always ramdomize Answers'
-                else:
-                    result_isRandomizationOfAnswersRequired = f'{item_search} is not set to always ramdomize Answers'
-                
-                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired'
-                print(f'Checking {item_search} Randomization of Questions Required...')
-                result_isRandomizationOfQuestionsRequired = await page.evaluate(filteredRequest_columnName(item_search, config))
-                
-                if result_isRandomizationOfQuestionsRequired == "true":
-                    result_isRandomizationOfQuestionsRequired = f'{item_search} is set to always ramdomize Questions'
-                else:
-                    result_isRandomizationOfQuestionsRequired = f'{item_search} is not set to always ramdomize Questions'
-                
-                APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/'''
-                
-                await page.goto(url=APIEncapsulamento, wait_until='commit')
-                config = 'id'
-                IDcover = await page.evaluate(request_unfiltered0(config=config))
-                    
-                APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/{IDcover}/questions?expand=sourceInfo'''
-                
-                await page.goto(url=APIBQItem, wait_until='commit')
-                
-                config = 'sourceInfo.name'
-                BQ_associated = await page.evaluate(request_unfiltered0(config=config))
-                
-                result = f'{item_Search} : | visibility: {result_visibility}| visibility in Gradebook : {result_visibleInBook}| Grade Model: {result_aggregationModel}| hand in date: {result_dueDate}| Attempts: {result_attempts}| possible note: {result_possible_note}| Randomization Of Answers: {result_isRandomizationOfAnswersRequired}| Randomization Of Questions: {result_isRandomizationOfQuestionsRequired}| Associated BQ: {BQ_associated}'
+                result = await configs(item_search=item_search, id_interno=id_interno, itemID=itemID)
                 return result
         except Exception as e:
                 if f'{item_search} not found in room {id_interno}' in str(e):
-                    
                     config = 'id'
                     item_folder = f'Atividade - {item}'
                     activity_folderID = await page.evaluate(filteredRequest_title(item_search=item_folder, config=config))
                     
                     await page.goto(url=APIFolder_noPublic(activity_folderID), wait_until='commit')
                     
-                    config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired'
-                    print(f'Checking {item_search} Randomization of Answers Required...')
-                    result_isRandomizationOfAnswersRequired = await page.evaluate(filteredRequest_title(item_search, config))
-                    
-                    if result_isRandomizationOfAnswersRequired == "ALWAYS":
-                        result_isRandomizationOfAnswersRequired = f'{item_search} is set to always ramdomize Answers'
-                    else:
-                        result_isRandomizationOfAnswersRequired = f'{item_search} is not set to always ramdomize Answers'
-                    
-                    config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired'
-                    print(f'Checking {item_search} Randomization of Answers Required...')
-                    result_isRandomizationOfQuestionsRequired = await page.evaluate(filteredRequest_title(item_search, config))
-                    
-                    if result_isRandomizationOfQuestionsRequired is True:
-                        result_isRandomizationOfQuestionsRequired = f'{item_search} is set to always ramdomize Questions'
-                    else:
-                        result_isRandomizationOfQuestionsRequired = f'{item_search} is not set to always ramdomize Questions'
-                    
                     config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
                     itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
-                    
-                    APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/'''
-                
-                    await page.goto(url=APIEncapsulamento, wait_until='commit')
-                    
-                    config = 'id'
-                    IDcover = await page.evaluate(request_unfiltered0(config=config))
-                    
-                    APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/{IDcover}/questions?expand=sourceInfo'''
-                    
-                    await page.goto(url=APIBQItem, wait_until='commit')
-                    
-                    config = 'sourceInfo.name'
-                    BQ_associated = await page.evaluate(request_unfiltered0(config=config))
-                    
-                    result = f'{item_Search} : | visibility: {result_visibility}| visibility in Gradebook : {result_visibleInBook}| Grade Model: {result_aggregationModel}| hand in date: {result_dueDate}| Attempts: {result_attempts}| possible note: {result_possible_note}| Randomization Of Answers: {result_isRandomizationOfAnswersRequired}| Randomization Of Questions: {result_isRandomizationOfQuestionsRequired}| Associated BQ: {BQ_associated}'
+                    result = await configs(item_search=item_search, id_interno=id_interno, itemID=itemID)
                     return result
                 else:
                     print('Erro ao processar request:', e)
@@ -686,8 +680,9 @@ async def doublecheck_config_main_test() -> None:
             await page.context.add_cookies(cache_data['cookies'])
 
         baseURL = 'https://sereduc.blackboard.com/'
-        id_interno = '_187869_1' # sala carlos
+        # id_interno = '_187869_1' # sala carlos
         # id_interno = '_139625_1' #sala modelo
+        id_interno = '_24214_1' # master de teste dhiego
         
         await page.goto(url=baseURL, wait_until='commit')
         

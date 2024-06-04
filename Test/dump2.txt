@@ -107,3 +107,15 @@ console.log(searchResults[0]);
 
 JSON.parse(document.body.innerText).results.filter(item => item.title.includes("{item_Search}") || item.description.includes("{item_Search}")).map(item => item["{config}"])[0]
 config = 'contentDetail"]["resource/x-bb-folder"].isFolder'
+
+
+def filteredRequest_name(item_search: str, config: str):
+        request = f'''() => {{
+            const data = JSON.parse(document.body.innerText).results.find(item => item.name === "{item_search}");
+            if (data && (data.{config}).toString) {{
+                return data.{config};
+            }} else {{
+                throw new Error('{item_search} not found in room {id_interno}');
+                }}
+            }}'''
+        return request
