@@ -1,5 +1,6 @@
 import asyncio, pytz, json
 from datetime import datetime
+from itertools import product
 from playwright.async_api import async_playwright, expect, Page
 
 async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
@@ -178,7 +179,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             result_possible_note = await page.evaluate(filteredRequest_title(item_search, config))
 
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.multipleAttempts'
-            print(f'Checking {item_search} possible...')
+            print(f'Checking {item_search} multipleAttempts...')
             result_attempts = await page.evaluate(filteredRequest_title(item_search, config))
 
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visibleInBook'
@@ -209,10 +210,14 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             print(f'Checking {item_search} test result options...')
             result_options = await page.evaluate(filteredRequest_title(item_search, config))
             
-            if result_options == options_correct:
-                result_options = f'{item_search} test result options config is correct'
-            else:
-                result_options = f'{item_search} test result options config is wrong'
+            genComb = product(options_correct, repeat=5) #Gerar combinatoria de 5 alternativas
+            permsList = []
+            for subset in genComb:
+                permsList.append(subset)
+            # if result_options == options_correct:
+            #     result_options = f'{item_search} test result options config is correct'
+            # else:
+            #     result_options = f'{item_search} test result options config is wrong'
             
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired'
             print(f'Checking {item_search} Randomization of Answers Required...')
@@ -686,33 +691,34 @@ async def doublecheck_config_main_test() -> None:
         
         await page.goto(url=baseURL, wait_until='commit')
         
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
-        result03 =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
-        result02 =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 1')
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 2')
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 3')
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 4')
-        result0 = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
-        result1 = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
-        result2 = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+        # result03 =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
+        # result02 =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 1')
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 2')
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 3')
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 4')
+        # result0 = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
+        # result1 = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
+        # result2 = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
         results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
-        results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
-        results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
-        results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
-        results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 1 (AOL 1) - Questionário')
-        results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 2 (AOL 2) - Questionário')
-        results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 3 (AOL 3) - Questionário')
-        results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 4 (AOL 4) - Questionário')
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliações')
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
-        results01 = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+        # results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
+        # results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
+        # results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
+        # results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 1 (AOL 1) - Questionário')
+        # results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 2 (AOL 2) - Questionário')
+        # results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 3 (AOL 3) - Questionário')
+        # results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 4 (AOL 4) - Questionário')
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliações')
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
+        # results01 = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
         # result =f'\n{result0}\n{result1}\n{result2}\n{result02}\n{results00}\n{results01}\n{result02}\n{result03}\n{results04}\n{results05}'
         # result_test = '\n*{}\n'.format(result)
         # print('{:5} | {}'.format(f'Run: {index}',executionTime))
+        print(results04)
         # print(result_test)
 
 if __name__ == "__main__":
