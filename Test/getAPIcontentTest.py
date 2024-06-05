@@ -856,7 +856,7 @@ async def doublecheck_config_main_test() -> None:
         # result =f'\n{result0}\n{result1}\n{result2}\n{result02}\n{results00}\n{results01}\n{result02}\n{result03}\n{results04}\n{results05}'
         # result_test = '\n*{}\n'.format(result)
         # print('{:5} | {}'.format(f'Run: {index}',executionTime))
-        print(results04)
+        # print(results04)
         # print(result_test)
 
 if __name__ == "__main__":
