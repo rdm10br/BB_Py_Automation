@@ -133,7 +133,9 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             # verificar validade do link
 
             if result_visibility != f'{item_search} not found in room {id_interno}':
-                results = f'{results}{item_Search} from Unidade {i} : visibility: {result_visibility} | URL: {result_url}\n'
+                results = f'''{results}{item_Search} from Unidade {i} :
+                visibility: {result_visibility} |
+                URL: {result_url}\n'''
             else:
                 results = f'{results}{item_search} não encontrado na Unidade {i}\n'
 
@@ -276,170 +278,234 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 item = 'Unidade 3'
             case '4' :
                 item = 'Unidade 4'
-        
-        config = 'id'
-        folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
-        
-        await page.goto(url=APIFolder_noPublic(folderID), wait_until='commit')
-        
         try:
-            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
-            itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
+            config = 'id'
+            folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
             
-            if itemID != f'{item_search} not found in room {id_interno}':
-                result = await configs(item_search=item_search, id_interno=id_interno, itemID=itemID)
-                return result
-        except Exception as e:
-                if f'{item_search} not found in room {id_interno}' in str(e):
-                    config = 'id'
-                    item_folder = f'Atividade - {item}'
-                    activity_folderID = await page.evaluate(filteredRequest_title(item_search=item_folder, config=config))
-                    
-                    await page.goto(url=APIFolder_noPublic(activity_folderID), wait_until='commit')
-                    
-                    config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
-                    itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
-                    
+            await page.goto(url=APIFolder_noPublic(folderID), wait_until='commit')
+            
+            try:
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
+                itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
+                
+                if itemID != f'{item_search} not found in room {id_interno}':
                     result = await configs(item_search=item_search, id_interno=id_interno, itemID=itemID)
-                    
                     return result
-                else:
-                    print('Erro ao processar request:', e)
-                    return
+            except Exception as e:
+                    if f'{item_search} not found in room {id_interno}' in str(e):
+                        try:
+                            config = 'id'
+                            item_folder = f'Atividade - {item}'
+                            activity_folderID = await page.evaluate(filteredRequest_title(item_search=item_folder, config=config))
+                            
+                            await page.goto(url=APIFolder_noPublic(activity_folderID), wait_until='commit')
+                            
+                            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
+                            itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
+                            
+                            result = await configs(item_search=item_search, id_interno=id_interno, itemID=itemID)
+                            
+                            return result
+                        except:
+                            result = f'{item_Search} not found in room {id_interno}'
+                            return result
+                    else:
+                        print('Erro ao processar request:', e)
+                        return
+        except:
+            result = f'{item_Search} not found in room {id_interno}'
+            return result
         return result
 
     match item_Search:
         case 'Fórum de Interação entre Professores e Tutores':
             await page.goto(url=internalID_API, wait_until='networkidle')
-
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
-
-            return result
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result = await page.evaluate(filteredRequest_title(item_Search, config))
+                result = f'''{item_Search}:
+                Visibility: {result}'''
+                return result
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Meu Desempenho':
             await page.goto(url=internalID_API, wait_until='networkidle')
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result_visibility = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
+                config = 'contentHandler.url'
+                print(f'Checking {item_Search} associated URL...')
+                result_url = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'contentHandler.url'
-            print(f'Checking {item_Search} associated URL...')
-            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+                if result_url != 'https://lti-kyryon.andrios.tech/v1/lti/launch':
+                    text = f'This link for {item_Search} is wrong: '
+                    result_url = f'{text}{result_url}'
 
-            if result2 != 'https://lti-kyryon.andrios.tech/v1/lti/launch':
-                text = f'This link for {item_Search} is wrong: '
-                result2 = f'{text}{result2}'
-
-            results = f'{item_Search}: visibility: {result} | URL: {result2}'
-            return results
+                results = f'''{item_Search}:
+                visibility: {result_visibility} |
+                URL: {result_url}'''
+                return results
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Organize seus estudos com a Sofia':
             await page.goto(url=internalID_API, wait_until='networkidle')
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
+                config = 'contentHandler.url'
+                print(f'Checking {item_Search} associated URL...')
+                result2 = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'contentHandler.url'
-            print(f'Checking {item_Search} associated URL...')
-            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+                if result2 != 'https://sofialti.ldmedtech.com.br/v1/launch/ser-sofia-plano-estudos':
+                    text = f'This link for {item_Search} is wrong: '
+                    result2 = f'{text}{result2}'
 
-            if result2 != 'https://sofialti.ldmedtech.com.br/v1/launch/ser-sofia-plano-estudos':
-                text = f'This link for {item_Search} is wrong: '
-                result2 = f'{text}{result2}'
-
-            results = f'{item_Search}: visibility: {result} | URL: {result2}'
-            return results
+                results = f'''{item_Search}:
+                visibility: {result} |
+                URL: {result2}'''
+                return results
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Fale com o Tutor':
             await page.goto(url=internalID_API, wait_until='networkidle')
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result_visibility = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                await page.goto(url=internalID_API_noPublic, wait_until='commit')
 
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result_visibility = await page.evaluate(filteredRequest_title(item_Search, config))
-            
-            await page.goto(url=internalID_API_noPublic, wait_until='commit')
+                config = 'contentDetail["resource/x-bb-journallink"].blog.entryModificationAllowed'
+                print(f'Checking {item_Search} entryModificationAllowed...')
+                result_entry_modifucation = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'contentDetail["resource/x-bb-journallink"].blog.entryModificationAllowed'
-            print(f'Checking {item_Search} entryModificationAllowed...')
-            result_entry_modifucation = await page.evaluate(filteredRequest_title(item_Search, config))
+                config = 'contentDetail["resource/x-bb-journallink"].blog.commentModificationAllowed'
+                print(f'Checking {item_Search} commentModificationAllowed...')
+                result_comment_Modification = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'contentDetail["resource/x-bb-journallink"].blog.commentModificationAllowed'
-            print(f'Checking {item_Search} commentModificationAllowed...')
-            result_comment_Modification = await page.evaluate(filteredRequest_title(item_Search, config))
+                result = f'''{item_Search}:
+                visibility : {result_visibility} |
+                entryModificationAllowed: {result_entry_modifucation} |
+                commentModificationAllowed: {result_comment_Modification}'''
+                return result
+            except:
+                try:
+                    item_Search = 'Fale com o Professor'
+                    config = 'availability.available'
+                    print(f'Checking {item_Search} visibility...')
+                    result_visibility = await page.evaluate(filteredRequest_title(item_Search, config))
+                    
+                    await page.goto(url=internalID_API_noPublic, wait_until='commit')
 
-            result = f'{item_Search}: visibility : {result_visibility} | entryModificationAllowed:'\
-            f'{result_entry_modifucation} | commentModificationAllowed: {result_comment_Modification}'
-            return result
+                    config = 'contentDetail["resource/x-bb-journallink"].blog.entryModificationAllowed'
+                    print(f'Checking {item_Search} entryModificationAllowed...')
+                    result_entry_modifucation = await page.evaluate(filteredRequest_title(item_Search, config))
+
+                    config = 'contentDetail["resource/x-bb-journallink"].blog.commentModificationAllowed'
+                    print(f'Checking {item_Search} commentModificationAllowed...')
+                    result_comment_Modification = await page.evaluate(filteredRequest_title(item_Search, config))
+
+                    result = f'''{item_Search}:
+                    visibility : {result_visibility} |
+                    entryModificationAllowed: {result_entry_modifucation} |
+                    commentModificationAllowed: {result_comment_Modification}'''
+                    return result
+                except:
+                    result = f'{item_Search} not found in room {id_interno}'
+                    return result
         case 'Desafio Colaborativo':
             await page.goto(url=internalID_API, wait_until='networkidle')
-
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
-
-            config = 'contentHandler.targetId'
-            print(f'Checking {item_Search} contentHandler.targetId...')
-            targetID = await page.evaluate(filteredRequest_title(item_Search, config))
-             
-            APITargetID = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{targetID}'
-            await page.goto(url=APITargetID, wait_until='commit')
-            
-            config = 'contentHandler.discussionId'
-            print(f'Checking {item_Search} contentHandler.discussionId...')
-            discussionID = await page.evaluate(request_unfiltered_noResults(config=config))
-            
-            API_Discussion_groups = f'{baseURL}learn/api/public/v1/courses/{id_interno}/discussions/{discussionID}/groups'
-            await page.goto(url=API_Discussion_groups, wait_until='commit')
-            
-            config = 'length'
-            print(f'Checking {item_Search} groups length...')
             try:
-                Groups_length = await page.evaluate(request_unfiltered(config=config))
-            except Exception as e:
-                Groups_length = 0
-            
-            if Groups_length > 0:
-                text = f'{Groups_length} Groups associated'
-                result = f'{result} | {text}'
-            else:
-                text = 'No group associated'
-                result = f'{result} | {text}'
-                return
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result = await page.evaluate(filteredRequest_title(item_Search, config))
 
+                config = 'contentHandler.targetId'
+                print(f'Checking {item_Search} contentHandler.targetId...')
+                targetID = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                APITargetID = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{targetID}'
+                await page.goto(url=APITargetID, wait_until='commit')
+                
+                config = 'contentHandler.discussionId'
+                print(f'Checking {item_Search} contentHandler.discussionId...')
+                discussionID = await page.evaluate(request_unfiltered_noResults(config=config))
+                
+                API_Discussion_groups = f'{baseURL}learn/api/public/v1/courses/{id_interno}/discussions/{discussionID}/groups'
+                await page.goto(url=API_Discussion_groups, wait_until='commit')
+                
+                config = 'length'
+                print(f'Checking {item_Search} groups length...')
+                try:
+                    Groups_length = await page.evaluate(request_unfiltered(config=config))
+                except Exception as e:
+                    Groups_length = 0
+                
+                if Groups_length > 0:
+                    text = f'{Groups_length} Groups associated'
+                    result = f'''{item_Search}:
+                    visibility: {result} |
+                    {text}'''
+                else:
+                    text = 'No group associated'
+                    result = f'''{item_Search}:
+                    visibility: {result} |
+                    {text}'''
+            except:
+                result = f'{item_Search} not found'
             return result
         case 'Unidade 1':
             await page.goto(url=internalID_API, wait_until='networkidle')
-
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
-
-            return result
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result = await page.evaluate(filteredRequest_title(item_Search, config))
+                result = f'{item_Search}: visibility: {result}'
+                return result
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Unidade 2':
             await page.goto(url=internalID_API, wait_until='networkidle')
-
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
-
-            return result
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result = await page.evaluate(filteredRequest_title(item_Search, config))
+                result = f'{item_Search}: visibility: {result}'
+                return result
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Unidade 3':
             await page.goto(url=internalID_API, wait_until='networkidle')
-
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
-
-            return result
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result = await page.evaluate(filteredRequest_title(item_Search, config))
+                result = f'{item_Search}: visibility: {result}'
+                return result
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Unidade 4':
             await page.goto(url=internalID_API, wait_until='networkidle')
-
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
-
-            return result
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result = await page.evaluate(filteredRequest_title(item_Search, config))
+                result = f'{item_Search}: visibility: {result}'
+                return result
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Material Didático Interativo':
             result = await check_item_in_all_folders_unidade(item_Search)
             return result
@@ -453,47 +519,57 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             return result
         case 'WebAula':
             await page.goto(url=internalID_API, wait_until='networkidle')
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
+                config = 'id'
+                print(f'Checking {item_Search} id...')
+                father_id = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'id'
-            print(f'Checking {item_Search} id...')
-            father_id = await page.evaluate(filteredRequest_title(item_Search, config))
+                await page.goto(url=APIFolder(father_id), wait_until='commit')
 
-            await page.goto(url=APIFolder(father_id), wait_until='commit')
+                config = 'length'
+                result2 = await page.evaluate(request_unfiltered_toString(config=config))
 
-            config = 'length'
-            result2 = await page.evaluate(request_unfiltered_toString(config=config))
+                result = f'''{item_Search}:
+                visibility: {result} |
+                itens count: {result2}'''
 
-            result = f'{result} | {result2} itens in {item_Search}'
-
-            return result
+                return result
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Avaliações':
             await page.goto(url=internalID_API, wait_until='networkidle')
-
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
-
-            config = 'id'
-            print(f'Checking {item_Search} id...')
-            father_id = await page.evaluate(filteredRequest_title(item_Search, config))
-
-            await page.goto(url=APIFolder(father_id), wait_until='commit')
-
-            config = 'title'
-            item_search = 'Regras da Avaliação - Resolução CONSU'
-            print(f'Checking {item_search} title...')
             try:
-                result2 = await page.evaluate(filteredRequest_title(item_search, config))
-                result = f'{result} | {item_search} is correct!'
-            except Exception as e:
-                text = f'{item_search} title is incorrect!'
-                result = f'{result} | {text}'
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            return result
+                config = 'id'
+                print(f'Checking {item_Search} id...')
+                father_id = await page.evaluate(filteredRequest_title(item_Search, config))
+
+                await page.goto(url=APIFolder(father_id), wait_until='commit')
+
+                config = 'title'
+                item_search = 'Regras da Avaliação - Resolução CONSU'
+                print(f'Checking {item_search} title...')
+                try:
+                    result2 = await page.evaluate(filteredRequest_title(item_search, config))
+                    result = f'''{item_Search}:
+                    visibility: {result} |
+                    {item_search} title is correct!'''
+                except Exception as e:
+                    text = f'{item_search} title is incorrect!'
+                    result = f'{result} | {text}'
+
+                return result
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Atividade Contextualizada': #
             await page.goto(url=internalID_API, wait_until='networkidle')
 
@@ -557,47 +633,60 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             return result
         case 'SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)':
             await page.goto(url=internalID_API, wait_until='networkidle')
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
+                config = 'contentHandler.url'
+                print(f'Checking {item_Search} associated URL...')
+                result2 = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'contentHandler.url'
-            print(f'Checking {item_Search} associated URL...')
-            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+                # Verificar se o link está correto
 
-            # Verificar se o link está correto
-
-            results = f'{item_Search}: visibility: {result} | URL: {result2}'
-            return results
+                results = f'''{item_Search}:
+                visibility: {result} |
+                URL: {result2}'''
+                return results
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Solicite seu livro impresso':
             await page.goto(url=internalID_API, wait_until='networkidle')
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'availability.available'
-            print(f'Checking {item_Search} visibility...')
-            result = await page.evaluate(filteredRequest_title(item_Search, config))
+                config = 'contentHandler.url'
+                print(f'Checking {item_Search} associated URL...')
+                result2 = await page.evaluate(filteredRequest_title(item_Search, config))
 
-            config = 'contentHandler.url'
-            print(f'Checking {item_Search} associated URL...')
-            result2 = await page.evaluate(filteredRequest_title(item_Search, config))
+                # Verificar se o link está correto
 
-            # Verificar se o link está correto
-
-            results = f'{item_Search}: visibility: {result} | URL: {result2}'
-            return results
+                results = f'''{item_Search}:
+                visibility: {result} |
+                URL: {result2}'''
+                return results
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Relatório de Aulas Práticas': #
             await page.goto(url=internalID_API, wait_until='networkidle')
+            try:
+                item = 'Atividade de Aulas Práticas'
+                config = 'id'
+                folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
+                
+                await page.goto(url=APIFolder(father_id=folderID), wait_until='commit')
+                #verify other itens in folder
+                
+                await page.goto(url=APIGradeCollum, wait_until='commit')
 
-            item = 'Atividade de Aulas Práticas'
-            config = 'id'
-            folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
-            
-            await page.goto(url=APIFolder(father_id=folderID), wait_until='commit')
-            #verify other itens in folder
-            
-            await page.goto(url=APIGradeCollum, wait_until='commit')
-
-            return result
+                return result
+            except:
+                result = f'{item_Search} not found in room {id_interno}'
+                return result
         case 'Atividade de Autoaprendizagem 1':
             result_configs = await activity_configs(item_Search)
             
@@ -652,6 +741,53 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             result = f'{result_configs}'
 
             return result
+        case 'Fale com o Professor':
+            await page.goto(url=internalID_API, wait_until='networkidle')
+            try:
+                config = 'availability.available'
+                print(f'Checking {item_Search} visibility...')
+                result_visibility = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                await page.goto(url=internalID_API_noPublic, wait_until='commit')
+
+                config = 'contentDetail["resource/x-bb-journallink"].blog.entryModificationAllowed'
+                print(f'Checking {item_Search} entryModificationAllowed...')
+                result_entry_modifucation = await page.evaluate(filteredRequest_title(item_Search, config))
+
+                config = 'contentDetail["resource/x-bb-journallink"].blog.commentModificationAllowed'
+                print(f'Checking {item_Search} commentModificationAllowed...')
+                result_comment_Modification = await page.evaluate(filteredRequest_title(item_Search, config))
+
+                result = f'''{item_Search}:
+                visibility : {result_visibility} |
+                entryModificationAllowed: {result_entry_modifucation} |
+                commentModificationAllowed: {result_comment_Modification}'''
+                return result
+            except:
+                try:
+                    item_Search = 'Fale com o Tutor'
+                    config = 'availability.available'
+                    print(f'Checking {item_Search} visibility...')
+                    result_visibility = await page.evaluate(filteredRequest_title(item_Search, config))
+                    
+                    await page.goto(url=internalID_API_noPublic, wait_until='commit')
+
+                    config = 'contentDetail["resource/x-bb-journallink"].blog.entryModificationAllowed'
+                    print(f'Checking {item_Search} entryModificationAllowed...')
+                    result_entry_modifucation = await page.evaluate(filteredRequest_title(item_Search, config))
+
+                    config = 'contentDetail["resource/x-bb-journallink"].blog.commentModificationAllowed'
+                    print(f'Checking {item_Search} commentModificationAllowed...')
+                    result_comment_Modification = await page.evaluate(filteredRequest_title(item_Search, config))
+
+                    result = f'''{item_Search}:
+                    visibility : {result_visibility} |
+                    entryModificationAllowed: {result_entry_modifucation} |
+                    commentModificationAllowed: {result_comment_Modification}'''
+                    return result
+                except:
+                    result = f'{item_Search} not found in room {id_interno}'
+                    return result
         case _:
             result = f'Item: [{item_Search}] não encontrado ou nomeclatura errada'
             print(result)
@@ -705,7 +841,7 @@ async def doublecheck_config_main_test() -> None:
         # result0 = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
         # result1 = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
         # result2 = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
-        results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
+        # results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
         # results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
         # results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
         # results04 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
