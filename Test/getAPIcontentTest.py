@@ -210,14 +210,14 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             print(f'Checking {item_search} test result options...')
             result_options = await page.evaluate(filteredRequest_title(item_search, config))
             
-            genComb = product(options_correct, repeat=5) #Gerar combinatoria de 5 alternativas
-            permsList = []
-            for subset in genComb:
-                permsList.append(subset)
-            # if result_options == options_correct:
-            #     result_options = f'{item_search} test result options config is correct'
-            # else:
-            #     result_options = f'{item_search} test result options config is wrong'
+            if (result_options[0] in options_correct and
+                result_options[1] in options_correct and
+                result_options[2] in options_correct and
+                result_options[3] in options_correct and
+                result_options[4] in options_correct):
+                result_options = f'{item_search} test result options config is correct'
+            else:
+                result_options = f'{item_search} test result options config is wrong'
             
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired'
             print(f'Checking {item_search} Randomization of Answers Required...')
@@ -299,7 +299,9 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                     
                     config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
                     itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
+                    
                     result = await configs(item_search=item_search, id_interno=id_interno, itemID=itemID)
+                    
                     return result
                 else:
                     print('Erro ao processar request:', e)
