@@ -324,7 +324,8 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 config = 'availability.available'
                 print(f'Checking {item_Search} visibility...')
                 result = await page.evaluate(filteredRequest_title(item_Search, config))
-                result = f'{item_Search}: Visibility: {result}'
+                result = f'''{item_Search}:
+                Visibility: {result}'''
                 return result
             except:
                 result = f'{item_Search} not found in room {id_interno}'
@@ -450,10 +451,14 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 
                 if Groups_length > 0:
                     text = f'{Groups_length} Groups associated'
-                    result = f'{item_Search}: visibility: {result} | {text}'
+                    result = f'''{item_Search}:
+                    visibility: {result} |
+                    {text}'''
                 else:
                     text = 'No group associated'
-                    result = f'{item_Search}: visibility: {result} | {text}'
+                    result = f'''{item_Search}:
+                    visibility: {result} |
+                    {text}'''
             except:
                 result = f'{item_Search} not found'
             return result
@@ -528,7 +533,9 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 config = 'length'
                 result2 = await page.evaluate(request_unfiltered_toString(config=config))
 
-                result = f'{result} | {result2} itens in {item_Search}'
+                result = f'''{item_Search}:
+                visibility: {result} |
+                itens count: {result2}'''
 
                 return result
             except:
@@ -552,7 +559,9 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 print(f'Checking {item_search} title...')
                 try:
                     result2 = await page.evaluate(filteredRequest_title(item_search, config))
-                    result = f'{result} | {item_search} is correct!'
+                    result = f'''{item_Search}:
+                    visibility: {result} |
+                    {item_search} title is correct!'''
                 except Exception as e:
                     text = f'{item_search} title is incorrect!'
                     result = f'{result} | {text}'
@@ -635,7 +644,9 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
                 # Verificar se o link está correto
 
-                results = f'{item_Search}: visibility: {result} | URL: {result2}'
+                results = f'''{item_Search}:
+                visibility: {result} |
+                URL: {result2}'''
                 return results
             except:
                 result = f'{item_Search} not found in room {id_interno}'
@@ -653,7 +664,9 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
 
                 # Verificar se o link está correto
 
-                results = f'{item_Search}: visibility: {result} | URL: {result2}'
+                results = f'''{item_Search}:
+                visibility: {result} |
+                URL: {result2}'''
                 return results
             except:
                 result = f'{item_Search} not found in room {id_interno}'
@@ -745,8 +758,10 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 print(f'Checking {item_Search} commentModificationAllowed...')
                 result_comment_Modification = await page.evaluate(filteredRequest_title(item_Search, config))
 
-                result = f'{item_Search}: visibility : {result_visibility} | entryModificationAllowed:'\
-                f'{result_entry_modifucation} | commentModificationAllowed: {result_comment_Modification}'
+                result = f'''{item_Search}:
+                visibility : {result_visibility} |
+                entryModificationAllowed: {result_entry_modifucation} |
+                commentModificationAllowed: {result_comment_Modification}'''
                 return result
             except:
                 try:
@@ -765,8 +780,10 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                     print(f'Checking {item_Search} commentModificationAllowed...')
                     result_comment_Modification = await page.evaluate(filteredRequest_title(item_Search, config))
 
-                    result = f'{item_Search}: visibility : {result_visibility} | entryModificationAllowed:'\
-                    f'{result_entry_modifucation} | commentModificationAllowed: {result_comment_Modification}'
+                    result = f'''{item_Search}:
+                    visibility : {result_visibility} |
+                    entryModificationAllowed: {result_entry_modifucation} |
+                    commentModificationAllowed: {result_comment_Modification}'''
                     return result
                 except:
                     result = f'{item_Search} not found in room {id_interno}'
