@@ -167,7 +167,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             if result_description == description_DIG:
                 result_description = f'{item_search} description is right.'
-            elif  result_description == description_TRAD[int(search_item[0])+1]:
+            elif  result_description == description_TRAD[int(search_item[0])-1]:
                 result_description = f'{item_search} description is right.'
             else:
                 result_description = f'{item_search} description is wrong.'
