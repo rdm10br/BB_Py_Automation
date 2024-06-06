@@ -3,12 +3,12 @@ from playwright.async_api import Playwright, async_playwright, expect
 
 
 #importando Metodos principais
-from Metodos import (getPlanilha, checkup_login, getFromAPI,
-capture_console_output_async, TimeStampedStream)
+from src.Metodos import getPlanilha, checkup_login, getFromAPI
+from src.Decorators import capture_console_output_async, TimeStampedStream
 
 
 #Decorator for log
-# @capture_console_output_async
+@capture_console_output_async
 async def run(playwright: Playwright) -> None:
     sys.stdout = TimeStampedStream(sys.stdout)
     browser = await playwright.chromium.launch(headless=False)

@@ -187,6 +187,21 @@ def writeOnExcel_Plan1(index, return_status):
 
     # Save the changes to the existing file
     workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_Result(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'C' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
             
 # index = 1
 # for index in range(total_lines_plan2) :

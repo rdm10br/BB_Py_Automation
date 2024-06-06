@@ -36,6 +36,7 @@ async def run(page: Page, index) -> None:
         
         print(result)
         getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+        getPlanilha.writeOnExcel_Plan1_Result(index=index, return_status=result)
 
         
 async def main():
