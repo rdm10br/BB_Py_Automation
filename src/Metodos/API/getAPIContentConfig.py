@@ -237,7 +237,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             if result_isRandomizationOfQuestionsRequired == "true":
                 result_isRandomizationOfQuestionsRequired = f'{item_search} is set to always ramdomize Questions'
             else:
-                result_isRandomizationOfQuestionsRequired = f'{item_search} is not set to always ramdomize Questions'
+                result_isRandomizationOfQuestionsRequired = f'{item_search} is wrong, not set to always ramdomize Questions'
             
             await page.goto(url=APIEncapsulamento, wait_until='commit')
             
@@ -286,6 +286,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             try:
                 config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
+                print(f'Checking {item_search} test id...')
                 itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
                 
                 if itemID != f'{item_search} not found in room {id_interno}':
@@ -301,6 +302,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                             await page.goto(url=APIFolder_noPublic(activity_folderID), wait_until='commit')
                             
                             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id'
+                            print(f'Checking {item_search} test id...')
                             itemID = await page.evaluate(filteredRequest_title(item_search=item_Search, config=config))
                             
                             result = await configs(item_search=item_search, id_interno=id_interno, itemID=itemID)
@@ -790,6 +792,8 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 except:
                     result = f'{item_Search} not found in room {id_interno}'
                     return result
+        case 'Manuais': #
+            ...
         case _:
             result = f'Item: [{item_Search}] não encontrado ou nomeclatura errada'
             print(result)
@@ -960,6 +964,7 @@ async def doublecheck_config_main_MEC(page: Page, id_interno: str) -> str:
     results_Web = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
     results_solicite = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
     results_ser = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+    # results_ser = await API_Config(page=page, id_interno=id_interno, item_Search='Manuais')
     result_bottom = f'\n{results_Web}\n{results_solicite}\n{results_ser}'
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_bottom}'

@@ -94,7 +94,7 @@ def capture_console_output_async(func):
             captured_output = console_output.getvalue()
             timer = time.strftime('%d-%m-%Y-%H-%M-%S')
             log_file_name = rf"Logs\output-log-{timer}.log"
-            async with aiofiles.open(log_file_name, 'w') as log_file:
+            async with aiofiles.open(log_file_name, 'w', encoding='utf-8') as log_file:
                 await log_file.write(captured_output)
                 await log_file.write(f"\nException occurred: {str(e)}")
             # Re-raise the exception to maintain the original behavior
@@ -105,7 +105,7 @@ def capture_console_output_async(func):
             timer = time.strftime('%d-%m-%Y-%H-%M-%S')
             # Write the captured output to a log file
             log_file_name = rf"Logs\output-log-{timer}.log"
-            async with aiofiles.open(log_file_name, 'w') as log_file:
+            async with aiofiles.open(log_file_name, 'w', encoding='utf-8') as log_file:
                 await log_file.write(captured_output)
             return result
         finally:
