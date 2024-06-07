@@ -1,2 +1,5 @@
 Torne o script executável:
 chmod +x scripts/post_install.sh
+
+enable scripts ExecutionPolicy on powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser

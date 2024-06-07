@@ -807,7 +807,7 @@ async def adjust_date(utc_time_str: str):
     # Format the local time as desired
     # formatted_local_time = local_time.strftime('%d/%m/%Y %H:%M:%S.%f')[:-3]
     formatted_local_time = local_time.strftime('%d/%m/%Y %H:%M')
-    print("Formatted Local Time:", formatted_local_time)
+    # print("Formatted Local Time:", formatted_local_time)
 
     return formatted_local_time
 
