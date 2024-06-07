@@ -1,4 +1,4 @@
-@echo off
+@echo on
 
 :: Create virtual environment
 python -m venv venv
@@ -9,7 +9,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 call venv\Scripts\activate
 
 :: Install dependencies
-pip install -r requirements.txt
+pip install -r dependencies.txt
 python -m playwright install
 python -m spacy download pt_core_news_sm
 
