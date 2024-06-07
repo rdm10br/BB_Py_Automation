@@ -3,8 +3,6 @@
 :: Create virtual environment
 python -m venv venv
 
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-
 :: Activate virtual environment
 call venv\Scripts\activate
 
