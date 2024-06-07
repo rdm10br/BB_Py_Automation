@@ -320,55 +320,113 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
         return result
 
     async def contextualizada_config(item_search: str):
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visible'
-        print(f'Checking {item_search} visible...')
-        result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
-
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.possible'
-        print(f'Checking {item_search} possible...')
-        result_possible_note = await page.evaluate(filteredRequest_title(item_search, config))
-
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.multipleAttempts'
-        print(f'Checking {item_search} multipleAttempts...')
-        result_attempts = await page.evaluate(filteredRequest_title(item_search, config))
-
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visibleInBook'
-        print(f'Checking {item_search} visibleInBook...')
-        result_visibleInBook = await page.evaluate(filteredRequest_title(item_search, config))
-
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.aggregationModel'
-        print(f'Checking {item_search} aggregationModel...')
-        result_aggregationModel = await page.evaluate(filteredRequest_title(item_search, config))
-
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.autoPostGrades'
-        print(f'Checking {item_search} autoPostGrades...')
-        result_autoPostGrades = await page.evaluate(filteredRequest_title(item_search, config))
-        
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].safeAssignOptions.checkAttempts'
-        print(f'Checking {item_search} safe Assign...')
-        result_safeAssign = await page.evaluate(filteredRequest_title(item_search, config))
-        
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.dueDate'
-        print(f'Checking {item_search} hand in date...')
-
         try:
-            result_dueDate = await page.evaluate(filteredRequest_title(item_search, config))
-        except Exception as e:
-            result_dueDate = 'No date associated!'
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visible'
+            print(f'Checking {item_search} visible...')
+            result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
 
-        if result_dueDate != 'No date associated!':
-            result_dueDate = await adjust_date(result_dueDate)
-        
-        result = f'''{item_search}:
-        visibility: {result_visibility}|
-        visibility in Gradebook : {result_visibleInBook}|
-        Grade Model: {result_aggregationModel}|
-        hand in date: {result_dueDate}|
-        Attempts: {result_attempts}|
-        possible note: {result_possible_note}|
-        Safe Assign: {result_safeAssign}|
-        Auto post Grade : {result_autoPostGrades}'''
-        return result
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.possible'
+            print(f'Checking {item_search} possible...')
+            result_possible_note = await page.evaluate(filteredRequest_title(item_search, config))
+
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.multipleAttempts'
+            print(f'Checking {item_search} multipleAttempts...')
+            result_attempts = await page.evaluate(filteredRequest_title(item_search, config))
+
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visibleInBook'
+            print(f'Checking {item_search} visibleInBook...')
+            result_visibleInBook = await page.evaluate(filteredRequest_title(item_search, config))
+
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.aggregationModel'
+            print(f'Checking {item_search} aggregationModel...')
+            result_aggregationModel = await page.evaluate(filteredRequest_title(item_search, config))
+
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.autoPostGrades'
+            print(f'Checking {item_search} autoPostGrades...')
+            result_autoPostGrades = await page.evaluate(filteredRequest_title(item_search, config))
+            
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].safeAssignOptions.checkAttempts'
+            print(f'Checking {item_search} safe Assign...')
+            result_safeAssign = await page.evaluate(filteredRequest_title(item_search, config))
+            
+            config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.dueDate'
+            print(f'Checking {item_search} hand in date...')
+
+            try:
+                result_dueDate = await page.evaluate(filteredRequest_title(item_search, config))
+            except Exception as e:
+                result_dueDate = 'No date associated!'
+
+            if result_dueDate != 'No date associated!':
+                result_dueDate = await adjust_date(result_dueDate)
+            
+            result = f'''{item_search}:
+            visibility: {result_visibility}|
+            visibility in Gradebook : {result_visibleInBook}|
+            Grade Model: {result_aggregationModel}|
+            hand in date: {result_dueDate}|
+            Attempts: {result_attempts}|
+            possible note: {result_possible_note}|
+            Safe Assign: {result_safeAssign}|
+            Auto post Grade : {result_autoPostGrades}'''
+            return result
+        except:
+            print('teste')
+
+    async def contextualizada_config_Public(item_search: str):
+            try:
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visible'
+                print(f'Checking {item_search} visible...')
+                result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
+
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.possible'
+                print(f'Checking {item_search} possible...')
+                result_possible_note = await page.evaluate(filteredRequest_title(item_search, config))
+
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.multipleAttempts'
+                print(f'Checking {item_search} multipleAttempts...')
+                result_attempts = await page.evaluate(filteredRequest_title(item_search, config))
+
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visibleInBook'
+                print(f'Checking {item_search} visibleInBook...')
+                result_visibleInBook = await page.evaluate(filteredRequest_title(item_search, config))
+
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.aggregationModel'
+                print(f'Checking {item_search} aggregationModel...')
+                result_aggregationModel = await page.evaluate(filteredRequest_title(item_search, config))
+
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.autoPostGrades'
+                print(f'Checking {item_search} autoPostGrades...')
+                result_autoPostGrades = await page.evaluate(filteredRequest_title(item_search, config))
+                
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].safeAssignOptions.checkAttempts'
+                print(f'Checking {item_search} safe Assign...')
+                result_safeAssign = await page.evaluate(filteredRequest_title(item_search, config))
+                
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.dueDate'
+                print(f'Checking {item_search} hand in date...')
+
+                try:
+                    result_dueDate = await page.evaluate(filteredRequest_title(item_search, config))
+                except Exception as e:
+                    result_dueDate = 'No date associated!'
+
+                if result_dueDate != 'No date associated!':
+                    result_dueDate = await adjust_date(result_dueDate)
+                
+                result = f'''{item_search}:
+                visibility: {result_visibility}|
+                visibility in Gradebook : {result_visibleInBook}|
+                Grade Model: {result_aggregationModel}|
+                hand in date: {result_dueDate}|
+                Attempts: {result_attempts}|
+                possible note: {result_possible_note}|
+                Safe Assign: {result_safeAssign}|
+                Auto post Grade : {result_autoPostGrades}'''
+                return result
+            except:
+                print('teste')
+
 
     async def Gradebook_config(item_search: str):
         ...
@@ -691,11 +749,11 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                     return result
             except:
                 ...
-        case 'AV1':
-            await page.goto(url=internalID_API_noPublic, wait_until='commit')
+        case 'AV1':#
+            await page.goto(url=internalID_API, wait_until='commit')
             try:
                 config = 'contentDetail["resource/x-bb-folder"].isFolder'
-                print(f'Checking {item_Search} is folder...')
+                print(f' Checking {item_Search} is folder...')
                 result_folder = await page.evaluate(filteredRequest_title(item_Search, config))
                 
                 config = 'id'
@@ -720,11 +778,14 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             except:
                 try:
                     result = await contextualizada_config(item_Search)
-                    return result
                 except:
-                    await page.goto(url=APIGradeCollum, wait_until='commit')
-                    result = await Gradebook_config(item_Search)
-                    return result
+                    try:
+                        await page.goto(url=APIGradeCollum, wait_until='commit')
+                        result = await Gradebook_config(item_Search)
+                        return result
+                    except:
+                        print(f'{item_Search} not found in room {id_interno}')
+                return result
         case 'AV2':
             await page.goto(url=APIGradeCollum, wait_until='commit')
             result = await Gradebook_config(item_Search)
