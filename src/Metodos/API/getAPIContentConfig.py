@@ -319,6 +319,60 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             return result
         return result
 
+    async def contextualizada_config(item_search: str):
+        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visible'
+        print(f'Checking {item_search} visible...')
+        result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
+
+        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.possible'
+        print(f'Checking {item_search} possible...')
+        result_possible_note = await page.evaluate(filteredRequest_title(item_search, config))
+
+        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.multipleAttempts'
+        print(f'Checking {item_search} multipleAttempts...')
+        result_attempts = await page.evaluate(filteredRequest_title(item_search, config))
+
+        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visibleInBook'
+        print(f'Checking {item_search} visibleInBook...')
+        result_visibleInBook = await page.evaluate(filteredRequest_title(item_search, config))
+
+        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.aggregationModel'
+        print(f'Checking {item_search} aggregationModel...')
+        result_aggregationModel = await page.evaluate(filteredRequest_title(item_search, config))
+
+        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.autoPostGrades'
+        print(f'Checking {item_search} autoPostGrades...')
+        result_autoPostGrades = await page.evaluate(filteredRequest_title(item_search, config))
+        
+        config = 'contentDetail["resource/x-bb-asmt-test-link"].safeAssignOptions.checkAttempts'
+        print(f'Checking {item_search} safe Assign...')
+        result_safeAssign = await page.evaluate(filteredRequest_title(item_search, config))
+        
+        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.dueDate'
+        print(f'Checking {item_search} hand in date...')
+
+        try:
+            result_dueDate = await page.evaluate(filteredRequest_title(item_search, config))
+        except Exception as e:
+            result_dueDate = 'No date associated!'
+
+        if result_dueDate != 'No date associated!':
+            result_dueDate = await adjust_date(result_dueDate)
+        
+        result = f'''{item_search}:
+        visibility: {result_visibility}|
+        visibility in Gradebook : {result_visibleInBook}|
+        Grade Model: {result_aggregationModel}|
+        hand in date: {result_dueDate}|
+        Attempts: {result_attempts}|
+        possible note: {result_possible_note}|
+        Safe Assign: {result_safeAssign}|
+        Auto post Grade : {result_autoPostGrades}'''
+        return result
+
+    async def Gradebook_config(item_search: str):
+        ...
+
     match item_Search:
         case 'Fórum de Interação entre Professores e Tutores':
             await page.goto(url=internalID_API, wait_until='networkidle')
@@ -574,7 +628,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             except:
                 result = f'{item_Search} not found in room {id_interno}'
                 return result
-        case 'Atividade Contextualizada': #
+            
             await page.goto(url=internalID_API, wait_until='networkidle')
 
             config = 'hasChildren'
@@ -609,31 +663,67 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             # verificar se tem conteúdo na atividade
             
             return result
-        case 'AV1': #
+        case 'AV1':
+            await page.goto(url=internalID_API_noPublic, wait_until='commit')
+            try:
+                item_search = 'Atividade Contextualizada'
+                config = 'contentDetail["resource/x-bb-folder"].isFolder'
+                print(f'Checking {item_search} is folder...')
+                result_folder = await page.evaluate(filteredRequest_title(item_search, config))
+                
+                config = 'id'
+                print(f'Checking {item_Search} folder ID...')
+                folderID = await page.evaluate(filteredRequest_title(item_search, config))
+                
+                await page.goto(url=APIFolder_noPublic(fatherID=folderID), wait_until='commit')
+                try:
+                    item_search = 'AV1'
+                    result = await contextualizada_config(item_search)
+                    return result
+                except:
+                    item_search = 'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada'
+                    result = await contextualizada_config(item_search)
+                    return result
+            except:
+                try:
+                    config = 'contentDetail["resource/x-bb-folder"].isFolder'
+                    print(f'Checking {item_Search} is folder...')
+                    result_folder = await page.evaluate(filteredRequest_title(item_Search, config))
+                    
+                    config = 'id'
+                    print(f'Checking {item_Search} folder ID...')
+                    folderID = await page.evaluate(filteredRequest_title(item_Search, config))
+                    
+                    await page.goto(url=APIFolder_noPublic(fatherID=folderID), wait_until='commit')
+                    
+                    try:
+                        item_search = 'Atividade Contextualizada'
+                        result = await contextualizada_config(item_search)
+                        return result
+                    except:
+                        try:
+                            item_search = 'AV1'
+                            result = await contextualizada_config(item_search)
+                            return result
+                        except:
+                            item_search = 'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada'
+                            result = await contextualizada_config(item_search)
+                            return result
+                except:
+                    try:
+                        result = await contextualizada_config(item_Search)
+                        return result
+                    except:
+                        await page.goto(url=APIGradeCollum, wait_until='commit')
+                        result = await Gradebook_config(item_Search)
+                        return result
+        case 'AV2':
             await page.goto(url=APIGradeCollum, wait_until='commit')
-
-            config = 'genericReadOnlyData.dueDate'
-            print(f'Checking {item_Search} hand in date...')
-            result = await page.evaluate(filteredRequest_columnName(item_Search, config))
-            # verificar se é uma pasta, um cálculo ou um item
-            # other configs
-
+            result = await Gradebook_config(item_Search)
             return result
-        case 'AV2': #
+        case 'AF':
             await page.goto(url=APIGradeCollum, wait_until='commit')
-
-            result = await page.evaluate(filteredRequest_columnName(item_Search, config))
-
-            # other configs
-
-            return result
-        case 'AF': #
-            await page.goto(url=APIGradeCollum, wait_until='commit')
-
-            result = await page.evaluate(filteredRequest_columnName(item_Search, config))
-
-            # configs valor da note, nomeclatura certa, se está visivel para o aluno
-
+            result = await Gradebook_config(item_Search)
             return result
         case 'SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)':
             await page.goto(url=internalID_API, wait_until='networkidle')
@@ -739,12 +829,21 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             result = f'{result_configs}'
             
             return result
-        case 'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada': #
-            result_configs = await activity_configs(item_Search)
-            
-            result = f'{result_configs}'
-
-            return result
+        case 'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada':
+            await page.goto(url=internalID_API_noPublic, wait_until='commit')
+            try:
+                result = await contextualizada_config(item_search)
+                return result
+            except:
+                item_search = 'Atividade Contextualizada'
+                config = 'id'
+                print(f'Checking {item_Search} folder ID...')
+                folderID = await page.evaluate(filteredRequest_title(item_search, config))
+                
+                await page.goto(url=APIFolder_noPublic(fatherID=folderID), wait_until='commit')
+                
+                result = await contextualizada_config(item_search)
+                return result
         case 'Fale com o Professor':
             await page.goto(url=internalID_API, wait_until='networkidle')
             try:
@@ -815,7 +914,7 @@ async def adjust_date(utc_time_str: str):
     # Format the local time as desired
     # formatted_local_time = local_time.strftime('%d/%m/%Y %H:%M:%S.%f')[:-3]
     formatted_local_time = local_time.strftime('%d/%m/%Y %H:%M')
-    print("Formatted Local Time:", formatted_local_time)
+    # print("Formatted Local Time:", formatted_local_time)
 
     return formatted_local_time
 
