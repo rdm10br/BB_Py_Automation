@@ -32,6 +32,16 @@ Needs Python 3.12
 
 To install all the dependencies use this command on the console
 
+on powershell
+```
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+then on console:
+
+```
+.\setup.bat
+```
+
 first update your pip:
 ```
 pip install --upgrade pip
