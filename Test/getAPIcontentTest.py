@@ -1,6 +1,5 @@
 import asyncio, pytz, json
 from datetime import datetime
-from itertools import product
 from playwright.async_api import async_playwright, expect, Page
 
 async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
@@ -1023,9 +1022,25 @@ async def adjust_date(utc_time_str: str):
 
     return formatted_local_time
 
+def get_screen_size() -> tuple[int, int]:
+    """
+    Returns:
+        tuple[int, int]: Screen Width, Screen Height
+    """
+    # Get information about all monitors
+    monitors = get_monitors()
+
+    # Assuming you want the primary monitor (the first one in the list)
+    primary_monitor = monitors[0]
+    
+    width = primary_monitor.width
+    height = primary_monitor.height
+    
+    return width, height
+
 async def doublecheck_config_main_test() -> None:
     async with async_playwright() as playwright:
-        browser = await playwright.chromium.launch(headless=False)
+        browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
         context = await browser.new_context(no_viewport=True)
         page = await context.new_page()
         
@@ -1040,6 +1055,7 @@ async def doublecheck_config_main_test() -> None:
         # id_interno = '_24214_1' # master de teste dhiego
         
         await page.goto(url=baseURL, wait_until='commit')
+        await page.wait_for_timeout(5*1000)
         
         # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
         # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
@@ -1063,13 +1079,13 @@ async def doublecheck_config_main_test() -> None:
         # results05 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 4 (AOL 4) - Questionário')
         # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliações')
         # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
-        results00 = await API_Config(page=page, id_interno=id_interno, item_Search='AV1')
+        # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='AV1')
         # results00 = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
         # results01 = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
         # result =f'\n{result0}\n{result1}\n{result2}\n{result02}\n{results00}\n{results01}\n{result02}\n{result03}\n{results04}\n{results05}'
         # result_test = '\n*{}\n'.format(result)
         # print('{:5} | {}'.format(f'Run: {index}',executionTime))
-        print(results00)
+        # print(results00)
         # print(result_test)
 
 if __name__ == "__main__":

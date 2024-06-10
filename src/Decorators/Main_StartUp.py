@@ -16,7 +16,7 @@ def playwright_StartUp(func):
             sys.stdout = TimeStampedStream(sys.stdout)
             print('Execution Start')
             
-            browser = await playwright.chromium.launch(headless=False)
+            browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
             context = await browser.new_context(no_viewport=True)
             page = await context.new_page()
             
