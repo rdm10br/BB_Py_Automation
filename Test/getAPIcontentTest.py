@@ -1022,22 +1022,6 @@ async def adjust_date(utc_time_str: str):
 
     return formatted_local_time
 
-def get_screen_size() -> tuple[int, int]:
-    """
-    Returns:
-        tuple[int, int]: Screen Width, Screen Height
-    """
-    # Get information about all monitors
-    monitors = get_monitors()
-
-    # Assuming you want the primary monitor (the first one in the list)
-    primary_monitor = monitors[0]
-    
-    width = primary_monitor.width
-    height = primary_monitor.height
-    
-    return width, height
-
 async def doublecheck_config_main_test() -> None:
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
