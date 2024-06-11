@@ -9,7 +9,7 @@ from Decorators import capture_console_output_async, TimeStampedStream
 @capture_console_output_async
 async def run(playwright: Playwright) -> None:
     sys.stdout = TimeStampedStream(sys.stdout)
-    browser = await playwright.chromium.launch(headless=False)
+    browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
     context = await browser.new_context(no_viewport=True)
     page = await context.new_page()
     
@@ -31,7 +31,7 @@ async def run(playwright: Playwright) -> None:
         if cell_status != 'nan':
             pass
         else :
-            new_browser = await playwright.chromium.launch(headless=False)
+            new_browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
             new_context = await new_browser.new_context(no_viewport=True)
             # Assuming 'cookies' is the list of cookies obtained earlier
             await new_context.add_cookies(cookies)

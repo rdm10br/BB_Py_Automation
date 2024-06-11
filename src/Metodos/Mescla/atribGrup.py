@@ -115,29 +115,63 @@ async def atribuirGruposVET(page: Page, id_interno: str) -> None:
     baseURL = "https://sereduc.blackboard.com/"
     classURL = f'{baseURL}ultra/courses/{id_interno}'
     groups = f'{classURL}/groups'
+    item_search = 'Desafio Colaborativo'
     print('Getting "Desafio Colaborativo" ID...')
-    id_discussion = await getApiContent.API_Req_Content_Discussion(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
-    desafioURL = f'{classURL}/outline/discussion/{id_discussion}?view=discussions&courseId={id_interno}'
-
-    print('Starting adjustments: "Atribuir Grupos Veteranos"')
-    await page.goto(groups)
-    print('Group visibility...')
-    await page.get_by_role("gridcell", name="Desafio_Colaborativo | 6").get_by_role("button").click() #grupo para o veteranos
-    await page.get_by_role("option", name="Visível para alunos").click()
-    print('Opening "Desafion Colaborativo"...')
-    await page.goto(desafioURL)
-    await page.wait_for_load_state('domcontentloaded')
-    await page.wait_for_load_state('load')
-    await page.wait_for_load_state('networkidle')
-    print('Opening settings...')
-    await page.evaluate('''document.querySelector("#discussion-settings-button").click()''')
-    print('Associating group...')
-    await page.get_by_role("link", name="Atribuir a grupos").click()
-    await page.get_by_role("button", name="Personalizar").click()
-    await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
-    print('Saving...')
-    await page.get_by_label("Salvar").click()
-    await page.wait_for_load_state('networkidle')
-    print('Saving...')
-    await page.get_by_role("button", name="Salvar").click()
-    await page.wait_for_load_state('networkidle')
+    try:
+        id_discussion = await getApiContent.API_Req_Content_Discussion(page=page, id_interno=id_interno, item_Search=item_search)
+    except Exception as e:
+        if 'Item não encontrado' in str(e):
+            print(f'Erro na sala: {id_interno}; Item: {item_search} não foi encontrado')
+            pass
+        else:
+            print('Erro ao processar request:', e)
+            pass
+    if id_discussion != None:
+        desafioURL = f'{classURL}/outline/discussion/{id_discussion}?view=discussions&courseId={id_interno}'
+        desafioConfigURL = f'{classURL}/outline/discussion/{id_discussion}/settings?contentId={id_discussion}&view=discussions&courseId={id_interno}'
+        print('Starting adjustments: "Atribuir Grupos Veteranos"')
+        await page.goto(groups)
+        print('Group visibility...')
+        await page.get_by_role("gridcell", name="Desafio_Colaborativo | 6").get_by_role("button").click() #grupo para o veteranos
+        await page.get_by_role("option", name="Visível para alunos").click()
+        print('Opening "Desafion Colaborativo"...')
+        await page.goto(url=desafioConfigURL, wait_until='commit')
+        await page.wait_for_load_state('domcontentloaded')
+        await page.wait_for_load_state('load')
+        await page.wait_for_load_state('networkidle')
+        print('Opening settings...')
+        # await page.evaluate('''document.querySelector("#discussion-settings-button").click()''')
+        print('Associating group...')
+        if await page.get_by_role("link", name="Nenhum grupo").is_visible() is True:
+            await page.get_by_role("button", name="Excluir grupo").click()
+            await page.get_by_role("button", name="Excluir").click()
+            await page.get_by_role("link", name="Atribuir a grupos").click()
+            await page.get_by_role("button", name="Personalizar").click()
+            await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
+            print('Saving...')
+            await page.get_by_label("Salvar").click()
+            await page.wait_for_load_state('networkidle')
+            print('Saving...')
+            await page.get_by_role("button", name="Salvar").click()
+            await page.wait_for_load_state('networkidle')
+            pass
+        else:
+            await page.get_by_role("link", name="Atribuir a grupos").click()
+            await page.get_by_role("button", name="Personalizar").click()
+            await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
+            print('Saving...')
+            await page.get_by_label("Salvar").click()
+            await page.wait_for_load_state('networkidle')
+            print('Saving...')
+            await page.get_by_role("button", name="Salvar").click()
+            await page.wait_for_load_state('networkidle')
+        #check if modal error
+        if await page.get_by_text("Olá! Para acessar este recurso você precisa estar matriculado na sala").is_visible() is True:
+            print(f'Error de Modal na sala {id_interno}')
+            await page.locator('#notification-modal-api-error > div.reveal-modal__header > button').click()
+            pass
+        else:
+            pass
+    else:
+        print(f'Item: {item_search} não encontrado!')
+        pass
