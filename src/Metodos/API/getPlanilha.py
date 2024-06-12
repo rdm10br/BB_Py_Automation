@@ -202,7 +202,502 @@ def writeOnExcel_Plan1_Result(index, return_status):
 
     # Save the changes to the existing file
     workbook.save(arq_excel)
-            
+    
+def writeOnExcel_Plan1_Forum(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'D' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_Desemp(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'E' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_SOFIA(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'F' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_FALE(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'G' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_DESAFIO(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'H' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_U1(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'I' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_U2(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'J' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_U3(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'K' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_U4(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'L' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_M1(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'M' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+
+def writeOnExcel_Plan1_M2(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'N' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_M3(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'O' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_M4(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'P' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_V1(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'Q' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_V2(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'R' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_V3(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'S' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_V4(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'T' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_B1(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'U' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_B2(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'V' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+
+def writeOnExcel_Plan1_B3(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'W' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_B4(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'X' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_A1(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'Y' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_A2(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'Z' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_A3(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'AA' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_A4(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'AB' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_AOL1(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'AC' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_AOL2(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'AD' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_AOL3(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'AE' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+
+def writeOnExcel_Plan1_AOL4(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'AF' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+
+def writeOnExcel_Plan1_AVALICAO(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'AG' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_WEB(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'AH' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_SOLICITE(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'AI' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
+def writeOnExcel_Plan1_SER(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'AJ' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+
 # index = 1
 # for index in range(total_lines_plan2) :
 #     index +=1

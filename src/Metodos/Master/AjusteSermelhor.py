@@ -43,5 +43,6 @@ async def ajusteSerMelhor(page: Page, id_interno: str) -> None:
         await page.get_by_role("button", name="Salvar").click()
         await page.wait_for_load_state('load')
         await page.wait_for_load_state('networkidle')
+        await page.wait_for_timeout(1.5*1000)
     else:
         print('Ser Melhor não encontrado!')

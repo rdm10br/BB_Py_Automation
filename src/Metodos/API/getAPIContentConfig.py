@@ -1,9 +1,10 @@
-import asyncio, pytz, json
+import pytz
 from datetime import datetime
-from playwright.async_api import async_playwright, expect, Page
+from playwright.async_api import Page
 
+from Metodos.API import getPlanilha as gp
 
-async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
+async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -> str:
 
     baseURL = 'https://sereduc.blackboard.com/'
     internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents'
@@ -124,6 +125,7 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                     result_url = f'{result_url} is wrong! | there is no content in {item_search} from Unidade {i}!'
             except Exception as e:
                 if f'{item_search} not found in room {id_interno}' in str(e):
+                    result = f'{result}\nErro na sala: {id_interno}; Item: {item_search} não foi encontrado'
                     print(f'Erro na sala: {id_interno}; Item: {item_search} não foi encontrado')
                     continue
                 else:
@@ -131,14 +133,42 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                     continue
 
             # verificar validade do link
-
+            new_result = f'''{item_Search} from Unidade {i} :
+            visibility: {result_visibility} |
+            URL: {result_url}\n'''
             if result_visibility != f'{item_search} not found in room {id_interno}':
-                results = f'''{results}{item_Search} from Unidade {i} :
-                visibility: {result_visibility} |
-                URL: {result_url}\n'''
+                results = f'''{results}{new_result}'''
             else:
                 results = f'{results}{item_search} não encontrado na Unidade {i}\n'
-
+            
+            item = f'{item_search} from Unidade {i}'
+            match item:
+                case 'Material Didático Interativo from Unidade 1':
+                    gp.writeOnExcel_Plan1_M1(index=line, return_status=new_result)
+                case 'Material Didático Interativo from Unidade 2':
+                    gp.writeOnExcel_Plan1_M2(index=line, return_status=new_result)
+                case 'Material Didático Interativo from Unidade 3':
+                    gp.writeOnExcel_Plan1_M3(index=line, return_status=new_result)
+                case 'Material Didático Interativo from Unidade 4':
+                    gp.writeOnExcel_Plan1_M4(index=line, return_status=new_result)
+                case 'Videoteca: Videoaula from Unidade 1':
+                    gp.writeOnExcel_Plan1_V1(index=line, return_status=new_result)
+                case 'Videoteca: Videoaula from Unidade 2':
+                    gp.writeOnExcel_Plan1_V2(index=line, return_status=new_result)
+                case 'Videoteca: Videoaula from Unidade 3':
+                    gp.writeOnExcel_Plan1_V3(index=line, return_status=new_result)
+                case 'Videoteca: Videoaula from Unidade 4':
+                    gp.writeOnExcel_Plan1_V4(index=line, return_status=new_result)
+                case 'Biblioteca Virtual: e-Book from Unidade 1':
+                    gp.writeOnExcel_Plan1_B1(index=line, return_status=new_result)
+                case 'Biblioteca Virtual: e-Book from Unidade 2':
+                    gp.writeOnExcel_Plan1_B2(index=line, return_status=new_result)
+                case 'Biblioteca Virtual: e-Book from Unidade 3':
+                    gp.writeOnExcel_Plan1_B3(index=line, return_status=new_result)
+                case 'Biblioteca Virtual: e-Book from Unidade 4':
+                    gp.writeOnExcel_Plan1_B4(index=line, return_status=new_result)
+                case _:
+                    continue
         return results
 
     async def activity_configs(item_search: str):
@@ -232,9 +262,9 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
             
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired'
             print(f'Checking {item_search} Randomization of Questions Required...')
-            result_isRandomizationOfQuestionsRequired = await page.evaluate(filteredRequest_title(item_search, config))
-            
-            if result_isRandomizationOfQuestionsRequired == "true":
+            result_isRandomizationOfQuestionsRequired = str(await page.evaluate(filteredRequest_title(item_search, config)))
+            # print(result_isRandomizationOfQuestionsRequired)
+            if result_isRandomizationOfQuestionsRequired == "True":
                 result_isRandomizationOfQuestionsRequired = f'{item_search} is set to always ramdomize Questions'
             else:
                 result_isRandomizationOfQuestionsRequired = f'{item_search} is wrong, not set to always ramdomize Questions'
@@ -320,58 +350,153 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
         return result
 
     async def contextualizada_config(item_search: str):
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visible'
-        print(f'Checking {item_search} visible...')
-        result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
+            try:
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visible'
+                print(f'Checking {item_search} visible...')
+                result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
 
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.possible'
-        print(f'Checking {item_search} possible...')
-        result_possible_note = await page.evaluate(filteredRequest_title(item_search, config))
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.possible'
+                print(f'Checking {item_search} possible...')
+                result_possible_note = await page.evaluate(filteredRequest_title(item_search, config))
 
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.multipleAttempts'
-        print(f'Checking {item_search} multipleAttempts...')
-        result_attempts = await page.evaluate(filteredRequest_title(item_search, config))
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.multipleAttempts'
+                print(f'Checking {item_search} multipleAttempts...')
+                result_attempts = await page.evaluate(filteredRequest_title(item_search, config))
 
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visibleInBook'
-        print(f'Checking {item_search} visibleInBook...')
-        result_visibleInBook = await page.evaluate(filteredRequest_title(item_search, config))
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visibleInBook'
+                print(f'Checking {item_search} visibleInBook...')
+                result_visibleInBook = await page.evaluate(filteredRequest_title(item_search, config))
 
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.aggregationModel'
-        print(f'Checking {item_search} aggregationModel...')
-        result_aggregationModel = await page.evaluate(filteredRequest_title(item_search, config))
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.aggregationModel'
+                print(f'Checking {item_search} aggregationModel...')
+                result_aggregationModel = await page.evaluate(filteredRequest_title(item_search, config))
 
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.autoPostGrades'
-        print(f'Checking {item_search} autoPostGrades...')
-        result_autoPostGrades = await page.evaluate(filteredRequest_title(item_search, config))
-        
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].safeAssignOptions.checkAttempts'
-        print(f'Checking {item_search} safe Assign...')
-        result_safeAssign = await page.evaluate(filteredRequest_title(item_search, config))
-        
-        config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.dueDate'
-        print(f'Checking {item_search} hand in date...')
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.autoPostGrades'
+                print(f'Checking {item_search} autoPostGrades...')
+                result_autoPostGrades = await page.evaluate(filteredRequest_title(item_search, config))
+                
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].safeAssignOptions.checkAttempts'
+                print(f'Checking {item_search} safe Assign...')
+                result_safeAssign = await page.evaluate(filteredRequest_title(item_search, config))
+                
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.dueDate'
+                print(f'Checking {item_search} hand in date...')
 
-        try:
-            result_dueDate = await page.evaluate(filteredRequest_title(item_search, config))
-        except Exception as e:
-            result_dueDate = 'No date associated!'
+                try:
+                    result_dueDate = await page.evaluate(filteredRequest_title(item_search, config))
+                except Exception as e:
+                    result_dueDate = 'No date associated!'
 
-        if result_dueDate != 'No date associated!':
-            result_dueDate = await adjust_date(result_dueDate)
-        
-        result = f'''{item_search}:
-        visibility: {result_visibility}|
-        visibility in Gradebook : {result_visibleInBook}|
-        Grade Model: {result_aggregationModel}|
-        hand in date: {result_dueDate}|
-        Attempts: {result_attempts}|
-        possible note: {result_possible_note}|
-        Safe Assign: {result_safeAssign}|
-        Auto post Grade : {result_autoPostGrades}'''
-        return result
+                if result_dueDate != 'No date associated!':
+                    result_dueDate = await adjust_date(result_dueDate)
+                
+                result = f'''{item_search}:
+                visibility: {result_visibility}|
+                visibility in Gradebook : {result_visibleInBook}|
+                Grade Model: {result_aggregationModel}|
+                hand in date: {result_dueDate}|
+                Attempts: {result_attempts}|
+                possible note: {result_possible_note}|
+                Safe Assign: {result_safeAssign}|
+                Auto post Grade : {result_autoPostGrades}'''
+                return result
+            except:
+                return None
+
+    async def contextualizada_config_Public(item_search: str):
+            try:
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visible'
+                print(f'Checking {item_search} visible...')
+                result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
+
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.possible'
+                print(f'Checking {item_search} possible...')
+                result_possible_note = await page.evaluate(filteredRequest_title(item_search, config))
+
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.multipleAttempts'
+                print(f'Checking {item_search} multipleAttempts...')
+                result_attempts = await page.evaluate(filteredRequest_title(item_search, config))
+
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.visibleInBook'
+                print(f'Checking {item_search} visibleInBook...')
+                result_visibleInBook = await page.evaluate(filteredRequest_title(item_search, config))
+
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.aggregationModel'
+                print(f'Checking {item_search} aggregationModel...')
+                result_aggregationModel = await page.evaluate(filteredRequest_title(item_search, config))
+
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.autoPostGrades'
+                print(f'Checking {item_search} autoPostGrades...')
+                result_autoPostGrades = await page.evaluate(filteredRequest_title(item_search, config))
+                
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].safeAssignOptions.checkAttempts'
+                print(f'Checking {item_search} safe Assign...')
+                result_safeAssign = await page.evaluate(filteredRequest_title(item_search, config))
+                
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.dueDate'
+                print(f'Checking {item_search} hand in date...')
+
+                try:
+                    result_dueDate = await page.evaluate(filteredRequest_title(item_search, config))
+                except Exception as e:
+                    result_dueDate = 'No date associated!'
+
+                if result_dueDate != 'No date associated!':
+                    result_dueDate = await adjust_date(result_dueDate)
+                
+                result = f'''{item_search}:
+                visibility: {result_visibility}|
+                visibility in Gradebook : {result_visibleInBook}|
+                Grade Model: {result_aggregationModel}|
+                hand in date: {result_dueDate}|
+                Attempts: {result_attempts}|
+                possible note: {result_possible_note}|
+                Safe Assign: {result_safeAssign}|
+                Auto post Grade : {result_autoPostGrades}'''
+                return result
+            except:
+                print('teste')
 
     async def Gradebook_config(item_search: str):
-        ...
+        try:
+            config = 'isAttemptBased'
+            print(f'Checking {item_search} isAttemptBased...')
+            result_isAttemptBased = await page.evaluate(filteredRequest_columnName(item_search, config))
+            
+            config = 'visible'
+            print(f'Checking {item_search} visible...')
+            result_visibility = await page.evaluate(filteredRequest_columnName(item_search, config))
+            
+            config = 'visibleInBook'
+            print(f'Checking {item_search} visibleInBook...')
+            result_visibleInBook = await page.evaluate(filteredRequest_columnName(item_search, config))
+            
+            config = 'possible'
+            print(f'Checking {item_search} possible...')
+            result_possible = await page.evaluate(filteredRequest_columnName(item_search, config))
+            
+            
+            config = 'itemsCount'
+            print(f'Checking {item_search} itemsCount...')
+            result_itemsCount = await page.evaluate(filteredRequest_columnName(item_search, config))
+            
+            config = 'description.rawText'
+            print(f'Checking {item_search} description rawText...')
+            try:
+                result_description_rawText = await page.evaluate(filteredRequest_columnName(item_search, config))
+            except:
+                result_description_rawText = 'Description Wrong or no description.'
+            
+            result = f'''{item_search}:
+            Attempt Based: {result_isAttemptBased}|
+            Visibility: {result_visibility}|
+            Visibility in Book: {result_visibleInBook}|
+            Possible: {result_possible}|
+            Item count: {result_itemsCount}|
+            Description: {result_description_rawText}'''
+            return result
+        except:
+            return None
 
     match item_Search:
         case 'Fórum de Interação entre Professores e Tutores':
@@ -629,41 +754,39 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 result = f'{item_Search} not found in room {id_interno}'
                 return result
             
-            await page.goto(url=internalID_API, wait_until='networkidle')
+            # await page.goto(url=internalID_API, wait_until='networkidle')
 
-            config = 'hasChildren'
-            print(f'Checking {item_Search} hasChildren...')
-            result_hasChidren = await page.evaluate(filteredRequest_title(item_Search, config))
+            # config = 'hasChildren'
+            # print(f'Checking {item_Search} hasChildren...')
+            # result_hasChidren = await page.evaluate(filteredRequest_title(item_Search, config))
             
-            match result_hasChidren:
-                case 'true':
+            # match result_hasChidren:
+            #     case 'true':
                     
-                    config = 'availability.available'
-                    print(f'Checking {item_Search} visibility...')
-                    result = await page.evaluate(filteredRequest_title(item_Search, config))
+            #         config = 'availability.available'
+            #         print(f'Checking {item_Search} visibility...')
+            #         result = await page.evaluate(filteredRequest_title(item_Search, config))
                     
-                    config = 'id'
-                    folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
+            #         config = 'id'
+            #         folderID = await page.evaluate(filteredRequest_title(item_search=item, config=config))
                     
-                    await page.goto(url=APIFolder(father_id=folderID), wait_until='commit')
+            #         await page.goto(url=APIFolder(father_id=folderID), wait_until='commit')
                     
-                    await page.goto(url=APIGradeCollum, wait_until='commit')
+            #         await page.goto(url=APIGradeCollum, wait_until='commit')
                     
-                    # contentHandler.assessmentId
+            #         # contentHandler.assessmentId
                     
-                    return result
-                case 'false':
+            #         return result
+            #     case 'false':
                     
-                    # verificar configs e conteúdo
-                    config = 'availability.available'
-                    print(f'Checking {item_Search} visibility...')
-                    result = await page.evaluate(filteredRequest_title(item_Search, config))
+            #         # verificar configs e conteúdo
+            #         config = 'availability.available'
+            #         print(f'Checking {item_Search} visibility...')
+            #         result = await page.evaluate(filteredRequest_title(item_Search, config))
                     
-                    return result
+            #         return result
             # verificar se tem conteúdo na atividade
-            
-            return result
-        case 'AV1':
+        case 'Atividade Contextualizada':
             await page.goto(url=internalID_API_noPublic, wait_until='commit')
             try:
                 item_search = 'Atividade Contextualizada'
@@ -672,51 +795,65 @@ async def API_Config(page: Page, id_interno: str, item_Search: str) -> str:
                 result_folder = await page.evaluate(filteredRequest_title(item_search, config))
                 
                 config = 'id'
-                print(f'Checking {item_Search} folder ID...')
+                print(f'Checking {item_search} folder ID...')
                 folderID = await page.evaluate(filteredRequest_title(item_search, config))
                 
                 await page.goto(url=APIFolder_noPublic(fatherID=folderID), wait_until='commit')
                 try:
+                    
+                    item_search = 'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada'
+                    result_AOL5 = await contextualizada_config(item_search)
+                    
                     item_search = 'AV1'
-                    result = await contextualizada_config(item_search)
+                    result_AV1 = await contextualizada_config(item_search)
+                    
+                    result = f'''{result_AOL5}|
+                    {result_AV1}'''
                     return result
                 except:
-                    item_search = 'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada'
+                    item_search = 'Atividade Contextualizada'
                     result = await contextualizada_config(item_search)
                     return result
             except:
+                ...
+        case 'AV1':#
+            await page.goto(url=internalID_API_noPublic, wait_until='commit')
+            try:
+                config = 'contentDetail["resource/x-bb-folder"].isFolder'
+                print(f' Checking {item_Search} is folder...')
+                result_folder = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                config = 'id'
+                print(f'Checking {item_Search} folder ID...')
+                folderID = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                await page.goto(url=APIFolder_noPublic(fatherID=folderID), wait_until='commit')
+                
                 try:
-                    config = 'contentDetail["resource/x-bb-folder"].isFolder'
-                    print(f'Checking {item_Search} is folder...')
-                    result_folder = await page.evaluate(filteredRequest_title(item_Search, config))
-                    
-                    config = 'id'
-                    print(f'Checking {item_Search} folder ID...')
-                    folderID = await page.evaluate(filteredRequest_title(item_Search, config))
-                    
-                    await page.goto(url=APIFolder_noPublic(fatherID=folderID), wait_until='commit')
-                    
+                    item_search = 'Atividade Contextualizada'
+                    result = await contextualizada_config(item_search)
+                    return result
+                except:
                     try:
-                        item_search = 'Atividade Contextualizada'
+                        item_search = 'AV1'
                         result = await contextualizada_config(item_search)
                         return result
                     except:
+                        item_search = 'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada'
+                        result = await contextualizada_config(item_search)
+                        return result
+            except:
+                try:
+                    result = await contextualizada_config(item_Search)
+                    if result is None:
                         try:
-                            item_search = 'AV1'
-                            result = await contextualizada_config(item_search)
+                            await page.goto(url=APIGradeCollum, wait_until='commit')
+                            result = await Gradebook_config(item_Search)
                             return result
                         except:
-                            item_search = 'Avaliação On-Line 5 (AOL 5) - Atividade Contextualizada'
-                            result = await contextualizada_config(item_search)
-                            return result
+                            result = f'{item_Search} not found in room {id_interno}'
                 except:
-                    try:
-                        result = await contextualizada_config(item_Search)
-                        return result
-                    except:
-                        await page.goto(url=APIGradeCollum, wait_until='commit')
-                        result = await Gradebook_config(item_Search)
-                        return result
+                    return result
         case 'AV2':
             await page.goto(url=APIGradeCollum, wait_until='commit')
             result = await Gradebook_config(item_Search)
@@ -919,151 +1056,222 @@ async def adjust_date(utc_time_str: str):
     return formatted_local_time
 
 
-async def doublecheck_config_main_Master(page: Page, id_interno: str) -> str:
+async def doublecheck_config_main_Master(page: Page, id_interno: str, index: int) -> str:
     
-    results_Forum = await API_Config(page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
-    results_MDesempenho = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
-    result_Sofia =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
-    results_FTutor = await API_Config(page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
-    result_DC =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    results_Forum = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
+    gp.writeOnExcel_Plan1_Forum(index=index, return_status=results_Forum)
+    results_MDesempenho = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+    gp.writeOnExcel_Plan1_Desemp(index=index, return_status=results_MDesempenho)
+    result_Sofia =await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
+    gp.writeOnExcel_Plan1_SOFIA(index=index, return_status=result_Sofia)
+    results_FTutor = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
+    gp.writeOnExcel_Plan1_FALE(index=index, return_status=results_FTutor)
+    result_DC =await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    gp.writeOnExcel_Plan1_DESAFIO(index=index, return_status=result_DC)
     result_top = f'\n{results_Forum}\n{results_MDesempenho}\n{result_Sofia}\n{results_FTutor}\n{result_DC}'
     
-    result_Unidade1 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 1')
-    result_Unidade2 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 2')
-    result_Unidade3 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 3')
-    result_Unidade4 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 4')
+    result_Unidade1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 1')
+    gp.writeOnExcel_Plan1_U1(index=index, return_status=result_Unidade1)
+    result_Unidade2 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 2')
+    gp.writeOnExcel_Plan1_U2(index=index, return_status=result_Unidade2)
+    result_Unidade3 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 3')
+    gp.writeOnExcel_Plan1_U3(index=index, return_status=result_Unidade3)
+    result_Unidade4 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 4')
+    gp.writeOnExcel_Plan1_U4(index=index, return_status=result_Unidade4)
     result_folder = f'\n{result_Unidade1}\n{result_Unidade2}\n{result_Unidade3}\n{result_Unidade4}'
     
-    result_Material = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
-    result_videoteca = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
-    result_Ebook = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
+    result_Material = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
+    result_videoteca = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
+    result_Ebook = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
     result_Materials = f'\n{result_Material}\n{result_videoteca}\n{result_Ebook}'
     
-    results_AtivAuto1 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
-    results_AtivAuto2 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
-    results_AtivAuto3 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
-    results_AtivAuto4 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
+    results_AtivAuto1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
+    gp.writeOnExcel_Plan1_A1(index=index, return_status=results_AtivAuto1)
+    results_AtivAuto2 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
+    gp.writeOnExcel_Plan1_A2(index=index, return_status=results_AtivAuto2)
+    results_AtivAuto3 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
+    gp.writeOnExcel_Plan1_A3(index=index, return_status=results_AtivAuto3)
+    results_AtivAuto4 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
+    gp.writeOnExcel_Plan1_A4(index=index, return_status=results_AtivAuto4)
     result_AtivAuto = f'\n{results_AtivAuto1}\n{results_AtivAuto2}\n{results_AtivAuto3}\n{results_AtivAuto4}'
     
-    results_AOL1 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 1 (AOL 1) - Questionário')
-    results_AOL2 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 2 (AOL 2) - Questionário')
-    results_AOL3 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 3 (AOL 3) - Questionário')
-    results_AOL4 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 4 (AOL 4) - Questionário')
+    results_AOL1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliação On-Line 1 (AOL 1) - Questionário')
+    gp.writeOnExcel_Plan1_AOL1(index=index, return_status=results_AOL1)
+    results_AOL2 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliação On-Line 2 (AOL 2) - Questionário')
+    gp.writeOnExcel_Plan1_AOL2(index=index, return_status=results_AOL2)
+    results_AOL3 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliação On-Line 3 (AOL 3) - Questionário')
+    gp.writeOnExcel_Plan1_AOL3(index=index, return_status=results_AOL3)
+    results_AOL4 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliação On-Line 4 (AOL 4) - Questionário')
+    gp.writeOnExcel_Plan1_AOL4(index=index, return_status=results_AOL4)
     result_AOLS = f'\n{results_AOL1}\n{results_AOL2}\n{results_AOL3}\n{results_AOL4}'
     
-    results_Avaliacao = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliações')
-    results_Web = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
-    results_solicite = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
-    results_ser = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+    results_Avaliacao = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliações')
+    gp.writeOnExcel_Plan1_AVALICAO(index=index, return_status=results_Avaliacao)
+    results_Web = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='WebAula')
+    gp.writeOnExcel_Plan1_WEB(index=index, return_status=results_Web)
+    results_solicite = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
+    gp.writeOnExcel_Plan1_SOLICITE(index=index, return_status=results_solicite)
+    results_ser = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+    gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
     result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}'
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_AOLS}{result_bottom}'
     return result
 
 
-async def doublecheck_config_main_TRAD(page: Page, id_interno: str) -> str:
+async def doublecheck_config_main_TRAD(page: Page, id_interno: str, index: int) -> str:
     
-    results_Forum = await API_Config(page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
-    results_MDesempenho = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
-    result_Sofia =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
-    results_FTutor = await API_Config(page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
-    result_DC =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    results_Forum = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
+    gp.writeOnExcel_Plan1_Forum(index=index, return_status=results_Forum)
+    results_MDesempenho = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+    gp.writeOnExcel_Plan1_Desemp(index=index, return_status=results_MDesempenho)
+    result_Sofia =await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
+    gp.writeOnExcel_Plan1_SOFIA(index=index, return_status=result_Sofia)
+    results_FTutor = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
+    gp.writeOnExcel_Plan1_FALE(index=index, return_status=results_FTutor)
+    result_DC =await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    gp.writeOnExcel_Plan1_DESAFIO(index=index, return_status=result_DC)
     result_top = f'\n{results_Forum}\n{results_MDesempenho}\n{result_Sofia}\n{results_FTutor}\n{result_DC}'
     
-    result_Unidade1 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 1')
-    result_Unidade2 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 2')
-    result_Unidade3 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 3')
-    result_Unidade4 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 4')
+    result_Unidade1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 1')
+    gp.writeOnExcel_Plan1_U1(index=index, return_status=result_Unidade1)
+    result_Unidade2 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 2')
+    gp.writeOnExcel_Plan1_U2(index=index, return_status=result_Unidade2)
+    result_Unidade3 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 3')
+    gp.writeOnExcel_Plan1_U3(index=index, return_status=result_Unidade3)
+    result_Unidade4 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 4')
+    gp.writeOnExcel_Plan1_U4(index=index, return_status=result_Unidade4)
     result_folder = f'\n{result_Unidade1}\n{result_Unidade2}\n{result_Unidade3}\n{result_Unidade4}'
     
-    result_Material = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
-    result_videoteca = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
-    result_Ebook = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
+    result_Material = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
+    result_videoteca = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
+    result_Ebook = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
     result_Materials = f'\n{result_Material}\n{result_videoteca}\n{result_Ebook}'
     
-    results_AOL1 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 1 (AOL 1) - Questionário')
-    results_AOL2 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 2 (AOL 2) - Questionário')
-    results_AOL3 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 3 (AOL 3) - Questionário')
-    results_AOL4 = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliação On-Line 4 (AOL 4) - Questionário')
+    results_AOL1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliação On-Line 1 (AOL 1) - Questionário')
+    gp.writeOnExcel_Plan1_AOL1(index=index, return_status=results_AOL1)
+    results_AOL2 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliação On-Line 2 (AOL 2) - Questionário')
+    gp.writeOnExcel_Plan1_AOL2(index=index, return_status=results_AOL2)
+    results_AOL3 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliação On-Line 3 (AOL 3) - Questionário')
+    gp.writeOnExcel_Plan1_AOL3(index=index, return_status=results_AOL3)
+    results_AOL4 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliação On-Line 4 (AOL 4) - Questionário')
+    gp.writeOnExcel_Plan1_AOL4(index=index, return_status=results_AOL4)
     result_AOLS = f'\n{results_AOL1}\n{results_AOL2}\n{results_AOL3}\n{results_AOL4}'
     
-    results_Avaliacao = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliações')
-    results_Web = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
-    results_solicite = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
-    results_ser = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+    results_Avaliacao = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliações')
+    gp.writeOnExcel_Plan1_AVALICAO(index=index, return_status=results_Avaliacao)
+    results_Web = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='WebAula')
+    gp.writeOnExcel_Plan1_WEB(index=index, return_status=results_Web)
+    results_solicite = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
+    gp.writeOnExcel_Plan1_SOLICITE(index=index, return_status=results_solicite)
+    results_ser = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+    gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
     result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}'
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AOLS}{result_bottom}'
     return result
 
 
-async def doublecheck_config_main_DIG(page: Page, id_interno: str) -> str:
+async def doublecheck_config_main_DIG(page: Page, id_interno: str, index: int) -> str:
     
-    results_Forum = await API_Config(page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
-    results_MDesempenho = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
-    result_Sofia =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
-    results_FTutor = await API_Config(page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
-    result_DC =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    results_Forum = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
+    gp.writeOnExcel_Plan1_Forum(index=index, return_status=results_Forum)
+    results_MDesempenho = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+    gp.writeOnExcel_Plan1_Desemp(index=index, return_status=results_MDesempenho)
+    result_Sofia =await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
+    gp.writeOnExcel_Plan1_SOFIA(index=index, return_status=result_Sofia)
+    results_FTutor = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
+    gp.writeOnExcel_Plan1_FALE(index=index, return_status=results_FTutor)
+    result_DC =await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    gp.writeOnExcel_Plan1_DESAFIO(index=index, return_status=result_DC)
     result_top = f'\n{results_Forum}\n{results_MDesempenho}\n{result_Sofia}\n{results_FTutor}\n{result_DC}'
     
-    result_Unidade1 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 1')
-    result_Unidade2 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 2')
-    result_Unidade3 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 3')
-    result_Unidade4 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 4')
+    result_Unidade1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 1')
+    gp.writeOnExcel_Plan1_U1(index=index, return_status=result_Unidade1)
+    result_Unidade2 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 2')
+    gp.writeOnExcel_Plan1_U2(index=index, return_status=result_Unidade2)
+    result_Unidade3 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 3')
+    gp.writeOnExcel_Plan1_U3(index=index, return_status=result_Unidade3)
+    result_Unidade4 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 4')
+    gp.writeOnExcel_Plan1_U4(index=index, return_status=result_Unidade4)
     result_folder = f'\n{result_Unidade1}\n{result_Unidade2}\n{result_Unidade3}\n{result_Unidade4}'
     
-    result_Material = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
-    result_videoteca = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
-    result_Ebook = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
+    result_Material = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
+    result_videoteca = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
+    result_Ebook = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
     result_Materials = f'\n{result_Material}\n{result_videoteca}\n{result_Ebook}'
     
-    results_AtivAuto1 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
-    results_AtivAuto2 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
-    results_AtivAuto3 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
-    results_AtivAuto4 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
+    results_AtivAuto1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
+    gp.writeOnExcel_Plan1_A1(index=index, return_status=results_AtivAuto1)
+    results_AtivAuto2 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
+    gp.writeOnExcel_Plan1_A2(index=index, return_status=results_AtivAuto2)
+    results_AtivAuto3 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
+    gp.writeOnExcel_Plan1_A3(index=index, return_status=results_AtivAuto3)
+    results_AtivAuto4 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
+    gp.writeOnExcel_Plan1_A4(index=index, return_status=results_AtivAuto4)
     result_AtivAuto = f'\n{results_AtivAuto1}\n{results_AtivAuto2}\n{results_AtivAuto3}\n{results_AtivAuto4}'
     
-    results_Avaliacao = await API_Config(page=page, id_interno=id_interno, item_Search='Avaliações')
-    results_Web = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
-    results_solicite = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
-    results_ser = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+    results_Avaliacao = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliações')
+    gp.writeOnExcel_Plan1_AVALICAO(index=index, return_status=results_Avaliacao)
+    results_Web = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='WebAula')
+    gp.writeOnExcel_Plan1_WEB(index=index, return_status=results_Web)
+    results_solicite = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
+    gp.writeOnExcel_Plan1_SOLICITE(index=index, return_status=results_solicite)
+    results_ser = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+    gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
     result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}'
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_bottom}'
     return result
 
 
-async def doublecheck_config_main_MEC(page: Page, id_interno: str) -> str:
+async def doublecheck_config_main_MEC(page: Page, id_interno: str, index: int) -> str:
     
-    results_Forum = await API_Config(page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
-    results_MDesempenho = await API_Config(page=page, id_interno=id_interno, item_Search='Meu Desempenho')
-    result_Sofia =await API_Config(page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
-    results_FTutor = await API_Config(page=page, id_interno=id_interno, item_Search='Fale com o Professor')
-    result_DC =await API_Config(page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    results_Forum = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Fórum de Interação entre Professores e Tutores')
+    gp.writeOnExcel_Plan1_Forum(index=index, return_status=results_Forum)
+    results_MDesempenho = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Meu Desempenho')
+    gp.writeOnExcel_Plan1_Desemp(index=index, return_status=results_MDesempenho)
+    result_Sofia =await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Organize seus estudos com a Sofia')
+    gp.writeOnExcel_Plan1_SOFIA(index=index, return_status=result_Sofia)
+    results_FTutor = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Fale com o Tutor')
+    gp.writeOnExcel_Plan1_FALE(index=index, return_status=results_FTutor)
+    result_DC =await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Desafio Colaborativo')
+    gp.writeOnExcel_Plan1_DESAFIO(index=index, return_status=result_DC)
     result_top = f'\n{results_Forum}\n{results_MDesempenho}\n{result_Sofia}\n{results_FTutor}\n{result_DC}'
     
-    result_Unidade1 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 1')
-    result_Unidade2 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 2')
-    result_Unidade3 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 3')
-    result_Unidade4 = await API_Config(page=page, id_interno=id_interno, item_Search='Unidade 4')
+    result_Unidade1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 1')
+    gp.writeOnExcel_Plan1_U1(index=index, return_status=result_Unidade1)
+    result_Unidade2 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 2')
+    gp.writeOnExcel_Plan1_U2(index=index, return_status=result_Unidade2)
+    result_Unidade3 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 3')
+    gp.writeOnExcel_Plan1_U3(index=index, return_status=result_Unidade3)
+    result_Unidade4 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Unidade 4')
+    gp.writeOnExcel_Plan1_U4(index=index, return_status=result_Unidade4)
     result_folder = f'\n{result_Unidade1}\n{result_Unidade2}\n{result_Unidade3}\n{result_Unidade4}'
     
-    result_Material = await API_Config(page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
-    result_videoteca = await API_Config(page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
-    result_Ebook = await API_Config(page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
+    result_Material = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Material Didático Interativo')
+    result_videoteca = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Videoteca: Videoaula')
+    result_Ebook = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Biblioteca Virtual: e-Book')
     result_Materials = f'\n{result_Material}\n{result_videoteca}\n{result_Ebook}'
     
-    results_AtivAuto1 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
-    results_AtivAuto2 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
-    results_AtivAuto3 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
-    results_AtivAuto4 = await API_Config(page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
+    results_AtivAuto1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 1')
+    gp.writeOnExcel_Plan1_A1(index=index, return_status=results_AtivAuto1)
+    results_AtivAuto2 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 2')
+    gp.writeOnExcel_Plan1_A2(index=index, return_status=results_AtivAuto2)
+    results_AtivAuto3 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 3')
+    gp.writeOnExcel_Plan1_A3(index=index, return_status=results_AtivAuto3)
+    results_AtivAuto4 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Atividade de Autoaprendizagem 4')
+    gp.writeOnExcel_Plan1_A4(index=index, return_status=results_AtivAuto4)
     result_AtivAuto = f'\n{results_AtivAuto1}\n{results_AtivAuto2}\n{results_AtivAuto3}\n{results_AtivAuto4}'
     
     
-    results_Web = await API_Config(page=page, id_interno=id_interno, item_Search='WebAula')
-    results_solicite = await API_Config(page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
-    results_ser = await API_Config(page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
-    # results_ser = await API_Config(page=page, id_interno=id_interno, item_Search='Manuais')
+    results_Web = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='WebAula')
+    gp.writeOnExcel_Plan1_WEB(index=index, return_status=results_Web)
+    results_solicite = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
+    gp.writeOnExcel_Plan1_SOLICITE(index=index, return_status=results_solicite)
+    results_ser = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
+    gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
+    # results_manuais = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Manuais')
     result_bottom = f'\n{results_Web}\n{results_solicite}\n{results_ser}'
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_bottom}'

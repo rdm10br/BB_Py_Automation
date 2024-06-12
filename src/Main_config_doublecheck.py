@@ -19,19 +19,19 @@ async def run(page: Page, index) -> None:
         print(id_externo)
         
         # Masters DIG e TRAD
-        result  =  await getAPIContentConfig.doublecheck_config_main_Master(page=page, id_interno=id_interno)
+        result  =  await getAPIContentConfig.doublecheck_config_main_Master(page=page, id_interno=id_interno, index=index)
         #=======================================================================
         
         # Mescla/Master DIG
-        # result  =  await getAPIContentConfig.doublecheck_config_main_DIG(page=page, id_interno=id_interno)
+        # result  =  await getAPIContentConfig.doublecheck_config_main_DIG(page=page, id_interno=id_interno, index=index)
         #=======================================================================
         
         # Mescla/Master TRAD
-        # result  =  await getAPIContentConfig.doublecheck_config_main_TRAD(page=page, id_interno=id_interno)
+        # result  =  await getAPIContentConfig.doublecheck_config_main_TRAD(page=page, id_interno=id_interno, index=index)
         #=======================================================================
         
         # Master MEC
-        # result  = await getAPIContentConfig.doublecheck_config_main_MEC(page=page, id_interno=id_interno)
+        # result  = await getAPIContentConfig.doublecheck_config_main_MEC(page=page, id_interno=id_interno, index=index)
         #=======================================================================
         
         print(result)

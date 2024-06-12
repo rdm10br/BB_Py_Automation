@@ -39,6 +39,7 @@ async def ajusteSofia(page: Page, id_interno: str) -> None:
         print('Saving...')
         await page.get_by_role("button", name="Salvar").click()
         await page.wait_for_load_state('load')
+        await page.wait_for_timeout(1.5*1000)
     else:
         print(f'Item: {itemSearch} não encontrado!')
         pass
