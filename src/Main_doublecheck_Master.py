@@ -3,7 +3,7 @@ from playwright.async_api import Page, expect
 
 
 from Metodos import (getPlanilha, getFromAPI, AjusteSofiaV2,
-                    AjusteSermelhor, AjusteAvaliaçãoV2)
+                    AjusteSermelhor, AjusteAvaliacaoV2)
 from Decorators.Main_StartUp import playwright_StartUp
 
 
@@ -22,7 +22,7 @@ async def run(page: Page, index) -> None:
         await page.goto(classUrlUltra)
         
         await AjusteSofiaV2.ajusteSofia(page=page, id_interno=id_interno)
-        await AjusteAvaliaçãoV2.ajusteAvaliacao(page=page, id_interno=id_interno)
+        await AjusteAvaliacaoV2.ajusteAvaliacao(page=page, id_interno=id_interno)
         await AjusteSermelhor.ajusteSerMelhor(page=page, id_interno=id_interno)
         
         getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')

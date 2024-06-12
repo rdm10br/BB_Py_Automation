@@ -2,7 +2,7 @@ import asyncio
 from playwright.async_api import Page, expect
 
 
-from Metodos import getPlanilha, getFromAPI, atribGrup, AjusteNotaZero, AjusteAvaliaçãoV2
+from Metodos import getPlanilha, getFromAPI, atribGrup, AjusteNotaZero, AjusteAvaliacaoV2
 from Decorators.Main_StartUp import playwright_StartUp
 
 
@@ -31,7 +31,7 @@ async def run(page: Page, index) -> None:
         #===================
         
         await AjusteNotaZero.AjusteNotaZero(page=page, id_interno=id_interno)
-        await AjusteAvaliaçãoV2.ajusteAvaliacao(page=page, id_interno=id_interno)
+        await AjusteAvaliacaoV2.ajusteAvaliacao(page=page, id_interno=id_interno)
         getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
 
 
