@@ -3,3 +3,10 @@ chmod +x scripts/post_install.sh
 
 enable scripts ExecutionPolicy on powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+install graphviz package from site
+https://graphviz.org/download/
+pip install code2flow
+pip install graphviz
+code2flow src/ -o flowchart.dot
+dot -Tpng flowchar.dot -o flowchart.png
