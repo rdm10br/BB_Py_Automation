@@ -65,6 +65,30 @@ def enunciado_count (path: str) -> int:
     
     return matches
 
+def extract_text_between_markers(text, start_marker, end_marker):
+    """
+    Function to extract text between two markers using regular expressions.
+    """
+    pattern = re.compile(rf'{re.escape(start_marker)}(.*?)\s*{re.escape(end_marker)}', re.DOTALL)
+    match = re.search(pattern, text)
+    if match:
+        return match.group(1).strip()
+    else:
+        return ""
+
+def get_enunciados (filename: str):
+    text = read_document(filename)
+    q = enunciado_count(filename)
+    question = []
+    
+    for i in range(q):
+        i+=1
+        start_marker = f'Questão {i}'
+        end_marker = 'a)'
+        extracted_text = extract_text_between_markers(text, start_marker, end_marker)
+        question.append(extracted_text)
+    return question
+
 def get_Enunciado(index: int, path: str) -> str:
     '''
     Return question statement
@@ -75,6 +99,8 @@ def get_Enunciado(index: int, path: str) -> str:
     # doc = read_document(path=path)
     # enunciado = re.findall(pattern=regex_Enunciado, string=doc).copy()[index]
     # return enunciado
+    question = get_enunciados(filename=path)
+    return question[index]
 
 def get_Alternativa(index: int, path: str, choices: str) -> str:
     '''

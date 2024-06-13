@@ -44,20 +44,20 @@ def enunciado_count (path: str) -> int:
     
     return matches
 
-if __name__ == '__main__':
-    filename = r'C:\Users\013190873\Downloads\teste.docx'
+def get_enunciados (filename: str):
     text = read_document(filename)
     q = enunciado_count(filename)
-    # print(q)
     question = []
+    
     for i in range(q):
         i+=1
         start_marker = f'Questão {i}'
         end_marker = 'a)'
-        # Extract text between markers
         extracted_text = extract_text_between_markers(text, start_marker, end_marker)
         question.append(extracted_text)
-        # Print or further process the extracted text
-        # print(f'\nQuestão {i}')
-        # print(f'\n{extracted_text}')
-    print(f'\n{question[19]}')
+    return question
+
+if __name__ == '__main__':
+    filename = r'C:\Users\013190873\Downloads\teste.docx'
+    question =get_enunciados(filename=filename)
+    print(f'\n{question[0]}')
