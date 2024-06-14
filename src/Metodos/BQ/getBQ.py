@@ -1,6 +1,7 @@
 import regex as re
 import docx, spacy
 from spacy.matcher import Matcher
+from functools import lru_cache
 
 nlp = spacy.load("pt_core_news_sm")
 matcher = Matcher(nlp.vocab)
@@ -31,7 +32,7 @@ matcher = Matcher(nlp.vocab)
 
 #(?<=\d[.]\s).*(?=\s+[a][)])
 #(?ms)(?<=\d[.]\s).*(?=^\s[a][)]\s|^\s[a][.]\s)
-
+@lru_cache
 def read_document(path) -> str:
     '''
     Return the file content
@@ -58,7 +59,7 @@ def enunciado_count (path: str) -> int:
     texto = read_document(path)
     doc = nlp(texto)
     
-    pattern = [{"TEXT": "Questão"}, {"IS_DIGIT": True}]
+    pattern = [{"LEMMA": "Questão"}, {"IS_DIGIT": True}]
     matcher.add("Questions", [pattern])
     
     matches = len(matcher(doc))
@@ -75,7 +76,7 @@ def extract_text_between_markers(text, start_marker, end_marker):
         return match.group(1).strip()
     else:
         return ""
-
+@lru_cache
 def get_enunciados (filename: str):
     text = read_document(filename)
     q = enunciado_count(filename)
@@ -102,7 +103,7 @@ def get_Enunciado(index: int, path: str) -> str:
     question = get_enunciados(filename=path)
     return question[index]
 
-
+@lru_cache
 def get_Alternativa(index: int, path: str, choices: str) -> str:
     '''
     Return question choices

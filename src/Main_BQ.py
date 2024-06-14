@@ -1,16 +1,16 @@
-import asyncio, gc, pytest, docx, sys
+import asyncio, gc, sys
 from playwright.async_api import Playwright, async_playwright, expect
 
 
 #importando Metodos principais
-from Metodos import (checkup_login, getFromAPI, getBQ, fileChooser,
-capture_console_output_async, TimeStampedStream)
+from Metodos import checkup_login, getFromAPI, getBQ, fileChooser, create_bq
+from Decorators import capture_console_output_async, TimeStampedStream
 
 
-# @capture_console_output_async
+@capture_console_output_async
 async def run(playwright: Playwright) -> None:
     sys.stdout = TimeStampedStream(sys.stdout)
-    browser = await playwright.chromium.launch(headless=False)
+    browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
     context = await browser.new_context(no_viewport=True)
     page = await context.new_page()
     
@@ -43,8 +43,7 @@ async def run(playwright: Playwright) -> None:
     for index in range(doc):
         index +=1
         
-        new_browser = await playwright.chromium.launch(headless=False)
-        new_context = await new_browser.new_context(no_viewport=True)
+        new_context = await browser.new_context(no_viewport=True)
         await new_context.add_cookies(cookies)
         new_page = await new_context.new_page()
         
@@ -53,8 +52,9 @@ async def run(playwright: Playwright) -> None:
         await new_page.goto(rootBQTest)
         await new_page.wait_for_timeout(1000)
         
+        await create_bq.create_question(index=index, path=path, page=new_page)
+        
         await new_context.close()
-        await new_browser.close()
         
         gc.collect()
 
