@@ -1,12 +1,13 @@
 import asyncio, gc, sys
 from playwright.async_api import Playwright, async_playwright, expect
+from functools import lru_cache
 
 
 #importando Metodos principais
 from Metodos import checkup_login, getFromAPI, getBQ, fileChooser, create_bq
 from Decorators import capture_console_output_async, TimeStampedStream
 
-
+@lru_cache
 @capture_console_output_async
 async def run(playwright: Playwright) -> None:
     sys.stdout = TimeStampedStream(sys.stdout)

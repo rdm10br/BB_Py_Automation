@@ -70,12 +70,14 @@ def extract_text_between_markers(text, start_marker, end_marker):
     """
     Function to extract text between two markers using regular expressions.
     """
-    pattern = re.compile(rf'{re.escape(start_marker)}(.*?)\s*{re.escape(end_marker)}', re.DOTALL)
+    # pattern = re.compile(rf'{re.escape(start_marker)}(.*?)\s*{re.escape(end_marker)}', re.DOTALL)
+    pattern = re.compile(rf'{re.escape(start_marker)}(.*?)(?=^\s*{re.escape(end_marker)})', re.DOTALL | re.MULTILINE)
     match = re.search(pattern, text)
     if match:
         return match.group(1).strip()
     else:
         return ""
+
 @lru_cache
 def get_enunciados (filename: str):
     text = read_document(filename)
@@ -123,6 +125,7 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
         case 'B':
             start_marker = get_Alternativa(index=index, path=path, choices='a')
             end_marker = r'c)'
+            # verificar casos de alternativas repetidas e v ou f
             match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
             if match:
                 cleaned_text = re.sub(r'^[a-e]\)\s*', '', match, flags=re.MULTILINE)
@@ -155,9 +158,9 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
 
 
 def main() -> None:
-    path = r"C:\Users\013190873\Downloads\teste.docx"
+    path = r"C:\Users\013190873\Downloads\Questionário_ UNID 1_ Transformação Digital , Sistemas Computacionais e o Futuro da Tecnologia_ REV_Parâmetros_DI Carlos_com Orto.docx"
     teste = enunciado_count(path=path)
-    index = 19
+    index = 11
     teste2 = get_Enunciado(index=index, path=path)
     teste3 = get_Alternativa(index=index, path=path, choices='e')
     print(f'\n Enunciado count: {teste}')
