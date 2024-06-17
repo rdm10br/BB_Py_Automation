@@ -6,32 +6,6 @@ from functools import lru_cache
 nlp = spacy.load("pt_core_news_sm")
 matcher = Matcher(nlp.vocab)
 
-# regex_Enunciado = r'(?<=Questão\s\d\n\n)?.*(?=\n+\s+[a][)])'
-
-# regex_Alternativa_A = r'(?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*'\
-# r'(?=[b][)]|\s+[b][)]|[b][.]\s+|\s+[b][.]\s+)'
-
-# regex_Alternativa_B = r'(?<=[b][)]\s|\s[b][)]\s|[b][.]\s).*'\
-# r'(?=[c][)]|\s+[c][)]|[c][.]\s+|\s+[c][.]\s+)'
-
-# regex_Alternativa_C = r'(?<=[c][)]\s|\s[c][)]\s|[c][.]\s).*'\
-# r'(?=[d][)]|\s+[d][)]|[d][.]\s+|\s+[d][.]\s+)'
-
-# regex_Alternativa_D = r'(?<=[d][)]\s|\s[d][)]\s|[d][.]\s).*'\
-# r'(?=[e][)]|\s+[e][)]|[e][.]\s+|\s+[e][.]\s+)'
-
-# regex_Alternativa_E = r'(?<=[e][)]\s|[e][.]\s|[e][.]).*'\
-# r'(?=\s+\d[.]|[.]|\z)'
-
-# regex_alternativas = r"(?ms)(?<=[[][']).*(?=['][]])"
-
-#(?<=Questão\s\d\n)(?ms).*(?=\s+[a][)])
-#(?<=Questão\s\d\n).*(?=\s+[a][)])
-#(?<=Questão\s\d\n\n)(?ms).*(?=\n+\s+[a][)])
-#(?<=Questão\s\d\n\n)?.*(?=\n+\s+[a][)])
-
-#(?<=\d[.]\s).*(?=\s+[a][)])
-#(?ms)(?<=\d[.]\s).*(?=^\s[a][)]\s|^\s[a][.]\s)
 @lru_cache
 def read_document(path) -> str:
     '''
@@ -40,11 +14,15 @@ def read_document(path) -> str:
     Function to read a docx file, given the file path in the ```path```
     variable, and store in a variable
     '''
-    doc = docx.Document(docx=path)
-    content = []
-    for paragraph in doc.paragraphs:
-        content.append(paragraph.text)
-    return "\n".join(content)
+    try:
+        doc = docx.Document(docx=path)
+        content = []
+        for paragraph in doc.paragraphs:
+            content.append(paragraph.text)
+        return "\n".join(content)
+    except Exception as e:
+        print(f"Error reading document: {e}")
+        return None
 
 def enunciado_count (path: str) -> int:
     """
@@ -57,6 +35,9 @@ def enunciado_count (path: str) -> int:
         int: mathes - how many Statements this questionary have
     """
     texto = read_document(path)
+    if texto is None:
+        return 0
+
     doc = nlp(texto)
     
     pattern = [{"LEMMA": "Questão"}, {"IS_DIGIT": True}]
@@ -66,26 +47,41 @@ def enunciado_count (path: str) -> int:
     
     return matches
 
-def extract_text_between_markers(text, start_marker, end_marker):
+def extract_text_between_markers(text: str, start_marker: str, end_marker: str):
     """
     Function to extract text between two markers using regular expressions.
     """
-    # pattern = re.compile(rf'{re.escape(start_marker)}(.*?)\s*{re.escape(end_marker)}', re.DOTALL)
-    pattern = re.compile(rf'{re.escape(start_marker)}(.*?)(?=^\s*{re.escape(end_marker)})', re.DOTALL | re.MULTILINE)
-    match = re.search(pattern, text)
+    try:
+        start_index = text.find(start_marker)
+        if start_index == -1:
+            return ''
+    except:
+        return 'index error, question not found'
+
+    # Only consider the text after the start_marker
+    text_after_start = text[start_index + len(start_marker):]
+    # text_after_start.
+    # pattern = re.compile(rf'(.*?){re.escape(end_marker)}', re.DOTALL)
+    pattern = re.compile(rf'(.*?)(?=^\s*{re.escape(end_marker)})', re.DOTALL | re.MULTILINE)
+    match = re.search(pattern, text_after_start)
     if match:
-        return match.group(1).strip()
+        extracted_text = match.group(1).strip()
+        # Remove alternative markers
+        cleaned_text = re.sub(r'^[a-e]\)\s*', '', extracted_text, flags=re.MULTILINE)
+        return cleaned_text
     else:
         return ""
 
 @lru_cache
-def get_enunciados (filename: str):
+def get_enunciados(filename: str):
     text = read_document(filename)
+    if text is None:
+        return []
     q = enunciado_count(filename)
     question = []
     
     for i in range(q):
-        i+=1
+        i += 1
         start_marker = f'Questão {i}'
         end_marker = r'a)'
         extracted_text = extract_text_between_markers(text, start_marker, end_marker)
@@ -103,7 +99,12 @@ def get_Enunciado(index: int, path: str) -> str:
     # enunciado = re.findall(pattern=regex_Enunciado, string=doc).copy()[index]
     # return enunciado
     question = get_enunciados(filename=path)
-    return question[index]
+    try:
+        result = question[index]
+        return result
+    except:
+        print('Index out of Range or Question not found!')
+        return ''
 
 @lru_cache
 def get_Alternativa(index: int, path: str, choices: str) -> str:
@@ -114,6 +115,10 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
     the ```index```+1 question and ```choices``` given in the method
     '''
     doc = read_document(path=path)
+    index_marker = doc.find(get_Enunciado(index=index, path=path))
+    doc = doc[index_marker:]
+    if doc is None:
+        return ""
     match choices.upper():
         case 'A':
             start_marker = get_Enunciado(index=index, path=path)
@@ -125,7 +130,6 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
         case 'B':
             start_marker = get_Alternativa(index=index, path=path, choices='a')
             end_marker = r'c)'
-            # verificar casos de alternativas repetidas e v ou f
             match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
             if match:
                 cleaned_text = re.sub(r'^[a-e]\)\s*', '', match, flags=re.MULTILINE)
@@ -156,15 +160,14 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
             print('''Por favor verifique a chamada da função get_Alternativa,
                   tipo de alternativa desejada não esperada pela função''')
 
-
 def main() -> None:
     path = r"C:\Users\013190873\Downloads\Questionário_ UNID 1_ Transformação Digital , Sistemas Computacionais e o Futuro da Tecnologia_ REV_Parâmetros_DI Carlos_com Orto.docx"
-    teste = enunciado_count(path=path)
+    # teste = enunciado_count(path=path)
+    # print(f'\n Enunciado count: {teste}')
     index = 11
     teste2 = get_Enunciado(index=index, path=path)
-    teste3 = get_Alternativa(index=index, path=path, choices='e')
-    print(f'\n Enunciado count: {teste}')
     print(f'\n Question:\n{teste2}')
+    teste3 = get_Alternativa(index=index, path=path, choices='b')
     print(f'\n Choices:\n{teste3}')
 
 if __name__ == "__main__":
