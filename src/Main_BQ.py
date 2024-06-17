@@ -18,20 +18,26 @@ async def run(playwright: Playwright) -> None:
     baseURL = 'https://sereduc.blackboard.com/'
     classURL = f'{baseURL}ultra/courses/'
     id_repository = '_187869_1'
-    
+    bq_id = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments/'
     rootBQ = f'{baseURL}webapps/assessment/do/authoring/'\
     f'viewAssessmentManager?assessmentType=Pool&course_id={id_repository}'
     
-    id_BQ = '_24977260_1'
+    def BQTest(id_BQ: str):
+        BQ = f'{baseURL}webapps/assessment/do/authoring/modifyAssessment?'\
+            f'method=modifyAssessment&course_id={id_repository}'\
+            f'&assessmentId={id_BQ}'
+        return BQ
     
-    rootBQTest = (f'{baseURL}webapps/assessment/do/authoring/'\
-    'modifyAssessment?method=modifyAssessment&'\
-    'copyAlignments=false&packageFormat=undefined&'\
-    f'course_id={id_repository}'\
-    f'&assessmentId={id_BQ}&sectionId=&questionId=&saveAsNew=false&'\
-    'questionIsNew=false&createAnother=false&assessmentType=Pool&'\
-    'isLinkedQuestion=&'\
-    'referencingQuestionId=')
+    def filteredRequest_title(item_search: str, config: str):
+        request = f'''() => {{
+            const data = JSON.parse(document.body.innerText).results.find(item => item.title === "{item_search}");
+            if (data && (data.{config}).toString) {{
+                return data.{config};
+            }} else {{
+                throw new Error('{item_search} not found in room {id_repository}');
+                }}
+            }}'''
+        return request
     
     await checkup_login.checkup_login(page=page)
     
@@ -42,7 +48,10 @@ async def run(playwright: Playwright) -> None:
     print(doc)
     
     await page.goto(rootBQ)
-    await create_bq.create_bq(page=page, path=path)
+    BQ_name = await create_bq.create_bq(page=page, path=path)
+    await page.goto(bq_id)
+    id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+    await page.goto(BQTest(id_BQ=id_BQ))
     
     for index in range(doc):
         index +=1
@@ -53,7 +62,7 @@ async def run(playwright: Playwright) -> None:
         
         print(f'\nQuestão : {index}')
         
-        await new_page.goto(rootBQTest)
+        await new_page.goto(BQTest)
         await new_page.wait_for_timeout(1000)
         
         await create_bq.create_question(index=index, path=path, page=new_page)

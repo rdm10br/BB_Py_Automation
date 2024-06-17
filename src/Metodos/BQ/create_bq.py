@@ -1,9 +1,35 @@
 from playwright.async_api import Page, expect
 from Metodos.BQ import getBQ as gb
+import regex as re
+import os, unidecode
 
 
-async def create_bq(page: Page, path: str):
-    ...
+async def create_bq(page: Page, path: str) -> str:
+    """_summary_
+
+    Args:
+        page (Page): _description_
+        path (str): _description_
+    """
+    file_name = os.path.basename(path)
+    BQ_name = re.sub(r'.docx','',file_name)
+    unidade = ''.join([ch for ch in BQ_name if ch.isdigit()])
+    match unidade[0]:
+            case '1' :
+                item = 'BQ 01'
+            case '2' :
+                item = 'BQ 02'
+            case '3' :
+                item = 'BQ 03'
+            case '4' :
+                item = 'BQ 04'
+    BQ_name = unidecode(BQ_name.upper)
+    BQ_name = f'{BQ_name} - {item}_GRADUACAO'
+    page.get_by_role("button", name="Criar banco de testes").click()
+    page.get_by_label("Nome", exact=True).fill(BQ_name)
+    page.get_by_role("button", name="Enviar").click()
+    return BQ_name
+    
     
 async def create_question(index: int, path: str, page: Page):
     index-=1

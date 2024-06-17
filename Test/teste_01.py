@@ -21,3 +21,8 @@
 # # output = my_function('áç')
 # # print(output)
 # print('óçé')
+from pathlib import Path
+
+file_path = "/path/to/your/file.txt"
+file_name = Path(file_path).name
+print(file_name)
