@@ -1,7 +1,8 @@
 from playwright.async_api import Page, expect
 from Metodos.BQ import getBQ as gb
 import regex as re
-import os, unidecode
+import os
+from unidecode import unidecode
 
 
 async def create_bq(page: Page, path: str) -> str:
