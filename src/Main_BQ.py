@@ -41,6 +41,9 @@ async def run(playwright: Playwright) -> None:
     doc = getBQ.enunciado_count(path=path)
     print(doc)
     
+    await page.goto(rootBQ)
+    await create_bq.create_bq(page=page, path=path)
+    
     for index in range(doc):
         index +=1
         

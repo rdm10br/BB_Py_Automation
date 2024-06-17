@@ -2,7 +2,7 @@ from playwright.async_api import Page, expect
 from Metodos.BQ import getBQ as gb
 
 
-async def create_bq():
+async def create_bq(page: Page, path: str):
     ...
     
 async def create_question(index: int, path: str, page: Page):
