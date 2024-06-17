@@ -167,7 +167,7 @@ def main() -> None:
     index = 11
     teste2 = get_Enunciado(index=index, path=path)
     print(f'\n Question:\n{teste2}')
-    teste3 = get_Alternativa(index=index, path=path, choices='b')
+    teste3 = get_Alternativa(index=index, path=path, choices='e')
     print(f'\n Choices:\n{teste3}')
 
 if __name__ == "__main__":
