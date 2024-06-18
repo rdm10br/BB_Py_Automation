@@ -38,4 +38,7 @@ match unidade[0]:
         case '4' :
             item = 'BQ 04'
 BQ_name = unidecode(BQ_name)
+BQ_name = re.sub(r'\d','',BQ_name)
+BQ_name = re.sub(r'\s+', ' ', BQ_name)
+BQ_name = f'{BQ_name} - {item}_GRADUACAO'
 print(BQ_name)

@@ -53,6 +53,7 @@ def extract_text_between_markers(text: str, start_marker: str, end_marker: str):
     """
     try:
         start_index = text.find(start_marker)
+        # print(start_index+1)
         if start_index == -1:
             return ''
     except:
@@ -220,7 +221,7 @@ def main() -> None:
     path = r"C:\Users\013190873\Downloads\Teoria do Voo Avançado 1.docx"
     # teste = enunciado_count(path=path)
     # print(f'\n Enunciado count: {teste}')
-    index = 10
+    index = 13
     teste2 = get_Enunciado(index=index, path=path)
     print(f'\n Question:\n{teste2}')
     teste3 = get_Alternativa(index=index, path=path, choices='e')

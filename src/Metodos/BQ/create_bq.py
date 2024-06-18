@@ -25,6 +25,8 @@ async def create_bq(page: Page, path: str) -> str:
             case '4' :
                 item = 'BQ 04'
     BQ_name = unidecode(BQ_name)
+    BQ_name = re.sub(r'\d','',BQ_name)
+    BQ_name = re.sub(r'\s+', ' ', BQ_name)
     BQ_name = f'{BQ_name} - {item}_GRADUACAO'
     await page.get_by_role("button", name="Criar banco de testes").click()
     await page.get_by_label("Nome", exact=True).fill(BQ_name)
