@@ -37,3 +37,21 @@ dot -Tpng flowchar.dot -o flowchart.png
 
 #(?<=\d[.]\s).*(?=\s+[a][)])
 #(?ms)(?<=\d[.]\s).*(?=^\s[a][)]\s|^\s[a][.]\s)
+
+# def extract_text_between_markers_alternativas(text: str, start_marker: str, end_marker: str):
+#     """
+#     Function to extract text between two markers using regular expressions.
+#     """
+#     # pattern = re.compile(rf'{re.escape(start_marker)}(.*?)\s*{re.escape(end_marker)}', re.DOTALL)
+#     pattern = re.compile(rf'{re.escape(start_marker)}(.*?)(?=^\s*{re.escape(end_marker)})', re.DOTALL | re.MULTILINE)
+#     match = re.search(pattern, text)
+#     if match:
+#         return match.group(1).strip()
+#     else:
+#         return ""
+#     # pattern = re.compile(rf'^(.*{re.escape(start_marker)}.*?)(.*?)(?=^\s*{re.escape(end_marker)})', re.DOTALL | re.MULTILINE)
+#     # match = re.search(pattern, text)
+#     # if match:
+#     #     return (match.group(1) + match.group(2)).strip()
+#     # else:
+#     #     return ""

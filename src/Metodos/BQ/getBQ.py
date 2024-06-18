@@ -66,9 +66,16 @@ def extract_text_between_markers(text: str, start_marker: str, end_marker: str):
     match = re.search(pattern, text_after_start)
     if match:
         extracted_text = match.group(1).strip()
-        # Remove alternative markers
-        cleaned_text = re.sub(r'^[a-e]\)\s*', '', extracted_text, flags=re.MULTILINE)
-        return cleaned_text
+        
+        # cleaned_text = re.sub(r'\s+', ' ', extracted_text)
+
+        # # Remove excessive new lines
+        # cleaned_text = re.sub(r'\n+', '\n', cleaned_text)
+
+        # # Alternatively, you can combine both into a single operation:
+        # cleaned_text = re.sub(r'\s+', ' ', extracted_text) # Step 1: Replace multiple spaces with a single space
+        # cleaned_text = re.sub(r'\n+', '\n', cleaned_text)
+        return extracted_text
     else:
         return ""
 
@@ -128,28 +135,28 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
                 cleaned_text = re.sub(r'^[a-e]\)\s*', '', match, flags=re.MULTILINE)
                 return cleaned_text
         case 'B':
-            start_marker = get_Alternativa(index=index, path=path, choices='a')
+            start_marker = get_Alternativa_hole(index=index, path=path, choices='a')
             end_marker = r'c)'
             match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
             if match:
                 cleaned_text = re.sub(r'^[a-e]\)\s*', '', match, flags=re.MULTILINE)
                 return cleaned_text
         case 'C':
-            start_marker = get_Alternativa(index=index, path=path, choices='b')
+            start_marker = get_Alternativa_hole(index=index, path=path, choices='b')
             end_marker = r'd)'
             match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
             if match:
                 cleaned_text = re.sub(r'^[a-e]\)\s*', '', match, flags=re.MULTILINE)
                 return cleaned_text
         case 'D':
-            start_marker = get_Alternativa(index=index, path=path, choices='c')
+            start_marker = get_Alternativa_hole(index=index, path=path, choices='c')
             end_marker = r'e)'
             match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
             if match:
                 cleaned_text = re.sub(r'^[a-e]\)\s*', '', match, flags=re.MULTILINE)
                 return cleaned_text
         case 'E':
-            start_marker = get_Alternativa(index=index, path=path, choices='d')
+            start_marker = get_Alternativa_hole(index=index, path=path, choices='d')
             # end_marker = r'Justificativa|Gabarito|Questão|\d\.|\d+\.'
             end_marker = r'Justificativa'
             match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
@@ -159,12 +166,61 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
         case _ :
             print('''Por favor verifique a chamada da função get_Alternativa,
                   tipo de alternativa desejada não esperada pela função''')
+            
+@lru_cache
+def get_Alternativa_hole(index: int, path: str, choices: str) -> str:
+    '''
+    Return question choices
+    
+    Function to get the choices from the ```path``` file you get
+    the ```index```+1 question and ```choices``` given in the method
+    '''
+    doc = read_document(path=path)
+    index_marker = doc.find(get_Enunciado(index=index, path=path))
+    doc = doc[index_marker:]
+    if doc is None:
+        return ""
+    match choices.upper():
+        case 'A':
+            start_marker = get_Enunciado(index=index, path=path)
+            end_marker = r'b)'
+            match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
+            if match:
+                return match
+        case 'B':
+            start_marker = get_Alternativa_hole(index=index, path=path, choices='a')
+            end_marker = r'c)'
+            match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
+            if match:
+                return match
+        case 'C':
+            start_marker = get_Alternativa_hole(index=index, path=path, choices='b')
+            end_marker = r'd)'
+            match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
+            if match:
+                return match
+        case 'D':
+            start_marker = get_Alternativa_hole(index=index, path=path, choices='c')
+            end_marker = r'e)'
+            match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
+            if match:
+                return match
+        case 'E':
+            start_marker = get_Alternativa_hole(index=index, path=path, choices='d')
+            # end_marker = r'Justificativa|Gabarito|Questão|\d\.|\d+\.'
+            end_marker = r'Justificativa'
+            match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
+            if match:
+                return match
+        case _ :
+            print('''Por favor verifique a chamada da função get_Alternativa,
+                  tipo de alternativa desejada não esperada pela função''')
 
 def main() -> None:
-    path = r"C:\Users\013190873\Downloads\Questionário_ UNID 1_ Transformação Digital , Sistemas Computacionais e o Futuro da Tecnologia_ REV_Parâmetros_DI Carlos_com Orto.docx"
+    path = r"C:\Users\013190873\Downloads\Teoria do Voo Avançado 1.docx"
     # teste = enunciado_count(path=path)
     # print(f'\n Enunciado count: {teste}')
-    index = 11
+    index = 10
     teste2 = get_Enunciado(index=index, path=path)
     print(f'\n Question:\n{teste2}')
     teste3 = get_Alternativa(index=index, path=path, choices='e')

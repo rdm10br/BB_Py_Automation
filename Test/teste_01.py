@@ -21,8 +21,21 @@
 # # output = my_function('áç')
 # # print(output)
 # print('óçé')
-from pathlib import Path
-
-file_path = "/path/to/your/file.txt"
-file_name = Path(file_path).name
-print(file_name)
+import os
+import regex as re
+from unidecode import unidecode
+path = r'C:\Users\013190873\Downloads\1 Transformação Digital , Sistemas Computacionais e o Futuro da Tecnologia .docx'
+file_name = os.path.basename(path)
+BQ_name = re.sub(r'.docx','',file_name).upper()
+unidade = ''.join([ch for ch in BQ_name if ch.isdigit()])
+match unidade[0]:
+        case '1' :
+            item = 'BQ 01'
+        case '2' :
+            item = 'BQ 02'
+        case '3' :
+            item = 'BQ 03'
+        case '4' :
+            item = 'BQ 04'
+BQ_name = unidecode(BQ_name)
+print(BQ_name)

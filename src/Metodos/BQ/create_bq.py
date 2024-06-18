@@ -13,7 +13,7 @@ async def create_bq(page: Page, path: str) -> str:
         path (str): _description_
     """
     file_name = os.path.basename(path)
-    BQ_name = re.sub(r'.docx','',file_name)
+    BQ_name = re.sub(r'.docx','',file_name).upper()
     unidade = ''.join([ch for ch in BQ_name if ch.isdigit()])
     match unidade[0]:
             case '1' :
@@ -24,11 +24,11 @@ async def create_bq(page: Page, path: str) -> str:
                 item = 'BQ 03'
             case '4' :
                 item = 'BQ 04'
-    BQ_name = unidecode(BQ_name.upper)
+    BQ_name = unidecode(BQ_name)
     BQ_name = f'{BQ_name} - {item}_GRADUACAO'
-    page.get_by_role("button", name="Criar banco de testes").click()
-    page.get_by_label("Nome", exact=True).fill(BQ_name)
-    page.get_by_role("button", name="Enviar").click()
+    await page.get_by_role("button", name="Criar banco de testes").click()
+    await page.get_by_label("Nome", exact=True).fill(BQ_name)
+    await page.get_by_role("button", name="Enviar").click()
     return BQ_name
     
     
@@ -77,3 +77,4 @@ async def create_question(index: int, path: str, page: Page):
     except:
         pass
     await page.get_by_role("button", name="Enviar", exact=True).click()
+    await page.wait_for_load_state('networkidle')

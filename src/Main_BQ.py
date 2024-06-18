@@ -62,7 +62,7 @@ async def run(playwright: Playwright) -> None:
         
         print(f'\nQuestão : {index}')
         
-        await new_page.goto(BQTest)
+        await new_page.goto(BQTest(id_BQ=id_BQ))
         await new_page.wait_for_timeout(1000)
         
         await create_bq.create_question(index=index, path=path, page=new_page)
