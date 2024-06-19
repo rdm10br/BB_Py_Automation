@@ -27,8 +27,8 @@ async def create_bq(page: Page, path: str) -> str:
     BQ_name = unidecode(BQ_name)
     BQ_name = re.sub(r'\d','',BQ_name)
     BQ_name = re.sub(r'\s+', ' ', BQ_name)
-    # BQ_name = re.sub(r'\s$', '', BQ_name)
-    # BQ_name = re.sub(r'^\s', '', BQ_name)
+    BQ_name = re.sub(r'\s$', '', BQ_name)
+    BQ_name = re.sub(r'^\s', '', BQ_name)
     BQ_name = BQ_name.strip()
     BQ_name = f'{BQ_name} - {item}_GRADUACAO'
     await page.get_by_role("button", name="Criar banco de testes").click()
@@ -73,8 +73,7 @@ async def create_question(index: int, path: str, page: Page):
     await page.get_by_role("button", name="Criar pergunta").click()
     await page.get_by_role("menuitem", name="Múltipla Escolha").click()
     await page.wait_for_load_state('domcontentloaded')
-    await page.wait_for_load_state('networkidle')
-    await page.wait_for_load_state('load')
+    # await page.wait_for_load_state('networkidle')
     try:
         await page.frame_locator("[id=\"questionText\\.text_ifr\"]").get_by_label("Área rich-text. Pressione ALT").fill(enunciado)
     except:
@@ -83,8 +82,7 @@ async def create_question(index: int, path: str, page: Page):
     await page.get_by_label("Mostrar Respostas por Ordem").check()
     await page.get_by_role("radiogroup", name="Número de Respostas").get_by_label("Número de Respostas").select_option("5")
     await page.wait_for_load_state('domcontentloaded')
-    await page.wait_for_load_state('networkidle')
-    await page.wait_for_load_state('load')
+    # await page.wait_for_load_state('networkidle')
     try:
         await page.frame_locator("internal:role=row[name=\"Correta 1 Resposta a. Para\"i] >> iframe[title=\"Rich Text Area\"]").get_by_label("Área rich-text. Pressione ALT").fill(alternativa_a)
     except:

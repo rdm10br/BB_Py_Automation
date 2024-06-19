@@ -221,10 +221,20 @@ def main() -> None:
     path = r"C:\Users\013190873\Downloads\Teoria do Voo Avançado 1.docx"
     # teste = enunciado_count(path=path)
     # print(f'\n Enunciado count: {teste}')
-    index = 13
+    index = 5
     teste2 = get_Enunciado(index=index, path=path)
     print(f'\n Question:\n{teste2}')
+    # teste2 = re.sub(r'\s+', ' ', teste2)
+    # teste2 = re.sub(r'\s$', '', teste2)
+    # teste2 = re.sub(r'^\s', '', teste2)
+    # teste2 = teste2.strip()
+    print(f'\n Question:\n{teste2}')
     teste3 = get_Alternativa(index=index, path=path, choices='e')
+    print(f'\n Choices:\n{teste3}')
+    # teste3 = re.sub(r'\s+', ' ', teste3)
+    # teste3 = re.sub(r'\s$', '', teste3)
+    # teste3 = re.sub(r'^\s', '', teste3)
+    # teste3 = teste3.strip()
     print(f'\n Choices:\n{teste3}')
 
 if __name__ == "__main__":
