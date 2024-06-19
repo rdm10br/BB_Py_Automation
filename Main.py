@@ -37,7 +37,8 @@ class MainWindow(QMainWindow):
         central_widget.setLayout(layout)
 
         label = QLabel("Escolha a o Robô que você quer utilizar:")
-        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        label.setObjectName('textChoice')
+        # label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(label, 0, 0, 1, 2)
         
         button_module1 = QPushButton("DoubleCheck Configurações de Itens")
@@ -74,10 +75,12 @@ class MainWindow(QMainWindow):
         
         button_module9 = QPushButton("Test")
         button_module9.clicked.connect(lambda: self.run_module(r"src\Main_Test.py"))
+        button_module9.setObjectName('ButtonTest')
         layout.addWidget(button_module9, 5, 0, 1, 2)
 
         button_exit = QPushButton("Sair")
         button_exit.clicked.connect(self.close)
+        button_exit.setObjectName('exitButton')
         layout.addWidget(button_exit, 6, 0, 1, 2)
         
         QTimer.singleShot(0, self.center_window)

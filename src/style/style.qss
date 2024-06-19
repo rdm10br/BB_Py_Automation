@@ -12,6 +12,10 @@ QWidget#title_bar {
 QLabel{
     color: #f1f5f9;
 }
+QLabel#textChoice{
+    qproperty-alignment: 'AlignCenter';
+    padding-bottom: 5px;
+}
 /* Button styles */
 QPushButton {
     background-color: #393D5C;
@@ -30,7 +34,7 @@ QPushButton:pressed {
     background-color: #2E3147;
 }
 
-QPushButton#button_exit {
+QPushButton#exitButton {
     background-color: #ff4c4c;
     color: white;
     border: none;
@@ -39,10 +43,27 @@ QPushButton#button_exit {
     font-size: 14px;
 }
 
-QPushButton#button_exit:hover {
+QPushButton#exitButton:hover {
     background-color: #ff6666;
 }
 
-QPushButton#button_exit:pressed {
+QPushButton#exitButton:pressed {
     background-color: #cc0000;
+}
+
+QPushButton#ButtonTest {
+    background-color: #42c2b1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+QPushButton#ButtonTest:hover {
+    background-color: #5addc7;
+}
+
+QPushButton#ButtonTest:pressed {
+    background-color: #00ccb1;
 }
