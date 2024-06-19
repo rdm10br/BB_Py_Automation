@@ -65,13 +65,12 @@ async def run(playwright: Playwright) -> None:
     
     for index in range(doc):
         index +=1
-        print(f'Start loop {index}')
-        start_time = time.time()
         
         new_context = await browser.new_context(no_viewport=True)
         await new_context.add_cookies(cookies)
         new_page = await new_context.new_page()
         
+        start_time = time.time()
         print(f'\nQuestão : {index}')
         
         await new_page.goto(url=BQTest(id_BQ=id_BQ), wait_until='commit')
