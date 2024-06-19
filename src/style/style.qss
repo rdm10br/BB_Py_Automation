@@ -1,0 +1,48 @@
+/* style.qss */
+QMainWindow{
+    background: #020817;
+}
+
+/* Title bar styles */
+QWidget#title_bar {
+    background-color: #1C1F2A;
+    color: white;
+    padding: 10px;
+}
+QLabel{
+    color: #f1f5f9;
+}
+/* Button styles */
+QPushButton {
+    background-color: #393D5C;
+    color: #f1f5f9;
+    border: 1px solid #2E3147;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+QPushButton:hover {
+    background-color: #4B4F70;
+}
+
+QPushButton:pressed {
+    background-color: #2E3147;
+}
+
+QPushButton#button_exit {
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+QPushButton#button_exit:hover {
+    background-color: #ff6666;
+}
+
+QPushButton#button_exit:pressed {
+    background-color: #cc0000;
+}
