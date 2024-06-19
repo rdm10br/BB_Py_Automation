@@ -16,6 +16,10 @@ def get_credentials():
     # global janela
     janela = tk.Tk()
     
+    # Calculating screen dimensions
+    screen_width = janela.winfo_screenwidth()
+    screen_height = janela.winfo_screenheight()
+    
     #Setting Variables
     grey = '#001A33'
     # lightGrey = '#DCDEE0'
@@ -24,6 +28,11 @@ def get_credentials():
     height = 110
     # button_width = int(window_width*0.0125) #win10
     button_width = int(width*0.07) #win11
+    
+    x_position = (screen_width // 2) - (width // 2)
+    y_position = (screen_height // 2) - (height // 2)
+    
+    janela.geometry(f"{width}x{height}+{x_position}+{y_position}")
     
     # Definindo janela
     # janela.wm_attributes('-toolwindow', 'True')
