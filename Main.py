@@ -1,8 +1,7 @@
 from PySide6.QtWidgets import (QApplication, QMainWindow, QLabel,
                                QPushButton, QWidget, QGridLayout)
 from PySide6.QtCore import Qt, QTimer, QThread, Signal
-from PySide6.QtGui import QIcon, QCursor
-from PySide6.QtGui import QIcon, QCursor
+from PySide6.QtGui import QIcon, QCursor, QFontDatabase
 import subprocess, sys, setproctitle
 
 
@@ -27,10 +26,24 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.load_stylesheet(r"src\style\style.qss")
         self.setWindowTitle("Project Main Interface")
-        self.setMinimumSize(510, 300)
+        self.setMinimumSize(900, 500)
         self.setWindowIcon(QIcon(r'src\icon\automation.png'))
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
 
+        font_id = QFontDatabase.addApplicationFont(r"src\font\Poppins\Poppins-Regular.ttf")
+        if font_id == -1:
+            # print("Failed to load font.")
+            ...
+        else:
+            # print("Font loaded successfully.")
+            ...
+
+        # List available fonts
+        font_families = QFontDatabase.applicationFontFamilies(font_id)
+        for family in font_families:
+            # print("Available font family:", family)
+            ...
+        
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
@@ -80,10 +93,10 @@ class MainWindow(QMainWindow):
         button_module9.setObjectName('ButtonTest')
         layout.addWidget(button_module9, 5, 0, 1, 2)
 
-        button_exit = QPushButton("Sair")
-        button_exit.clicked.connect(self.close)
-        button_exit.setObjectName('exitButton')
-        layout.addWidget(button_exit, 6, 0, 1, 2)
+        # button_exit = QPushButton("Sair")
+        # button_exit.clicked.connect(self.close)
+        # button_exit.setObjectName('exitButton')
+        # layout.addWidget(button_exit, 5, 1, 1, 1)
         
         QTimer.singleShot(0, self.center_window)
     

@@ -3,6 +3,7 @@ QMainWindow{
     /* background: #020817; */
     /* color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255)); */
     background: qlineargradient( x1:0 y1:1, x2:0 y2:0, stop:0 rgba(30, 41, 59, 1), stop:1 rgba(15, 23, 42, 1));
+    font-family: 'Poppins';
     /* background: rgba(1, 8, 22, 1);
     foreground: rgba(247, 249, 251, 1);
     card: rgba(1, 8, 22, 1);
@@ -41,6 +42,7 @@ QLabel#textChoice{
 /* Button styles */
 QPushButton {
     background-color: #393D5C;
+    font-family: 'Poppins';
     color: rgb(241, 245, 249);
     border: 1px solid #1E293B;
     border-radius: 5px;
@@ -75,7 +77,7 @@ QPushButton#exitButton:pressed {
 }
 
 QPushButton#ButtonTest {
-    background-color: #1A9282;
+    background-color: #3C519E;
     /* color: white; */
     /* border: none; */
     border-radius: 5px;
@@ -85,11 +87,11 @@ QPushButton#ButtonTest {
 }
 
 QPushButton#ButtonTest:hover {
-    background-color: #3FB9A9;
+    background-color: #5D6B9E;
 }
 
 QPushButton#ButtonTest:pressed {
-    background-color: #039b86;
+    background-color: #6A78A9;
 }
 
 QPushButton#button_2 {

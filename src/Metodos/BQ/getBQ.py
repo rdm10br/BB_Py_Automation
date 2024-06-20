@@ -85,6 +85,19 @@ def get_enunciados(filename: str):
     text = read_document(filename)
     if text is None:
         return []
+    text_test = text
+    text_test = re.sub(r'\n+', '', text_test)
+    if text_test == '':
+        try:
+            doc = docx.Document(docx=filename)
+            content = []
+            for paragraph in doc.tables:
+                content.append(paragraph.text)
+            return "\n".join(content)
+        except Exception as e:
+            print(f"Error reading document: {e}")
+            return None
+    
     q = enunciado_count(filename)
     question = []
     
@@ -218,10 +231,10 @@ def get_Alternativa_hole(index: int, path: str, choices: str) -> str:
                   tipo de alternativa desejada não esperada pela função''')
 
 def main() -> None:
-    path = r"C:\Users\013190873\Downloads\Teoria do Voo Avançado 1.docx"
+    path = r"C:\Users\013190873\Downloads\Matemática Financeira 1.docx"
     # teste = enunciado_count(path=path)
     # print(f'\n Enunciado count: {teste}')
-    index = 5
+    index = 0
     teste2 = get_Enunciado(index=index, path=path)
     print(f'\n Question:\n{teste2}')
     # teste2 = re.sub(r'\s+', ' ', teste2)
