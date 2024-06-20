@@ -19,7 +19,27 @@ def read_document(path) -> str:
         content = []
         for paragraph in doc.paragraphs:
             content.append(paragraph.text)
+        text_content = "\n".join(content)
+        text_content = re.sub(r'\n+', '', text_content)
+        if text_content == '':
+            try:
+                doc = docx.Document(docx=path)
+                tables_content = []
+                for table in doc.tables:
+                    table_data = []
+                    for row in table.rows:
+                        row_data = []
+                        for cell in row.cells:
+                            row_data.append(cell.text)
+                        table_data.append(row_data)
+                    tables_content.append(table_data)
+                text_content = ["\n".join(tb) for tb in tables_content]
+                return text_content
+            except Exception as e:
+                print(f"Error reading document: {e}")
+                return None
         return "\n".join(content)
+        
     except Exception as e:
         print(f"Error reading document: {e}")
         return None
@@ -82,21 +102,10 @@ def extract_text_between_markers(text: str, start_marker: str, end_marker: str):
 
 @lru_cache
 def get_enunciados(filename: str):
+    
     text = read_document(filename)
     if text is None:
         return []
-    text_test = text
-    text_test = re.sub(r'\n+', '', text_test)
-    if text_test == '':
-        try:
-            doc = docx.Document(docx=filename)
-            content = []
-            for paragraph in doc.tables:
-                content.append(paragraph.text)
-            return "\n".join(content)
-        except Exception as e:
-            print(f"Error reading document: {e}")
-            return None
     
     q = enunciado_count(filename)
     question = []
