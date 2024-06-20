@@ -2,6 +2,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QLabel,
                                QPushButton, QWidget, QGridLayout)
 from PySide6.QtCore import Qt, QTimer, QThread, Signal
 from PySide6.QtGui import QIcon, QCursor
+from PySide6.QtGui import QIcon, QCursor
 import subprocess, sys, setproctitle
 
 
@@ -54,6 +55,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(button_module3, 2, 0)
         
         button_module4 = QPushButton("Copia de Sala")
+        button_module1.setObjectName('button_2')
         button_module4.clicked.connect(lambda: self.run_module(r"src\Main_copy_sala.py"))
         layout.addWidget(button_module4, 2, 1)
         
@@ -73,7 +75,7 @@ class MainWindow(QMainWindow):
         button_module8.clicked.connect(lambda: self.run_module(r"src\Main_ajusteData.py"))
         layout.addWidget(button_module8, 4, 1)
         
-        button_module9 = QPushButton("Test")
+        button_module9 = QPushButton("Check")
         button_module9.clicked.connect(lambda: self.run_module(r"src\Main_Test.py"))
         button_module9.setObjectName('ButtonTest')
         layout.addWidget(button_module9, 5, 0, 1, 2)

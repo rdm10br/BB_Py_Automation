@@ -1,6 +1,28 @@
 /* style.qss */
 QMainWindow{
-    background: #020817;
+    /* background: #020817; */
+    /* color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255)); */
+    background: qlineargradient( x1:0 y1:1, x2:0 y2:0, stop:0 rgba(30, 41, 59, 1), stop:1 rgba(15, 23, 42, 1));
+    /* background: rgba(1, 8, 22, 1);
+    foreground: rgba(247, 249, 251, 1);
+    card: rgba(1, 8, 22, 1);
+    card-foreground: rgba(247, 249, 251, 1);
+    popover: rgba(1, 8, 22, 1);
+    popover-foreground: rgba(247, 249, 251, 1);
+    primary: rgba(59, 130, 245, 1);
+    primary-foreground: rgba(15, 23, 42, 1);
+    secondary: rgba(30, 41, 59, 1);
+    secondary-foreground: rgba(247, 249, 251, 1);
+    muted: rgba(30, 41, 59, 1);
+    muted-foreground: rgba(148, 163, 183, 1);
+    accent: rgba(30, 41, 59, 1);
+    accent-foreground: rgba(247, 249, 251, 1);
+    destructive: rgba(127, 29, 29, 1);
+    destructive-foreground: rgba(247, 249, 251, 1);
+    border: rgba(30, 41, 59, 1);
+    input: rgba(30, 41, 59, 1);
+    ring: rgba(29, 77, 215, 1); */
+
 }
 
 /* Title bar styles */
@@ -10,7 +32,7 @@ QWidget#title_bar {
     padding: 10px;
 }
 QLabel{
-    color: #f1f5f9;
+    color: rgb(241, 245, 249);
 }
 QLabel#textChoice{
     qproperty-alignment: 'AlignCenter';
@@ -19,8 +41,8 @@ QLabel#textChoice{
 /* Button styles */
 QPushButton {
     background-color: #393D5C;
-    color: #f1f5f9;
-    border: 1px solid #2E3147;
+    color: rgb(241, 245, 249);
+    border: 1px solid #1E293B;
     border-radius: 5px;
     padding: 10px;
     font-size: 14px;
@@ -35,35 +57,42 @@ QPushButton:pressed {
 }
 
 QPushButton#exitButton {
-    background-color: #ff4c4c;
-    color: white;
-    border: none;
+    background-color: #D52E34;
+    /* color: white; */
+    /* border: none; */
     border-radius: 5px;
     padding: 10px;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 QPushButton#exitButton:hover {
-    background-color: #ff6666;
+    background-color: #f54d53;
 }
 
 QPushButton#exitButton:pressed {
-    background-color: #cc0000;
+    background-color: #AA4145;
 }
 
 QPushButton#ButtonTest {
-    background-color: #42c2b1;
-    color: white;
-    border: none;
+    background-color: #1A9282;
+    /* color: white; */
+    /* border: none; */
     border-radius: 5px;
     padding: 10px;
     font-size: 14px;
+    font-weight: bold;
 }
 
 QPushButton#ButtonTest:hover {
-    background-color: #5addc7;
+    background-color: #3FB9A9;
 }
 
 QPushButton#ButtonTest:pressed {
-    background-color: #00ccb1;
+    background-color: #039b86;
+}
+
+QPushButton#button_2 {
+    /* qproperty-icon: url(:/src/icon/automation.png);
+    qproperty-iconSize: 24px 24px; */
 }
