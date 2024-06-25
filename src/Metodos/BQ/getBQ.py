@@ -23,27 +23,31 @@ def read_document(path) -> str:
         text_content = re.sub(r'\n+', '', text_content)
         if text_content == '':
             try:
-                doc = docx.Document(docx=path)
                 tables_content = []
                 for table in doc.tables:
                     table_data = []
                     for row in table.rows:
                         row_data = []
                         for cell in row.cells:
-                            row_data.append(cell.text)
-                        table_data.append(row_data)
-                    tables_content.append(table_data)
-                text_content = ["\n".join(tb) for tb in tables_content]
+                            cell_text = cell.text.strip()
+                            if cell_text not in row_data:
+                                row_data.append(cell_text)
+                        if row_data:
+                            table_data.append("\t".join(row_data))
+                    if table_data:
+                        tables_content.append("\n".join(table_data))
+                    text_content = "\n".join(tables_content)
                 return text_content
             except Exception as e:
                 print(f"Error reading document: {e}")
                 return None
         return "\n".join(content)
-        
+  
     except Exception as e:
         print(f"Error reading document: {e}")
         return None
 
+@lru_cache
 def enunciado_count (path: str) -> int:
     """
     Return how many statments on the file
@@ -57,13 +61,24 @@ def enunciado_count (path: str) -> int:
     texto = read_document(path)
     if texto is None:
         return 0
-
+    if texto == '':
+        return 0
+    
     doc = nlp(texto)
     
     pattern = [{"LEMMA": "Questão"}, {"IS_DIGIT": True}]
     matcher.add("Questions", [pattern])
     
     matches = len(matcher(doc))
+    
+    if matches == 0:
+        try:
+            pattern = [{"LEMMA": "QUESTÃO"}, {"IS_DIGIT": True}]
+            matcher.add("QUESTIONS", [pattern])
+            matches = len(matcher(doc))
+            return matches
+        except:
+            return matches
     
     return matches
 
@@ -115,6 +130,10 @@ def get_enunciados(filename: str):
         start_marker = f'Questão {i}'
         end_marker = r'a)'
         extracted_text = extract_text_between_markers(text, start_marker, end_marker)
+        if extracted_text == '':
+            start_marker = f'QUESTÃO {i}'
+            end_marker = r'a)'
+            extracted_text = extract_text_between_markers(text, start_marker, end_marker)
         question.append(extracted_text)
     return question
 
@@ -186,6 +205,20 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
             if match:
                 cleaned_text = re.sub(r'^[a-e]\)\s*', '', match, flags=re.MULTILINE)
                 return cleaned_text
+            elif match == '':
+                end_marker = r'ALTERNATIVA CORRETA'
+                match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
+                if match:
+                    cleaned_text = re.sub(r'^[a-e]\)\s*', '', match, flags=re.MULTILINE)
+                    return cleaned_text
+                elif match == '':
+                    end_marker = r'JUSTIFICATIVA'
+                    match = extract_text_between_markers(text=doc, start_marker=start_marker, end_marker=end_marker)
+                    if match:
+                        cleaned_text = re.sub(r'^[a-e]\)\s*', '', match, flags=re.MULTILINE)
+                        return cleaned_text
+                    elif match == '':
+                        ...
         case _ :
             print('''Por favor verifique a chamada da função get_Alternativa,
                   tipo de alternativa desejada não esperada pela função''')
@@ -240,24 +273,31 @@ def get_Alternativa_hole(index: int, path: str, choices: str) -> str:
                   tipo de alternativa desejada não esperada pela função''')
 
 def main() -> None:
-    path = r"C:\Users\013190873\Downloads\Matemática Financeira 1.docx"
+    path = r'C:\Users\013190873\Downloads\Matemática Financeira 1.docx'
+    # path = r'C:\Users\013190873\Downloads\DISCIPLINAMATEMÁTICA FINANCEIRA.docx'
+    # path = r'C:\Users\013190873\Downloads\Topografia e Geoprocessamento (engenharia) 1.docx'
+    
     # teste = enunciado_count(path=path)
     # print(f'\n Enunciado count: {teste}')
+    
     index = 0
     teste2 = get_Enunciado(index=index, path=path)
+    
     print(f'\n Question:\n{teste2}')
     # teste2 = re.sub(r'\s+', ' ', teste2)
     # teste2 = re.sub(r'\s$', '', teste2)
     # teste2 = re.sub(r'^\s', '', teste2)
     # teste2 = teste2.strip()
-    print(f'\n Question:\n{teste2}')
+    # print(f'\n Question:\n{teste2}')
+    
     teste3 = get_Alternativa(index=index, path=path, choices='e')
+    
     print(f'\n Choices:\n{teste3}')
     # teste3 = re.sub(r'\s+', ' ', teste3)
     # teste3 = re.sub(r'\s$', '', teste3)
     # teste3 = re.sub(r'^\s', '', teste3)
     # teste3 = teste3.strip()
-    print(f'\n Choices:\n{teste3}')
+    # print(f'\n Choices:\n{teste3}')
 
 if __name__ == "__main__":
     main()
