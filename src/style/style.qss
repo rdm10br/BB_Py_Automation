@@ -58,23 +58,23 @@ QPushButton:pressed {
     background-color: #2E3147;
 }
 
-QPushButton#exitButton {
+/* QPushButton#exitButton {
     background-color: #D52E34;
     /* color: white; */
     /* border: none; */
-    border-radius: 5px;
+   /* border-radius: 5px;
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
-}
+} */
 
-QPushButton#exitButton:hover {
+/* QPushButton#exitButton:hover {
     background-color: #f54d53;
 }
 
 QPushButton#exitButton:pressed {
     background-color: #AA4145;
-}
+} */
 
 QPushButton#ButtonTest {
     background-color: #3C519E;
@@ -97,4 +97,5 @@ QPushButton#ButtonTest:pressed {
 QPushButton#button_2 {
     /* qproperty-icon: url(:/src/icon/automation.png);
     qproperty-iconSize: 24px 24px; */
+    image: url(:/src/icon/automation.png);
 }

@@ -14,6 +14,7 @@ class Worker(QThread):
 
     def run(self):
         try:
+            print(f'Trying to run process: {self.script_path}')
             setproctitle.setproctitle(f"MyApp: {self.script_path}")  # Set custom process name
             subprocess.run([r"venv\Scripts\python.exe", self.script_path])
             self.finished.emit(f"Finished running {self.script_path}")
