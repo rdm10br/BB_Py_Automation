@@ -23,11 +23,8 @@ class Worker(QThread):
                     sys.path.insert(0, src_dir)
                 
                 from Metodos.Login.getCredentials import get_credentials
-                credentials = []
                 username, password = get_credentials()
-                credentials.append(username)
-                credentials.append(password)
-                self.finished.emit(credentials)
+                self.finished.emit(f'{username},{password}')
             else:
                 subprocess.run([r"venv\Scripts\python.exe", self.script_path])
                 self.finished.emit(f"Finished running {self.script_path}")
@@ -120,8 +117,8 @@ class MainWindow(QMainWindow):
         
     def save_to_cache(self):
         # Define the cache file path
-        cache_file = os.path.join(os.path.expanduser('~'), r'src\Metodos\Login\__pycache__\login.json')
-
+        # cache_file = os.path.join(os.path.expanduser('~'), r'src\Metodos\Login\__pycache__\login.json')
+        cache_file = os.path.join(os.path.curdir, r'src\Metodos\Login\__pycache__\login.json')
         # Information to be cached
         username = self.username
         password = self.password
@@ -177,10 +174,13 @@ class MainWindow(QMainWindow):
         elif self.thread.script_path == r'src\Metodos\Login\getCredentials.py':
             # Assuming the message is the stdout from the script
             credentials = message.split(',')
-            print(f'the message is: [{message}]')
+            # print(f'the message is: {credentials}')
+            if len(message) == 2:
+                ...
             if len(credentials) == 2:
                 self.username, self.password = credentials
-                self.save_to_cache(self.username, self.password)
+                # print(self.username)
+                self.save_to_cache()
             else:
                 QMessageBox.critical(self, 'Error 02', 'Invalid credentials format.')
         else:
