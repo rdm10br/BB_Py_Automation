@@ -138,7 +138,7 @@ class MainWindow(QMainWindow):
     
     def delete_cache(self):
         # Define the cache file path
-        cache_file = os.path.join(os.path.expanduser('~'), r'src\Metodos\Login\__pycache__\login.json')
+        cache_file = os.path.join(os.path.curdir, r'src\Metodos\Login\__pycache__\login.json')
 
         try:
             if os.path.exists(cache_file):
