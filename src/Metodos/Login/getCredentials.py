@@ -81,8 +81,9 @@ def get_credentials():
 # Function Test
 def main ():
     username, password = get_credentials()
-    print(username)
-    print(password)
+    # print(username)
+    # print(password)
+    return username, password
 
 if __name__ == "__main__":
     main()

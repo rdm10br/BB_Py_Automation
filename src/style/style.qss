@@ -95,7 +95,6 @@ QPushButton#ButtonTest:pressed {
 }
 
 QPushButton#button_2 {
-    /* qproperty-icon: url(:/src/icon/automation.png);
-    qproperty-iconSize: 24px 24px; */
     image: url(src/icon/automation.png);
+    image-position: left;
 }

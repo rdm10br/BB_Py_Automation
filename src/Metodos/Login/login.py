@@ -1,5 +1,5 @@
 from playwright.async_api import Playwright, async_playwright, expect, Page
-
+import os, json
 from Metodos.Login import getCredentials
 # from . import getCredentials
 
@@ -21,7 +21,15 @@ async def login(page: Page) -> None:
         else :
                 pass
         print('Getting credentials to log in.')
-        username, password = getCredentials.get_credentials()
+        
+        CACHE_FILE = r'src\Metodos\Login\__pycache__\login.json'
+        if os.path.exists(CACHE_FILE):
+                with open(CACHE_FILE, 'r') as f:
+                        cache_data = json.load(f)
+                        username = cache_data['username']
+                        password = cache_data['password']
+        else:
+                username, password = getCredentials.get_credentials()
 
         print('Caught credentials!')
         await page.get_by_label("Nome de usuário").fill(value=username)

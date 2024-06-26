@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import (QApplication, QMainWindow, QLabel,
-                               QPushButton, QWidget, QGridLayout)
+                               QPushButton, QWidget, QGridLayout, QMessageBox)
 from PySide6.QtCore import Qt, QTimer, QThread, Signal
 from PySide6.QtGui import QIcon, QCursor, QFontDatabase
-import subprocess, sys, setproctitle
+import subprocess, sys, setproctitle, os, json
 
 
 class Worker(QThread):
@@ -16,8 +16,21 @@ class Worker(QThread):
         try:
             print(f'Trying to run process: {self.script_path}')
             setproctitle.setproctitle(f"MyApp: {self.script_path}")  # Set custom process name
-            subprocess.run([r"venv\Scripts\python.exe", self.script_path])
-            self.finished.emit(f"Finished running {self.script_path}")
+            if self.script_path == r'src\Metodos\Login\getCredentials.py':
+                script_dir = os.path.dirname(os.path.abspath(__file__))
+                src_dir = os.path.join(script_dir, 'src')
+                if src_dir not in sys.path:
+                    sys.path.insert(0, src_dir)
+                
+                from Metodos.Login.getCredentials import get_credentials
+                credentials = []
+                username, password = get_credentials()
+                credentials.append(username)
+                credentials.append(password)
+                self.finished.emit(credentials)
+            else:
+                subprocess.run([r"venv\Scripts\python.exe", self.script_path])
+                self.finished.emit(f"Finished running {self.script_path}")
         except FileNotFoundError as e:
             self.finished.emit(f"Error running subprocess: {e}")
 
@@ -92,14 +105,52 @@ class MainWindow(QMainWindow):
         button_module9 = QPushButton("Check")
         button_module9.clicked.connect(lambda: self.run_module(r"src\Main_Test.py"))
         button_module9.setObjectName('ButtonTest')
-        layout.addWidget(button_module9, 5, 0, 1, 2)
+        layout.addWidget(button_module9, 6, 0, 1, 2)
 
-        # button_exit = QPushButton("Sair")
-        # button_exit.clicked.connect(self.close)
-        # button_exit.setObjectName('exitButton')
-        # layout.addWidget(button_exit, 5, 1, 1, 1)
+        button_exit = QPushButton("Save credentials")
+        button_exit.clicked.connect(lambda: self.run_module(r'src\Metodos\Login\getCredentials.py'))
+        button_exit.setObjectName('exitButton')
+        layout.addWidget(button_exit, 5, 0, 1, 2)
         
         QTimer.singleShot(0, self.center_window)
+        
+        # Initialize username and password attributes
+        self.username = None
+        self.password = None
+        
+    def save_to_cache(self):
+        # Define the cache file path
+        cache_file = os.path.join(os.path.expanduser('~'), r'src\Metodos\Login\__pycache__\login.json')
+
+        # Information to be cached
+        username = self.username
+        password = self.password
+
+        # Information to be cached
+        cache_info = {
+            "username": username,
+            "password": password
+        }
+
+        try:
+            with open(cache_file, 'w') as file:
+                json.dump(cache_info, file, indent=4)
+            QMessageBox.information(self, 'Success', 'Information saved to cache.')
+        except Exception as e:
+            QMessageBox.critical(self, 'Error', f'Failed to save to cache: {e}')
+    
+    def delete_cache(self):
+        # Define the cache file path
+        cache_file = os.path.join(os.path.expanduser('~'), r'src\Metodos\Login\__pycache__\login.json')
+
+        try:
+            if os.path.exists(cache_file):
+                os.remove(cache_file)
+                QMessageBox.information(self, 'Success', 'Cache file deleted.')
+            else:
+                QMessageBox.information(self, 'Info', 'No cache file found.')
+        except Exception as e:
+            QMessageBox.critical(self, 'Error', f'Failed to delete cache file: {e}')
     
     def load_stylesheet(self, file_name):
         with open(file_name, "r") as file:
@@ -116,12 +167,24 @@ class MainWindow(QMainWindow):
             self.move(x, y)
 
     def run_module(self, script_path):
-        self.thread = Worker(script_path)
+        self.thread: Worker = Worker(script_path)
         self.thread.finished.connect(self.on_finished)
         self.thread.start()
 
-    def on_finished(self, message):
-        print(message)
+    def on_finished(self, message: str):
+        if message.startswith("Error"):
+            QMessageBox.critical(self, 'Error 01', message)
+        elif self.thread.script_path == r'src\Metodos\Login\getCredentials.py':
+            # Assuming the message is the stdout from the script
+            credentials = message.split(',')
+            print(f'the message is: [{message}]')
+            if len(credentials) == 2:
+                self.username, self.password = credentials
+                self.save_to_cache(self.username, self.password)
+            else:
+                QMessageBox.critical(self, 'Error 02', 'Invalid credentials format.')
+        else:
+            print(message)
 
 def main():
     app = QApplication(sys.argv)
