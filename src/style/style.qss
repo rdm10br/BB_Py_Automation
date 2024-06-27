@@ -4,26 +4,6 @@ QMainWindow{
     /* color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255)); */
     background: qlineargradient( x1:0 y1:1, x2:0 y2:0, stop:0 rgba(30, 41, 59, 1), stop:1 rgba(15, 23, 42, 1));
     font-family: 'Poppins';
-    /* background: rgba(1, 8, 22, 1);
-    foreground: rgba(247, 249, 251, 1);
-    card: rgba(1, 8, 22, 1);
-    card-foreground: rgba(247, 249, 251, 1);
-    popover: rgba(1, 8, 22, 1);
-    popover-foreground: rgba(247, 249, 251, 1);
-    primary: rgba(59, 130, 245, 1);
-    primary-foreground: rgba(15, 23, 42, 1);
-    secondary: rgba(30, 41, 59, 1);
-    secondary-foreground: rgba(247, 249, 251, 1);
-    muted: rgba(30, 41, 59, 1);
-    muted-foreground: rgba(148, 163, 183, 1);
-    accent: rgba(30, 41, 59, 1);
-    accent-foreground: rgba(247, 249, 251, 1);
-    destructive: rgba(127, 29, 29, 1);
-    destructive-foreground: rgba(247, 249, 251, 1);
-    border: rgba(30, 41, 59, 1);
-    input: rgba(30, 41, 59, 1);
-    ring: rgba(29, 77, 215, 1); */
-
 }
 
 /* Title bar styles */
@@ -32,12 +12,13 @@ QWidget#title_bar {
     color: white;
     padding: 10px;
 }
+
 QLabel{
     color: rgb(241, 245, 249);
 }
+
 QLabel#textChoice{
-    qproperty-alignment: 'AlignCenter';
-    padding-bottom: 5px;
+    qproperty-alignment: 'AlignCenter | AlignBottom';
 }
 /* Button styles */
 QPushButton {
@@ -58,28 +39,24 @@ QPushButton:pressed {
     background-color: #2E3147;
 }
 
-/* QPushButton#exitButton {
+QPushButton#delete_button {
     background-color: #D52E34;
-    /* color: white; */
-    /* border: none; */
-   /* border-radius: 5px;
+    border-radius: 5px;
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
-} */
+}
 
-/* QPushButton#exitButton:hover {
+QPushButton#delete_button:hover {
     background-color: #f54d53;
 }
 
-QPushButton#exitButton:pressed {
+QPushButton#delete_button:pressed {
     background-color: #AA4145;
-} */
+}
 
 QPushButton#ButtonTest {
     background-color: #3C519E;
-    /* color: white; */
-    /* border: none; */
     border-radius: 5px;
     padding: 10px;
     font-size: 14px;
@@ -91,10 +68,33 @@ QPushButton#ButtonTest:hover {
 }
 
 QPushButton#ButtonTest:pressed {
-    background-color: #6A78A9;
+    /* background-color: #6A78A9; */
+    background-color: #273568;
+}
+
+QPushButton#save_button {
+    background-color: #188d1e;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+QPushButton#save_button:hover {
+    background-color: #38ad3e;
+}
+
+QPushButton#save_button:pressed {
+    background-color: #29732D;
 }
 
 QPushButton#button_2 {
     image: url(src/icon/automation.png);
     image-position: left;
+}
+
+QMessageBox{
+    background-color: #393D5C;
+    font-family: 'Poppins';
+    color: rgb(241, 245, 249);
 }

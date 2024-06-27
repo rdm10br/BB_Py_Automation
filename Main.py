@@ -15,6 +15,7 @@ class Worker(QThread):
     def run(self):
         try:
             print(f'Trying to run process: {self.script_path}')
+            # self.started.emit(f'Trying to run process: {self.script_path}')
             setproctitle.setproctitle(f"MyApp: {self.script_path}")  # Set custom process name
             if self.script_path == r'src\Metodos\Login\getCredentials.py':
                 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -38,7 +39,7 @@ class MainWindow(QMainWindow):
         self.load_stylesheet(r"src\style\style.qss")
         self.setWindowTitle("Project Main Interface")
         self.setMinimumSize(900, 500)
-        self.setWindowIcon(QIcon(r'src\icon\automation.png'))
+        self.setWindowIcon(QIcon(r'src\icon\automation0.png'))
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
 
         font_id = QFontDatabase.addApplicationFont(r"src\font\Poppins\Poppins-Regular.ttf")
@@ -98,19 +99,24 @@ class MainWindow(QMainWindow):
         button_module8.clicked.connect(lambda: self.run_module(r"src\Main_ajusteData.py"))
         layout.addWidget(button_module8, 4, 1)
         
+        button_exit = QPushButton("Save credentials")
+        button_exit.clicked.connect(lambda: self.run_module(r'src\Metodos\Login\getCredentials.py'))
+        button_exit.setObjectName('save_button')
+        layout.addWidget(button_exit, 5, 0)
+        
+        button_exit = QPushButton("Delete credentials")
+        button_exit.clicked.connect(self.delete_cache)
+        button_exit.setObjectName('delete_button')
+        layout.addWidget(button_exit, 5, 1)
+        
         button_module9 = QPushButton("Check")
         button_module9.clicked.connect(lambda: self.run_module(r"src\Main_Test.py"))
         button_module9.setObjectName('ButtonTest')
         layout.addWidget(button_module9, 6, 0, 1, 2)
 
-        button_exit = QPushButton("Save credentials")
-        button_exit.clicked.connect(lambda: self.run_module(r'src\Metodos\Login\getCredentials.py'))
-        button_exit.setObjectName('exitButton')
-        layout.addWidget(button_exit, 5, 0, 1, 2)
         
         QTimer.singleShot(0, self.center_window)
         
-        # Initialize username and password attributes
         self.username = None
         self.password = None
         
@@ -132,6 +138,7 @@ class MainWindow(QMainWindow):
             with open(cache_file, 'w') as file:
                 json.dump(cache_info, file, indent=4)
             QMessageBox.information(self, 'Success', 'Information saved to cache.')
+            print(f"Finished running {self.thread.script_path}")
         except Exception as e:
             QMessageBox.critical(self, 'Error', f'Failed to save to cache: {e}')
     
@@ -151,6 +158,33 @@ class MainWindow(QMainWindow):
     def load_stylesheet(self, file_name):
         with open(file_name, "r") as file:
             self.setStyleSheet(file.read())
+            
+        # variables = {
+        #     'background': 'rgba(1, 8, 22, 1)',
+        #     'foreground': 'rgba(247, 249, 251, 1)',
+        #     'card': 'rgba(1, 8, 22, 1)',
+        #     'card-foreground': 'rgba(247, 249, 251, 1)',
+        #     'popover': 'rgba(1, 8, 22, 1)',
+        #     'popover-foreground': 'rgba(247, 249, 251, 1)',
+        #     'primary': 'rgba(59, 130, 245, 1)',
+        #     'primary-foreground': 'rgba(15, 23, 42, 1)',
+        #     'secondary': 'rgba(30, 41, 59, 1)',
+        #     'secondary-foreground': 'rgba(247, 249, 251, 1)',
+        #     'muted': 'rgba(30, 41, 59, 1)',
+        #     'muted-foreground': 'rgba(148, 163, 183, 1)',
+        #     'accent': 'rgba(30, 41, 59, 1)',
+        #     'accent-foreground': 'rgba(247, 249, 251, 1)',
+        #     'destructive': 'rgba(127, 29, 29, 1)',
+        #     'destructive-foreground': 'rgba(247, 249, 251, 1)',
+        #     'border': 'rgba(30, 41, 59, 1)',
+        #     'input': 'rgba(30, 41, 59, 1)',
+        #     'ring': 'rgba(29, 77, 215, 1)'
+        # }
+        # with open(file_name, 'r') as file:
+        #     qss_template = file.read()
+        # for key, value in variables.items():
+        #     qss_template = qss_template.replace(f'{{{{ {key} }}}}', value)
+        # self.setStyleSheet(qss_template)
         
     def center_window(self):
         cursor_pos = QCursor.pos()
@@ -165,25 +199,24 @@ class MainWindow(QMainWindow):
     def run_module(self, script_path):
         self.thread: Worker = Worker(script_path)
         self.thread.finished.connect(self.on_finished)
+        # self.thread.started.connect(self.on_started)
         self.thread.start()
 
     def on_finished(self, message: str):
         if message.startswith("Error"):
             QMessageBox.critical(self, 'Error 01', message)
         elif self.thread.script_path == r'src\Metodos\Login\getCredentials.py':
-            # Assuming the message is the stdout from the script
             credentials = message.split(',')
-            # print(f'the message is: {credentials}')
-            if len(message) == 2:
-                ...
             if len(credentials) == 2:
                 self.username, self.password = credentials
-                # print(self.username)
                 self.save_to_cache()
             else:
                 QMessageBox.critical(self, 'Error 02', 'Invalid credentials format.')
         else:
             print(message)
+            
+    def on_started(self, message: str):
+        print(message)
 
 def main():
     app = QApplication(sys.argv)
