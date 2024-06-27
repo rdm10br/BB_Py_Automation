@@ -5,31 +5,47 @@ QMainWindow{
     background: qlineargradient( x1:0 y1:1, x2:0 y2:0, stop:0 rgba(30, 41, 59, 1), stop:1 rgba(15, 23, 42, 1));
     font-family: 'Poppins';
 }
-
-/* Title bar styles */
-QWidget#title_bar {
-    background-color: #1C1F2A;
-    color: white;
-    padding: 10px;
-}
-
 QLabel{
     color: rgb(241, 245, 249);
 }
-
-QLabel#textChoice{
-    qproperty-alignment: 'AlignCenter | AlignBottom';
-}
-/* Button styles */
 QPushButton {
     background-color: #393D5C;
     font-family: 'Poppins';
     color: rgb(241, 245, 249);
     border: 1px solid #1E293B;
-    border-radius: 5px;
+    border-radius: 12px;
     padding: 10px;
     font-size: 14px;
 }
+QMessageBox{
+    background-color: #393D5C;
+    font-family: 'Poppins';
+    color: rgb(241, 245, 249);
+}
+QProgressBar{
+    border: 2px solid #99abeb;
+    border-radius: 12px;
+    text-align: center;
+    color: rgb(241, 245, 249);
+}
+
+QProgressBar::chunk{
+    background-color: #3C519E;
+    border-radius: 12px;
+    margin: 1px;
+}
+QWidget#title_bar {
+    background-color: #1C1F2A;
+    color: white;
+    padding: 10px;
+}
+QLabel#textChoice{
+    qproperty-alignment: 'AlignCenter | AlignBottom';
+}
+QLabel#load{
+    qproperty-alignment: 'AlignCenter | AlignBottom';
+}
+
 
 QPushButton:hover {
     background-color: #4B4F70;
@@ -41,7 +57,6 @@ QPushButton:pressed {
 
 QPushButton#delete_button {
     background-color: #D52E34;
-    border-radius: 5px;
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
@@ -57,7 +72,6 @@ QPushButton#delete_button:pressed {
 
 QPushButton#ButtonTest {
     background-color: #3C519E;
-    border-radius: 5px;
     padding: 10px;
     font-size: 14px;
     font-weight: bold;
@@ -73,28 +87,21 @@ QPushButton#ButtonTest:pressed {
 }
 
 QPushButton#save_button {
-    background-color: #188d1e;
-    border-radius: 5px;
+    background-color: #3C519E;
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
 }
 
 QPushButton#save_button:hover {
-    background-color: #38ad3e;
+    background-color: #5D6B9E;
 }
 
 QPushButton#save_button:pressed {
-    background-color: #29732D;
+    background-color: #273568;
 }
 
 QPushButton#button_2 {
     image: url(src/icon/automation.png);
     image-position: left;
-}
-
-QMessageBox{
-    background-color: #393D5C;
-    font-family: 'Poppins';
-    color: rgb(241, 245, 249);
 }
