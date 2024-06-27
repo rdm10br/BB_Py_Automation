@@ -20,7 +20,7 @@ async def login(page: Page) -> None:
                 await page.get_by_role("button", name="OK").click()
         else :
                 pass
-        print('Getting credentials to log in.')
+        print('Getting credentials to log in with cache.')
         
         CACHE_FILE = r'src\Metodos\Login\__pycache__\login.json'
         if os.path.exists(CACHE_FILE):
