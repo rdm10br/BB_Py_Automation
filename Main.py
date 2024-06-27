@@ -63,7 +63,6 @@ class MainWindow(QMainWindow):
 
         label = QLabel("Escolha a o Robô que você quer utilizar:")
         label.setObjectName('textChoice')
-        # label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(label, 0, 0, 1, 2)
         
         button_module1 = QPushButton("DoubleCheck Configurações de Itens")
