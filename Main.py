@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import (QApplication, QMainWindow, QLabel,
-                               QPushButton, QWidget, QGridLayout, QMessageBox)
+from PySide6.QtWidgets import (QApplication, QMainWindow, QLabel, QPushButton,
+                               QWidget, QGridLayout, QMessageBox)
 from PySide6.QtCore import Qt, QTimer, QThread, Signal
 from PySide6.QtGui import QIcon, QCursor, QFontDatabase
 import subprocess, sys, setproctitle, os, json
@@ -7,15 +7,17 @@ import subprocess, sys, setproctitle, os, json
 
 class Worker(QThread):
     finished = Signal(str)
+    message_box_signal = Signal(str)
 
     def __init__(self, script_path):
         super().__init__()
         self.script_path = script_path
+        self.main_window = MainWindow()
 
     def run(self):
         try:
             print(f'Trying to run process: {self.script_path}')
-            # self.started.emit(f'Trying to run process: {self.script_path}')
+            self.message_box_signal.emit(f'Trying to run process: {self.script_path}')
             setproctitle.setproctitle(f"MyApp: {self.script_path}")  # Set custom process name
             if self.script_path == r'src\Metodos\Login\getCredentials.py':
                 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -199,7 +201,7 @@ class MainWindow(QMainWindow):
     def run_module(self, script_path):
         self.thread: Worker = Worker(script_path)
         self.thread.finished.connect(self.on_finished)
-        # self.thread.started.connect(self.on_started)
+        self.thread.message_box_signal.connect(self.display_message_box)
         self.thread.start()
 
     def on_finished(self, message: str):
@@ -215,8 +217,8 @@ class MainWindow(QMainWindow):
         else:
             print(message)
             
-    def on_started(self, message: str):
-        print(message)
+    def display_message_box(self, message: str, icon=QMessageBox.Information):
+        QMessageBox.information(self, 'Information', message, QMessageBox.Ok, QMessageBox.NoButton)
 
 def main():
     app = QApplication(sys.argv)
