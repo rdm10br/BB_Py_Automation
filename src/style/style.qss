@@ -24,6 +24,7 @@ QMessageBox{
 }
 QProgressBar{
     border: 2px solid #99abeb;
+    background-color: #5e73c0;
     border-radius: 12px;
     text-align: center;
     color: rgb(241, 245, 249);

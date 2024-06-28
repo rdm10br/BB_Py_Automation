@@ -1,11 +1,19 @@
-import asyncio, gc, pytest, os, sys, time
+import gc, sys, time
 from functools import wraps
-from playwright.async_api import Playwright, async_playwright, Page
-
+from playwright.async_api import async_playwright
+# from PySide6.QtCore import Signal, QObject, QThread
 
 from Metodos import getPlanilha, checkup_login
 from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_async
 
+# class Worker_startup (QObject):
+#     worker_signal = Signal(str)
+
+#     def do_work(self):
+#         # Simulate some work being done in a separate thread
+#         self.thread = QThread()
+#         self.moveToThread(self.thread)
+#         self.thread.started.connect(playwright_StartUp)
 
 def playwright_StartUp(func):
     @wraps(func)
@@ -34,7 +42,8 @@ def playwright_StartUp(func):
             
             for index in range(total_lines_plan1):
                 index+=1
-
+                # progress_updated = Signal(int)
+                # progress_updated.emit(f'{index}')
                 print(f'Start loop {index}')
                 
                 cell_status = getPlanilha.getCell_status(index=index)
