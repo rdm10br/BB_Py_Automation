@@ -14,7 +14,7 @@ from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_
 #         self.thread = QThread()
 #         self.moveToThread(self.thread)
 #         self.thread.started.connect(playwright_StartUp)
-def flush_then_wait():
+async def flush_then_wait():
     sys.stdout.flush()
     sys.stderr.flush()
     time.sleep(0.5)
@@ -41,7 +41,7 @@ def playwright_StartUp(func):
             
             cookies = await page.context.cookies(urls="https://sereduc.blackboard.com/")
             print('cookies caught')
-            flush_then_wait()
+            await flush_then_wait()
             total_lines_plan1 = getPlanilha.total_lines
             
             for index in range(total_lines_plan1):
@@ -49,7 +49,7 @@ def playwright_StartUp(func):
                 # progress_updated = Signal(int)
                 # progress_updated.emit(f'{index}')
                 print(f'Start loop {index}')
-                flush_then_wait()
+                await flush_then_wait()
                 cell_status = getPlanilha.getCell_status(index=index)
                 start_time = time.time()
                 
@@ -68,15 +68,15 @@ def playwright_StartUp(func):
                     execution_time = end_time - start_time
                     executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
                     print('{:5} | {}'.format(f'Run: {index}',executionTime))
-                    flush_then_wait()
+                    await flush_then_wait()
                     gc.collect()
                 else :
                     print(f'Index: {index} in plan is alredy writen')
-                    flush_then_wait()
+                    await flush_then_wait()
                     index+=1
 
             print('Execution End')
-            flush_then_wait()
+            await flush_then_wait()
             await browser.close()
 
     return wrapper
