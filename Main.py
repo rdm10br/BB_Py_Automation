@@ -16,6 +16,7 @@ class Worker(QThread):
         super().__init__()
         self.script_path = script_path
         self.main_window = MainWindow()
+        self.p = None
         
     def parse_progress_from_output(self, output_line: str):
         if "loop" in output_line:
@@ -26,6 +27,20 @@ class Worker(QThread):
                 return (current_step / total_steps) * 100
         return 0
 
+    def handle_stderr(self):
+        data = self.p.readAllStandardError()
+        stderr = bytes(data).decode("utf8")
+        # Extract progress if it is in the data.
+        progress = self.parse_progress_from_output(stderr)
+        if progress:
+            self.progress.setValue(progress)
+        self.message(stderr)
+
+    def handle_stdout(self):
+        data = self.p.readAllStandardOutput()
+        stdout = bytes(data).decode("utf8")
+        self.message(stdout)
+    
     def run(self):
         try:
             print(f'Trying to run process: {self.script_path}')
