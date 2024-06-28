@@ -2,7 +2,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QPushButton, QPlainTex
                                 QVBoxLayout, QWidget, QProgressBar)
 from PySide6.QtCore import QProcess
 import sys
-import re
+import regex as re
 
 # A regular expression, to extract the % complete.
 progress_re = re.compile(r"Total complete: (\d+)%")
@@ -55,6 +55,7 @@ class MainWindow(QMainWindow):
             self.p.stateChanged.connect(self.handle_state)
             self.p.finished.connect(self.process_finished)  # Clean up once complete.
             self.p.start(r"venv\Scripts\python.exe", [r'Test\dummy_script.py'])
+            # self.p.start(r"venv\Scripts\python.exe", [r'src\Main_Test.py'])
 
     def handle_stderr(self):
         data = self.p.readAllStandardError()

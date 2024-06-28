@@ -1,7 +1,7 @@
 import sys
 import time
 
-
+# a função q faltou
 def flush_then_wait():
     sys.stdout.flush()
     sys.stderr.flush()
