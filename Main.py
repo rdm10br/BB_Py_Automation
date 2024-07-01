@@ -42,17 +42,14 @@ class Worker(QThread):
                 
             else:
                 process = subprocess.Popen([r"venv\Scripts\python.exe", self.script_path],
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE,
-                                universal_newlines=True,
                                 bufsize=1)
                 
-                for line in iter(process.stdout.readline, ''):
-                    print(line.strip())
-                    progress = self.parse_progress_from_output(line.strip())
-                    self.progress_updated.emit(progress)
+                # for line in iter(process.stdout.readline, ''):
+                #     print(line.strip())
+                #     progress = self.parse_progress_from_output(line.strip())
+                #     self.progress_updated.emit(progress)
                     
-                process.stdout.close()
+                # process.stdout.close()
                 process.wait()
                 
                 self.finished.emit(f"Finished running {self.script_path}")
