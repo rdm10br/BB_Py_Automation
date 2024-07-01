@@ -14,6 +14,7 @@ from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_
 #         self.thread = QThread()
 #         self.moveToThread(self.thread)
 #         self.thread.started.connect(playwright_StartUp)
+        
 async def flush_then_wait():
     sys.stdout.flush()
     sys.stderr.flush()
@@ -28,7 +29,7 @@ def playwright_StartUp(func):
             sys.stdout = TimeStampedStream(sys.stdout)
             print('\nExecution Start')
             
-            browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
+            browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'], timeout=60*1000)
             context = await browser.new_context(no_viewport=True)
             page = await context.new_page()
             

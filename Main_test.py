@@ -2,7 +2,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QLabel, QPushButton,
                                QWidget, QGridLayout, QMessageBox, QProgressBar)
 from PySide6.QtCore import Qt, QTimer, QThread, Signal, QSize
 from PySide6.QtGui import QIcon, QCursor, QFontDatabase, QMovie
-import subprocess, sys, setproctitle, os, json
+import subprocess, sys, setproctitle, os, json, time
 from functools import lru_cache
 
 @lru_cache
@@ -11,21 +11,21 @@ class Worker(QThread):
     message_box_signal = Signal(str)
     progress_updated = Signal(int)
     
-
     def __init__(self, script_path):
         super().__init__()
         self.script_path = script_path
         self.main_window = MainWindow()
-        self.p = None
     
     def run(self):
         try:
             print(f'Trying to run process: {self.script_path}')
-            setproctitle.setproctitle(f"MyApp: {self.script_path}")
+            # self.message_box_signal.emit(f'Trying to run process: {self.script_path}')
+            setproctitle.setproctitle(f"MyApp: {self.script_path}")  # Set custom process name
             env = os.environ.copy()
-            env["PYTHONUNBUFFERED"] = "1"
+            env["PYTHONUNBUFFERED"] = "1"  # Ensure unbuffered output
             
             self.progress_updated.emit(0)
+            
             
             if self.script_path == r'src\Metodos\Login\getCredentials.py':
                 
@@ -41,20 +41,29 @@ class Worker(QThread):
                 self.finished.emit(f'{username},{password}')
                 
             else:
-                process = subprocess.Popen([r"venv\Scripts\python.exe", self.script_path],
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE,
-                                universal_newlines=True,
-                                bufsize=1)
+                process = subprocess.Popen([r"venv\Scripts\python.exe", self.script_path])
                 
-                for line in iter(process.stdout.readline, ''):
-                    print(line.strip())
-                    progress = self.parse_progress_from_output(line.strip())
-                    self.progress_updated.emit(progress)
+                script_dir = os.path.dirname(os.path.abspath(__file__))
+                src_dir = os.path.join(script_dir, 'src')
+                if src_dir not in sys.path:
+                    sys.path.insert(0, src_dir)
+                from Metodos.API.getPlanilha import total_lines
+                
+                if process.poll() is None:
+                    self.progress_updated.emit(1)
+                
+                while process.poll() is None:
+                    line: str = process.stdout
+                    if line != '':
+                        # print(total_lines)
+                        # time.sleep(2)
+                        # print(line)
+                        # print(line.encode('utf-8'))
+                        ...
                     
-                process.stdout.close()
                 process.wait()
-                
+                self.progress_updated.emit(100)
+                time.sleep(1)
                 self.finished.emit(f"Finished running {self.script_path}")
         except FileNotFoundError as e:
             self.finished.emit(f"Error running subprocess: {e}")
@@ -71,12 +80,16 @@ class MainWindow(QMainWindow):
 
         font_id = QFontDatabase.addApplicationFont(r"src\font\Poppins\Poppins-Regular.ttf")
         if font_id == -1:
+            # print("Failed to load font.")
             ...
         else:
+            # print("Font loaded successfully.")
             ...
 
+        # List available fonts
         font_families = QFontDatabase.applicationFontFamilies(font_id)
         for family in font_families:
+            # print("Available font family:", family)
             ...
         
         central_widget = QWidget()
@@ -126,13 +139,9 @@ class MainWindow(QMainWindow):
         button_module5.clicked.connect(lambda: self.run_module(r"src\Main_doublecheck_Master.py"))
         layout.addWidget(button_module5, 6, 0)
         
-        button_module6 = QPushButton("DoubleCheck Mescla DIG")
-        button_module6.clicked.connect(lambda: self.run_module(r"src\Main_doubleCheck_Mescla_DIG.py"))
+        button_module6 = QPushButton("DoubleCheck Mescla")
+        button_module6.clicked.connect(lambda: self.run_module(r"src\Main_doubleCheck_Mescla.py"))
         layout.addWidget(button_module6, 6, 1)
-        
-        button_module6 = QPushButton("DoubleCheck Mescla VET")
-        button_module6.clicked.connect(lambda: self.run_module(r"src\Main_doublecheck_Mescla_VET.py"))
-        layout.addWidget(button_module6, 11, 0, 1, 2)
         
         button_module7 = QPushButton("Atividades Praticas")
         button_module7.clicked.connect(lambda: self.run_module(r"src\Main_ATividades_Praticas.py"))
@@ -164,10 +173,14 @@ class MainWindow(QMainWindow):
         self.password = None
         
     def save_to_cache(self):
+        # Define the cache file path
+        # cache_file = os.path.join(os.path.expanduser('~'), r'src\Metodos\Login\__pycache__\login.json')
         cache_file = os.path.join(os.path.curdir, r'src\Metodos\Login\__pycache__\login.json')
+        # Information to be cached
         username = self.username
         password = self.password
-        
+
+        # Information to be cached
         cache_info = {
             "username": username,
             "password": password
@@ -182,6 +195,7 @@ class MainWindow(QMainWindow):
             QMessageBox.critical(self, 'Error', f'Failed to save to cache: {e}')
     
     def delete_cache(self):
+        # Define the cache file path
         cache_file = os.path.join(os.path.curdir, r'src\Metodos\Login\__pycache__\login.json')
 
         try:
@@ -196,6 +210,33 @@ class MainWindow(QMainWindow):
     def load_stylesheet(self, file_name):
         with open(file_name, "r") as file:
             self.setStyleSheet(file.read())
+            
+        # variables = {
+        #     'background': 'rgba(1, 8, 22, 1)',
+        #     'foreground': 'rgba(247, 249, 251, 1)',
+        #     'card': 'rgba(1, 8, 22, 1)',
+        #     'card-foreground': 'rgba(247, 249, 251, 1)',
+        #     'popover': 'rgba(1, 8, 22, 1)',
+        #     'popover-foreground': 'rgba(247, 249, 251, 1)',
+        #     'primary': 'rgba(59, 130, 245, 1)',
+        #     'primary-foreground': 'rgba(15, 23, 42, 1)',
+        #     'secondary': 'rgba(30, 41, 59, 1)',
+        #     'secondary-foreground': 'rgba(247, 249, 251, 1)',
+        #     'muted': 'rgba(30, 41, 59, 1)',
+        #     'muted-foreground': 'rgba(148, 163, 183, 1)',
+        #     'accent': 'rgba(30, 41, 59, 1)',
+        #     'accent-foreground': 'rgba(247, 249, 251, 1)',
+        #     'destructive': 'rgba(127, 29, 29, 1)',
+        #     'destructive-foreground': 'rgba(247, 249, 251, 1)',
+        #     'border': 'rgba(30, 41, 59, 1)',
+        #     'input': 'rgba(30, 41, 59, 1)',
+        #     'ring': 'rgba(29, 77, 215, 1)'
+        # }
+        # with open(file_name, 'r') as file:
+        #     qss_template = file.read()
+        # for key, value in variables.items():
+        #     qss_template = qss_template.replace(f'{{{{ {key} }}}}', value)
+        # self.setStyleSheet(qss_template)
         
     def center_window(self):
         cursor_pos = QCursor.pos()

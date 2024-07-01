@@ -5,8 +5,8 @@ import sys
 import regex as re
 
 # A regular expression, to extract the % complete.
-# progress_re = re.compile(r"Total complete: (\d+)%")
-progress_re = re.compile(r"loop \d+")
+progress_re = re.compile(r"Total complete: (\d+)%")
+# progress_re = re.compile(r"loop \d+")
 
 def simple_percent_parser(output):
     """
@@ -55,8 +55,8 @@ class MainWindow(QMainWindow):
             self.p.readyReadStandardError.connect(self.handle_stderr)
             self.p.stateChanged.connect(self.handle_state)
             self.p.finished.connect(self.process_finished)  # Clean up once complete.
-            # self.p.start(r"venv\Scripts\python.exe", [r'Test\dummy_script.py'])
-            self.p.start(r"venv\Scripts\python.exe", [r'src\Main_Test.py'])
+            self.p.start(r"venv\Scripts\python.exe", [r'Test\dummy_script.py'])
+            # self.p.start(r"venv\Scripts\python.exe", [r'src\Main_Test.py'])
 
     def handle_stderr(self):
         data = self.p.readAllStandardError()
