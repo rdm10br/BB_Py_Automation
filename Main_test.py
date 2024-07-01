@@ -2,14 +2,25 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QLabel, QPushButton,
                                QWidget, QGridLayout, QMessageBox, QProgressBar)
 from PySide6.QtCore import Qt, QTimer, QThread, Signal, QSize
 from PySide6.QtGui import QIcon, QCursor, QFontDatabase, QMovie
-import subprocess, sys, setproctitle, os, json, time
+import subprocess, sys, setproctitle, os, json, time, io
 from functools import lru_cache
+
+
+class Console(io.StringIO):
+        def write(self, data: str):
+            if data.strip():  # Only write non-empty lines
+                sys.__stdout__.write(data)  # Write to the original stdout
+                super().write(data)
 
 @lru_cache
 class Worker(QThread):
     finished = Signal(str)
     message_box_signal = Signal(str)
     progress_updated = Signal(int)
+    console_output = Console()
+    sys.stdout = console_output
+    # sys.stdout = sys.__stdout__ # Restore
+    captured_output = console_output.getvalue()
     
     def __init__(self, script_path):
         super().__init__()
@@ -26,7 +37,6 @@ class Worker(QThread):
             
             self.progress_updated.emit(0)
             
-            
             if self.script_path == r'src\Metodos\Login\getCredentials.py':
                 
                 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -39,9 +49,12 @@ class Worker(QThread):
                 username, password = get_credentials()
                 
                 self.finished.emit(f'{username},{password}')
-                
             else:
-                process = subprocess.Popen([r"venv\Scripts\python.exe", self.script_path])
+                process = subprocess.Popen([r"venv\Scripts\python.exe",
+                                            self.script_path])
+                                            # stdout=subprocess.PIPE,
+                                            # stderr=subprocess.PIPE,
+                                            # text=True)
                 
                 script_dir = os.path.dirname(os.path.abspath(__file__))
                 src_dir = os.path.join(script_dir, 'src')
@@ -53,18 +66,20 @@ class Worker(QThread):
                     self.progress_updated.emit(1)
                 
                 while process.poll() is None:
-                    line: str = process.stdout
-                    if line != '':
-                        # print(total_lines)
-                        # time.sleep(2)
-                        # print(line)
-                        # print(line.encode('utf-8'))
+                    # line = process.stdout.readline()
+                    # if line != '':
+                    #     print(total_lines)
+                    #     time.sleep(3)
+                    #     # print(line)
+                    #     print(line.strip())
+                    #     # print(line.encode('utf-8'))
                         ...
                     
                 process.wait()
                 self.progress_updated.emit(100)
-                time.sleep(1)
                 self.finished.emit(f"Finished running {self.script_path}")
+                self.message_box_signal.emit(f"Finished running {self.script_path}")
+                # time.sleep(1.5)
         except FileNotFoundError as e:
             self.finished.emit(f"Error running subprocess: {e}")
 

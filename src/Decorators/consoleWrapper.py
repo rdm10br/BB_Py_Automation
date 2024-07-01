@@ -57,7 +57,7 @@ def capture_console_output(func):
 
         timer = time.strftime('%d-%m-%Y-%H-%M-%S')
         # Write the captured output to a log file
-        log_file_name = rf"Logs\output-log-{timer}.log"
+        log_file_name = rf"Logs\Main-output-log-{timer}.log"
         with open(log_file_name, 'w') as log_file:
             log_file.write(captured_output)
 
@@ -77,7 +77,7 @@ def capture_console_output_async(func):
         creates a log file of what's shown on the console.
     """
     class ConsoleAndFile(io.StringIO):
-        def write(self, data):
+        def write(self, data: str):
             if data.strip():  # Only write non-empty lines
                 sys.__stdout__.write(data)  # Write to the original stdout
                 super().write(data)  # Write to the StringIO buffer
