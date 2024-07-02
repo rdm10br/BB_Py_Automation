@@ -41,6 +41,8 @@ class Ui_MainWindow(object):
         self.action21.setObjectName(u"action21")
         self.action22 = QAction(MainWindow)
         self.action22.setObjectName(u"action22")
+        self.actionHelp = QAction(MainWindow)
+        self.actionHelp.setObjectName(u"actionHelp")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.pushButton = QPushButton(self.centralwidget)
@@ -89,9 +91,13 @@ class Ui_MainWindow(object):
         QListWidgetItem(self.listWidget)
         QListWidgetItem(self.listWidget)
         self.listWidget.setObjectName(u"listWidget")
-        self.listWidget.setGeometry(QRect(0, 0, 91, 381))
+        self.listWidget.setGeometry(QRect(0, 0, 101, 381))
         self.listWidget.setStyleSheet(u"QListWidget:item:hover{\n"
 " background-color: #5e73c0;\n"
+" padding: 3px;\n"
+"}\n"
+"QListWidget:item{\n"
+" padding: 3px;\n"
 "}")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
@@ -121,6 +127,7 @@ class Ui_MainWindow(object):
         self.menuConfig.addAction(self.action13)
         self.menuEdit.addAction(self.action21)
         self.menuEdit.addAction(self.action22)
+        self.menuHelp.addAction(self.actionHelp)
 
         self.retranslateUi(MainWindow)
 
@@ -135,6 +142,7 @@ class Ui_MainWindow(object):
         self.action13.setText(QCoreApplication.translate("MainWindow", u"13", None))
         self.action21.setText(QCoreApplication.translate("MainWindow", u"21", None))
         self.action22.setText(QCoreApplication.translate("MainWindow", u"22", None))
+        self.actionHelp.setText(QCoreApplication.translate("MainWindow", u"Help", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
 
         __sortingEnabled = self.listWidget.isSortingEnabled()

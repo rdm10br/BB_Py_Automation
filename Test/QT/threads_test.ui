@@ -101,13 +101,17 @@ QProgressBar::chunk[8&gt;=value] {
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>91</width>
+      <width>101</width>
       <height>381</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">QListWidget:item:hover{
  background-color: #5e73c0;
+ padding: 3px;
+}
+QListWidget:item{
+ padding: 3px;
 }</string>
     </property>
     <item>
@@ -173,6 +177,7 @@ QProgressBar::chunk[8&gt;=value] {
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionHelp"/>
    </widget>
    <addaction name="menuMenu"/>
    <addaction name="menuConfig"/>
@@ -207,6 +212,11 @@ QProgressBar::chunk[8&gt;=value] {
   <action name="action22">
    <property name="text">
     <string>22</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help</string>
    </property>
   </action>
  </widget>
