@@ -1,6 +1,6 @@
 Torne o script executável:
 chmod +x scripts/post_install.sh
-
+pip freeze > requirements.txt
 enable scripts ExecutionPolicy on powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 

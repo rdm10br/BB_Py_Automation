@@ -36,7 +36,7 @@ QProgressBar{
 QProgressBar::chunk{
     background-color: #3C519E;
     border-radius: 12px;
-    margin: 1.5px;
+    margin: 1px;
 }
 QWidget#title_bar {
     background-color: #1C1F2A;

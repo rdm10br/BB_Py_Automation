@@ -12,26 +12,28 @@ class Console(io.StringIO):
                 sys.__stdout__.write(data)  # Write to the original stdout
                 super().write(data)
 
+
 @lru_cache
 class Worker(QThread):
+    started = Signal(str)
     finished = Signal(str)
     message_box_signal = Signal(str)
     progress_updated = Signal(int)
-    console_output = Console()
-    sys.stdout = console_output
-    # sys.stdout = sys.__stdout__ # Restore
-    captured_output = console_output.getvalue()
     
     def __init__(self, script_path):
         super().__init__()
         self.script_path = script_path
         self.main_window = MainWindow()
+        self.console_output = Console()
     
     def run(self):
+        print(f'Trying to run process: {self.script_path}')
+        # self.started.emit(f'Trying to run process: {self.script_path}\n')
+        sys.stdout = self.console_output
+        captured_output = self.console_output.getvalue()
         try:
-            print(f'Trying to run process: {self.script_path}')
-            # self.message_box_signal.emit(f'Trying to run process: {self.script_path}')
-            setproctitle.setproctitle(f"MyApp: {self.script_path}")  # Set custom process name
+            setproctitle.setproctitle(f"MyApp: {self.script_path}")
+            
             env = os.environ.copy()
             env["PYTHONUNBUFFERED"] = "1"  # Ensure unbuffered output
             
@@ -51,10 +53,10 @@ class Worker(QThread):
                 self.finished.emit(f'{username},{password}')
             else:
                 process = subprocess.Popen([r"venv\Scripts\python.exe",
-                                            self.script_path])
+                                            self.script_path],
                                             # stdout=subprocess.PIPE,
                                             # stderr=subprocess.PIPE,
-                                            # text=True)
+                                            text=True)
                 
                 script_dir = os.path.dirname(os.path.abspath(__file__))
                 src_dir = os.path.join(script_dir, 'src')
@@ -65,23 +67,28 @@ class Worker(QThread):
                 if process.poll() is None:
                     self.progress_updated.emit(1)
                 
-                while process.poll() is None:
-                    # line = process.stdout.readline()
-                    # if line != '':
-                    #     print(total_lines)
-                    #     time.sleep(3)
-                    #     # print(line)
-                    #     print(line.strip())
-                    #     # print(line.encode('utf-8'))
-                        ...
+                # while process.poll() is None:
+                #     time.sleep(1)
+                #     line = process.stdout.readline()
+                #     print(line)
+                #     # line = captured_output
+                #     if line != '':
+                #         print(total_lines)
+                #         # print(line)
+                #         print(line.strip())
+                #         # print(line.encode('utf-8'))
+                #     ...
                     
                 process.wait()
                 self.progress_updated.emit(100)
                 self.finished.emit(f"Finished running {self.script_path}")
+                # print(f"Finished running {self.script_path}")
                 self.message_box_signal.emit(f"Finished running {self.script_path}")
                 # time.sleep(1.5)
         except FileNotFoundError as e:
             self.finished.emit(f"Error running subprocess: {e}")
+        finally:
+            sys.stdout = sys.__stdout__ # Restore
 
 @lru_cache
 class MainWindow(QMainWindow):
@@ -269,10 +276,17 @@ class MainWindow(QMainWindow):
         self.loading_movie.start()
         
         self.thread: Worker = Worker(script_path)
+        self.thread.started.connect(self.on_startup)
         self.thread.finished.connect(self.on_finished)
         self.thread.message_box_signal.connect(self.display_message_box)
         self.thread.progress_updated.connect(self.update_progress_bar)
         self.thread.start()
+        
+    def on_startup(self, message: str):
+        if message.startswith("Error"):
+            QMessageBox.critical(self, 'Error 11', message)
+        else:
+            print(message)
 
     def on_finished(self, message: str):
         if message.startswith("Error"):
