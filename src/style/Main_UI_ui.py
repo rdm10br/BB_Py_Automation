@@ -70,12 +70,12 @@ class Ui_MainWindow(object):
         self.centralwidget.setLayoutDirection(Qt.LeftToRight)
         self.icon_widget = QWidget(self.centralwidget)
         self.icon_widget.setObjectName(u"icon_widget")
-        self.icon_widget.setGeometry(QRect(0, 0, 55, 466))
+        self.icon_widget.setGeometry(QRect(0, 0, 55, 451))
         self.icon_widget.setStyleSheet(u"QWidget{\n"
 "	background-color: rgba(15, 23, 42, 1);\n"
 "}\n"
 "QPushButton:hover{\n"
-"	background-color: green;\n"
+"	background-color: #393D5C;\n"
 "}")
         self.label_3 = QLabel(self.icon_widget)
         self.label_3.setObjectName(u"label_3")
@@ -180,7 +180,7 @@ class Ui_MainWindow(object):
 "background-color: rgba(15, 23, 42, 1);\n"
 "}\n"
 "QPushButton:hover{\n"
-"	background-color: green;\n"
+"	background-color: #393D5C;\n"
 "}")
         self.label_2 = QLabel(self.icon_text_widget)
         self.label_2.setObjectName(u"label_2")
