@@ -206,8 +206,13 @@ class Ui_MainWindow(object):
         self.pushButton_17 = QPushButton(self.icon_text_widget)
         self.pushButton_17.setObjectName(u"pushButton_17")
         self.pushButton_17.setGeometry(QRect(20, 70, 16, 16))
-        self.pushButton_17.setStyleSheet(u"background-color: none;\n"
-"border: none")
+        self.pushButton_17.setStyleSheet(u"QPushButton{\n"
+"background-color: none;\n"
+"border: none;\n"
+"}\n"
+"QPushButton:hover{\n"
+"	background-color: #393D5C;\n"
+"}")
         self.pushButton_17.setIcon(icon1)
         self.pushButton_17.setIconSize(QSize(20, 20))
         self.splitter_6 = QSplitter(self.icon_text_widget)
