@@ -24,6 +24,7 @@ async def login(page: Page) -> None:
         
         CACHE_FILE = r'src\Metodos\Login\__pycache__\login.json'
         if os.path.exists(CACHE_FILE):
+                print('Credentials caught with cache.')
                 with open(CACHE_FILE, 'r') as f:
                         cache_data = json.load(f)
                         username = cache_data['username']
