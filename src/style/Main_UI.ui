@@ -29,8 +29,13 @@
     background: qlineargradient(x1:0 y1:1,x2:0 y2:0,stop:0 rgba(30, 41, 59, 1),stop:1 rgba(15, 23, 42, 1));
     font-family: 'Poppins';
 }
+QWidget{
+	font-family: 'Poppins';
+}
 QLabel{
     color: rgb(241, 245, 249);
+	font-family: 'Poppins';
+    font-size: 10px;
 }
 QPushButton {
     background-color: #737BB9;
@@ -308,23 +313,21 @@ border: none</string>
       </property>
      </widget>
     </widget>
+    <zorder>splitter_2</zorder>
     <zorder>label_3</zorder>
     <zorder>line_2</zorder>
     <zorder>pushButton_16</zorder>
     <zorder>pushButton_18</zorder>
-    <zorder>pushButton_20</zorder>
-    <zorder>pushButton_21</zorder>
-    <zorder>pushButton_22</zorder>
-    <zorder>pushButton_23</zorder>
-    <zorder>pushButton_24</zorder>
-    <zorder>pushButton_25</zorder>
    </widget>
    <widget class="QWidget" name="icon_text_widget" native="true">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>55</x>
       <y>0</y>
-      <width>126</width>
+      <width>131</width>
       <height>451</height>
      </rect>
     </property>
@@ -472,232 +475,203 @@ QPushButton:hover{
       </property>
      </widget>
     </widget>
-    <widget class="QSplitter" name="splitter">
+    <widget class="QSplitter" name="splitter_9">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>310</y>
-       <width>71</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <widget class="QPushButton" name="pushButton_12">
-      <property name="styleSheet">
-       <string notr="true">border: none;</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="resource.qrc">
-        <normaloff>:/icon/experiment.png</normaloff>:/icon/experiment.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>20</width>
-        <height>20</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_10">
-      <property name="text">
-       <string>Teste</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QSplitter" name="splitter_3">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>270</y>
-       <width>56</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <widget class="QPushButton" name="pushButton_9">
-      <property name="styleSheet">
-       <string notr="true">border: none;</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="resource.qrc">
-        <normaloff>:/icon/detective.png</normaloff>:/icon/detective.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>20</width>
-        <height>20</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_8">
-      <property name="text">
-       <string>X9</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QSplitter" name="splitter_4">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>230</y>
-       <width>67</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <widget class="QPushButton" name="pushButton_14">
-      <property name="styleSheet">
-       <string notr="true">border: none;</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="resource.qrc">
-        <normaloff>:/icon/calendar.png</normaloff>:/icon/calendar.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>20</width>
-        <height>20</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_9">
-      <property name="text">
-       <string>Data</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QSplitter" name="splitter_5">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>190</y>
-       <width>71</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <widget class="QPushButton" name="pushButton_13">
-      <property name="styleSheet">
-       <string notr="true">border: none;</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="resource.qrc">
-        <normaloff>:/icon/copy.png</normaloff>:/icon/copy.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>20</width>
-        <height>20</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>Cópia</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QSplitter" name="splitter_8">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
+       <x>0</x>
        <y>110</y>
-       <width>71</width>
-       <height>40</height>
+       <width>102</width>
+       <height>240</height>
       </rect>
      </property>
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QPushButton" name="pushButton_8">
-      <property name="styleSheet">
-       <string notr="true">border: none;</string>
+     <widget class="QSplitter" name="splitter_8">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="resource.qrc">
-        <normaloff>:/icon/home.png</normaloff>:/icon/home.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>20</width>
-        <height>20</height>
-       </size>
-      </property>
+      <widget class="QPushButton" name="pushButton_8">
+       <property name="styleSheet">
+        <string notr="true">border: none;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource.qrc">
+         <normaloff>:/icon/home.png</normaloff>:/icon/home.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Home  </string>
+       </property>
+      </widget>
      </widget>
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Home</string>
+     <widget class="QSplitter" name="splitter_7">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-     </widget>
-    </widget>
-    <widget class="QSplitter" name="splitter_7">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>150</y>
-       <width>77</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <widget class="QPushButton" name="pushButton_11">
-      <property name="styleSheet">
-       <string notr="true">border: none;</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="resource.qrc">
-        <normaloff>:/icon/double-check.png</normaloff>:/icon/double-check.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>20</width>
-        <height>20</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>Double
+      <widget class="QPushButton" name="pushButton_11">
+       <property name="styleSheet">
+        <string notr="true">border: none;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource.qrc">
+         <normaloff>:/icon/double-check.png</normaloff>:/icon/double-check.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
+       <property name="styleSheet">
+        <string notr="true">font-size: 10px;</string>
+       </property>
+       <property name="text">
+        <string>Double
 Check</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QSplitter" name="splitter_5">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
+      <widget class="QPushButton" name="pushButton_13">
+       <property name="styleSheet">
+        <string notr="true">border: none;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource.qrc">
+         <normaloff>:/icon/copy.png</normaloff>:/icon/copy.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Cópia </string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QSplitter" name="splitter_4">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QPushButton" name="pushButton_14">
+       <property name="styleSheet">
+        <string notr="true">border: none;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource.qrc">
+         <normaloff>:/icon/calendar.png</normaloff>:/icon/calendar.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Data   </string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QSplitter" name="splitter_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QPushButton" name="pushButton_9">
+       <property name="styleSheet">
+        <string notr="true">border: none;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource.qrc">
+         <normaloff>:/icon/detective.png</normaloff>:/icon/detective.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>X9     </string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QPushButton" name="pushButton_12">
+       <property name="styleSheet">
+        <string notr="true">border: none;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource.qrc">
+         <normaloff>:/icon/experiment.png</normaloff>:/icon/experiment.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Teste  </string>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="Main_Screen_Widget" native="true">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>185</x>
       <y>40</y>
-      <width>411</width>
+      <width>406</width>
       <height>411</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color:#393D5C;</string>
@@ -706,9 +680,9 @@ Check</string>
    <widget class="QWidget" name="Header_widget" native="true">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>185</x>
       <y>0</y>
-      <width>411</width>
+      <width>406</width>
       <height>41</height>
      </rect>
     </property>
