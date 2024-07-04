@@ -210,9 +210,6 @@ class Ui_MainWindow(object):
         self.pushButton_17.setStyleSheet(u"QPushButton{\n"
 "background-color: none;\n"
 "border: none;\n"
-"}\n"
-"QPushButton:hover{\n"
-"	background-color: #393D5C;\n"
 "}")
         self.pushButton_17.setIcon(icon1)
         self.pushButton_17.setIconSize(QSize(20, 20))

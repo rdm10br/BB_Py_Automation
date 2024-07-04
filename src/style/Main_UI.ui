@@ -420,9 +420,6 @@ QPushButton:hover{
       <string notr="true">QPushButton{
 background-color: none;
 border: none;
-}
-QPushButton:hover{
-	background-color: #393D5C;
 }</string>
      </property>
      <property name="text">
