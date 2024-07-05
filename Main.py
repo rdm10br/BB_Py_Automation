@@ -13,7 +13,6 @@ class Console(io.StringIO):
                 sys.__stdout__.write(data)  # Write to the original stdout
                 super().write(data)
 
-
 @lru_cache
 class Worker(QThread):
     finished = Signal(str)
@@ -26,11 +25,16 @@ class Worker(QThread):
         self.script_path = script_path
         self.main_window = Main_UI()
         self.p = None
+        self.console_output = Console()
     
     def run(self):
         try:
             print(f'Trying to run process: {self.script_path}')
             setproctitle.setproctitle(f"MyApp: {self.script_path}")
+            
+            sys.stdout = self.console_output
+            captured_output = self.console_output.getvalue()
+            
             env = os.environ.copy()
             env["PYTHONUNBUFFERED"] = "1"
             
@@ -48,9 +52,9 @@ class Worker(QThread):
                 username, password = get_credentials()
                 
                 self.finished.emit(f'{username},{password}')
-                
             else:
-                process = subprocess.Popen([r"venv\Scripts\python.exe", self.script_path],
+                process = subprocess.Popen([r"venv\Scripts\python.exe",
+                                self.script_path],
                                 bufsize=1)
                 
                 # for line in iter(process.stdout.readline, ''):
@@ -59,6 +63,7 @@ class Worker(QThread):
                 #     self.progress_updated.emit(progress)
                     
                 # process.stdout.close()
+                
                 process.wait()
                 
                 self.finished.emit(f"Finished running {self.script_path}")

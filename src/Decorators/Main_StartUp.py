@@ -1,5 +1,5 @@
 import gc, sys, time
-from functools import wraps
+from functools import wraps, lru_cache
 from playwright.async_api import async_playwright
 # from PySide6.QtCore import Signal, QObject, QThread
 
@@ -21,6 +21,7 @@ from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_
 #     time.sleep(0.5)
 
 def playwright_StartUp(func):
+    @lru_cache
     @wraps(func)
     @capture_console_output_async
     async def wrapper(*args, **kwargs):
