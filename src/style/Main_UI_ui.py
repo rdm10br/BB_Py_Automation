@@ -262,15 +262,15 @@ class Ui_MainWindow(object):
         self.verticalLayout_3 = QVBoxLayout(self.widget1)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.pushButton_8 = QPushButton(self.widget1)
-        self.pushButton_8.setObjectName(u"pushButton_8")
-        self.pushButton_8.setLayoutDirection(Qt.LeftToRight)
-        self.pushButton_8.setStyleSheet(u"")
-        self.pushButton_8.setIcon(icon2)
-        self.pushButton_8.setIconSize(QSize(20, 20))
-        self.pushButton_8.setAutoDefault(True)
+        self.Home_pushButton = QPushButton(self.widget1)
+        self.Home_pushButton.setObjectName(u"Home_pushButton")
+        self.Home_pushButton.setLayoutDirection(Qt.LeftToRight)
+        self.Home_pushButton.setStyleSheet(u"")
+        self.Home_pushButton.setIcon(icon2)
+        self.Home_pushButton.setIconSize(QSize(20, 20))
+        self.Home_pushButton.setAutoDefault(True)
 
-        self.verticalLayout_3.addWidget(self.pushButton_8)
+        self.verticalLayout_3.addWidget(self.Home_pushButton)
 
         self.DoubleCheck = QFrame(self.widget1)
         self.DoubleCheck.setObjectName(u"DoubleCheck")
@@ -457,13 +457,13 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.X9)
 
-        self.pushButton_12 = QPushButton(self.widget1)
-        self.pushButton_12.setObjectName(u"pushButton_12")
-        self.pushButton_12.setStyleSheet(u"")
-        self.pushButton_12.setIcon(icon7)
-        self.pushButton_12.setIconSize(QSize(20, 20))
+        self.Test_pushButton = QPushButton(self.widget1)
+        self.Test_pushButton.setObjectName(u"Test_pushButton")
+        self.Test_pushButton.setStyleSheet(u"")
+        self.Test_pushButton.setIcon(icon7)
+        self.Test_pushButton.setIconSize(QSize(20, 20))
 
-        self.verticalLayout_3.addWidget(self.pushButton_12)
+        self.verticalLayout_3.addWidget(self.Test_pushButton)
 
         self.widget2 = QWidget(self.icon_text_widget)
         self.widget2.setObjectName(u"widget2")
@@ -528,7 +528,7 @@ class Ui_MainWindow(object):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Automa\u00e7\u00e3o", None))
         self.label_4.setText("")
         self.pushButton_17.setText("")
-        self.pushButton_8.setText(QCoreApplication.translate("MainWindow", u"Home", None))
+        self.Home_pushButton.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.pushButton_11.setText(QCoreApplication.translate("MainWindow", u"Double\n"
 "Check", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Atividades\n"
@@ -545,7 +545,7 @@ class Ui_MainWindow(object):
         self.pushButton_9.setText(QCoreApplication.translate("MainWindow", u"X9", None))
         self.pushButton_26.setText(QCoreApplication.translate("MainWindow", u"Double Check\n"
 "Configura\u00e7\u00f5es", None))
-        self.pushButton_12.setText(QCoreApplication.translate("MainWindow", u"Test", None))
+        self.Test_pushButton.setText(QCoreApplication.translate("MainWindow", u"Test", None))
         self.pushButton_15.setText(QCoreApplication.translate("MainWindow", u"Configura\u00e7\u00e3o", None))
         pass
     # retranslateUi
