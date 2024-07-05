@@ -72,11 +72,14 @@ class Worker(QThread):
 
 @lru_cache
 class Main_UI(QMainWindow):
+    
     def __init__(self):
         # super(Main_UI, self).__init__()
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        
+        self.test = self.ui.pushButton_12
         
         QTimer.singleShot(0, self.center_window)
         self.username = None
@@ -168,7 +171,7 @@ class Main_UI(QMainWindow):
     def update_progress_bar(self, percent):
         self.progress_bar.setValue(percent)
 
-      
+
 def Main():
     app = QApplication(sys.argv)
     mainWindow = Main_UI()
