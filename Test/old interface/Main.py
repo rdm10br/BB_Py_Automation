@@ -165,8 +165,8 @@ class Main_UI(QMainWindow):
             self.loading_movie.stop()
             self.loading_label.hide()
             
-    def display_message_box(self, message: str, icon=QMessageBox.Information):
-        QMessageBox.information(self, 'Information', message, QMessageBox.Ok, QMessageBox.NoButton)
+    def display_message_box(self, message: str, icon=QMessageBox.Icon.Information):
+        QMessageBox.information(self, 'Information', message, QMessageBox.StandardButton.Ok, QMessageBox.StandardButton.NoButton)
     
     def update_progress_bar(self, percent):
         self.progress_bar.setValue(percent)
