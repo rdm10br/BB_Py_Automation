@@ -20,6 +20,7 @@
     --border: hsl(217.2 32.6% 17.5%);
     --input: hsl(217.2 32.6% 17.5%);
     --ring: hsl(224.3 76.3% 48%);
+
     font-family: 'Poppins', sans-serif;
     background-color: var(--background);
     color: var(--foreground);
@@ -29,8 +30,8 @@ body{
     /* padding: 1.25vh; */
     /* padding-left: 20vw; */
     /* border: 1.25px solid var(--primary); */
+    /* margin-left: 20vw; */
     border-radius: 12px;
-    margin-left: 20vw;
 }
 div{
     background-color: var(--primary-foreground);
@@ -38,6 +39,8 @@ div{
     border-radius: 12px;
     padding: 1.25px;
     margin: 0.52%;
+    padding-left: 20vw;
+    /* margin-left: 20vw; */
 }
 div.optional{
     /* display: none; */
@@ -50,6 +53,7 @@ div.optional img{
     display: none;
 }
 div button{
+    border: 2px solid var(--primary-foreground);
     background-color: var(--secondary);
     color: var(--foreground);
     border-radius: 12px;

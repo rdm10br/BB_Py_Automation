@@ -20,9 +20,19 @@ async def run(playwright: Playwright) -> None:
     baseURL = 'https://sereduc.blackboard.com/'
     # classURL = f'{baseURL}ultra/courses/'
     id_repository = '_247460_1'
-    bq_id = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments?limit=100'
+    
     rootBQ = f'{baseURL}webapps/assessment/do/authoring/'\
     f'viewAssessmentManager?assessmentType=Pool&course_id={id_repository}'
+    
+    limit = 10
+    offset = 0
+    maxLimit = 2147483647
+    
+    bq_id = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments?limit={limit}&offset={offset}'
+    
+    def API_bq_id(_offset: int):
+        API = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments?limit={limit}&offset={_offset}'
+        return API
     
     def BQTest(id_BQ: str):
         BQ = f'{baseURL}webapps/assessment/do/authoring/modifyAssessment?'\
@@ -40,6 +50,11 @@ async def run(playwright: Playwright) -> None:
                 }}
             }}'''
         return request
+    
+    async def loop_BQ_id(Offset: int):
+        await page.goto(API_bq_id(_offset=Offset))
+        id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+        return id_BQ
     
     start_time0 = time.time()
     await checkup_login.checkup_login(page=page)
@@ -60,7 +75,20 @@ async def run(playwright: Playwright) -> None:
     BQ_name = await create_bq.create_bq(page=page, path=path)
     print(BQ_name)
     await page.goto(bq_id)
-    id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+    
+    id_BQ = ''
+    while not id_BQ:
+        try:
+            id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+        except Exception as e:
+            print(f'Error fetching id_BQ: {e}')
+            try:
+                offset+=limit
+                id_BQ = await loop_BQ_id(offset)
+            except Exception as e:
+                print(f'Error in loop_BQ_id: {e}')
+
+
     await page.goto(BQTest(id_BQ=id_BQ))
     
     for index in range(doc):
@@ -91,4 +119,5 @@ async def run(playwright: Playwright) -> None:
 async def main():
     async with async_playwright() as playwright:
         await run(playwright)
+        
 asyncio.run(main())
