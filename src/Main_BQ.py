@@ -20,7 +20,7 @@ async def run(playwright: Playwright) -> None:
     baseURL = 'https://sereduc.blackboard.com/'
     # classURL = f'{baseURL}ultra/courses/'
     id_repository = '_247460_1'
-    bq_id = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments/'
+    bq_id = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments?limit=100'
     rootBQ = f'{baseURL}webapps/assessment/do/authoring/'\
     f'viewAssessmentManager?assessmentType=Pool&course_id={id_repository}'
     
