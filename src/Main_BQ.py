@@ -76,6 +76,7 @@ async def run(playwright: Playwright) -> None:
     print(BQ_name)
     await page.goto(bq_id)
     
+    # limit the loop to page count of API of offset
     id_BQ = ''
     while not id_BQ:
         try:
