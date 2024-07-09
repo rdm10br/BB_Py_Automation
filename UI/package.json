@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "my-nextron-app",
+  "name": "bb-auto-py",
   "description": "My application description",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "author": "Yoshihide Shiono <shiono.yoshihide@gmail.com>",
   "main": "app/background.js",
   "scripts": {

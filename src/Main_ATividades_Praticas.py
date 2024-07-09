@@ -47,7 +47,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Educação II']":
@@ -72,7 +72,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Educação III']":
@@ -89,7 +89,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Exatas']":
@@ -110,7 +110,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Negócios e Gestão I']":
@@ -130,7 +130,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Negócios e Gestão II']":
@@ -158,7 +158,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Negócios e Gestão III']":
@@ -178,7 +178,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Saúde I']":
@@ -197,7 +197,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Saúde II']":
@@ -215,7 +215,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Saúde III']":
@@ -235,7 +235,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Serviço Social e Teologia']":
@@ -253,7 +253,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Tecnologia da Informação']":
@@ -281,7 +281,7 @@ async def run(page: Page, index) -> None:
                                                             id_interno=id_interno, curso=curso[i])
                 page.wait_for_load_state('load')
                 i+=1
-            # Função para escrever na primeira planilha
+            
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         else :

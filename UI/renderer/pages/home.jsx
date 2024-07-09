@@ -1,24 +1,24 @@
-import React from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
-import Image from 'next/image'
-// import '../styles/globals.css'
+import React from "react";
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function HomePage() {
-  const [message, setMessage] = React.useState('No message found')
+  const [message, setMessage] = React.useState("No message found");
 
   React.useEffect(() => {
-    window.ipc.on('message', (message) => {
-      setMessage(message)
-    })
-  }, [])
+    window.ipc.on("message", (message) => {
+      setMessage(message);
+    });
+  }, []);
 
   return (
     <React.Fragment>
       <Head>
-        <title>Home - Nextron (basic-lang-javascript)</title>
+        {/* <title>Home - Nextron (basic-lang-javascript)</title> */}
+        <title>BBAutoPy</title>
       </Head>
-      <div>
+      <div className="optional">
         <p>
           ⚡ Electron + Next.js ⚡ - <Link href="/next">Go to next page</Link>
         </p>
@@ -29,10 +29,10 @@ export default function HomePage() {
           height={256}
         />
       </div>
-      <div>
+      <div className="card">
         <button
           onClick={() => {
-            window.ipc.send('message', 'Hello')
+            window.ipc.send("message", "Hello");
           }}
         >
           Test IPC
@@ -40,5 +40,5 @@ export default function HomePage() {
         <p>{message}</p>
       </div>
     </React.Fragment>
-  )
+  );
 }

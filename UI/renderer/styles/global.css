@@ -1,24 +1,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --background: hsl(222.2 84% 4.9%);
+    --foreground: hsl(210 40% 98%);
+    --card: hsl(222.2 84% 4.9%);
+    --card-foreground: hsl(210 40% 98%);
+    --popover: hsl(222.2 84% 4.9%);
+    --popover-foreground: hsl(210 40% 98%);
+    --primary: hsl(217.2 91.2% 59.8%);
+    --primary-foreground: hsl(222.2 47.4% 11.2%);
+    --secondary: hsl(217.2 32.6% 17.5%);
+    --secondary-foreground: hsl(210 40% 98%);
+    --muted: hsl(217.2 32.6% 17.5%);
+    --muted-foreground: hsl(215 20.2% 65.1%);
+    --accent: hsl(217.2 32.6% 17.5%);
+    --accent-foreground: hsl(210 40% 98%);
+    --destructive: hsl(0 62.8% 30.6%);
+    --destructive-foreground: hsl(210 40% 98%);
+    --border: hsl(217.2 32.6% 17.5%);
+    --input: hsl(217.2 32.6% 17.5%);
+    --ring: hsl(224.3 76.3% 48%);
     font-family: 'Poppins', sans-serif;
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+body{
+    /* padding: 1.25vh; */
+    /* padding-left: 20vw; */
+    /* border: 1.25px solid var(--primary); */
+    border-radius: 12px;
+    margin-left: 20vw;
+}
+div{
+    background-color: var(--primary-foreground);
+    /* border: 2px solid var(--primary); */
+    border-radius: 12px;
+    padding: 1.25px;
+    margin: 0.52%;
+}
+div.optional{
+    /* display: none; */
+    background-color: var(--muted);
+    /* border: none; */
+    padding: 2%;
+    bottom: 2%;
+}
+div.optional img{
+    display: none;
+}
+div button{
+    background-color: var(--secondary);
+    color: var(--foreground);
+    border-radius: 12px;
+}
+
+div.card{
+    position: relative;
+    background-color: var(--muted);
+    padding: 2%;
+    /* border: none; */
 }
