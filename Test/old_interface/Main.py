@@ -3,7 +3,7 @@ from PySide6.QtGui import QCursor
 from PySide6.QtCore import QTimer, QThread, Signal
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
 import sys, time, os, json, setproctitle, subprocess, io
-from src.style.Main_UI_ui import Ui_MainWindow
+from style.Main_UI_ui import Ui_MainWindow
 from functools import lru_cache
 
 
