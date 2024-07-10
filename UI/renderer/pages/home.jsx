@@ -16,29 +16,27 @@ export default function HomePage() {
       <Head>
         <title>BBAutoPy</title>
       </Head>
-      <body>
-        <div className="optional">
-          <p>
-            ⚡ Electron + Next.js ⚡ - <Link href="/next">Go to next page</Link>
-          </p>
-          <Image
-            src="/images/logo.png"
-            alt="Logo image"
-            width={256}
-            height={256}
-          />
-        </div>
-        <div className="card">
-          <button
-            onClick={() => {
-              window.ipc.send("message", "Hello");
-            }}
-          >
-            Test IPC
-          </button>
-          <p>{message}</p>
-        </div>
-      </body>
+      <div className="optional">
+        <p>
+          ⚡ Electron + Next.js ⚡ - <Link href="/next">Go to next page</Link>
+        </p>
+        <Image
+          src="/images/logo.png"
+          alt="Logo image"
+          width={256}
+          height={256}
+        />
+      </div>
+      <div className="card">
+        <button
+          onClick={() => {
+            window.ipc.send("message", "Hello");
+          }}
+        >
+          Test IPC
+        </button>
+        <p>{message}</p>
+      </div>
     </React.Fragment>
   );
 }
