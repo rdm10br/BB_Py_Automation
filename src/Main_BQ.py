@@ -24,7 +24,7 @@ async def run(playwright: Playwright) -> None:
     rootBQ = f'{baseURL}webapps/assessment/do/authoring/'\
     f'viewAssessmentManager?assessmentType=Pool&course_id={id_repository}'
     
-    limit = 10
+    limit = 100
     offset = 0
     maxLimit = 2147483647
     
@@ -76,16 +76,22 @@ async def run(playwright: Playwright) -> None:
     print(BQ_name)
     await page.goto(bq_id)
     
-    # limit the loop to page count of API of offset
+    length = await page.evaluate('JSON.parse(document.body.innerText).results.length')
+    count = await page.evaluate('JSON.parse(document.body.innerText).paging.count')
+    counter = count - length
     id_BQ = ''
+    
     while not id_BQ:
         try:
             id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+            print(f'ID found: {id_BQ}')
         except Exception as e:
             print(f'Error fetching id_BQ: {e}')
             try:
-                offset+=limit
-                id_BQ = await loop_BQ_id(offset)
+                if offset <= count:
+                    offset+=length
+                    id_BQ = await loop_BQ_id(offset)
+                    print(f'ID found: {id_BQ}')
             except Exception as e:
                 print(f'Error in loop_BQ_id: {e}')
 
