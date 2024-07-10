@@ -71,3 +71,7 @@ div.card{
     padding: 2%;
     /* border: none; */
 }
+div.message_recieved{
+    background-color: var(--background);
+    padding-left: 2vw;
+}

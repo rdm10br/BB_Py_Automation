@@ -1,10 +1,10 @@
-import React from "react";
 import Head from "next/head";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 export default function HomePage() {
-  const [message, setMessage] = React.useState("No message found");
+  const [message, setMessage] = React.useState("No message found.");
 
   React.useEffect(() => {
     window.ipc.on("message", (message) => {
@@ -20,6 +20,22 @@ export default function HomePage() {
         <p>
           ⚡ Electron + Next.js ⚡ - <Link href="/next">Go to next page</Link>
         </p>
+        <p>
+          The page that the program runs and shows other scripts -{" "}
+          <Link href="/run">Go to Run page</Link>
+        </p>
+        <p>
+          The page to configure all program settings -{" "}
+          <Link href="/settings">Go to Settings page</Link>
+        </p>
+        <p>
+          The page that teaches how to run the scripts -{" "}
+          <Link href="/tutorial">Go to tutorial page</Link>
+        </p>
+        <p>
+          The page that shows the terminal of the script that's running -{" "}
+          <Link href="/terminal">Go to terminal page</Link>
+        </p>
         <Image
           src="/images/logo.png"
           alt="Logo image"
@@ -28,14 +44,21 @@ export default function HomePage() {
         />
       </div>
       <div className="card">
+        <p>
+          The page that the program runs and shows other scripts -{" "}
+          <Link href="/run">Go to Run page</Link>
+        </p>
         <button
           onClick={() => {
-            window.ipc.send("message", "Hello");
+            window.ipc.send("message", "Batata");
           }}
         >
           Test IPC
         </button>
-        <p>{message}</p>
+        <p>Message: </p>
+        <div className="message_recieved">
+          <p>{message}</p>
+        </div>
       </div>
     </React.Fragment>
   );
