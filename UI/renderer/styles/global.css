@@ -1,3 +1,4 @@
+/* easter egg dar um alert quando faltar 7 dias para cair o salario */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
@@ -22,6 +23,7 @@
     --ring: hsl(224.3 76.3% 48%);
 
     font-family: 'Poppins', sans-serif;
+    font-size: 14px;
     background-color: var(--background);
     color: var(--foreground);
 }
@@ -43,7 +45,6 @@ div{
     /* margin-left: 20vw; */
 }
 div.optional{
-    /* display: none; */
     background-color: var(--muted);
     /* border: none; */
     padding: 2%;
@@ -52,11 +53,16 @@ div.optional{
 div.optional img{
     display: none;
 }
-div button{
+a:link{
+    cursor: pointer;
+    color: var(--primary);
+}
+button{
     border: 2px solid var(--primary-foreground);
     background-color: var(--secondary);
     color: var(--foreground);
     border-radius: 12px;
+    cursor: pointer;
 }
 
 div.card{
