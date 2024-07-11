@@ -17,8 +17,11 @@ export default function HomePage() {
         <title>BBAutoPy</title>
       </Head>
       <div className="optional">
-        <p>
+        {/* <p>
           ⚡ Electron + Next.js ⚡ - <Link href="/next">Go to next page</Link>
+        </p> */}
+        <p>
+          The Next page - <Link href="/next">Go to next page</Link>
         </p>
         <p>
           The page that the program runs and shows other scripts -{" "}

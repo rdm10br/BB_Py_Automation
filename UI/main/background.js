@@ -12,7 +12,9 @@ if (isProd) {
 }
 
 ;(async () => {
+  // app.setActivationPolicy(policy='prohibited')
   await app.whenReady()
+  
 
   const mainWindow = createWindow('main', {
     width: 1000,
