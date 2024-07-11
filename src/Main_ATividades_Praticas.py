@@ -24,7 +24,7 @@ async def run(page: Page, index) -> None:
             
         if course_area == "['Educação I']" :
                 
-            await gruposAtividades.inserirArquivoEducI(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ['Formação Pedagógica em Matemática para Graduados',
                         'Formação Pedagógica em Pedagogia para Graduados',
@@ -48,11 +48,11 @@ async def run(page: Page, index) -> None:
                 page.wait_for_load_state('load')
                 i+=1
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Educação II']":
             
-            await gruposAtividades.inserirArquivoEducII(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ["Licenciatura em Educação Especial",
                         "Licenciatura em Educação Física",
@@ -73,11 +73,11 @@ async def run(page: Page, index) -> None:
                 page.wait_for_load_state('load')
                 i+=1
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Educação III']":
             
-            await gruposAtividades.inserirArquivoEducIII(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ["Pedagogia"]
             
@@ -90,11 +90,11 @@ async def run(page: Page, index) -> None:
                 page.wait_for_load_state('load')
                 i+=1
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Exatas']":
             
-            await gruposAtividades.inserirArquivoExat(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ["Engenharia Civil",
                         "Engenharia de Produção",
@@ -111,11 +111,11 @@ async def run(page: Page, index) -> None:
                 page.wait_for_load_state('load')
                 i+=1
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Negócios e Gestão I']":
             
-            await gruposAtividades.inserirArquivoNegI(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ["Administração",
                         "Ciências Contábeis",
@@ -131,11 +131,11 @@ async def run(page: Page, index) -> None:
                 page.wait_for_load_state('load')
                 i+=1
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Negócios e Gestão II']":
             
-            await gruposAtividades.inserirArquivoNegII(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ["Gestão Financeira",
                         "Gestão Ambiental",
@@ -159,11 +159,11 @@ async def run(page: Page, index) -> None:
                 page.wait_for_load_state('load')
                 i+=1
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Negócios e Gestão III']":
             
-            await gruposAtividades.inserirArquivoNegIII(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ["Ciência Política",
                         "Gestão de Serviços Jurídicos e Notariais",
@@ -179,11 +179,11 @@ async def run(page: Page, index) -> None:
                 page.wait_for_load_state('load')
                 i+=1
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Saúde I']":
             
-            await gruposAtividades.inserirArquivoSaudI(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ["Farmácia",
                         "Enfermagem",
@@ -198,11 +198,11 @@ async def run(page: Page, index) -> None:
                 page.wait_for_load_state('load')
                 i+=1
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Saúde II']":
             
-            await gruposAtividades.inserirArquivoSaudII(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ["Estética e Cosmética",
                         "Podologia"]
@@ -216,11 +216,11 @@ async def run(page: Page, index) -> None:
                 page.wait_for_load_state('load')
                 i+=1
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Saúde III']":
             
-            await gruposAtividades.inserirArquivoSaudIII(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ["Bacharelado em Educação Física",
                         "Fisioterapia",
@@ -236,11 +236,11 @@ async def run(page: Page, index) -> None:
                 page.wait_for_load_state('load')
                 i+=1
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Serviço Social e Teologia']":
             
-            await gruposAtividades.inserirArquivoServ(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ["Serviço Social",
                         "Teologia"]
@@ -254,11 +254,11 @@ async def run(page: Page, index) -> None:
                 page.wait_for_load_state('load')
                 i+=1
             
-            await getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
             pass
         elif course_area == "['Tecnologia da Informação']":
             
-            await gruposAtividades.inserirArquivoInfo(page=page, id_interno=id_interno)
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = ["Analise e Desenvolvimento de Sistema",
                         "Ciência De Dados - Data Science",
@@ -272,6 +272,24 @@ async def run(page: Page, index) -> None:
                         "Inteligência Artificial",
                         "Internet das Coisas",
                         "Service Design"]
+            
+            for i in range(len(curso)):
+                await gruposAtividades.inserirGruposAtividadesAV1(page=page,
+                                                            id_interno=id_interno, curso=curso[i])
+                page.wait_for_load_state('load')
+                await gruposAtividades.inserirGruposAtividadesAV2(page=page,
+                                                            id_interno=id_interno, curso=curso[i])
+                page.wait_for_load_state('load')
+                i+=1
+            
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            pass
+        elif course_area == "['Arquitetura e Design']":
+            
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
+            print(course_area)
+            curso = ["Arquitetura E Urbanismo",
+                        "Design de Interiores"]
             
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
