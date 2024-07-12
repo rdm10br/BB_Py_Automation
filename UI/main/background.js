@@ -29,6 +29,7 @@ if (isProd) {
   } else {
     const port = process.argv[2]
     await mainWindow.loadURL(`http://localhost:${port}/home`)
+    // await mainWindow.loadURL('https://sereduc.blackboard.com/ultra/admin')
     // mainWindow.webContents.openDevTools()
   }
 })()
@@ -39,4 +40,13 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('message', async (event, arg) => {
   event.reply('message', `${arg} World!`)
+})
+
+ipcMain.on('title', async (event, arg) => {
+  event.reply('title', `BBAutoPy - ${arg}`)
+  console.log(`BBAutoPy - ${arg}`)
+  // event.sender()
+  // event.returnValue()
+  // event.processId()
+  // event.frameId()
 })

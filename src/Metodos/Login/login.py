@@ -16,7 +16,7 @@ async def login(page: Page) -> None:
         ultraURL = f'{baseURL}ultra/course'
         
         
-        if await page.locator('#agree_button').is_visible() :
+        if await page.locator('#agree_button').is_visible():
                 await page.get_by_role("button", name="OK").click()
         else :
                 pass
@@ -24,7 +24,7 @@ async def login(page: Page) -> None:
         
         CACHE_FILE = r'src\Metodos\Login\__pycache__\login.json'
         if os.path.exists(CACHE_FILE):
-                print('Credentials caught with cache.')
+                print('Credentials caught with cached login on login.json.')
                 with open(CACHE_FILE, 'r') as f:
                         cache_data = json.load(f)
                         username = cache_data['username']

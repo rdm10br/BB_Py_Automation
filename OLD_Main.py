@@ -121,38 +121,38 @@ class MainWindow(QMainWindow):
         
         button_module5 = QPushButton("DoubleCheck Master")
         button_module5.clicked.connect(lambda: self.run_module(r"src\Main_doublecheck_Master.py"))
-        layout.addWidget(button_module5, 6, 0)
+        layout.addWidget(button_module5, 7, 0)
         
         button_module6 = QPushButton("DoubleCheck Mescla DIG")
         button_module6.clicked.connect(lambda: self.run_module(r"src\Main_doubleCheck_Mescla_DIG.py"))
-        layout.addWidget(button_module6, 6, 1)
+        layout.addWidget(button_module6, 7, 1)
         
         button_module6 = QPushButton("DoubleCheck Mescla VET")
         button_module6.clicked.connect(lambda: self.run_module(r"src\Main_doublecheck_Mescla_VET.py"))
-        layout.addWidget(button_module6, 11, 0, 1, 2)
+        layout.addWidget(button_module6, 8, 0, 1, 2)
         
         button_module7 = QPushButton("Atividades Praticas")
         button_module7.clicked.connect(lambda: self.run_module(r"src\Main_ATividades_Praticas.py"))
-        layout.addWidget(button_module7, 7, 0)
+        layout.addWidget(button_module7, 6, 0)
         
         button_module8 = QPushButton("Ajuste de Datas")
         button_module8.clicked.connect(lambda: self.run_module(r"src\Main_ajusteData.py"))
-        layout.addWidget(button_module8, 7, 1)
+        layout.addWidget(button_module8, 6, 1)
         
         button_exit = QPushButton("Save credentials")
         button_exit.clicked.connect(lambda: self.run_module(r'src\Metodos\Login\getCredentials.py'))
         button_exit.setObjectName('save_button')
-        layout.addWidget(button_exit, 8, 0, 1, 2)
+        layout.addWidget(button_exit, 9, 0, 1, 2)
         
         button_exit = QPushButton("Delete credentials")
         button_exit.clicked.connect(self.delete_cache)
         button_exit.setObjectName('delete_button')
-        layout.addWidget(button_exit, 9, 0, 1, 2)
+        layout.addWidget(button_exit, 10, 0, 1, 2)
         
         button_module9 = QPushButton("Check")
         button_module9.clicked.connect(lambda: self.run_module(r"src\Main_Test.py"))
         button_module9.setObjectName('ButtonTest')
-        layout.addWidget(button_module9, 10, 0, 1, 2)
+        layout.addWidget(button_module9, 11, 0, 1, 2)
 
         
         QTimer.singleShot(0, self.center_window)

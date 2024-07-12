@@ -5,16 +5,28 @@ import React from "react";
 
 export default function HomePage() {
   const [message, setMessage] = React.useState("No message found.");
-
-  React.useEffect(() => {
-    window.ipc.on("message", (message) => {
-      setMessage(message);
-    });
-  }, []);
+  try{
+    React.useEffect(() => {
+      window.ipc.on("message", (message) => {
+        setMessage(message);
+      });
+    }, []);
+  } catch{
+    React.useEffect(() => {
+      window.ipc.on("title", (message) => {
+        setMessage(message);
+      });
+    }, []);
+  }
   return (
     <React.Fragment>
       <Head>
-        <title>BBAutoPy</title>
+        {/* <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"/> */}
+        <title
+        onLoad={() => {
+          window.ipc.send("title", title);
+        }}
+        >Home</title>
       </Head>
       <div className="optional">
         {/* <p>

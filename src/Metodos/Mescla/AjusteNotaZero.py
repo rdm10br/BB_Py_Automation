@@ -20,10 +20,15 @@ async def AjusteNotaZero(page: Page, id_interno: str) -> None:
     print('Opening config...')
     await page.get_by_label("Configurações", exact=True).click()
     print('Opening "Nota Zero"...')
-    await page.get_by_text("Atribui nota zero").click()
-    print('Removing...')
-    await page.get_by_text("Remover notas zero atribuídas").click()
-    print('Saving...')
-    await page.get_by_role("button", name="Confirmar").click()
-    await page.locator("#main-content > div:nth-child(4)").click()
-    await page.goto(ContentURL)
+    if await page.get_by_text("Atribui nota zero").is_checked():
+        print('Atribui nota zero is checked...')
+        await page.get_by_text("Atribui nota zero").click()
+        print('Removing...')
+        await page.get_by_text("Remover notas zero atribuídas").click()
+        print('Saving...')
+        await page.get_by_role("button", name="Confirmar").click()
+        await page.locator("#main-content > div:nth-child(4)").click()
+        await page.goto(ContentURL)
+    else:
+        print('Nota zero já desmarcada')
+        pass
