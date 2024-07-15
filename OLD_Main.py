@@ -63,7 +63,7 @@ class MainWindow(QMainWindow):
         self.load_stylesheet(r"src\style\style.qss")
         self.setWindowTitle("Project Main Interface")
         self.setMinimumSize(900, 500)
-        self.setWindowIcon(QIcon(r'src\icon\automation0.png'))
+        self.setWindowIcon(QIcon(r'src\style\icon\automation0.png'))
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
 
         font_id = QFontDatabase.addApplicationFont(r"src\font\Poppins\Poppins-Regular.ttf")
@@ -84,7 +84,7 @@ class MainWindow(QMainWindow):
 
         self.loading_label = QLabel()
         self.loading_label.setFixedSize(60, 60)
-        self.loading_movie = QMovie(r'src\icon\work-in-progress.gif')
+        self.loading_movie = QMovie(r'src\style\icon\work-in-progress.gif')
         self.loading_movie.setScaledSize(QSize(60, 60))
         self.loading_label.setMovie(self.loading_movie)
         self.loading_label.setObjectName('load')
@@ -101,21 +101,15 @@ class MainWindow(QMainWindow):
         label.setObjectName('textChoice')
         layout.addWidget(label, 3, 0, 1, 2)
         
-        
-        button_module1 = QPushButton("DoubleCheck Configurações de Itens")
-        button_module1.clicked.connect(lambda: self.run_module(r"src\Main_config_doublecheck.py"))
-        layout.addWidget(button_module1, 4, 0)
-
         button_module2 = QPushButton("Criação de BQ")
         button_module2.clicked.connect(lambda: self.run_module(r"src\Main_BQ.py"))
-        layout.addWidget(button_module2, 4, 1)
+        layout.addWidget(button_module2, 4, 0, 1, 2)
         
         button_module3 = QPushButton("Copia de Material")
         button_module3.clicked.connect(lambda: self.run_module(r"src\Main_copy_material.py"))
         layout.addWidget(button_module3, 5, 0)
         
         button_module4 = QPushButton("Copia de Sala")
-        button_module1.setObjectName('button_2')
         button_module4.clicked.connect(lambda: self.run_module(r"src\Main_copy_sala.py"))
         layout.addWidget(button_module4, 5, 1)
         
@@ -127,9 +121,14 @@ class MainWindow(QMainWindow):
         button_module6.clicked.connect(lambda: self.run_module(r"src\Main_doubleCheck_Mescla_DIG.py"))
         layout.addWidget(button_module6, 7, 1)
         
+        button_module1 = QPushButton("DoubleCheck Configurações de Itens")
+        button_module1.setObjectName('button_2')
+        button_module1.clicked.connect(lambda: self.run_module(r"src\Main_config_doublecheck.py"))
+        layout.addWidget(button_module1, 8, 0)
+        
         button_module6 = QPushButton("DoubleCheck Mescla VET")
         button_module6.clicked.connect(lambda: self.run_module(r"src\Main_doublecheck_Mescla_VET.py"))
-        layout.addWidget(button_module6, 8, 0, 1, 2)
+        layout.addWidget(button_module6, 8, 1, 1, 1)
         
         button_module7 = QPushButton("Atividades Praticas")
         button_module7.clicked.connect(lambda: self.run_module(r"src\Main_ATividades_Praticas.py"))
