@@ -2,7 +2,8 @@ from playwright.async_api import Playwright, async_playwright, expect, Page
 from Metodos.API import getApiContent
 from unidecode import unidecode
 import regex as re
-# teste para unificar os metodos de inserir arquivos
+
+
 async def inserirArquivo(page: Page, id_interno: str, Area: str) -> None:
     """
     Function that uploads the groups file according to the ```Area```.
@@ -71,8 +72,9 @@ async def inserirGruposAtividadesAV1(page: Page, id_interno, curso):
     await page.locator("#course-groups-combobox").click()
     cursos = unidecode(curso)
     print(f'Associating group: {cursos} to {item}')
-    await page.locator("#course-groups-combobox-search-box").fill(value=cursos)
-    await page.locator("#course-groups-combobox-menu > li > ul", has_text=cursos).click()
+    await page.locator("#course-groups-combobox-search-box").fill(value=curso)
+    await page.wait_for_timeout(1500)
+    await page.locator("#course-groups-combobox-menu > li > ul", has_text=curso).click()
     await page.wait_for_timeout(1500)
     print('Clicking out...')
     await page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()
@@ -105,8 +107,9 @@ async def inserirGruposAtividadesAV2(page: Page, id_interno, curso):
     await page.locator("#course-groups-combobox").click()
     cursos = unidecode(curso)
     print(f'Associating group: {cursos} to {item}')
-    await page.locator("#course-groups-combobox-search-box").fill(value=cursos)
-    await page.locator("#course-groups-combobox-menu > li > ul", has_text=cursos).click()
+    await page.locator("#course-groups-combobox-search-box").fill(value=curso)
+    await page.wait_for_timeout(1500)
+    await page.locator("#course-groups-combobox-menu > li > ul", has_text=curso).click()
     await page.wait_for_timeout(1500)
     print('Clicking out...')
     await page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()

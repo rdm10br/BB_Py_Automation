@@ -5,6 +5,7 @@ from playwright.async_api import async_playwright
 
 from Metodos import getPlanilha, checkup_login
 from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_async
+from Decorators.Inscryption import Auto_Sub, Auto_Unsub
 
 # class Worker_startup (QObject):
 #     worker_signal = Signal(str)
@@ -31,7 +32,7 @@ def playwright_StartUp(func):
             print('\nExecution Start')
             
             browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'], timeout=60*1000)
-            context = await browser.new_context(no_viewport=True)
+            context = await browser.new_context(no_viewport=True, color_scheme='dark')
             page = await context.new_page()
             
             start_time0 = time.time()
@@ -61,7 +62,9 @@ def playwright_StartUp(func):
                     await new_context.add_cookies(cookies)
                     new_page = await new_context.new_page()
                     
+                    await Auto_Sub(page=new_page, index=index)
                     await func(new_page, index, *args, **kwargs)
+                    await Auto_Unsub(page=new_page, index=index)
                     
                     await new_page.close()
                     await new_context.close()

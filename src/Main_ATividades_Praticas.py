@@ -2,7 +2,7 @@ import asyncio
 from playwright.async_api import Page, expect
 
 
-from Metodos import getPlanilha, getFromAPI, gruposAtividades
+from Metodos import getPlanilha, getFromAPI, gruposAtividades, AjusteNotaZero
 from Decorators.Main_StartUp import playwright_StartUp
 
 
@@ -19,6 +19,8 @@ async def run(page: Page, index) -> None:
         print(id_externo)
         
         await page.goto(classUrlUltra)
+        
+        await AjusteNotaZero.AjusteNotaZero(page=page, id_interno=id_interno)
         
         course_area = str(await getFromAPI.API_Ativ_Course(page=page, id_externo=id_externo))
             
