@@ -23,24 +23,20 @@ async def run(page: Page, index) -> None:
         await AjusteNotaZero.AjusteNotaZero(page=page, id_interno=id_interno)
         
         course_area = str(await getFromAPI.API_Ativ_Course(page=page, id_externo=id_externo))
-            
+        
         if course_area == "['Educação I']" :
                 
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = [   'Formação Pedagógica em Matemática para Graduados',
+            curso = [   'Formação de Docente para Educação Básica - Pedagogia',
+                        'Formação Pedagógica em Matemática para Graduados',
                         'Formação Pedagógica em Pedagogia para Graduados',
-                        'Formação de Docente para a Educação Básica - Geografia',
-                        'Formação de Docente para a Educação Básica - História',
-                        'Formação de Docente para a Educação Básica - Letras',
                         'Segunda Licenciatura em Geografia',
                         'Segunda Licenciatura em História',
-                        'Segunda Licenciatura em Letras - Espanhol',
-                        'Segunda Licenciatura em Letras - Inglês',
                         'Segunda Licenciatura em Letras - Português',
                         'Segunda Licenciatura em Matemática',
                         'Segunda Licenciatura em Pedagogia']
-            
+                                    
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
@@ -56,15 +52,16 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = [   "Licenciatura em Educação Especial",
-                        "Licenciatura em Educação Física",
+            curso = [   "Ciências Biológicas",
                         "Geografia",
                         "História",
-                        "Ciências Biológicas",
-                        "Matemática",
                         "Letras - Espanhol",
                         "Letras - Inglês",
-                        "Letras - Português"]
+                        "Letras - Português",
+                        "Letras - Português e Espanhol",
+                        "Licenciatura em Educação Especial",
+                        "Licenciatura em Educação Física",
+                        "Matemática"]
             
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
@@ -81,7 +78,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Pedagogia"]
+            curso = [   "Pedagogia"]
             
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
@@ -98,11 +95,11 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = [   "Engenharia Civil",
+            curso = [   "Ciências Aeronáuticas",
+                        "Engenharia Civil",
                         "Engenharia de Produção",
                         "Engenharia Elétrica",
-                        "Engenharia Mecânica",
-                        "Ciências Aeronáuticas"]
+                        "Engenharia Mecânica"]
             
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
@@ -139,17 +136,11 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = [   "Gestão Financeira",
+            curso = [   "Gastronomia",
                         "Gestão Ambiental",
-                        "Gastronomia",
                         "Gestão da Qualidade",
-                        "Gestão Comercial com Complementação de Estudos em Gestão de E-Commerce",
-                        "E-Commerce",
                         "Gestão de Recursos Humanos",
-                        "Logística",
-                        "Gestão de Trânsito",
-                        "Gestão Comercial",
-                        "Processos Gerenciais",
+                        "Gestão Financeira",
                         "Negócios Imobiliários"]
             
             for i in range(len(curso)):
@@ -167,10 +158,11 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = [   "Ciência Política",
-                        "Gestão de Serviços Jurídicos e Notariais",
-                        "Gestão Pública",
-                        "Segurança Pública"]
+            curso = [   "E-Commerce",
+                        "Gestão Comercial",
+                        "Gestão de Trânsito",
+                        "Logística",
+                        "Processos Gerenciais"]
             
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
@@ -187,9 +179,9 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = [   "Farmácia",
+            curso = [   "Biomedicina",
                         "Enfermagem",
-                        "Biomedicina"]
+                        "Farmácia"]
             
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
@@ -226,8 +218,8 @@ async def run(page: Page, index) -> None:
             print(course_area)
             curso = [   "Bacharelado em Educação Física",
                         "Fisioterapia",
-                        "Terapia Ocupacional",
-                        "Nutrição"]
+                        "Nutrição",
+                        "Terapia Ocupacional"]
             
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
@@ -263,17 +255,17 @@ async def run(page: Page, index) -> None:
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
             curso = [   "Analise e Desenvolvimento de Sistema",
-                        "Ciência De Dados - Data Science",
+                        "Ciência De Dados/Data Science",
                         "Coding",
                         "Computação Em Nuvem",
                         "Digital Security",
                         "Empreendedorismo Digital",
                         "Experiência do Usuário e Modelagem de Projetos Inovadores",
                         "Game Design",
-                        "Tecnologia da Informação",
                         "Inteligência Artificial",
                         "Internet das Coisas",
-                        "Service Design"]
+                        "Service Design",
+                        "Tecnologia da Informação"]
             
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
@@ -290,8 +282,51 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = [   "Arquitetura E Urbanismo",
+            curso = [   "Arquitetura e Urbanismo",
                         "Design de Interiores"]
+            
+            for i in range(len(curso)):
+                await gruposAtividades.inserirGruposAtividadesAV1(page=page,
+                                                            id_interno=id_interno, curso=curso[i])
+                page.wait_for_load_state('load')
+                await gruposAtividades.inserirGruposAtividadesAV2(page=page,
+                                                            id_interno=id_interno, curso=curso[i])
+                page.wait_for_load_state('load')
+                i+=1
+            
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            pass
+        elif course_area == "['Comunicação']":
+            
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
+            print(course_area)
+            curso = [   "Coaching Digital",
+                        "Coaching e Mentoring",
+                        "Filmmaker",
+                        "Marketing",
+                        "Streaming Profissional"]
+            
+            for i in range(len(curso)):
+                await gruposAtividades.inserirGruposAtividadesAV1(page=page,
+                                                            id_interno=id_interno, curso=curso[i])
+                page.wait_for_load_state('load')
+                await gruposAtividades.inserirGruposAtividadesAV2(page=page,
+                                                            id_interno=id_interno, curso=curso[i])
+                page.wait_for_load_state('load')
+                i+=1
+            
+            getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+            pass
+        elif course_area == "['Negócios e Gestão IV']":
+            
+            await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
+            print(course_area)
+            curso = [   "Ciência Política",
+                        "Gestão da Qualidade",
+                        "Gestão de Serviços Jurídicos, Cartorários e Notariais",
+                        "Gestão de Serviços Jurídicos e Notariais",
+                        "Gestão Pública",
+                        "Segurança Pública"]
             
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
