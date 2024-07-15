@@ -68,7 +68,7 @@ export default function HomePage() {
             window.ipc.send("message", "Batata");
           }}
         >
-          Test IPC
+          Test IPC Button
         </button>
         <p>Message: </p>
         <div className="message_recieved">

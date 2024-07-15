@@ -20,6 +20,8 @@ async def AjusteNotaZero(page: Page, id_interno: str) -> None:
     print('Opening config...')
     await page.get_by_label("Configurações", exact=True).click()
     print('Opening "Nota Zero"...')
+    
+    # verificar bug notazero não verificando se está marcado ou não
     if await page.get_by_text("Atribui nota zero").is_checked():
         print('Atribui nota zero is checked...')
         await page.get_by_text("Atribui nota zero").click()

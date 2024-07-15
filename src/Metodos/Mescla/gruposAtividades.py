@@ -19,7 +19,7 @@ async def inserirArquivo(page: Page, id_interno: str, Area: str) -> None:
         f"{id_interno}&toggleType=all&fromPage=groups"
     Area = re.sub(r"\[\'", '', Area)
     Area = re.sub(r"\'\]", '', Area)
-    file_path = f'BB_Py_Automation\\Planilhas\\Grupo - {Area}.csv'
+    file_path = fr'Planilhas\Grupo - {Area}.csv'
 
         
     print(f'Uploading group: {file_path}')
