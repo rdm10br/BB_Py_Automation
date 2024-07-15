@@ -28,7 +28,7 @@ async def run(page: Page, index) -> None:
                 
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ['Formação Pedagógica em Matemática para Graduados',
+            curso = [   'Formação Pedagógica em Matemática para Graduados',
                         'Formação Pedagógica em Pedagogia para Graduados',
                         'Formação de Docente para a Educação Básica - Geografia',
                         'Formação de Docente para a Educação Básica - História',
@@ -56,7 +56,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Licenciatura em Educação Especial",
+            curso = [   "Licenciatura em Educação Especial",
                         "Licenciatura em Educação Física",
                         "Geografia",
                         "História",
@@ -98,7 +98,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Engenharia Civil",
+            curso = [   "Engenharia Civil",
                         "Engenharia de Produção",
                         "Engenharia Elétrica",
                         "Engenharia Mecânica",
@@ -119,7 +119,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Administração",
+            curso = [   "Administração",
                         "Ciências Contábeis",
                         "Ciências Econômicas",
                         "Gestão Hospitalar"]
@@ -139,7 +139,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Gestão Financeira",
+            curso = [   "Gestão Financeira",
                         "Gestão Ambiental",
                         "Gastronomia",
                         "Gestão da Qualidade",
@@ -167,7 +167,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Ciência Política",
+            curso = [   "Ciência Política",
                         "Gestão de Serviços Jurídicos e Notariais",
                         "Gestão Pública",
                         "Segurança Pública"]
@@ -187,7 +187,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Farmácia",
+            curso = [   "Farmácia",
                         "Enfermagem",
                         "Biomedicina"]
             
@@ -206,7 +206,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Estética e Cosmética",
+            curso = [   "Estética e Cosmética",
                         "Podologia"]
             
             for i in range(len(curso)):
@@ -224,7 +224,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Bacharelado em Educação Física",
+            curso = [   "Bacharelado em Educação Física",
                         "Fisioterapia",
                         "Terapia Ocupacional",
                         "Nutrição"]
@@ -244,7 +244,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Serviço Social",
+            curso = [   "Serviço Social",
                         "Teologia"]
                 
             for i in range(len(curso)):
@@ -262,7 +262,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Analise e Desenvolvimento de Sistema",
+            curso = [   "Analise e Desenvolvimento de Sistema",
                         "Ciência De Dados - Data Science",
                         "Coding",
                         "Computação Em Nuvem",
@@ -290,7 +290,7 @@ async def run(page: Page, index) -> None:
             
             await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
             print(course_area)
-            curso = ["Arquitetura E Urbanismo",
+            curso = [   "Arquitetura E Urbanismo",
                         "Design de Interiores"]
             
             for i in range(len(curso)):

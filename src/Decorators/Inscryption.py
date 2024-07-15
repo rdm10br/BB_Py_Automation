@@ -45,19 +45,6 @@ async def Auto_Unsub(page: Page, index: int):
     
     await page.goto(url=classUrlUltra, wait_until='commit')
     await page.wait_for_load_state('load')
-    
-    # await page.locator('#quickEnrollLink', has_text='Cancelamento Rápido de Matrícula').click()
-    # await page.wait_for_load_state('load')
-    
-    # await page.get_by_role("link", name="xCancelamento Rápido de Matrí").click()
-    # page.once("dialog", lambda dialog: dialog.dismiss())
-    # await page.wait_for_load_state('load')
-    
-    # await page.get_by_label(f"Selecionar {user}").check()
-    # await page.locator("#listContainer_nav_batch_top").get_by_role("button", name="Remover usuários do curso").click()
-    # page.once("dialog", lambda dialog: dialog.dismiss())
-    # await page.wait_for_load_state('load')
-    
     await page.locator('#course-outline-roster-link').click()
     await page.locator('#search-button').click()
     await page.locator('#search-roster-field').fill(user)
