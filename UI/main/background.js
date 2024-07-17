@@ -40,13 +40,19 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('message', async (event, arg) => {
   event.reply('message', `${arg} World!`)
+  console.log(`${arg} World!`)
 })
 
-ipcMain.on('title', async (event, arg) => {
-  event.reply('title', `BBAutoPy - ${arg}`)
-  console.log(`BBAutoPy - ${arg}`)
-  // event.sender()
-  // event.returnValue()
-  // event.processId()
-  // event.frameId()
-})
+// ipcMain.on('title', async (event, arg) => {
+//   event.reply('title', `BBAutoPy - ${arg}`)
+//   console.log(`BBAutoPy - ${arg}`)
+//   // event.sender()
+//   // event.returnValue()
+//   // event.processId()
+//   // event.frameId()
+// })
+
+ipcMain.on('set-title', (event, title) => {
+  console.log(`BBAutoPy - ${title}`)
+  mainWindow.webContents.executeJavaScript(`document.title = "BBAutoPy - ${title}"`);
+});

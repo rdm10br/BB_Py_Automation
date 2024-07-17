@@ -5,26 +5,24 @@ import React from "react";
 
 export default function HomePage() {
   const [message, setMessage] = React.useState("No message found.");
-  try{
     React.useEffect(() => {
       window.ipc.on("message", (message) => {
         setMessage(message);
       });
     }, []);
-  } catch{
-    React.useEffect(() => {
-      window.ipc.on("title", (message) => {
-        setMessage(message);
-      });
-    }, []);
-  }
+  
+  // const [title, setTitle] = React.useState('');
+
+    const changeTitle = (title = new String()) => {
+      window.api.setTitle(title);
+    };
   return (
     <React.Fragment>
       <Head>
         {/* <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"/> */}
         <title
         onLoad={() => {
-          window.ipc.send("title", title);
+          changeTitle(document.title);
         }}
         >Home</title>
       </Head>

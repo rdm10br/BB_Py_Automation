@@ -15,3 +15,7 @@ const handler = {
 }
 
 contextBridge.exposeInMainWorld('ipc', handler)
+
+contextBridge.exposeInMainWorld('api', {
+  setTitle: (title) => ipcRenderer.send('set-title', title),
+});
