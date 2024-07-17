@@ -1,0 +1,111 @@
+/* style.qss */
+QMainWindow{
+    background: qlineargradient(
+        x1:0 y1:1,
+        x2:0 y2:0,
+        stop:0 rgba(30, 41, 59, 1),
+        stop:1 rgba(15, 23, 42, 1)
+    );
+    font-family: 'Poppins';
+}
+QLabel{
+    color: rgb(241, 245, 249);
+}
+QPushButton {
+    background-color: #393D5C;
+    font-family: 'Poppins';
+    color: rgb(241, 245, 249);
+    border: 1px solid #1E293B;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 14px;
+}
+QMessageBox{
+    background-color: #393D5C;
+    font-family: 'Poppins';
+    color: rgb(241, 245, 249);
+}
+QProgressBar{
+    border: 2px solid #99abeb;
+    background-color: #5e73c0;
+    border-radius: 12px;
+    text-align: center;
+    color: rgb(241, 245, 249);
+}
+
+QProgressBar::chunk{
+    background-color: #3C519E;
+    border-radius: 12px;
+    margin: 1px;
+}
+QWidget#title_bar {
+    background-color: #1C1F2A;
+    color: white;
+    padding: 10px;
+}
+QLabel#textChoice{
+    qproperty-alignment: 'AlignCenter | AlignBottom';
+}
+QLabel#load{
+    qproperty-alignment: 'AlignCenter | AlignBottom';
+}
+
+
+QPushButton:hover {
+    background-color: #4B4F70;
+}
+
+QPushButton:pressed {
+    background-color: #2E3147;
+}
+
+QPushButton#delete_button {
+    background-color: #D52E34;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+QPushButton#delete_button:hover {
+    background-color: #f54d53;
+}
+
+QPushButton#delete_button:pressed {
+    background-color: #AA4145;
+}
+
+QPushButton#ButtonTest {
+    background-color: #3C519E;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QPushButton#ButtonTest:hover {
+    background-color: #5D6B9E;
+}
+
+QPushButton#ButtonTest:pressed {
+    /* background-color: #6A78A9; */
+    background-color: #273568;
+}
+
+QPushButton#save_button {
+    background-color: #3C519E;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+QPushButton#save_button:hover {
+    background-color: #5D6B9E;
+}
+
+QPushButton#save_button:pressed {
+    background-color: #273568;
+}
+
+QPushButton#button_2 {
+    image: url(src/icon/automation.png);
+    image-position: left;
+}
