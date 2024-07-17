@@ -19,6 +19,7 @@ async def AjusteNotaZero(page: Page, id_interno: str) -> None:
     await page.goto(GradeURL)
     print('Opening config...')
     await page.get_by_label("Configurações", exact=True).click()
+    await page.wait_for_load_state('load')
     print('Opening "Nota Zero"...')
     
     # verificar bug notazero não verificando se está marcado ou não
@@ -32,5 +33,5 @@ async def AjusteNotaZero(page: Page, id_interno: str) -> None:
         await page.locator("#main-content > div:nth-child(4)").click()
         await page.goto(ContentURL)
     else:
-        print('Nota zero já desmarcada')
+        print('Nota zero already unchecked!')
         pass

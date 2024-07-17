@@ -22,7 +22,7 @@ async def run(page: Page, index) -> None:
         await page.goto(classUrlUltra)
         
         await AjusteSofiaV2.ajusteSofia(page=page, id_interno=id_interno)
-        # await AjusteAvaliacaoV2.ajusteAvaliacao(page=page, id_interno=id_interno)
+        await AjusteAvaliacaoV2.ajusteAvaliacao(page=page, id_interno=id_interno)
         await AjusteSermelhor.ajusteSerMelhor(page=page, id_interno=id_interno)
         
         getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
