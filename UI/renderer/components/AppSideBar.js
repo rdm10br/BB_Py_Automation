@@ -8,16 +8,19 @@ const AppSideBar = () => {
     <div className={styles.sideMenu}>
       <ul>
         <li>
+          <Link href="/home">
           <img src="/styles/icon/home.png"/>
-          <Link href="/home">Home</Link>
+          Home</Link>
         </li>
         <li>
+          <Link href="/next">
           <img src="/styles/icon/home.png"/>
-          <Link href="/next">Next</Link>
+          Next</Link>
         </li>
         <li>
+          <Link href="/run">
           <img src="/styles/icon/home.png"/>
-          <Link href="/run">Run</Link>
+          Run</Link>
         </li>
       </ul>
     </div>
