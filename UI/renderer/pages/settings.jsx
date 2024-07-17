@@ -10,7 +10,7 @@ export default function NextPage() {
       </Head>
       <div>
         <p>
-          Here will be the Settings <Link href="/home">Go to home page</Link>
+          Here will be the Settings - <Link href="/home">Go to home page</Link>
         </p>
       </div>
     </React.Fragment>
