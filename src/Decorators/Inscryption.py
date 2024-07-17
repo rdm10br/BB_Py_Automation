@@ -48,7 +48,11 @@ async def Auto_Unsub(page: Page, index: int):
     await page.locator('#course-outline-roster-link').click()
     await page.locator('#search-button').click()
     await page.locator('#search-roster-field').fill(user)
+    await page.press('body', 'Enter')
     await page.press('#search-roster-field', 'Enter')
+    await page.wait_for_load_state('load')
+    await page.wait_for_load_state('domcontentloaded')
+    await page.wait_for_load_state('networkidle')
     try:
         await page.locator('#rosterView-list > ul > li > div > div.medium-5.columns > div > div').click()
         await page.wait_for_load_state('load')
@@ -58,7 +62,7 @@ async def Auto_Unsub(page: Page, index: int):
         await page.wait_for_load_state('domcontentloaded')
         await page.wait_for_load_state('networkidle')
         await page.wait_for_timeout(1500)
-    except:
+    except Exception as e:
         await page.locator('#rosterView-grid > ul > li > div > a > bb-username > bb-ui-username > div > div').click()
         await page.wait_for_load_state('load')
         await page.locator('#roster-settings > ng-form > div.nested-panel > div > div > div.element-card.account > button').click()
