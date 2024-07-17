@@ -30,47 +30,22 @@ unidecode
 
 Needs Python 3.12
 
-To install all the dependencies use this command on the console
+To install all the dependencies use this command on the console :
+---
 
-on powershell
+<li> on powershell : </li>
+
 ```
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
-then on console:
+
+<li> then on console : </li>
 
 ```
 .\setup.bat
 ```
 
-first update your pip:
-```
-pip install --upgrade pip
-```
-
-then:
-```
-pip install -r dependencies.txt
-```
-or if this file could not be found
-
-```
-pip install -r BB_PY_Automation\dependencies.txt
-```
-and to fully install spacy, install those models
-```
-python -m spacy download en_core_web_sm
-```
-&
-```
-python -m spacy download pt_core_news_sm
-```
-
-to fully install playwright use this command
-
-```
-python -m playwright install
-```
-To create new Methods use the command on console
+<li> To create new Methods use the command on console : </li>
 
 ```
 python -m playwright codegen
@@ -107,36 +82,22 @@ unidecode
 
 Requer Python 3.12
 
-Para instalar todas as dependências, utilize este comando no console:
+Para instalar todas as dependências, utilize este comando no console :
+---
 
-primeiro atualize o seu pip:
-```
-pip install --upgrade pip
-```
-
-então:
-```
-pip install -r dependencies.txt
-```
-ou se o arquivo não foi encontrado
-```
-pip install -r BB_PY_Automation\dependencies.txt
-```
-e para instalar completamente o spacy, instale esses modelos:
-```
-python -m spacy download en_core_web_sm
-```
-&
-```
-python -m spacy download pt_core_news_sm
-```
-
-para instalar completamente o playwright use esse comando
+<li> no powershell :
 
 ```
-python -m playwright install
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
-Para criar novos métodos, utilize o seguinte comando no console:
+
+<li> então no console :
+
+```
+.\setup.bat
+```
+
+<li> Para criar novos métodos, utilize o seguinte comando no console :
 
 ```
 python -m playwright codegen
