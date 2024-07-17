@@ -1,0 +1,57 @@
+Torne o script executável:
+chmod +x scripts/post_install.sh
+pip freeze > requirements.txt
+enable scripts ExecutionPolicy on powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+install graphviz package from site
+https://graphviz.org/download/
+pip install code2flow
+pip install graphviz
+code2flow src/ -o flowchart.dot
+dot -Tpng flowchar.dot -o flowchart.png
+
+# regex_Enunciado = r'(?<=Questão\s\d\n\n)?.*(?=\n+\s+[a][)])'
+
+# regex_Alternativa_A = r'(?<=[a][)]\s|\s[a][)]\s|[a][.]\s).*'\
+# r'(?=[b][)]|\s+[b][)]|[b][.]\s+|\s+[b][.]\s+)'
+
+# regex_Alternativa_B = r'(?<=[b][)]\s|\s[b][)]\s|[b][.]\s).*'\
+# r'(?=[c][)]|\s+[c][)]|[c][.]\s+|\s+[c][.]\s+)'
+
+# regex_Alternativa_C = r'(?<=[c][)]\s|\s[c][)]\s|[c][.]\s).*'\
+# r'(?=[d][)]|\s+[d][)]|[d][.]\s+|\s+[d][.]\s+)'
+
+# regex_Alternativa_D = r'(?<=[d][)]\s|\s[d][)]\s|[d][.]\s).*'\
+# r'(?=[e][)]|\s+[e][)]|[e][.]\s+|\s+[e][.]\s+)'
+
+# regex_Alternativa_E = r'(?<=[e][)]\s|[e][.]\s|[e][.]).*'\
+# r'(?=\s+\d[.]|[.]|\z)'
+
+# regex_alternativas = r"(?ms)(?<=[[][']).*(?=['][]])"
+
+#(?<=Questão\s\d\n)(?ms).*(?=\s+[a][)])
+#(?<=Questão\s\d\n).*(?=\s+[a][)])
+#(?<=Questão\s\d\n\n)(?ms).*(?=\n+\s+[a][)])
+#(?<=Questão\s\d\n\n)?.*(?=\n+\s+[a][)])
+
+#(?<=\d[.]\s).*(?=\s+[a][)])
+#(?ms)(?<=\d[.]\s).*(?=^\s[a][)]\s|^\s[a][.]\s)
+
+# def extract_text_between_markers_alternativas(text: str, start_marker: str, end_marker: str):
+#     """
+#     Function to extract text between two markers using regular expressions.
+#     """
+#     # pattern = re.compile(rf'{re.escape(start_marker)}(.*?)\s*{re.escape(end_marker)}', re.DOTALL)
+#     pattern = re.compile(rf'{re.escape(start_marker)}(.*?)(?=^\s*{re.escape(end_marker)})', re.DOTALL | re.MULTILINE)
+#     match = re.search(pattern, text)
+#     if match:
+#         return match.group(1).strip()
+#     else:
+#         return ""
+#     # pattern = re.compile(rf'^(.*{re.escape(start_marker)}.*?)(.*?)(?=^\s*{re.escape(end_marker)})', re.DOTALL | re.MULTILINE)
+#     # match = re.search(pattern, text)
+#     # if match:
+#     #     return (match.group(1) + match.group(2)).strip()
+#     # else:
+#     #     return ""

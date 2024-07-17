@@ -1,0 +1,12 @@
+aiofiles
+openpyxl
+pandas
+playwright
+pyarrow
+pyperclip
+pyside6
+python-docx
+pytest-playwright
+regex
+spacy
+unidecode

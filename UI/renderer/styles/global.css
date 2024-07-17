@@ -1,0 +1,77 @@
+/* easter egg dar um alert quando faltar 7 dias para cair o salario */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --background: hsl(222.2 84% 4.9%);
+    --foreground: hsl(210 40% 98%);
+    --card: hsl(222.2 84% 4.9%);
+    --card-foreground: hsl(210 40% 98%);
+    --popover: hsl(222.2 84% 4.9%);
+    --popover-foreground: hsl(210 40% 98%);
+    --primary: hsl(217.2 91.2% 59.8%);
+    --primary-foreground: hsl(222.2 47.4% 11.2%);
+    --secondary: hsl(217.2 32.6% 17.5%);
+    --secondary-foreground: hsl(210 40% 98%);
+    --muted: hsl(217.2 32.6% 17.5%);
+    --muted-foreground: hsl(215 20.2% 65.1%);
+    --accent: hsl(217.2 32.6% 17.5%);
+    --accent-foreground: hsl(210 40% 98%);
+    --destructive: hsl(0 62.8% 30.6%);
+    --destructive-foreground: hsl(210 40% 98%);
+    --border: hsl(217.2 32.6% 17.5%);
+    --input: hsl(217.2 32.6% 17.5%);
+    --ring: hsl(224.3 76.3% 48%);
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+body{
+    /* padding: 1.25vh; */
+    /* padding-left: 20vw; */
+    /* border: 1.25px solid var(--primary); */
+    /* margin-left: 20vw; */
+    border-radius: 12px;
+}
+div{
+    background-color: var(--primary-foreground);
+    /* border: 2px solid var(--primary); */
+    border-radius: 12px;
+    padding: 1.25px;
+    margin: 0.52%;
+    padding-left: 20vw;
+    /* margin-left: 20vw; */
+}
+div.optional{
+    background-color: var(--muted);
+    /* border: none; */
+    padding: 2%;
+    bottom: 2%;
+}
+div.optional img{
+    display: none;
+}
+a:link{
+    cursor: pointer;
+    color: var(--primary);
+}
+button{
+    border: 2px solid var(--primary-foreground);
+    background-color: var(--secondary);
+    color: var(--foreground);
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+div.card{
+    position: relative;
+    background-color: var(--muted);
+    padding: 2%;
+    /* border: none; */
+}
+div.message_recieved{
+    background-color: var(--background);
+    padding-left: 2vw;
+}

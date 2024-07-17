@@ -1,0 +1,121 @@
+https://sereduc.blackboard.com/learn/api/public/v1/courses/_30369_1/contents
+
+const jsonData = JSON.parse(document.body.innerText).results
+const searchText = "Meu Desempenho"
+// Função para pesquisar o texto específico dentro do JSON
+function searchInJson(jsonData, searchText) {
+    const results = [];
+
+    // Itera sobre cada objeto dentro do array "jsonData"
+    for (const item of jsonData) {
+        // Verifica se o texto está presente nas propriedades "title" ou "description"
+        if (item.title.includes(searchText) {
+            results.push(item);
+        }
+    }
+
+    return results;
+}
+
+// Chamada da função de pesquisa
+const searchResults = searchInJson(jsonData, searchText);
+console.log(searchResults);
+##########################################################################
+def jsSearchByXPath (Xpath):
+   jsScript =  '''const xpathExpression = '''+Xpath+''';
+    const xpathResult = document.evaluate(xpathExpression, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+
+    // Verificar se o resultado XPath é válido e o elemento existe
+    if (xpathResult && xpathResult.singleNodeValue) {
+    // Obter o elemento do resultado XPath
+    const element = xpathResult.singleNodeValue;
+
+    // Simular um clique no elemento
+    element.click();
+    } else {
+    console.error('Elemento não encontrado com a expressão XPath fornecida.');}'''
+##########################################################################
+baseURL = "https://sereduc.blackboard.com/"
+searchOnBlack = f"{baseURL}webapps/blackboard/execute/courseManager?sourceType=COURSES&courseInfoSearchKeyString=CourseId&courseInfoSearchOperatorString=Equals&courseInfoSearchText={id_master}"
+==========================================================================
+#old get_credentials
+def get_credentials():
+    root = tk.Tk()
+    root.withdraw()  # Hide the main window
+    # Ask for the username
+    username = simpledialog.askstring("Input", "Digite seu Usuario:")
+    # Ask for the password (masked)
+    password = simpledialog.askstring("Input", "Digite sua senha:", show='*')
+
+    return username, password
+
+    # user_data_dir = '%LOCALAPPDATA%\\Google\\Chrome\\User Data'
+    # State = '%LOCALAPPDATA%\\Google\\Chrome\\User Data\\Local State'
+
+    ===================================
+    # if expect(page.locator('#agree_button')).to_be_visible:
+        #         print('aeeeeeeeeeeeeeeeeeeeeeeeee poha')
+        #         page.wait_for_timeout(1000)
+        #         page.get_by_role("button", name="OK").click()
+        # elif expect(page.locator('#agree_button')).not_to_be_visible:
+        #         print('OKAY')
+        #         pass
+    ===================================
+
+*****************************************************
+# Create a new context with the saved storage state.
+# context1 = browser.new_context(no_viewport=True,storage_state=page.context.storage_state())
+# new_page = context1.new_page()
+*****************************************************
+
+def clear_cache(page):
+    page.evaluate('''() => {
+        // Limpar o cache usando JavaScript
+        window.location.reload(true);
+    }''')
+
+baseURL = "https://sereduc.blackboard.com/"
+
+#API to get user informations
+https://sereduc.blackboard.com/learn/api/v1/users/me
+{baseURL}learn/api/v1/users?userName={userName}
+JSON.parse(document.body.innerText).id
+
+#API to get user informations from courses
+{baseURL}/learn/api/public/v1/courses/{courseid}/users/{userid}
+
+#API to get courses from a specific user
+{baseURL}/learn/api/public/v1/users/{userid}/courses
+
+{baseURL}/learn/api/public/v1/courses/{courseid}/children
+{baseURL}/learn/api/public/v1/courses/{courseid}/nodes
+{baseURL}/learn/api/public/v1/systemRoles
+{baseURL}/learn/api/public/v1/institutionRoles
+{baseURL}/learn/api/public/v1/courseRoles
+{baseURL}/learn/api/public/v1/users
+{baseURL}/learn/api/public/v1/users/{userid}
+{baseURL}/learn/api/public/v1/loginAs/sessions
+
+    item_name = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
+    page.get_by_role("link", name=item_name, exact=True).click()
+    page.get_by_role("button", name="Condições de liberação").click()
+    page.get_by_role("menuitem", name="Condições de liberação").click()
+    page.get_by_label("Membros ou grupos específicos").check()
+    page.get_by_label("Membros ou grupos específicos").fill(curso)
+    page.get_by_role("button", name="Salvar").click()
+
+ # for i in len(enunciado.group()) :
+    #     print(enunciado.groups(i))
+    #     i+=1
+
+    # txt = "The rain in Spain"
+    # regex1 = "^The.*Spain$"
+    # x = re.search(regex1, txt)
+    # print(x.string)
+
+def main() -> None:
+
+if __name__ == '__main__':
+    main()
+
+https://demoqa.com

@@ -1,0 +1,104 @@
+    # API to review general config from gradebook
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
+
+    # API to review general config form gradebook filtered to Activity by name
+    APIGradeCollumActivity = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns?Name=Atividade%20de%20Autoaprendizagem'
+
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
+    # // visivel para o aluno
+    # "visible": true,
+
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
+    # // nota maxima no item
+    # "possible": 10,
+
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
+    # // quantidade de tentativas do item (0 = ilimitada)
+    # "multipleAttempts": 0,
+
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
+    # // visbilidade no boletim
+    # "visibleInBook": false,
+    
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
+    # //configuração de maior nota
+    # "aggregationModel": "HIGHEST"/"LAST"
+    
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
+    # //Data da atividade
+    # "dueDate": "2024-06-11T02:59:59.999Z",
+    # genericReadOnlyData.dueDate
+================================================================================
+    # //BQ associado
+    APIAssesmentID = f'''{baseURL}learn/api/v1/courses/{id_interno}/contents
+    /{id_atividade}/children'''
+    #contentDetail["resource/x-bb-asmt-test-link"].test.assessment.id
+    
+    APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}
+    /assessments/{id_assesment}/questions/'''
+    #JSON.parse(document.body.innerText).results[0].id
+
+    APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments
+    /{id_assesment}/questions/{id_encapsulamento}/questions?expand=sourceInfo'''
+    #JSON.parse(document.body.innerText).results[0].sourceInfo.name
+
+    or
+    #contentDetail["resource/x-bb-asmt-test-link"].test.assessment.questionCount
+================================================================================
+    # //Questionário com alternativas aleatórias
+    #contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings
+    #.isRandomizationOfAnswersRequired
+    #"ALWAYS"
+
+    # //Questionário com alternativas aleatórias
+    #contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings
+    #.isRandomizationOfQuestionsRequired
+    #true
+
+    # //link de LTI e link
+    # "url": ""
+    # LTI = 'contentDetail["resource/x-bb-blti-link"].url'
+    # Link = 'contentDetail["resource/x-bb-externallink"].url'
+    
+    # //item description
+    # "description": "",
+    
+    # Needs exact name of the item to filter
+    filteredRequest = f'''
+    const data = JSON.parse(document.body.innerText).results
+    const filteredResults = data.filter(item => item.name === {itemSearch})[0]
+    console.log(filteredResults);'''
+    
+    APIGradeCollum = f'{baseURL}learn/api/v1/courses/
+    {id_interno}/gradebook/columns'
+
+    filteredRequestByCollumnName = f'''
+    const data = JSON.parse(document.body.innerText).results
+    const filteredResults = data.filter(item => item.columnName ===
+    {itemSearch[0]})[0].{config[0]}
+    console.log(filteredResults);'''
+
+    APIContent = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents'
+
+    filteredRequestByTitle = f'''
+    const data = JSON.parse(document.body.innerText).results
+    const filteredResults = data.filter(item => item.title ===
+    {itemSearch[0]})[0].{config[0]}
+    console.log(filteredResults);'''
+
+    APIContent = f'''{baseURL}learn/api/public/v1/courses/{id_interno}/contents/
+    {folder_id}/children'''
+
+    filteredRequestByTitle = f'''
+    const data = JSON.parse(document.body.innerText).results
+    const filteredResults = data.filter(item => item.title ===
+    {itemSearch[0]})[0].{config[0]}
+    console.log(filteredResults);'''
