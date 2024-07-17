@@ -33,7 +33,7 @@ body{
     /* padding-left: 20vw; */
     /* border: 1.25px solid var(--primary); */
     /* margin-left: 20vw; */
-    height: 94vh;
+    /* height: 94vh; */
     border-radius: 12px;
 }
 div{
@@ -42,7 +42,7 @@ div{
     border-radius: 12px;
     padding: 1.25px;
     margin: 0.52%;
-    padding-left: 20vw;
+    padding-left: 0vw;
     /* margin-left: 20vw; */
 }
 div.optional{
