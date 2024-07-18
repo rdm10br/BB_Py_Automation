@@ -16,35 +16,48 @@
     --muted-foreground: hsl(215 20.2% 65.1%);
     --accent: hsl(217.2 32.6% 17.5%);
     --accent-foreground: hsl(210 40% 98%);
-    --destructive: hsl(0 62.8% 30.6%);
+    --destructive: hsl(0 62.8% 35.5%);
+    --destructive-ring: hsl(0, 60%, 30.6%);
     --destructive-foreground: hsl(210 40% 98%);
     --border: hsl(217.2 32.6% 17.5%);
     --input: hsl(217.2 32.6% 17.5%);
     --ring: hsl(224.3 76.3% 48%);
+    --ring-muted: hsl(224.3, 50%, 48%);
 
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     background-color: var(--background);
     color: var(--foreground);
 }
+@media screen {
+    
+}
+@media (min-width:  534px){
+    body{
+        margin-left: 10%;
+    }
+}
 
 body{
     /* padding: 1.25vh; */
     /* padding-left: 20vw; */
     /* border: 1.25px solid var(--primary); */
-    /* margin-left: 20vw; */
+    margin-left: 14%;
     /* height: 94vh; */
     border-radius: 12px;
 }
+
 div{
     background-color: var(--primary-foreground);
     /* border: 2px solid var(--primary); */
     border-radius: 12px;
     padding: 1.25px;
     margin: 0.52%;
-    padding-left: 0vw;
-    /* margin-left: 20vw; */
+    
+    /* padding-left: 0vw; */
+    /* margin-left: 0vw; */
 }
+
 div.optional{
     background-color: var(--muted);
     /* border: none; */
@@ -58,12 +71,20 @@ a:link{
     cursor: pointer;
     color: var(--primary);
 }
+
 button{
-    border: 2px solid var(--primary-foreground);
-    background-color: var(--secondary);
+    border: 2px solid var(--ring);
+    background-color: var(--ring-muted);
     color: var(--foreground);
+    padding: 0.6%;
+    margin-right: 1.5%;
     border-radius: 12px;
     cursor: pointer;
+}
+button.destructive{
+    border: 2px solid var(--destructive-ring);
+    background-color: var(--destructive);
+    color: var(--destructive-foreground);
 }
 
 div.card{

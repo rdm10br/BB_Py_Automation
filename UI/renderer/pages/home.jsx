@@ -26,6 +26,11 @@ export default function HomePage() {
         }}
         >Home</title>
       </Head>
+      <div className="title">
+        <h2>
+          Home - Teste
+        </h2>
+      </div>
       <div className="optional">
         {/* <p>
           ⚡ Electron + Next.js ⚡ - <Link href="/next">Go to next page</Link>
@@ -68,9 +73,25 @@ export default function HomePage() {
         >
           Test IPC Button
         </button>
+        <button
+          onClick={() => {
+            window.ipc.send("message", "Destructive");
+          }}
+          className="destructive"
+        >
+          Test Destructive Button
+        </button>
         <p>Message: </p>
         <div className="message_recieved">
           <p>{message}</p>
+        </div>
+      </div>
+      <div className="card">
+        Message:
+        <div className="message_recieved">
+          <p>
+            Message: [{message}]
+          </p>
         </div>
       </div>
     </React.Fragment>

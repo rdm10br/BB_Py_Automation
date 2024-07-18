@@ -12,6 +12,7 @@ async def Auto_Sub(page: Page, index: int):
     API_User = f'{baseURL}learn/api/public/v1/users/me'
     
     await page.goto(API_User, wait_until='commit')
+    await page.wait_for_load_state('load')
     user = await page.evaluate('JSON.parse(document.body.innerText).userName')
     
     await page.goto(url=inscryption, wait_until='commit')
@@ -41,6 +42,7 @@ async def Auto_Unsub(page: Page, index: int):
     API_User = f'{baseURL}learn/api/public/v1/users/me'
     
     await page.goto(API_User, wait_until='commit')
+    await page.wait_for_load_state('load')
     user = await page.evaluate('JSON.parse(document.body.innerText).userName')
     
     await page.goto(url=classUrlUltra, wait_until='commit')

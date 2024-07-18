@@ -40,7 +40,7 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('message', async (event, arg) => {
   event.reply('message', `${arg} World!`)
-  console.log(`${arg} World!`)
+  // console.log(`${arg} World!`)
 })
 
 // ipcMain.on('title', async (event, arg) => {

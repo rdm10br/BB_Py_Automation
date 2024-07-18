@@ -12,8 +12,8 @@ import '../styles/global.css'
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <AppSideBar />
-      <div style={{ marginLeft: '200px', padding: '20px' }}>
+      <AppSideBar/>
+      <div>
         <Component {...pageProps} />
       </div>
     </>
