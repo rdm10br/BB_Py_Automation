@@ -50,6 +50,7 @@ async def Auto_Unsub(page: Page, index: int):
     await page.locator('#course-outline-roster-link').click()
     await page.locator('#search-button').click()
     await page.locator('#search-roster-field').fill(user)
+    await page.wait_for_timeout(1500)
     await page.press('body', 'Enter')
     await page.press('#search-roster-field', 'Enter')
     await page.wait_for_load_state('load')
