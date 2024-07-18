@@ -95,17 +95,17 @@
     background-color: var(--ring-muted);
   }
 
-  .sideMenu li.title-head{
+  /* .sideMenu li.title-head{ */
     /* padding: 8px 16px; */
-    display: none;
+    /* display: none;
     
     align-items: center;
-  }
-  .sideMenu li.title-head:hover{
+  } */
+  /* .sideMenu li.title-head:hover{
     padding: 0px;
     border-radius: 0px;
     background-color: none;
-  }
+  } */
   
   /* .icon {
     margin-right: 8px;
