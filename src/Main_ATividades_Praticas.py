@@ -40,10 +40,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -66,10 +66,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -83,10 +83,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -104,10 +104,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -124,10 +124,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -146,10 +146,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -167,10 +167,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -186,10 +186,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -204,10 +204,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -224,10 +224,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -242,10 +242,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -270,10 +270,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -288,10 +288,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -309,10 +309,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
@@ -331,10 +331,10 @@ async def run(page: Page, index) -> None:
             for i in range(len(curso)):
                 await gruposAtividades.inserirGruposAtividadesAV1(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 await gruposAtividades.inserirGruposAtividadesAV2(page=page,
                                                             id_interno=id_interno, curso=curso[i])
-                page.wait_for_load_state('load')
+                await page.wait_for_load_state('load')
                 i+=1
             
             getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
