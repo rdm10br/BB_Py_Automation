@@ -26,7 +26,8 @@ async def API_Ativ_Course_count(page: Page, id_interno: str) -> str:
     await page.goto(internalID_API)
     count = await page.evaluate(request)
     string_sem_especiais = re.sub(r'[^\w\s]', '', str(count))
-    return str(count)
+    string_sem_especiais = re.sub(r'[\s]', '', str(string_sem_especiais))
+    return str(string_sem_especiais)
 
 
 async def ajusteLinkEbook(page: Page, id_interno: str) -> None:
@@ -57,7 +58,7 @@ async def ajusteLinkEbook(page: Page, id_interno: str) -> None:
             pass
     if id_ebook != None:
         LinkEdit = f'{url}/edit/lti/{id_ebook}'
-        
+        print(id_ebook)
         link = {
             'I':['https://sereduc.blackboard.com/bbcswebdav/xid-486398464_1'],
             'II':['https://sereduc.blackboard.com/bbcswebdav/xid-486398463_1'],
@@ -66,12 +67,15 @@ async def ajusteLinkEbook(page: Page, id_interno: str) -> None:
         }
         
         count = await API_Ativ_Course_count(page=page, id_interno=id_interno)
+        print(count)
         if count in link:
             print('Starting adjustments: "Biblioteca Virtual: e-Book"')
             await page.goto(LinkEdit)
             await page.get_by_placeholder("Formato: meuwebsite.com").click(click_count=3)
             print('Changing link...')
-            await page.get_by_placeholder("Formato: meuwebsite.com").fill(link[count])
+            link_s = str(link[count])
+            link_s = re.sub
+            await page.get_by_placeholder("Formato: meuwebsite.com").fill(link_s)
             await page.wait_for_load_state('networkidle')
             await page.get_by_text("Você precisará desta informa").click()
             print('Saving...')
