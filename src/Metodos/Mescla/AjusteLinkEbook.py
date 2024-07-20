@@ -73,8 +73,8 @@ async def ajusteLinkEbook(page: Page, id_interno: str) -> None:
             await page.goto(LinkEdit)
             await page.get_by_placeholder("Formato: meuwebsite.com").click(click_count=3)
             print('Changing link...')
-            link_s = str(link[count])
-            link_s = re.sub
+            link_s = re.sub(r"\[\'", '', str(link[count]))
+            link_s = re.sub(r"\'\]", '', link_s)
             await page.get_by_placeholder("Formato: meuwebsite.com").fill(link_s)
             await page.wait_for_load_state('networkidle')
             await page.get_by_text("Você precisará desta informa").click()
