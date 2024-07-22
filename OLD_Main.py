@@ -103,7 +103,11 @@ class MainWindow(QMainWindow):
         
         button_module2 = QPushButton("Criação de BQ")
         button_module2.clicked.connect(lambda: self.run_module(r"src\Main_BQ.py"))
-        layout.addWidget(button_module2, 4, 0, 1, 2)
+        layout.addWidget(button_module2, 4, 0, 1, 1)
+        
+        button_module2 = QPushButton("Ajustar link E-book A.P.")
+        button_module2.clicked.connect(lambda: self.run_module(r"src\Main_AjusteLink_Atividade_Prática.py"))
+        layout.addWidget(button_module2, 4, 1, 1, 1)
         
         button_module3 = QPushButton("Copia de Material")
         button_module3.clicked.connect(lambda: self.run_module(r"src\Main_copy_material.py"))
