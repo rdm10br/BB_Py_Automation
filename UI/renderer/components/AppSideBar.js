@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./AppSideBar.module.css";
-import homeIcon from "../styles/icon/home.png";
 import {
   FaChevronDown,
   FaChevronUp,
@@ -24,20 +24,40 @@ const AppSideBar = () => {
     <div className={styles.sideMenu}>
       <ul>
         <li className={styles.titleHead}>
-          <img src={homeIcon} />
-          <p>APP ICON</p>
+          <Image
+          className={styles.icon_menus}
+              src="/icon/automated-process.png"
+              height={20}
+              width={20}
+          />
+          <p>BB Py Automation</p>
         </li>
-        <li className={styles.menu}>
-          <p>Menu</p>
+        <li clssName={styles.menu}>
+        <Image
+        className={styles.icon_menus}
+            src="/icon/menu-bar.png"
+            height={20}
+            width={20}
+        />
         </li>
         <li>
           <Link href="/home" className={styles.link}>
-            <img src="assets/icon/home.png" />
+            <Image
+            className={styles.icon_menus}
+              src="/icon/home.png"
+              height={20}
+              width={20}
+            />
             Home
           </Link>
         </li>
         <li onClick={() => toggleDropdown('DoubleCheck')}>
-            <img src="../styles/icon/home.png" />
+            <Image
+            className={styles.icon_menus}
+              src="/icon/double-check.png"
+              height={20}
+              width={20}
+            />
             Double Check
           {dropdown.DoubleCheck ? <FaChevronUp className={styles.icon}/> : <FaChevronDown className={styles.icon}/>}
         </li>
@@ -57,11 +77,16 @@ const AppSideBar = () => {
                           <Link href="/teste" className={styles.link}>
                             Digital
                           </Link>
-                        </li>
+                       </li>
                     </ul>
                 )}
         <li onClick={() => toggleDropdown('Cópia')}>
-            <img src="../styles/icon/home.png"/>
+            <Image
+            className={styles.icon_menus}
+              src="/icon/copy.png"
+              height={20}
+              width={20}
+            />
             Cópia
           {dropdown.Cópia ? <FaChevronUp className={styles.icon}/> : <FaChevronDown className={styles.icon}/>}
         </li>
@@ -75,12 +100,17 @@ const AppSideBar = () => {
                         <li>
                           <Link href="/terminal" className={styles.link}>
                             Sala Nova
-                          </Link>
+                         </Link>
                         </li>
                     </ul>
                 )}
         <li onClick={() => toggleDropdown('Data')}>
-            <img src="../styles/icon/home.png"/>
+            <Image
+            className={styles.icon_menus}
+              src="/icon/calendar.png"
+              height={20}
+              width={20}
+            />
             Data
           {dropdown.Data ? <FaChevronUp className={styles.icon}/> : <FaChevronDown className={styles.icon}/>}
         </li>
@@ -88,25 +118,35 @@ const AppSideBar = () => {
                     <ul className={styles.dropdown}>
                         <li>
                           <Link href="/teste" className={styles.link}>
-                            Place_Holder_item_1
+                            item_1
                           </Link>
                         </li>
                         <li>
                           <Link href="/teste" className={styles.link}>
-                            Place_Holder_item_2
-                          </Link>
+                            item_2
+                         </Link>
                         </li>
                     </ul>
                 )}
         <li>
           <Link href="/run" className={styles.link}>
-            <img src="../styles/icon/home.png"/>
+            <Image
+            className={styles.icon_menus}
+            src="/icon/detective.png"
+            height={20}
+            width={20}
+            />
             X9
           </Link>
         </li>
         <li>
           <Link href="/home" className={styles.link}>
-            <img src="../styles/icon/home.png"/>
+            <Image
+            className={styles.icon_menus}
+            src="/icon/experiment.png"
+            height={20}
+            width={20}
+            />
             Teste
           </Link>
         </li>
@@ -114,7 +154,12 @@ const AppSideBar = () => {
       <div className={styles.settings_container}>
         <li className={styles.settings}>
           <Link href="/settings" className={styles.link}>
-            <img src="../styles/icon/home.png"/>
+            <Image
+            className={styles.icon_menus}
+            src="/icon/settings.png"
+            height={20}
+            width={20}
+            />
             Configuração
           </Link>
         </li>

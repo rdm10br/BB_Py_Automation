@@ -6,6 +6,7 @@
     --popover: hsl(222.2 84% 4.9%);
     --popover-foreground: hsl(210 40% 98%);
     --primary: hsl(217.2 91.2% 59.8%);
+    --primary-muted: hsl(217.2, 81.2%, 69.8%);
     --primary-foreground: hsl(222.2 47.4% 11.2%);
     --secondary: hsl(217.2 32.6% 17.5%);
     --secondary-foreground: hsl(210 40% 98%);
@@ -31,19 +32,16 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     position: fixed;
-    display: flex;
-    flex-direction: column;
     background-color: var(--muted);
     overflow: auto;
 }
 
 .sideMenu ul {
     padding-top: 0%;
-    padding-left: 2.5%;
+    padding-left: 0%;
     list-style-type: none;
     flex-grow: 1;
     display: flex;
-    /* justify-content: space-between; */
     flex-direction: column;
 }
 
@@ -51,7 +49,8 @@
     display: flex;
     justify-content: space-between;
     cursor: pointer;
-    padding: 8px 16px;
+    padding: 8px;
+    padding-left: 8%;
     align-items: center;
 }
 
@@ -60,6 +59,7 @@
     height: 100%;
     display: block;
     box-sizing: border-box;
+    justify-content: space-between;
 }
 
 .sideMenu li a {
@@ -84,6 +84,7 @@
     padding: 16px;
     padding-top: 0px;
     padding-bottom: 0px;
+    font-size: 10px;
 }
 
 .sideMenu .titleHead:hover {
@@ -110,42 +111,88 @@
 }
 
 .sideMenu .settings {
-    padding: 8px 16px;
+    padding: 8px 8px;
 }
 
 .sideMenu .settings:hover {
     padding: 8px;
 }
 
-.sideMenu .dropdown {
-    padding-left: 12px;
+.sideMenu ul.dropdown {
+    margin-left: 0;
+    padding-left: 8px;
     background-color: var(--accent-muted);
-    max-height: 18vh;
-    max-width: 14vw;
     overflow-x: auto;
 }
 
 .sideMenu .dropdown li {
-    /* padding: 4px 16px; */
-    /* margin: 0; */
     white-space: nowrap;
 }
 
 .sideMenu .dropdown:hover {
-  padding: 4px 16px;
-  padding-left: 12px;
-  margin: 0;
-  white-space: nowrap;
+    margin: 0;
+    white-space: nowrap;
 }
 
 .icon {
     block-size: 10px;
-    /* padding-left: 0%;
-    padding-right: 0%; */
+    margin-left: auto; /* This will push the icon to the right */
+    padding-right: 8px; /* Optional: adjust the padding as needed */
+}
+
+.icon_menus {
+    block-size: 20px;
+    /* margin-top: auto; */
 }
 
 .settings_container {
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    bottom: 0vh;
+    width: 14vw;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
     margin-top: auto;
-    font-size: 10px;
+    font-size: 12px;
     background-color: var(--accent);
 }
+
+.settings_container li:hover {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.settings .link {
+    width: 100%;
+    height: 100%;
+    display: block;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.sideMenu::-webkit-scrollbar {
+    width: 3px; /* Width of the scrollbar */
+}
+
+.sideMenu::-webkit-scrollbar:hover {
+    width: 6px;
+}
+
+.sideMenu::-webkit-scrollbar-track {
+    background: var(--primary-muted); /* Background of the scrollbar track */
+    border-radius: 12px; /* Optional: round the corners */
+    margin-bottom: 7.5vh;
+    margin-top: 20.5vh;
+}
+
+.sideMenu::-webkit-scrollbar-thumb {
+    background-color: var(--primary); /* Color of the scrollbar thumb */
+    border-radius: 12px; /* Optional: round the corners */
+}
+
+.sideMenu::-webkit-scrollbar-thumb:hover {
+    background-color: var(--ring); /* Color of the scrollbar thumb on hover */
+}
+
