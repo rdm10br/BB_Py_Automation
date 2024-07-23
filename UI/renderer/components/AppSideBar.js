@@ -32,7 +32,7 @@ const AppSideBar = () => {
           />
           <p>BB Py Automation</p>
         </li>
-        <li clssName={styles.menu}>
+        <li className={styles.menu}>
         <Image
         className={styles.icon_menus}
             src="/icon/menu-bar.png"
@@ -148,6 +148,17 @@ const AppSideBar = () => {
             width={20}
             />
             Teste
+          </Link>
+        </li>
+        <li>
+          <Link href="/home" className={styles.link}>
+            <Image
+            className={styles.icon_menus}
+            src="/icon/experiment.png"
+            height={20}
+            width={20}
+            />
+            Planilha
           </Link>
         </li>
       </ul>
