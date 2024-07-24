@@ -2,7 +2,7 @@ import path from 'path'
 import { app, ipcMain } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
-import ExcelJS from 'exceljs'
+// import ExcelJS from 'exceljs'
 import { exec } from 'child_process'
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -59,20 +59,20 @@ ipcMain.on('set-title', (event, title) => {
   mainWindow.webContents.executeJavaScript(`document.title = "BBAutoPy - ${title}"`);
 });
 
-ipcMain.handle('read-excel-file', async () => {
-  const filePath = path.join(__dirname, 'path', 'to', 'your', 'file.xlsx'); // Replace with the fixed path to your Excel file
+// ipcMain.handle('read-excel-file', async () => {
+//   const filePath = path.join(__dirname, 'path', 'to', 'your', 'file.xlsx'); // Replace with the fixed path to your Excel file
 
-  const workbook = new ExcelJS.Workbook();
-  await workbook.xlsx.readFile(filePath);
+//   const workbook = new ExcelJS.Workbook();
+//   await workbook.xlsx.readFile(filePath);
 
-  const sheet = workbook.worksheets[0];
-  const data = [];
-  sheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-    data.push({ rowNumber, values: row.values });
-  });
+//   const sheet = workbook.worksheets[0];
+//   const data = [];
+//   sheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
+//     data.push({ rowNumber, values: row.values });
+//   });
 
-  return data;
-});
+//   return data;
+// });
 
 ipcMain.on('open-excel-file', (event, filePath) => {
   const fullPath = path.resolve(__dirname, filePath);

@@ -15,7 +15,7 @@ const handler = {
   async readExcelFile() {
     const data = await ipcRenderer.invoke('read-excel-file');
     return data;
-  },
+  }
 };
 
 contextBridge.exposeInMainWorld('ipc', handler);

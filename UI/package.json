@@ -20,6 +20,7 @@
     "electron-serve": "^1.3.0",
     "electron-store": "^8.2.0",
     "exceljs": "^4.4.0",
+    "fs": "^0.0.1-security",
     "react-devtools": "^4.27.2",
     "react-icons": "^5.2.1"
   },
