@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./AppSideBar.module.css";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { ipcRenderer } from 'electron';
 
 const AppSideBar = () => {
   const [dropdown, setDropdown] = useState({
@@ -10,6 +11,10 @@ const AppSideBar = () => {
     Cópia: false,
     Data: false,
   });
+
+  const openExcelFile = async () =>{
+    ipcRenderer.send('open-excel-file', 'Planilhas/SALAS.xlsx')
+  };
 
   const toggleDropdown = (menu) => {
     setDropdown((prevState) => ({
@@ -162,7 +167,7 @@ const AppSideBar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/home" className={styles.link}>
+          <button onClick={openExcelFile}>
             <Image
               className={styles.icon_menus}
               src="/icon/spreadsheet.png"
@@ -170,7 +175,7 @@ const AppSideBar = () => {
               width={20}
             />
             Planilha
-          </Link>
+          </button>
         </li>
       </ul>
       <div className={styles.settings_container}>
