@@ -6,6 +6,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 // import { ipcRenderer } from 'electron';
 
 const AppSideBar = () => {
+  // const [transition, setTransition] = useState(false);
   const [dropdown, setDropdown] = useState({
     DoubleCheck: false,
     Cópia: false,
@@ -36,7 +37,7 @@ const AppSideBar = () => {
         </div>
         <div className={styles.menu}>
           <Image
-            className={styles.icon_menus}
+            className={styles.icon_menu}
             src="/icon/menu-bar.png"
             height={20}
             width={20}
@@ -166,7 +167,7 @@ const AppSideBar = () => {
             Teste
           </Link>
         </li>
-        <li>
+        <li className={styles.plan}>
           <Link href='javascript:;' className={styles.link} onClick={openExcelFile}>
             <Image
               className={styles.icon_menus}

@@ -13,17 +13,15 @@ export default function HomePage() {
   
   // const [title, setTitle] = React.useState('');
 
-    const changeTitle = (title = new String()) => {
-      window.api.setTitle(title);
+    const changeTitle = () => {
+      window.ipc.send('setTitle', document.title);
     };
   return (
     <React.Fragment>
       <Head>
         {/* <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"/> */}
         <title
-        onLoad={() => {
-          changeTitle(document.title);
-        }}
+        onChange={changeTitle}
         >Home</title>
       </Head>
       <div className="title">
