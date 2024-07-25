@@ -168,7 +168,8 @@ const AppSideBar = () => {
           </Link>
         </li>
         <li className={styles.plan}>
-          <Link href='javascript:;' className={styles.link} onClick={openExcelFile}>
+          <Link href='#' className={styles.link} onClick={openExcelFile}>
+          {/* href='javascript:;' */}
             <Image
               className={styles.icon_menus}
               src="/icon/spreadsheet.png"
