@@ -2,5 +2,5 @@ from Metodos.API import checkupContent, getApiContent, getFromAPI, getPlanilha, 
 from Metodos.Copia import copiaMaterial, copiaSala
 from Metodos.Login import login, checkup_login, getCredentials
 from Metodos.Master import getData, ajusteData, AjusteSermelhor, AjusteSofiaV2, AjusteAvaliacaoV2
-from Metodos.Mescla import atribGrup, gruposAtividades, AjusteNotaZero, AjusteLinkEbook
+from Metodos.Mescla import atribGrup, gruposAtividades, AjusteNotaZero, AjusteLinkEbook, openMescla
 from Metodos.BQ import getBQ, fileChooser, create_bq
