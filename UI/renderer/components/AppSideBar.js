@@ -73,17 +73,17 @@ const AppSideBar = () => {
         {dropdown.DoubleCheck && (
           <ul className={styles.dropdown}>
             <li>
-              <Link href="/teste" className={styles.link}>
+              <Link href="/master" className={styles.link}>
                 Master
               </Link>
             </li>
             <li>
-              <Link href="/teste" className={styles.link}>
+              <Link href="/veteranos" className={styles.link}>
                 Veteranos
               </Link>
             </li>
             <li>
-              <Link href="/teste" className={styles.link}>
+              <Link href="/digital" className={styles.link}>
                 Digital
               </Link>
             </li>
@@ -106,12 +106,12 @@ const AppSideBar = () => {
         {dropdown.Cópia && (
           <ul className={styles.dropdown}>
             <li>
-              <Link href="/teste" className={styles.link}>
+              <Link href="/material" className={styles.link}>
                 Material
               </Link>
             </li>
             <li>
-              <Link href="/terminal" className={styles.link}>
+              <Link href="/sala" className={styles.link}>
                 Sala Nova
               </Link>
             </li>
@@ -134,7 +134,7 @@ const AppSideBar = () => {
         {dropdown.Data && (
           <ul className={styles.dropdown}>
             <li>
-              <Link href="/teste" className={styles.link}>
+              <Link href="/datas" className={styles.link}>
                 item_1
               </Link>
             </li>
@@ -146,7 +146,7 @@ const AppSideBar = () => {
           </ul>
         )}
         <li>
-          <Link href="/run" className={styles.link}>
+          <Link href="/x9" className={styles.link}>
             <Image
               className={styles.icon_menus}
               src="/icon/detective.png"
@@ -157,7 +157,7 @@ const AppSideBar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/home" className={styles.link}>
+          <Link href="/teste" className={styles.link}>
             <Image
               className={styles.icon_menus}
               src="/icon/experiment.png"
