@@ -1,6 +1,6 @@
-import React from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
+import React from "react";
+import Head from "next/head";
+import Link from "next/link";
 
 export default function NextPage() {
   return (
@@ -10,9 +10,36 @@ export default function NextPage() {
       </Head>
       <div>
         <p>
-          Here will be the Settings - <Link href="/home">Go to home page</Link>
+          <h2>Settings</h2>
         </p>
       </div>
+      <div className="card">
+        <h3>Credential & Cookies :</h3>
+        {/* Save your AVA Credentials : */}
+        <button
+        // onClick={() => {
+        //   window.ipc.send("message", "Batata");
+        // }}
+        >
+          Save Credentials
+        </button>
+        <button
+          // onClick={() => {
+          //   window.ipc.send("message", "Destructive");
+          // }}
+          className="destructive"
+        >
+          Delete Cookies
+        </button>
+        <button
+          // onClick={() => {
+          //   window.ipc.send("message", "Destructive");
+          // }}
+          className="destructive"
+        >
+          Delete Cretendials & Cookies
+        </button>
+      </div>
     </React.Fragment>
-  )
+  );
 }

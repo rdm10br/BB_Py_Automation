@@ -137,7 +137,7 @@ const AppSideBar = () => {
             height={20}
             width={20}
           />
-          Data
+          Surtos
           {dropdown.Data ? (
             <FaChevronUp className={styles.icon} />
           ) : (
@@ -148,16 +148,47 @@ const AppSideBar = () => {
           <ul className={styles.dropdown}>
             <li>
               <Link href="/datas" className={styles.link}>
-                item_1
+                Datas
               </Link>
             </li>
             <li>
               <Link href="/teste" className={styles.link}>
-                item_2
+                Ajuste AV1
+              </Link>
+            </li>
+            <li>
+              <Link href="/teste" className={styles.link}>
+                Ajuste AV2
+              </Link>
+            </li>
+            <li>
+              <Link href="/teste" className={styles.link}>
+                Remove S.M.
+              </Link>
+            </li>
+            <li>
+              <Link href="/teste" className={styles.link}>
+                Link E-Book
+              </Link>
+            </li>
+            <li>
+              <Link href="/teste" className={styles.link}>
+                Open Mescla
               </Link>
             </li>
           </ul>
         )}
+        <li>
+          <Link href="/bq" className={styles.link}>
+            <Image
+              className={styles.icon_menus}
+              src="/icon/fill.png"
+              height={20}
+              width={20}
+            />
+            BQ
+          </Link>
+        </li>
         <li>
           <Link href="/x9" className={styles.link}>
             <Image
