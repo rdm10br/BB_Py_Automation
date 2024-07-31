@@ -37,6 +37,12 @@
   position: fixed;
   background-color: var(--muted);
   overflow: auto;
+  /* transition: ease-in 0.5s translateX(-45%);
+  transform: ease-in 0.5s translateX(-45%);
+  -webkit-transition: ease-in 1s;
+  -webkit-transform:  ease-in 3s;
+  animation-delay: 300ms;
+  transition-delay: 300ms; */
 }
 
 .sideMenu ul {
@@ -84,6 +90,9 @@
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   background-color: var(--ring-muted);
+  transition: ease-in 300ms;
+  /* transform: ease-in 300ms;
+  translate: ease-in 300ms; */
 }
 
 .sideMenu li.plan:hover {
