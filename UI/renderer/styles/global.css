@@ -28,6 +28,7 @@
     font-size: 14px;
     background-color: var(--background);
     color: var(--foreground);
+    margin-top: 0;
 }
 @media screen {
     
@@ -42,6 +43,7 @@ body{
     /* padding: 1.25vh; */
     /* padding-left: 20vw; */
     /* border: 1.25px solid var(--primary); */
+    margin-top: 0;
     margin-left: 14%;
     /* height: 94vh; */
     border-radius: 12px;
@@ -53,7 +55,7 @@ div{
     border-radius: 12px;
     padding: 1.25px;
     margin: 0.52%;
-    
+    margin-top: 0;
     /* padding-left: 0vw; */
     /* margin-left: 0vw; */
 }

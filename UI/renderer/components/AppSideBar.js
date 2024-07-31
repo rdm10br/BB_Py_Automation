@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "./AppSideBar.module.css";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 // import { ipcRenderer } from 'electron';
-import { AppSideBarShortened } from "./AppSideBarShortened.js";
+import AppSideBarShortened from "./AppSideBarShortened.js";
 
 const AppSideBar = () => {
   // const [transition, setTransition] = useState(false);
@@ -14,7 +14,7 @@ const AppSideBar = () => {
     Data: false,
   });
 
-  const [menu, setMenu] = useState(true);
+  const [menu, setMenu] = useState(false);
 
   const openExcelFile = async () => {
     window.ipc.send("open-excel-file", "../../Planilhas/SALAS.xlsx");
@@ -40,7 +40,7 @@ const AppSideBar = () => {
           <p>BB Py Automation</p>
         </li>
         <li className={styles.menu} onClick={() => setMenu(!menu)}>
-          {menu.Menu ? (
+          {menu ? (
             <Image
               className={styles.icon_menu}
               src="/icon/recycle-bin.png"
