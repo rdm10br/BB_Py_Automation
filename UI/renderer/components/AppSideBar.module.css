@@ -39,23 +39,6 @@
   overflow: auto;
 }
 
-.sideMenu .header {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  background-color: var(--muted);
-  cursor: default;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  width: 13.8vw;
-  margin-left: 0;
-  margin-top: 0;
-  z-index: 1;
-  border-bottom: 1px solid var(--accent-muted);
-  backdrop-filter: blur(2px);
-}
-
 .sideMenu ul {
   padding-top: 17.8vh;
   padding-left: 0%;
@@ -63,6 +46,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  transition: ease-in 0.5s translateX(-45%);
 }
 
 .sideMenu li {
@@ -110,15 +94,44 @@
   background-color: var(--plan);
 }
 
-.header .titleHead {
-  padding: 16px;
-  padding-top: 10px;
-  padding-bottom: 0px;
-  font-size: 10px;
+.sideMenu .header {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  cursor: default;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  width: 13.8vw;
+  margin-left: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0;
+  z-index: 1;
+  border-bottom: 1px solid var(--accent-muted);
+  /* background-color: var(--accent); */
+  backdrop-filter: blur(2px);
+}
+
+.header li:hover {
   background-color: var(--muted);
 }
 
-.header .titleHead:hover {
+.header li.titleHead {
+  padding: 16px;
+  padding-top: 10px;
+  padding-bottom: 0px;
+  margin: 0;
+  font-size: 10px;
+  background-color: var(--muted);
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.header li.titleHead:hover {
   cursor: default;
   padding: 16px;
   padding-top: 10px;
@@ -126,22 +139,19 @@
   color: var(--foreground);
 }
 
-.header .menu {
-  /* padding-top: 1%;
-  padding-left: 30%;
-  padding-right: 30%; */
+.header li.menu {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  margin-left: 0;
   padding-left: 0;
+  padding-right: 0%;
   width: 100%;
   height: 100%;
   background-color: var(--muted);
 }
 
-.header .menu:hover {
+.header li.menu:hover {
   color: var(--foreground);
   /* cursor: pointer; */
 }
@@ -160,7 +170,7 @@
   padding-top: 0vh;
   background-color: var(--accent-muted);
   overflow-x: auto;
-  transition: ease-in 0.5s;
+  /* transition: ease-in 0.5s translateX(-45%); */
 }
 
 .sideMenu .dropdown li {
@@ -181,7 +191,7 @@
     block-size: 20px;
     filter: brightness(120.5%);
     padding-left: 40%;
-    cursor: pointer;
+    /* cursor: pointer; */
   }
 .icon_menus {
   block-size: 20px;

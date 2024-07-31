@@ -4,20 +4,20 @@ import Image from "next/image";
 import styles from "./AppSideBar.module.css";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 // import { ipcRenderer } from 'electron';
-import { AppSideBarShortened } from "./AppSideBarShortened.js";
+import { AppSideBar } from './AppSideBar.js';
 
-const AppSideBar = () => {
+const AppSideBarShortened = () => {
   // const [transition, setTransition] = useState(false);
   const [dropdown, setDropdown] = useState({
     DoubleCheck: false,
     Cópia: false,
-    Data: false,
+    Data: false
   });
 
-  const [menu, setMenu] = useState(true);
+  const [menu, setMenu] = useState(false);
 
-  const openExcelFile = async () => {
-    window.ipc.send("open-excel-file", "../../Planilhas/SALAS.xlsx");
+  const openExcelFile = async () =>{
+    window.ipc.send('open-excel-file', '../../Planilhas/SALAS.xlsx')
   };
 
   const toggleDropdown = (menu) => {
@@ -29,34 +29,29 @@ const AppSideBar = () => {
 
   return (
     <div className={styles.sideMenu}>
-      <ul className={styles.header}>
-        <li className={styles.titleHead}>
+      <div className={styles.header}>
+        <div className={styles.titleHead}>
           <Image
             className={styles.icon_menus}
             src="/icon/automated-process.png"
             height={20}
             width={20}
           />
-          <p>BB Py Automation</p>
-        </li>
-        <li className={styles.menu} onClick={() => setMenu(!menu)}>
+        </div>
+        <div className={styles.menu} onClick={() => setMenu(!menu)}>
+          <Image
+            className={styles.icon_menu}
+            src="/icon/menu-bar.png"
+            height={20}
+            width={20}
+          />
           {menu.Menu ? (
-            <Image
-              className={styles.icon_menu}
-              src="/icon/recycle-bin.png"
-              height={20}
-              width={20}
-            />
+            <AppSideBar/>
           ) : (
-            <Image
-              className={styles.icon_menu}
-              src="/icon/menu-bar.png"
-              height={20}
-              width={20}
-            />
+            <AppSideBarShortened/>
           )}
-        </li>
-      </ul>
+        </div>
+      </div>
       <ul>
         <li>
           <Link href="/home" className={styles.link}>
@@ -66,7 +61,6 @@ const AppSideBar = () => {
               height={20}
               width={20}
             />
-            Home
           </Link>
         </li>
         <li onClick={() => toggleDropdown("DoubleCheck")}>
@@ -76,7 +70,6 @@ const AppSideBar = () => {
             height={20}
             width={20}
           />
-          Double Check
           {dropdown.DoubleCheck ? (
             <FaChevronUp className={styles.icon} />
           ) : (
@@ -109,7 +102,6 @@ const AppSideBar = () => {
             height={20}
             width={20}
           />
-          Cópia
           {dropdown.Cópia ? (
             <FaChevronUp className={styles.icon} />
           ) : (
@@ -137,7 +129,6 @@ const AppSideBar = () => {
             height={20}
             width={20}
           />
-          Data
           {dropdown.Data ? (
             <FaChevronUp className={styles.icon} />
           ) : (
@@ -166,7 +157,6 @@ const AppSideBar = () => {
               height={20}
               width={20}
             />
-            X9
           </Link>
         </li>
         <li>
@@ -177,19 +167,17 @@ const AppSideBar = () => {
               height={20}
               width={20}
             />
-            Teste
           </Link>
         </li>
         <li className={styles.plan}>
-          <Link href="#" className={styles.link} onClick={openExcelFile}>
-            {/* href='javascript:;' */}
+          <Link href='#' className={styles.link} onClick={openExcelFile}>
+          {/* href='javascript:;' */}
             <Image
               className={styles.icon_menus}
               src="/icon/spreadsheet.png"
               height={20}
               width={20}
             />
-            Planilha
           </Link>
         </li>
       </ul>
@@ -210,4 +198,4 @@ const AppSideBar = () => {
   );
 };
 
-export default AppSideBar;
+export default AppSideBarShortened;
