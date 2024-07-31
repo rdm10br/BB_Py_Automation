@@ -9,7 +9,13 @@ async def verify_calculated(page: Page, id_interno: str):
     request = f'''JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}").calculationType'''
     
     await page.goto(url=api, wait_until='commit')
-    return await page.evaluate(request)
+    try:
+        result = await page.evaluate(request)
+        return str(result)
+    except Exception as e:
+        print(e)
+        result = 'calculationType not found'
+        return result
 
 
 async def newAV1(page: Page, id_interno: str) -> None:
@@ -20,6 +26,10 @@ async def newAV1(page: Page, id_interno: str) -> None:
     
     if verify == "CUSTOM":
         result = 'AV1 is a calculated item'
+        print(result)
+        return result
+    elif verify == 'calculationType not found':
+        result = 'AV1 calculationType not found'
         print(result)
         return result
     else:
