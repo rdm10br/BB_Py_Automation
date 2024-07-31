@@ -16,5 +16,9 @@ async def removeSer(page: Page, id_interno: str) -> None:
     else:
         print(f'{item} found')
         await page.get_by_label('Mais opções para SER Melhor (').click()
+        await page.wait_for_load_state('load')
         await page.get_by_role('menuitem', name='Excluir').click()
+        await page.wait_for_load_state('load')
         await page.get_by_role('button', name='Excluir').click()
+        await page.wait_for_load_state('load')
+        await page.wait_for_timeout(1000*3)

@@ -5,29 +5,25 @@ import React from "react";
 
 export default function HomePage() {
   const [message, setMessage] = React.useState("No message found.");
-    React.useEffect(() => {
-      window.ipc.on("message", (message) => {
-        setMessage(message);
-      });
-    }, []);
-  
-  // const [title, setTitle] = React.useState('');
+  React.useEffect(() => {
+    window.ipc.on("message", (message) => {
+      setMessage(message);
+    });
+  }, []);
 
-    const changeTitle = () => {
-      window.ipc.send('setTitle', document.title);
-    };
+  const [title, setTitle] = React.useState("");
+
+  const changeTitle = () => {
+    window.ipc.send("setTitle", document.title);
+  };
   return (
     <React.Fragment>
       <Head>
         {/* <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"/> */}
-        <title
-        onChange={changeTitle}
-        >Home</title>
+        <title onChange={changeTitle}>Home</title>
       </Head>
       <div className="title">
-        <h2>
-          Home - Teste
-        </h2>
+        <h2>Home - Teste</h2>
       </div>
       <div className="optional">
         {/* <p>
@@ -87,9 +83,7 @@ export default function HomePage() {
       <div className="card">
         Message:
         <div className="message_recieved">
-          <p>
-            Message: [{message}]
-          </p>
+          <p>Message: [{message}]</p>
         </div>
       </div>
     </React.Fragment>
