@@ -3,10 +3,10 @@ from playwright.async_api import Page
  
  
 from Metodos import getPlanilha, getFromAPI, remove_ser
-from Decorators.Main_StartUp import playwright_StartUp
+from Decorators.Main_StartUp import playwright_StartUp_nosub
  
  
-@playwright_StartUp
+@playwright_StartUp_nosub
 async def run(page: Page, index) -> None:
  
     id_externo = getPlanilha.getCell(index=index)
