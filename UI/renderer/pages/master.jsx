@@ -14,7 +14,7 @@ export default function NextPage() {
           Master - <Link href="/home">Go to home page</Link>
         </p> */}
         <h2>Double Check - Master</h2>
-        <div className="card">
+        <div className="card-tutorial">
           <h3>Tutorial</h3>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

@@ -20,6 +20,19 @@ const AppSideBar = () => {
     window.ipc.send("open-excel-file", "../../Planilhas/SALAS.xlsx");
   };
 
+  const [result, setResult] = useState('');
+  const runPython = () => {
+    // ipcRenderer.send('run-python', '../../src/Main_Test.py');
+    // window.ipc.send('run-python');
+    window.ipc.send('run-python', '../../src/Main_Test.py');
+    window.ipc.on('python-result', (event, data) => {
+      setResult(data);
+    });
+    window.ipc.on('python-error', (event, error) => {
+      console.error(error);
+    });
+  };
+
   const toggleDropdown = (menu) => {
     setDropdown((prevState) => ({
       ...prevState,
@@ -201,7 +214,7 @@ const AppSideBar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/teste" className={styles.link}>
+          <Link href="/teste" className={styles.link} onClick={runPython}>
             <Image
               className={styles.icon_menus}
               src="/icon/experiment.png"

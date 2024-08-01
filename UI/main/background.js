@@ -82,3 +82,15 @@ ipcMain.on('open-excel-file', (event, filePath) => {
     }
   });
 });
+
+ipcMain.on('run-python', (event, arg) => {
+  // exec(`python '${arg}'`, (error, stdout, stderr) => {
+    // console.log(`${path.resolve(__dirname, "../../venv/Scripts/python.exe")} ${path.resolve(__dirname, arg)}`)
+  exec(`start ${path.resolve(__dirname, "../../venv/Scripts/python.exe")} ${path.resolve(__dirname, arg)}`, (error, stdout, stderr) => {
+    if (error) {
+      event.reply('python-error', stderr);
+      return;
+    }
+    event.reply('python-result', stdout);
+  });
+});

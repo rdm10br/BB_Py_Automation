@@ -211,9 +211,10 @@
 }
 
 .icon_button {
-  block-size: 20px;
-  padding: 2px;
-  align-self: center;
+  block-size: 1.25rem;
+  padding: 0.125rem;
+  padding-top: 0.25rem;
+  /* align-self: auto; */
   filter: brightness(178%) hue-rotate(0deg);
   /* z-index: -1; */
   /* margin-top: auto; */
