@@ -12,23 +12,40 @@ const Runner = () => {
         //   onClick={() => {
         //     window.ipc.send("message", "Batata");
         //   }}
+        className={styles.runner}
         >
-          Run
+          <Image
+          className={styles.icon_button}
+          src="/icon/play-button-arrowhead.png"
+          height={20}
+          width={20}
+          />
         </button>
         <button
         //   onClick={() => {
         //     window.ipc.send("message", "Batata");
         //   }}
+        className={styles.runner}
         >
-          Pause
+          <Image
+          className={styles.icon_button}
+          src="/icon/pause.png"
+          height={20}
+          width={20}
+          />
         </button>
         <button
           //   onClick={() => {
           //     window.ipc.send("message", "Destructive");
           //   }}
-          className="destructive"
+          className={styles.runner_destructive}
         >
-          Stop
+          <Image
+          className={styles.icon_button}
+          src="/icon/stop-button.png"
+          height={20}
+          width={20}
+          />
         </button>
         <p>Terminal: </p>
         <div className="message_recieved">
