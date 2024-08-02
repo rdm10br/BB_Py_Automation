@@ -71,7 +71,7 @@ const AppSideBar = () => {
         </li>
       </ul>
       <ul>
-        <li>
+        <li className={styles.home}>
           <Link href="/home" className={styles.link}>
             <Image
               className={styles.icon_menus}
