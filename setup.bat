@@ -7,6 +7,7 @@ python -m venv venv
 call venv\Scripts\activate
 
 :: Install dependencies
+pip install --upgrade pip
 pip install -r requirements.txt
 python -m playwright install
 python -m spacy download pt_core_news_sm

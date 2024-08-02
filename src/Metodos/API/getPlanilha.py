@@ -1,6 +1,8 @@
 import pandas as pd
 import openpyxl
 import pyarrow
+# import os
+# print(os.getcwd())
 
 # Acessando o arquivo
 arq_excel = r'Planilhas\SALAS.xlsx'
