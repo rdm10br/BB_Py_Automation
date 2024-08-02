@@ -24,7 +24,7 @@ const AppSideBar = () => {
   const runPython = () => {
     // ipcRenderer.send('run-python', '../../src/Main_Test.py');
     // window.ipc.send('run-python');
-    window.ipc.send('run-python', '../../src/Main_Test.py');
+    window.ipc.send('run-python', 'Main_Test.py');
     window.ipc.on('python-result', (event, data) => {
       setResult(data);
     });
