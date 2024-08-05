@@ -1,10 +1,12 @@
-import asyncio, gc, sys, time
+import asyncio, gc, sys, time, os
 from playwright.async_api import Playwright, async_playwright, expect
 from functools import lru_cache
+import regex as re
+from unidecode import unidecode
 
 
 #importando Metodos principais
-from Metodos import checkup_login, getFromAPI, getBQ, fileChooser, create_bq
+from Metodos import checkup_login, getBQ, fileChooser, create_bq
 from Decorators import capture_console_output_async, TimeStampedStream
 
 @lru_cache
@@ -26,9 +28,10 @@ async def run(playwright: Playwright) -> None:
     
     limit = 100
     offset = 0
-    maxLimit = 2147483647
+    maxLimit = 2147483647 # 2_147_483_647
     
     bq_id = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments?limit={limit}&offset={offset}'
+    bq_id_max = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments?limit={maxLimit}&offset={offset}'
     
     def API_bq_id(_offset: int):
         API = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments?limit={limit}&offset={_offset}'
@@ -71,29 +74,53 @@ async def run(playwright: Playwright) -> None:
     doc = getBQ.enunciado_count(path=path)
     print(doc)
     
-    await page.goto(rootBQ)
-    BQ_name = await create_bq.create_bq(page=page, path=path)
+    file_name = os.path.basename(path)
+    BQ_name = re.sub(r'.docx','',file_name).upper()
+    unidade = ''.join([ch for ch in BQ_name if ch.isdigit()])
+    match unidade[0]:
+            case '1' :
+                item = 'BQ 01'
+            case '2' :
+                item = 'BQ 02'
+            case '3' :
+                item = 'BQ 03'
+            case '4' :
+                item = 'BQ 04'
+    BQ_name = unidecode(BQ_name)
+    BQ_name = re.sub(r'\d','',BQ_name)
+    BQ_name = re.sub(r'\s+', ' ', BQ_name)
+    BQ_name = re.sub(r'\s$', '', BQ_name)
+    BQ_name = re.sub(r'^\s', '', BQ_name)
+    BQ_name = BQ_name.strip()
+    BQ_name = f'{BQ_name} - {item}_GRADUACAO'
     print(BQ_name)
-    await page.goto(bq_id)
     
-    length = await page.evaluate('JSON.parse(document.body.innerText).results.length')
-    count = await page.evaluate('JSON.parse(document.body.innerText).paging.count')
-    counter = count - length
-    id_BQ = ''
-    
-    while not id_BQ:
-        try:
-            id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
-            print(f'ID found: {id_BQ}')
-        except Exception as e:
-            print(f'Error fetching id_BQ: {e}')
+    try:
+        await page.goto(bq_id_max)
+        id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+        print(f'ID found: {id_BQ}')
+    except Exception as e:
+        await page.goto(rootBQ)
+        await create_bq.create_bq(page=page, BQ_name=BQ_name)
+        await page.goto(bq_id)
+        
+        length = await page.evaluate('JSON.parse(document.body.innerText).results.length')
+        count = await page.evaluate('JSON.parse(document.body.innerText).paging.count')
+        # counter = count - length
+        
+        while not id_BQ:
             try:
-                if offset <= count:
-                    offset+=length
-                    id_BQ = await loop_BQ_id(offset)
-                    print(f'ID found: {id_BQ}')
+                id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+                print(f'ID found: {id_BQ}')
             except Exception as e:
-                print(f'Error in loop_BQ_id: {e}')
+                print(f'Error fetching id_BQ: {e}')
+                try:
+                    if offset <= count:
+                        offset+=length
+                        id_BQ = await loop_BQ_id(offset)
+                        print(f'ID found: {id_BQ}')
+                except Exception as e:
+                    print(f'Error in loop_BQ_id: {e}')
 
 
     await page.goto(BQTest(id_BQ=id_BQ))

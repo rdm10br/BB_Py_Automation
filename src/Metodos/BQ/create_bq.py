@@ -5,36 +5,16 @@ import os
 from unidecode import unidecode
 
 
-async def create_bq(page: Page, path: str) -> str:
+async def create_bq(page: Page, BQ_name: str) -> str:
     """_summary_
 
     Args:
         page (Page): _description_
-        path (str): _description_
+        BQ_name (str): _description_
     """
-    file_name = os.path.basename(path)
-    BQ_name = re.sub(r'.docx','',file_name).upper()
-    unidade = ''.join([ch for ch in BQ_name if ch.isdigit()])
-    match unidade[0]:
-            case '1' :
-                item = 'BQ 01'
-            case '2' :
-                item = 'BQ 02'
-            case '3' :
-                item = 'BQ 03'
-            case '4' :
-                item = 'BQ 04'
-    BQ_name = unidecode(BQ_name)
-    BQ_name = re.sub(r'\d','',BQ_name)
-    BQ_name = re.sub(r'\s+', ' ', BQ_name)
-    BQ_name = re.sub(r'\s$', '', BQ_name)
-    BQ_name = re.sub(r'^\s', '', BQ_name)
-    BQ_name = BQ_name.strip()
-    BQ_name = f'{BQ_name} - {item}_GRADUACAO'
     await page.get_by_role("button", name="Criar banco de testes").click()
     await page.get_by_label("Nome", exact=True).fill(BQ_name)
     await page.get_by_role("button", name="Enviar").click()
-    return BQ_name
     
     
 async def create_question(index: int, path: str, page: Page):
