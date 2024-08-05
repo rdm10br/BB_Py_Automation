@@ -1,0 +1,25 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - 'master'
+
+jobs:
+  continuous-integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install
+          python -m spacy download pt_core_news_sm
