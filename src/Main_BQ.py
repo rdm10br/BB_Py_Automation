@@ -96,6 +96,7 @@ async def run(playwright: Playwright) -> None:
     print(BQ_name)
     
     try:
+        id_BQ = ''
         await page.goto(bq_id_max)
         id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
         print(f'ID found: {id_BQ}')
