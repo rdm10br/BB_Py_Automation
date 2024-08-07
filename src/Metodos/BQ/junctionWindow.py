@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import (QApplication, QMainWindow,
-    QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog)
+    QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout)
 from PySide6.QtGui import QIcon, QCursor
 from PySide6.QtCore import Qt, QTimer
 import sys
@@ -14,8 +14,8 @@ class MainWindow(QMainWindow):
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
         self.setStyleSheet('background-color: #001A33;')
         
-        self.window_width = 250
-        self.window_height = 100
+        self.window_width = 300
+        self.window_height = 150
         self.resize(self.window_width, self.window_height)
         
         self.central_widget = QWidget()
@@ -23,60 +23,58 @@ class MainWindow(QMainWindow):
 
         layout = QVBoxLayout(self.central_widget)
         
-        self.label = QLabel("Escolha o arquivo do BQ:", self)
+        self.label = QLabel("É uma junção?", self)
         self.label.setStyleSheet('color: white;')
         layout.addWidget(self.label)
 
-        self.choose_button = QPushButton("Escolha o arquivo", self)
-        self.choose_button.setStyleSheet('background-color: #393D5C; color: white;')
-        layout.addWidget(self.choose_button)
+        button_layout = QHBoxLayout()
         
-        self.choose_button.clicked.connect(self.choose_file)
+        self.yes_button = QPushButton("Sim", self)
+        self.yes_button.setStyleSheet('background-color: #393D5C; color: white;')
+        button_layout.addWidget(self.yes_button)
+        
+        self.no_button = QPushButton("Não", self)
+        self.no_button.setStyleSheet('background-color: #393D5C; color: white;')
+        button_layout.addWidget(self.no_button)
+        
+        layout.addLayout(button_layout)
+        
+        self.yes_button.clicked.connect(self.choose_yes)
+        self.no_button.clicked.connect(self.choose_no)
 
         QTimer.singleShot(0, self.center_window)
     
     def center_window(self):
         cursor_pos = QCursor.pos()
         screen = QApplication.screenAt(cursor_pos)
-        # screen_geometry = QApplication.primaryScreen().geometry()
-        # window_geometry = self.frameGeometry()
-        # x = (screen_geometry.width() - window_geometry.width()) // 2
-        # y = (screen_geometry.height() - window_geometry.height()) // 2
-        # self.move(x, y)
         if screen:
             screen_geometry = screen.geometry()
             window_geometry = self.frameGeometry()
             x = screen_geometry.x() + (screen_geometry.width() - window_geometry.width()) // 2
             y = screen_geometry.y() + (screen_geometry.height() - window_geometry.height()) // 2
             self.move(x, y)
+    
+    def choose_yes(self):
+        self.choice = 'Yes'
+        self.setDisabled(True)
+        self.close()
         
-    def choose_file(self) -> str:
-        todosArquivos = 'All Files (*)'
-        # arquivosTexto = 'Text File (*.docx *.doc)'
-        arquivosTexto = 'Text File (*.docx)'
-        self.fileName, _ = QFileDialog.getOpenFileName(
-            parent=self,
-            caption="Escolha o arquivo",
-            #apenas informando que a separação de cada opção de
-            # filtro é por ';;'
-            filter=f"{todosArquivos};;{arquivosTexto}",
-            selectedFilter=arquivosTexto
-            )
-        if self.fileName:
-            print(f'\n O arquivo selecionado tem o caminho: {self.fileName}\n')
-            self.setDisabled(True)
-            self.close()
-            print(f'file choosen path: {self.fileName}')
-            return self.fileName
-
+    def choose_no(self):
+        self.choice = 'No'
+        self.setDisabled(True)
+        self.close()
 
 def window():
-    print('choosing file...')
+    print('Waiting for user choice...')
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     app.exec()
-    return window.fileName
+    return window.choice if hasattr(window, 'choice') else None
 
 if __name__ == "__main__":
-    window()
+    user_choice = window()
+    if user_choice:
+        print(f'User chose: {user_choice}')
+    else:
+        print('No choice was made')
