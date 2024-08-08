@@ -32,7 +32,7 @@ def playwright_StartUp(func):
             print('\nExecution Start')
             
             browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'], timeout=60*1000)
-            context = await browser.new_context(no_viewport=True, color_scheme='dark')
+            context = await browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True, color_scheme='dark')
             page = await context.new_page()
             
             start_time0 = time.time()
@@ -58,7 +58,7 @@ def playwright_StartUp(func):
                 
                 if cell_status == 'nan':
                     
-                    new_context = await browser.new_context(no_viewport=True)
+                    new_context = await browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True)
                     await new_context.add_cookies(cookies)
                     new_page = await new_context.new_page()
                     
@@ -97,7 +97,7 @@ def playwright_StartUp_nosub(func):
             print('\nExecution Start')
             
             browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'], timeout=60*1000)
-            context = await browser.new_context(no_viewport=True, color_scheme='dark')
+            context = await browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True, color_scheme='dark')
             page = await context.new_page()
             
             start_time0 = time.time()
@@ -123,7 +123,7 @@ def playwright_StartUp_nosub(func):
                 
                 if cell_status == 'nan':
                     
-                    new_context = await browser.new_context(no_viewport=True)
+                    new_context = await browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True)
                     await new_context.add_cookies(cookies)
                     new_page = await new_context.new_page()
                     

@@ -1,4 +1,4 @@
-from playwright.async_api import Playwright, async_playwright, expect, Page
+from playwright.async_api import Page
 
 
 async def API_Req_Content(page: Page, id_interno: str, item_Search: str) -> str:
@@ -21,9 +21,9 @@ async def API_Req_Content(page: Page, id_interno: str, item_Search: str) -> str:
         'Erro na sala: ```id_interno``` no item: ```item_Search``` não foi
         encontrado'
     """
-    baseURL = "https://sereduc.blackboard.com/"
+    # baseURL = "https://sereduc.blackboard.com/"
     
-    internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents?title={item_Search}'
+    internalID_API = f'./learn/api/public/v1/courses/{id_interno}/contents?title={item_Search}'
     
     print(f'Looking on Api Content for {item_Search} in {id_interno}')
     
@@ -77,9 +77,9 @@ async def API_Req_Content_children(page: Page, id_interno: str, father_id: str, 
         'Erro na sala: ```id_interno``` no item: ```item_Search``` não foi
         encontrado'
     """
-    baseURL = "https://sereduc.blackboard.com/"
+    # baseURL = "https://sereduc.blackboard.com/"
     
-    internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'
+    internalID_API = f'./learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children?title={item_Search}'
     
     print(f'Looking on Api Content Children for {item_Search} in {id_interno}')
     
@@ -128,9 +128,9 @@ async def API_Req_Content_Discussion(page: Page, id_interno: str, item_Search: s
         'Erro na sala: ```id_interno``` no item: ```item_Search``` não foi
         encontrado'
     """
-    baseURL = "https://sereduc.blackboard.com/"
+    # baseURL = "https://sereduc.blackboard.com/"
     
-    internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents?title={item_Search}'
+    internalID_API = f'./learn/api/public/v1/courses/{id_interno}/contents?title={item_Search}'
 
     print(f'Looking on Api Content Discussion for {item_Search} in {id_interno}')
 

@@ -1,4 +1,4 @@
-from playwright.async_api import Playwright, async_playwright, expect, Page
+from playwright.async_api import Page
 
 from Metodos.API import getApiContent
 
@@ -12,8 +12,8 @@ async def inserirArquivoDIG(page: Page, id_interno: str) -> None:
         you want this Function to run
         id_interno (str): internal ID of the classroom
     """
-    baseURL = "https://sereduc.blackboard.com/"
-    importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
+    # baseURL = "https://sereduc.blackboard.com/"
+    importgroup = f"./webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'Planilhas\\GRUPOS1.csv'
     
     print('Starting adjustments: "Inserir Arquivo DIG Grupos"')
@@ -41,8 +41,8 @@ async def inserirArquivoVET(page: Page, id_interno: str) -> None:
         you want this Function to run
         id_interno (str): internal ID of the classroom
     """
-    baseURL = "https://sereduc.blackboard.com/"
-    importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
+    # baseURL = "https://sereduc.blackboard.com/"
+    importgroup = f"./webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
     file_path = 'Planilhas\\GRUPOS_SEM_FAEL.csv'
 
     print('Starting adjustments: "Inserir Arquivo Veteranos Grupos"')
@@ -71,8 +71,8 @@ async def atribuirGruposDIG(page: Page, id_interno: str) -> None:
         you want this Function to run
         id_interno (str): internal ID of the classroom
     """
-    baseURL = "https://sereduc.blackboard.com/"
-    classURL = f'{baseURL}ultra/courses/{id_interno}'
+    # baseURL = "https://sereduc.blackboard.com/"
+    classURL = f'./ultra/courses/{id_interno}'
     groups = f'{classURL}/groups'
     item_search = 'Desafio Colaborativo'
     print('Getting "Desafio Colaborativo" ID...')
@@ -144,8 +144,8 @@ async def atribuirGruposVET(page: Page, id_interno: str) -> None:
         you want this Function to run
         id_interno (str): internal ID of the classroom
     """
-    baseURL = "https://sereduc.blackboard.com/"
-    classURL = f'{baseURL}ultra/courses/{id_interno}'
+    # baseURL = "https://sereduc.blackboard.com/"
+    classURL = f'./ultra/courses/{id_interno}'
     groups = f'{classURL}/groups'
     item_search = 'Desafio Colaborativo'
     print('Getting "Desafio Colaborativo" ID...')

@@ -1,4 +1,4 @@
-from playwright.async_api import Playwright, async_playwright, expect, Page
+from playwright.async_api import Page
 
 async def AjusteNotaZero(page: Page, id_interno: str) -> None:
     """
@@ -10,8 +10,8 @@ async def AjusteNotaZero(page: Page, id_interno: str) -> None:
         you want this Function to run
         id_interno (str): internal ID of the classroom
     """
-    baseURL = "https://sereduc.blackboard.com/"
-    classURL = f'{baseURL}ultra/courses/'
+    # baseURL = "https://sereduc.blackboard.com/"
+    classURL = f'./ultra/courses/'
     ContentURL = f'{classURL}{id_interno}/outline'
     GradeURL = f'{classURL}{id_interno}/grades?gradebookView=list&listViewType=assignments'
 

@@ -1,4 +1,4 @@
-from playwright.async_api import Playwright, async_playwright, expect, Page
+from playwright.async_api import Page
 from Metodos.API import getApiContent
 
 async def ajusteAvaliacao(page: Page, id_interno: str) -> None:
@@ -14,8 +14,8 @@ async def ajusteAvaliacao(page: Page, id_interno: str) -> None:
     """
     itemSearch = 'Avaliações'
     # ClassURLUltra = page.url
-    baseURL = 'https://sereduc.blackboard.com/'
-    classURL = f'{baseURL}ultra/courses/'
+    # baseURL = 'https://sereduc.blackboard.com/'
+    classURL = f'./ultra/courses/'
     ClassURLUltra = f'{classURL}{id_interno}/outline'
     print(f'Getting API ID for {itemSearch} folder')
     try:

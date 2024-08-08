@@ -10,10 +10,10 @@ from Decorators import capture_console_output_async, TimeStampedStream
 async def run(playwright: Playwright) -> None:
     sys.stdout = TimeStampedStream(sys.stdout)
     browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
-    context = await browser.new_context(no_viewport=True)
+    context = await browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True)
     page = await context.new_page()
     
-    baseURL = 'https://sereduc.blackboard.com/'
+    # baseURL = 'https://sereduc.blackboard.com/'
     # await page.goto(baseURL)
     # Verificar se está logado e logar
     await checkup_login.checkup_login(page=page)
@@ -21,7 +21,7 @@ async def run(playwright: Playwright) -> None:
     index = 0
     totalplan2 = getPlanilha.total_lines_plan2
     
-    cookies = await page.context.cookies(urls=baseURL)
+    cookies = await page.context.cookies(urls='https://sereduc.blackboard.com')
     
     for index in range(totalplan2) :
         index +=1
@@ -32,7 +32,7 @@ async def run(playwright: Playwright) -> None:
             pass
         else :
             new_browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
-            new_context = await new_browser.new_context(no_viewport=True)
+            new_context = await new_browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True)
             # Assuming 'cookies' is the list of cookies obtained earlier
             await new_context.add_cookies(cookies)
             new_page = await new_context.new_page()

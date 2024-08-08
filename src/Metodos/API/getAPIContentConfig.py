@@ -6,17 +6,17 @@ from Metodos.API import getPlanilha as gp
 
 async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -> str:
 
-    baseURL = 'https://sereduc.blackboard.com/'
-    internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents'
-    internalID_API_noPublic = f'{baseURL}learn/api/v1/courses/{id_interno}/contents'
-    APIGradeCollum = f'{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'
+    # baseURL = 'https://sereduc.blackboard.com/'
+    internalID_API = f'./learn/api/public/v1/courses/{id_interno}/contents'
+    internalID_API_noPublic = f'./learn/api/v1/courses/{id_interno}/contents'
+    APIGradeCollum = f'./learn/api/v1/courses/{id_interno}/gradebook/columns'
 
     def APIFolder_noPublic(fatherID: str):
-        API = f'{baseURL}learn/api/v1/courses/{id_interno}/contents/{fatherID}/children'
+        API = f'./learn/api/v1/courses/{id_interno}/contents/{fatherID}/children'
         return API
     
     def APIFolder(father_id: str):
-        API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children'
+        API = f'./learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children'
         return API
 
     def request_unfiltered_noResults(config: str):
@@ -176,7 +176,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
         
         async def configs(item_search: str, id_interno: str, itemID: str):
             
-            APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/'''
+            APIEncapsulamento = f'''./learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/'''
             # search_item = ''.join([ch for ch in item_search if ch.isdigit()])
             description_DIG = 'Já estudou o conteúdo desta unidade? Agora teste seus conhecimentos respondendo ao Questionário. Você pode realizá-lo quantas vezes desejar e descobrir o quanto aprendeu, sem interferir na sua nota da disciplina.'
             description_TRAD = [
@@ -274,7 +274,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
             config = 'id'
             IDcover = await page.evaluate(request_unfiltered0(config=config))
                 
-            APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/{IDcover}/questions?expand=sourceInfo'''
+            APIBQItem = f'''./learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/{IDcover}/questions?expand=sourceInfo'''
             
             await page.goto(url=APIBQItem, wait_until='commit')
             
@@ -613,14 +613,14 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
                 print(f'Checking {item_Search} contentHandler.targetId...')
                 targetID = await page.evaluate(filteredRequest_title(item_Search, config))
                 
-                APITargetID = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{targetID}'
+                APITargetID = f'./learn/api/public/v1/courses/{id_interno}/contents/{targetID}'
                 await page.goto(url=APITargetID, wait_until='commit')
                 
                 config = 'contentHandler.discussionId'
                 print(f'Checking {item_Search} contentHandler.discussionId...')
                 discussionID = await page.evaluate(request_unfiltered_noResults(config=config))
                 
-                API_Discussion_groups = f'{baseURL}learn/api/public/v1/courses/{id_interno}/discussions/{discussionID}/groups'
+                API_Discussion_groups = f'./learn/api/public/v1/courses/{id_interno}/discussions/{discussionID}/groups'
                 await page.goto(url=API_Discussion_groups, wait_until='commit')
                 
                 config = 'length'

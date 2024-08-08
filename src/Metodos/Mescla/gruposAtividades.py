@@ -1,4 +1,4 @@
-from playwright.async_api import Playwright, async_playwright, expect, Page
+from playwright.async_api import Page
 from Metodos.API import getApiContent
 from unidecode import unidecode
 import regex as re
@@ -14,8 +14,8 @@ async def inserirArquivo(page: Page, id_interno: str, Area: str) -> None:
         id_interno (str): internal ID of the classroom
         Area (str): Course Area of the classroom
     """
-    baseURL = "https://sereduc.blackboard.com/"
-    importgroup = f"{baseURL}webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id="\
+    # baseURL = "https://sereduc.blackboard.com/"
+    importgroup = f"./webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id="\
         f"{id_interno}&toggleType=all&fromPage=groups"
     Area = re.sub(r"\[\'", '', Area)
     Area = re.sub(r"\'\]", '', Area)
@@ -54,8 +54,8 @@ async def ID_FolderAV2(page: Page, id_interno) -> None:
 
 
 async def inserirGruposAtividadesAV1(page: Page, id_interno, curso):
-    baseURL = 'https://sereduc.blackboard.com/'
-    classUrlUltra = f'{baseURL}ultra/courses/{id_interno}/outline'
+    # baseURL = 'https://sereduc.blackboard.com/'
+    classUrlUltra = f'./ultra/courses/{id_interno}/outline'
     item = f'Envio AV1 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
     # folder_id = ID_FolderAV1(playwright , id_interno)
@@ -89,8 +89,8 @@ async def inserirGruposAtividadesAV1(page: Page, id_interno, curso):
 
 
 async def inserirGruposAtividadesAV2(page: Page, id_interno, curso):
-    baseURL = 'https://sereduc.blackboard.com/'
-    classUrlUltra = f'{baseURL}ultra/courses/{id_interno}/outline'
+    # baseURL = 'https://sereduc.blackboard.com/'
+    classUrlUltra = f'./ultra/courses/{id_interno}/outline'
     item = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
     # folder_id = ID_FolderAV1(playwright , id_interno)

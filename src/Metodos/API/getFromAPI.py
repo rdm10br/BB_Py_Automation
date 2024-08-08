@@ -1,5 +1,5 @@
 import regex as re
-from playwright.async_api import Playwright, async_playwright, expect, Page
+from playwright.async_api import Page
 
 
 from Metodos.API import getPlanilha
@@ -22,8 +22,8 @@ async def API_Req(page: Page, index: int) -> str:
     """
     id_externo = getPlanilha.getCell(index=index)
     
-    baseURL = "https://sereduc.blackboard.com/"
-    internalID_API = f'{baseURL}learn/api/public/v3/courses/courseId:{id_externo}'
+    # baseURL = "https://sereduc.blackboard.com/"
+    internalID_API = f'./learn/api/public/v3/courses/courseId:{id_externo}'
 
     print(f'Looking on Api Request to find internal ID of {id_externo}')
 
@@ -44,8 +44,8 @@ async def API_Ativ_Course(page: Page, id_externo: str) -> str:
     Returns:
         str: ```course_area```
     """
-    baseURL = "https://sereduc.blackboard.com/"
-    internalID_API = f'{baseURL}learn/api/public/v3/courses/courseId:{id_externo}'
+    # baseURL = "https://sereduc.blackboard.com/"
+    internalID_API = f'./learn/api/public/v3/courses/courseId:{id_externo}'
     
     request = '() => {return JSON.parse(document.body.innerText).name.match(/(?<=[(]).*(?=[)])/)}'
 

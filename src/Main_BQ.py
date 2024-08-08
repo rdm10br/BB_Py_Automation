@@ -16,29 +16,29 @@ async def run(playwright: Playwright) -> None:
     print('\nExecution Start')
     
     browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'], timeout=60*1000)
-    context = await browser.new_context(no_viewport=True)
+    context = await browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True)
     page = await context.new_page()
     
-    baseURL = 'https://sereduc.blackboard.com/'
-    # classURL = f'{baseURL}ultra/courses/'
+    # baseURL = 'https://sereduc.blackboard.com/'
+    # classURL = f'./ultra/courses/'
     id_repository = '_247460_1'
     
-    rootBQ = f'{baseURL}webapps/assessment/do/authoring/'\
+    rootBQ = f'./webapps/assessment/do/authoring/'\
     f'viewAssessmentManager?assessmentType=Pool&course_id={id_repository}'
     
     limit = 100
     offset = 0
     maxLimit = 2147483647 # 2_147_483_647
     
-    bq_id = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments?limit={limit}&offset={offset}'
-    bq_id_max = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments?limit={maxLimit}&offset={offset}'
+    bq_id = f'./learn/api/v1/courses/{id_repository}/assessments?limit={limit}&offset={offset}'
+    bq_id_max = f'./learn/api/v1/courses/{id_repository}/assessments?limit={maxLimit}&offset={offset}'
     
     def API_bq_id(_offset: int):
-        API = f'{baseURL}learn/api/v1/courses/{id_repository}/assessments?limit={limit}&offset={_offset}'
+        API = f'./learn/api/v1/courses/{id_repository}/assessments?limit={limit}&offset={_offset}'
         return API
     
     def BQTest(id_BQ: str):
-        BQ = f'{baseURL}webapps/assessment/do/authoring/modifyAssessment?'\
+        BQ = f'./webapps/assessment/do/authoring/modifyAssessment?'\
             f'method=modifyAssessment&course_id={id_repository}'\
             f'&assessmentId={id_BQ}'
         return BQ
@@ -66,7 +66,7 @@ async def run(playwright: Playwright) -> None:
     executionTime0 = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
     print(executionTime0)
     
-    cookies = await page.context.cookies(urls=baseURL)
+    cookies = await page.context.cookies(urls='https://sereduc.blackboard.com')
     print('cookies caught')
     
     path = fileChooser.window_file()
