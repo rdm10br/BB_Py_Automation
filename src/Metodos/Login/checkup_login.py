@@ -44,12 +44,12 @@ async def checkup_login(page: Page) -> None:
     loginURL = f'./webapps/login/'
     
     await page.goto(loginURL)
-    await page.wait_for_load_state('networkidle')
+    await page.wait_for_load_state('domcontentloaded')
     
     if await load_cookies_from_cache(page):
         print('Using cache to login...')
         await page.goto('./')
-        await page.wait_for_load_state('networkidle')
+        await page.wait_for_load_state('domcontentloaded')
         if "Disciplinas" in await page.title():
             print('Logged in successfully using cached cookies!')
             return
