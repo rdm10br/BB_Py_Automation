@@ -54,7 +54,7 @@ async def ID_FolderAV2(page: Page, id_interno) -> None:
 
 
 async def inserirGruposAtividadesAV1(page: Page, id_interno, curso):
-    # baseURL = 'https://sereduc.blackboard.com/'
+    
     classUrlUltra = f'./ultra/courses/{id_interno}/outline'
     item = f'Envio AV1 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'
@@ -89,7 +89,7 @@ async def inserirGruposAtividadesAV1(page: Page, id_interno, curso):
 
 
 async def inserirGruposAtividadesAV2(page: Page, id_interno, curso):
-    # baseURL = 'https://sereduc.blackboard.com/'
+    
     classUrlUltra = f'./ultra/courses/{id_interno}/outline'
     item = f'Envio AV2 - Atividade Prática de Extensão ({curso})'
     searchURL = f'{classUrlUltra}?search={item}'

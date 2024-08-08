@@ -3,7 +3,7 @@ from playwright.async_api import Page
 
 
 async def verify_calculated(page: Page, id_interno: str):
-    # baseURL = 'https://sereduc.blackboard.com/'
+    
     api = f'./learn/api/v1/courses/{id_interno}/gradebook/columns'
     item = 'AV1'
     request = f'''JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}").calculationType'''
@@ -19,7 +19,7 @@ async def verify_calculated(page: Page, id_interno: str):
 
 
 async def newAV1(page: Page, id_interno: str) -> None:
-    # baseURL = 'https://sereduc.blackboard.com/'
+    
     urlGradeBook = f'./ultra/courses/{id_interno}/grades?gradebookView=list'
     verify = await verify_calculated(page=page, id_interno=id_interno)
     timer_padrão = 1000*2

@@ -6,7 +6,7 @@ from Metodos.API import getPlanilha as gp
 
 async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -> str:
 
-    # baseURL = 'https://sereduc.blackboard.com/'
+    
     internalID_API = f'./learn/api/public/v1/courses/{id_interno}/contents'
     internalID_API_noPublic = f'./learn/api/v1/courses/{id_interno}/contents'
     APIGradeCollum = f'./learn/api/v1/courses/{id_interno}/gradebook/columns'

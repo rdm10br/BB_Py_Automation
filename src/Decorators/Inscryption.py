@@ -6,7 +6,7 @@ from Metodos import getFromAPI
 async def Auto_Sub(page: Page, index: int):
     
     id_interno = await getFromAPI.API_Req(page=page, index=index)
-    # baseURL = 'https://sereduc.blackboard.com/'
+    
     # rootURL = f'./webapps/blackboard/execute/recycler?course_id={id_interno}&action=select&context=COURSE#'
     inscryption = f'./webapps/blackboard/execute/editCourseEnrollment?course_id={id_interno}&sourceType=COURSES'
     API_User = f'./learn/api/public/v1/users/me'
@@ -27,7 +27,7 @@ async def Auto_Sub(page: Page, index: int):
 async def Auto_Unsub(page: Page, index: int):
     
     id_interno = await getFromAPI.API_Req(page=page, index=index)
-    # baseURL = 'https://sereduc.blackboard.com/'
+    
     
     # rootURL = f'./webapps/blackboard/execute/recycler?course_id='\
     #     f'{id_interno}&action=select&context=COURSE#'

@@ -24,7 +24,7 @@ async def run(playwright: Playwright) -> None:
     context = await browser.new_context(base_url=baseURL, no_viewport=True)
     page = await context.new_page()
     
-    # baseURL = 'https://sereduc.blackboard.com/'
+    
     # classURL = f'./ultra/courses/'
     
     rootBQ = f'./webapps/assessment/do/authoring/'\
