@@ -2,7 +2,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow,
     QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog)
 from PySide6.QtGui import QIcon, QCursor
 from PySide6.QtCore import Qt, QTimer
-import sys
+import sys, json
 
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
@@ -50,11 +50,11 @@ class MainWindow(QMainWindow):
             y = screen_geometry.y() + (screen_geometry.height() - window_geometry.height()) // 2
             self.move(x, y)
         
-    def choose_file(self) -> str:
+    def choose_file(self) -> list[str]:
         todosArquivos = 'All Files (*)'
         # arquivosTexto = 'Text File (*.docx *.doc)'
         arquivosTexto = 'Text File (*.docx)'
-        self.fileName, _ = QFileDialog.getOpenFileName(
+        self.fileName, _ = QFileDialog.getOpenFileNames(
             parent=self,
             caption="Escolha o arquivo",
             #apenas informando que a separação de cada opção de
@@ -63,7 +63,16 @@ class MainWindow(QMainWindow):
             selectedFilter=arquivosTexto
             )
         if self.fileName:
-            print(f'\n O arquivo selecionado tem o caminho: {self.fileName}\n')
+            # print(f'\n O arquivo selecionado tem o caminho: {self.fileName}\n')
+            
+            data = {"selected_files": self.fileName}
+            # json_data = json.dumps(data, indent=4)
+            
+            # Save the JSON string to a file
+            with open(r"src\Metodos\BQ\__pycache__\selected_files.json", "w", encoding="utf-8") as json_file:
+                # json_file.write(json_data)
+                json.dump(data, json_file, ensure_ascii=False, indent=4)
+            
             self.setDisabled(True)
             self.close()
             print(f'file choosen path: {self.fileName}')
