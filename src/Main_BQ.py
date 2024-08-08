@@ -94,126 +94,69 @@ async def run(playwright: Playwright) -> None:
     BQ_name = BQ_name.strip()
     BQ_name = f'{BQ_name} - {item}_GRADUACAO'
     print(BQ_name)
-    
-    async def no_junction ():
-        try:
-            id_BQ = ''
-            await page.goto(bq_id_max)
-            id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
-            BQ_count = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='questionCount'))
-            print(f'ID found: {id_BQ}')
-        except Exception as e:
-            await page.goto(rootBQ)
-            await create_bq.create_bq(page=page, BQ_name=BQ_name)
-            await page.goto(bq_id)
-            
-            length = await page.evaluate('JSON.parse(document.body.innerText).results.length')
-            count = await page.evaluate('JSON.parse(document.body.innerText).paging.count')
-            # counter = count - length
-            
-            while not id_BQ:
-                try:
-                    id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
-                    print(f'ID found: {id_BQ}')
-                except Exception as e:
-                    print(f'Error fetching id_BQ: {e}')
-                    try:
-                        if offset <= count:
-                            offset+=length
-                            id_BQ = await loop_BQ_id(offset)
-                            print(f'ID found: {id_BQ}')
-                    except Exception as e:
-                        print(f'Error in loop_BQ_id: {e}')
-
-
-        await page.goto(BQTest(id_BQ=id_BQ))
-        index = BQ_count
-        for index in range(doc):
-            index +=1
-            
-            new_context = await browser.new_context(no_viewport=True)
-            await new_context.add_cookies(cookies)
-            new_page = await new_context.new_page()
-            
-            start_time = time.time()
-            print(f'\nQuestão : {index}')
-            
-            await new_page.goto(url=BQTest(id_BQ=id_BQ), wait_until='commit')
-            # await new_page.wait_for_timeout(1000)
-            
-            await create_bq.create_question(index=index, path=path, page=new_page)
-            
-            await new_context.close()
-            
-            end_time = time.time()
-            execution_time = end_time - start_time
-            executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
-            print('{:5} | {}'.format(f'Run: {index}',executionTime))
-            
-            gc.collect()
-            
-    async def junction ():
-        try:
-            id_BQ = ''
-            await page.goto(bq_id_max)
-            id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
-            print(f'ID found: {id_BQ}')
-        except Exception as e:
-            await page.goto(rootBQ)
-            await create_bq.create_bq(page=page, BQ_name=BQ_name)
-            await page.goto(bq_id)
-            
-            length = await page.evaluate('JSON.parse(document.body.innerText).results.length')
-            count = await page.evaluate('JSON.parse(document.body.innerText).paging.count')
-            # counter = count - length
-            
-            while not id_BQ:
-                try:
-                    id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
-                    print(f'ID found: {id_BQ}')
-                except Exception as e:
-                    print(f'Error fetching id_BQ: {e}')
-                    try:
-                        if offset <= count:
-                            offset+=length
-                            id_BQ = await loop_BQ_id(offset)
-                            print(f'ID found: {id_BQ}')
-                    except Exception as e:
-                        print(f'Error in loop_BQ_id: {e}')
-
-
-        await page.goto(BQTest(id_BQ=id_BQ))
-        
-        for index in range(doc):
-            index +=1
-            
-            new_context = await browser.new_context(no_viewport=True)
-            await new_context.add_cookies(cookies)
-            new_page = await new_context.new_page()
-            
-            start_time = time.time()
-            print(f'\nQuestão : {index}')
-            
-            await new_page.goto(url=BQTest(id_BQ=id_BQ), wait_until='commit')
-            # await new_page.wait_for_timeout(1000)
-            
-            await create_bq.create_question(index=index, path=path, page=new_page)
-            
-            await new_context.close()
-            
-            end_time = time.time()
-            execution_time = end_time - start_time
-            executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
-            print('{:5} | {}'.format(f'Run: {index}',executionTime))
-            
-            gc.collect()
             
     isjunction = junctionWindow.window()
+        
+    try:
+        id_BQ = ''
+        BQ_count = 0
+        await page.goto(bq_id_max)
+        id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+        if isjunction == 'yes':
+            BQ_count = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='questionCount'))
+        elif isjunction == 'no':
+            pass
+        print(f'ID found: {id_BQ}')
+    except Exception as e:
+        await page.goto(rootBQ)
+        await create_bq.create_bq(page=page, BQ_name=BQ_name)
+        await page.goto(bq_id)
+        
+        length = await page.evaluate('JSON.parse(document.body.innerText).results.length')
+        count = await page.evaluate('JSON.parse(document.body.innerText).paging.count')
+        # counter = count - length
+        
+        while not id_BQ:
+            try:
+                id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+                print(f'ID found: {id_BQ}')
+            except Exception as e:
+                print(f'Error fetching id_BQ: {e}')
+                try:
+                    if offset <= count:
+                        offset+=length
+                        id_BQ = await loop_BQ_id(offset)
+                        print(f'ID found: {id_BQ}')
+                except Exception as e:
+                    print(f'Error in loop_BQ_id: {e}')
+
+
+    await page.goto(BQTest(id_BQ=id_BQ))
+    index = BQ_count
     
-    if isjunction == 'yes':
-        await junction()
-    elif isjunction == 'no':
-        await no_junction()
+    for index in range(doc):
+        index +=1
+        
+        new_context = await browser.new_context(no_viewport=True)
+        await new_context.add_cookies(cookies)
+        new_page = await new_context.new_page()
+        
+        start_time = time.time()
+        print(f'\nQuestão : {index}')
+        
+        await new_page.goto(url=BQTest(id_BQ=id_BQ), wait_until='commit')
+        # await new_page.wait_for_timeout(1000)
+        
+        await create_bq.create_question(index=index, path=path, page=new_page)
+        
+        await new_context.close()
+        
+        end_time = time.time()
+        execution_time = end_time - start_time
+        executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
+        print('{:5} | {}'.format(f'Run: {index}',executionTime))
+        
+        gc.collect()
 
 
 async def main():
