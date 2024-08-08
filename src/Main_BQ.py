@@ -3,6 +3,7 @@ from playwright.async_api import Playwright, async_playwright, expect
 from functools import lru_cache
 import regex as re
 from unidecode import unidecode
+from dotenv import load_dotenv
 
 
 #importando Metodos principais
@@ -12,16 +13,20 @@ from Decorators import capture_console_output_async, TimeStampedStream
 @lru_cache
 @capture_console_output_async
 async def run(playwright: Playwright) -> None:
+    load_dotenv()
+    id_repository = os.getenv('id_repository')
+    baseURL = os.getenv('base_url')
+    
     sys.stdout = TimeStampedStream(sys.stdout)
     print('\nExecution Start')
     
     browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'], timeout=60*1000)
-    context = await browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True)
+    context = await browser.new_context(base_url=baseURL, no_viewport=True)
     page = await context.new_page()
     
     # baseURL = 'https://sereduc.blackboard.com/'
     # classURL = f'./ultra/courses/'
-    id_repository = '_247460_1'
+    # id_repository = '_247460_1'
     
     rootBQ = f'./webapps/assessment/do/authoring/'\
     f'viewAssessmentManager?assessmentType=Pool&course_id={id_repository}'
@@ -66,7 +71,7 @@ async def run(playwright: Playwright) -> None:
     executionTime0 = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
     print(executionTime0)
     
-    cookies = await page.context.cookies(urls='https://sereduc.blackboard.com')
+    cookies = await page.context.cookies(urls=baseURL)
     print('cookies caught')
     
     path = fileChooser.window_file()

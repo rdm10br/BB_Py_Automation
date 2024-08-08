@@ -1,7 +1,8 @@
-import gc, sys, time
+import gc, sys, time, os
 from functools import wraps, lru_cache
 from playwright.async_api import async_playwright
 # from PySide6.QtCore import Signal, QObject, QThread
+from dotenv import load_dotenv
 
 from Metodos import getPlanilha, checkup_login
 from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_async
@@ -27,12 +28,14 @@ def playwright_StartUp(func):
     @capture_console_output_async
     async def wrapper(*args, **kwargs):
         async with async_playwright() as playwright:
+            load_dotenv()
+            baseURL = os.getenv('base_url')
             
             sys.stdout = TimeStampedStream(sys.stdout)
             print('\nExecution Start')
             
             browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'], timeout=60*1000)
-            context = await browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True, color_scheme='dark')
+            context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark')
             page = await context.new_page()
             
             start_time0 = time.time()
@@ -42,7 +45,7 @@ def playwright_StartUp(func):
             executionTime0 = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
             print(executionTime0)
             
-            cookies = await page.context.cookies(urls="https://sereduc.blackboard.com/")
+            cookies = await page.context.cookies(urls=baseURL)
             print('cookies caught')
             # await flush_then_wait()
             total_lines_plan1 = getPlanilha.total_lines
@@ -58,7 +61,7 @@ def playwright_StartUp(func):
                 
                 if cell_status == 'nan':
                     
-                    new_context = await browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True)
+                    new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                     await new_context.add_cookies(cookies)
                     new_page = await new_context.new_page()
                     
@@ -92,12 +95,14 @@ def playwright_StartUp_nosub(func):
     @capture_console_output_async
     async def wrapper(*args, **kwargs):
         async with async_playwright() as playwright:
+            load_dotenv()
+            baseURL = os.getenv('base_url')
             
             sys.stdout = TimeStampedStream(sys.stdout)
             print('\nExecution Start')
             
             browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'], timeout=60*1000)
-            context = await browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True, color_scheme='dark')
+            context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark')
             page = await context.new_page()
             
             start_time0 = time.time()
@@ -107,7 +112,7 @@ def playwright_StartUp_nosub(func):
             executionTime0 = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
             print(executionTime0)
             
-            cookies = await page.context.cookies(urls="https://sereduc.blackboard.com/")
+            cookies = await page.context.cookies(urls=baseURL)
             print('cookies caught')
             # await flush_then_wait()
             total_lines_plan1 = getPlanilha.total_lines
@@ -123,7 +128,7 @@ def playwright_StartUp_nosub(func):
                 
                 if cell_status == 'nan':
                     
-                    new_context = await browser.new_context(base_url='https://sereduc.blackboard.com', no_viewport=True)
+                    new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                     await new_context.add_cookies(cookies)
                     new_page = await new_context.new_page()
                     
