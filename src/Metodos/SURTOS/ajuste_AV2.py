@@ -2,8 +2,8 @@ from playwright.async_api import Page
 
 
 async def AV2_Hide(page: Page, id_interno: str) -> None:
-    baseURL = 'https://sereduc.blackboard.com/'
-    urlGradeBook = f'{baseURL}ultra/courses/{id_interno}/grades?gradebookView=list'
+    # baseURL = 'https://sereduc.blackboard.com/'
+    urlGradeBook = f'./ultra/courses/{id_interno}/grades?gradebookView=list'
     timer_padrão = 1000*2
     
     await page.goto(url=urlGradeBook, wait_until='commit')
