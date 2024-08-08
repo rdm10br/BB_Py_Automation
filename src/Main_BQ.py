@@ -25,8 +25,6 @@ async def run(playwright: Playwright) -> None:
     page = await context.new_page()
     
     
-    # classURL = f'./ultra/courses/'
-    
     rootBQ = f'./webapps/assessment/do/authoring/'\
     f'viewAssessmentManager?assessmentType=Pool&course_id={id_repository}'
     
