@@ -102,9 +102,9 @@ async def run(playwright: Playwright) -> None:
         BQ_count = 0
         await page.goto(bq_id_max)
         id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
-        if isjunction == 'Yes':
+        if isjunction == 'No':
             BQ_count = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='questionCount'))
-        elif isjunction == 'No':
+        elif isjunction == 'Yes':
             pass
         print(f'ID found: {id_BQ}')
     except Exception as e:
@@ -132,31 +132,33 @@ async def run(playwright: Playwright) -> None:
 
 
     await page.goto(BQTest(id_BQ=id_BQ))
-    index = BQ_count
     
     for index in range(doc):
         index +=1
-        
-        new_context = await browser.new_context(no_viewport=True)
-        await new_context.add_cookies(cookies)
-        new_page = await new_context.new_page()
-        
-        start_time = time.time()
-        print(f'\nQuestão : {index}')
-        
-        await new_page.goto(url=BQTest(id_BQ=id_BQ), wait_until='commit')
-        # await new_page.wait_for_timeout(1000)
-        
-        await create_bq.create_question(index=index, path=path, page=new_page)
-        
-        await new_context.close()
-        
-        end_time = time.time()
-        execution_time = end_time - start_time
-        executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
-        print('{:5} | {}'.format(f'Run: {index}',executionTime))
-        
-        gc.collect()
+        if index <= BQ_count:
+            print(f'\nQuestão : {index} - already made!')
+            pass
+        else:
+            new_context = await browser.new_context(no_viewport=True)
+            await new_context.add_cookies(cookies)
+            new_page = await new_context.new_page()
+            
+            start_time = time.time()
+            print(f'\nQuestão : {index}')
+            
+            await new_page.goto(url=BQTest(id_BQ=id_BQ), wait_until='commit')
+            # await new_page.wait_for_timeout(1000)
+            
+            await create_bq.create_question(index=index, path=path, page=new_page)
+            
+            await new_context.close()
+            
+            end_time = time.time()
+            execution_time = end_time - start_time
+            executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
+            print('{:5} | {}'.format(f'Run: {index}',executionTime))
+            
+            gc.collect()
 
 
 async def main():

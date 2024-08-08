@@ -66,7 +66,9 @@ class MainWindow(QMainWindow):
 
 def window():
     print('Waiting for user choice...')
-    app = QApplication(sys.argv)
+    app = QApplication.instance()  # Check if QApplication already exists
+    if app is None:  # If not, create one
+        app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     app.exec()
