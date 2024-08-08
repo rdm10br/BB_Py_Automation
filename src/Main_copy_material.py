@@ -9,7 +9,7 @@ from Decorators import capture_console_output_async, TimeStampedStream
 @capture_console_output_async
 async def run(playwright: Playwright) -> None:
     load_dotenv()
-    baseURL = os.getenv('base_url')
+    baseURL = os.getenv('BASE_URL')
     
     sys.stdout = TimeStampedStream(sys.stdout)
     browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])

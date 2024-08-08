@@ -14,8 +14,8 @@ from Decorators import capture_console_output_async, TimeStampedStream
 @capture_console_output_async
 async def run(playwright: Playwright) -> None:
     load_dotenv()
-    id_repository = os.getenv('id_repository')
-    baseURL = os.getenv('base_url')
+    id_repository = os.getenv('ID_REPOSITORY')
+    baseURL = os.getenv('BASE_URL')
     
     sys.stdout = TimeStampedStream(sys.stdout)
     print('\nExecution Start')

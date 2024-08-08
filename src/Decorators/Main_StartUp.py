@@ -29,7 +29,7 @@ def playwright_StartUp(func):
     async def wrapper(*args, **kwargs):
         async with async_playwright() as playwright:
             load_dotenv()
-            baseURL = os.getenv('base_url')
+            baseURL = os.getenv('BASE_URL')
             
             sys.stdout = TimeStampedStream(sys.stdout)
             print('\nExecution Start')
@@ -96,7 +96,7 @@ def playwright_StartUp_nosub(func):
     async def wrapper(*args, **kwargs):
         async with async_playwright() as playwright:
             load_dotenv()
-            baseURL = os.getenv('base_url')
+            baseURL = os.getenv('BASE_URL')
             
             sys.stdout = TimeStampedStream(sys.stdout)
             print('\nExecution Start')
