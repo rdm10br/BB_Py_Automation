@@ -102,9 +102,9 @@ async def run(playwright: Playwright) -> None:
         BQ_count = 0
         await page.goto(bq_id_max)
         id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
-        if isjunction == 'yes':
+        if isjunction == 'Yes':
             BQ_count = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='questionCount'))
-        elif isjunction == 'no':
+        elif isjunction == 'No':
             pass
         print(f'ID found: {id_BQ}')
     except Exception as e:
