@@ -72,6 +72,7 @@ async def run(playwright: Playwright) -> None:
     print('cookies caught')
     
     path = fileChooser.window_file()
+    
     print('files caught')
     doc = getBQ.enunciado_count(path=path)
     print(doc)
