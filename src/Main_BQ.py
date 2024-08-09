@@ -1,8 +1,6 @@
 import asyncio, gc, sys, time, os, json
-from playwright.async_api import Playwright, async_playwright, expect
+from playwright.async_api import Playwright, async_playwright
 from functools import lru_cache
-import regex as re
-from unidecode import unidecode
 from dotenv import load_dotenv
 
 
@@ -87,39 +85,40 @@ async def run(playwright: Playwright) -> None:
     cache_length = len(cache_data['queue_files'])
     
     for i in range(cache_length):
-        _path = cache_data['queue_files'][i]['path']
+        _cache = cache_data['queue_files'][i]
+        _path = _cache['path']
         
         try:
-            cache_data['queue_files'][i]['bqName']
+            _cache['bqName']
         except KeyError:
-            cache_data['queue_files'][i]['bqName'] = create_bq.get_bq_name(path=_path)
+            _cache['bqName'] = create_bq.get_bq_name(path=_path)
             with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                 json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
 
         try:
-            cache_data['queue_files'][i]['isJunction']
+            _cache['isJunction']
         except KeyError:
-            cache_data['queue_files'][i]['isJunction'] = junctionWindow.window(bq_name=cache_data['queue_files'][i]['bqName'])
+            _cache['isJunction'] = junctionWindow.window(bq_name=cache_data['queue_files'][i]['bqName'])
             with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                 json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
         
-        if cache_data['queue_files'][i]['questionCount'] == 0:
-            cache_data['queue_files'][i]['questionCount'] = getBQ.enunciado_count(path=_path)
+        if _cache['questionCount'] == 0:
+            _cache['questionCount'] = getBQ.enunciado_count(path=_path)
             with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                 json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
     
     for i in range(cache_length):
-        
-        if cache_data['queue_files'][i]['processingStatus'] == "Finished":
-            print(f'{cache_data['queue_files'][i]['bqName']} is already finished!')
+        cache = cache_data['queue_files'][i]
+        if cache['processingStatus'] == "Finished":
+            print(f'{cache['bqName']} is already finished!')
         else:
-            path = cache_data['queue_files'][i]['path']
-            isjunction = cache_data['queue_files'][i]['isJunction']
-            questionCount = cache_data['queue_files'][i]['questionsMade']
+            path = cache['path']
+            isjunction = cache['isJunction']
+            questionCount = cache['questionsMade']
                     
-            doc = cache_data['queue_files'][i]['questionCount']
+            doc = cache['questionCount']
             print(doc)
-            BQ_name = cache_data['queue_files'][i]['bqName']
+            BQ_name = cache['bqName']
             print(BQ_name)
                     
                 
@@ -127,17 +126,17 @@ async def run(playwright: Playwright) -> None:
                 id_BQ = ''
                 BQ_count = 0
                 try:
-                    id_BQ = cache_data['queue_files'][i]['idBQ']
+                    id_BQ = cache['idBQ']
                 except KeyError:
                     await page.goto(bq_id_max)
                     id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
-                    cache_data['queue_files'][i]['idBQ'] = id_BQ
+                    cache['idBQ'] = id_BQ
                     with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                         json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
                 if questionCount == 0:
                     if isjunction == 'No':
                         BQ_count = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='questionCount'))
-                        cache_data['queue_files'][i]['questionsMade'] = BQ_count
+                        cache['questionsMade'] = BQ_count
                         with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                             json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
                     elif isjunction == 'Yes':
@@ -168,7 +167,6 @@ async def run(playwright: Playwright) -> None:
                         except Exception as e:
                             print(f'Error in loop_BQ_id: {e}')
 
-
             await page.goto(BQTest(id_BQ=id_BQ))
             
             for index in range(doc):
@@ -197,20 +195,20 @@ async def run(playwright: Playwright) -> None:
                     executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
                     print('{:5} | {}'.format(f'Run: {index}',executionTime))
                     
-                    cache_data['queue_files'][i]['questionsMade'] = index
+                    cache['questionsMade'] = index
                     with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                         json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
                         
-                    if cache_data['queue_files'][i]['questionsMade'] < doc:
-                        cache_data['queue_files'][i]['processingStatus'] = "Running"
+                    if cache['questionsMade'] < doc:
+                        cache['processingStatus'] = "Running"
                         with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                             json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
                         
                     gc.collect()
                     
-            if cache_data['queue_files'][i]['questionsMade'] == doc:
+            if cache['questionsMade'] == doc:
                 
-                cache_data['queue_files'][i]['processingStatus'] = "Finished"
+                cache['processingStatus'] = "Finished"
                 with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                     json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
                 
