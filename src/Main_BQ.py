@@ -1,4 +1,4 @@
-import asyncio, gc, sys, time, os
+import asyncio, gc, sys, time, os, json
 from playwright.async_api import Playwright, async_playwright, expect
 from functools import lru_cache
 import regex as re
@@ -16,6 +16,7 @@ async def run(playwright: Playwright) -> None:
     load_dotenv()
     id_repository = os.getenv('ID_REPOSITORY')
     baseURL = os.getenv('BASE_URL')
+    CACHE_FILE = r'src\Metodos\BQ\__pycache__\queue_files.json'
     
     sys.stdout = TimeStampedStream(sys.stdout)
     print('\nExecution Start')
@@ -71,97 +72,140 @@ async def run(playwright: Playwright) -> None:
     cookies = await page.context.cookies(urls=baseURL)
     print('cookies caught')
     
-    path = fileChooser.window_file()
+    if os.path.exists(CACHE_FILE):
+        with open(CACHE_FILE, 'r') as f:
+            cache_data = json.load(f)
+        print('Json queue found')
+    else:
+        fileChooser.window_file()
+        print('files caught')
+        
+    cache_length = len(cache_data['queue_files'])
     
-    print('files caught')
-    doc = getBQ.enunciado_count(path=path)
-    print(doc)
+    for i in range(cache_length):
+        _path = cache_data['queue_files'][i]['path']
+        
+        try:
+            cache_data['queue_files'][i]['isJunction']
+        except KeyError:
+            cache_data['queue_files'][i]['isJunction'] = junctionWindow.window()
+            with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
+        
+        try:
+            cache_data['queue_files'][i]['bqName']
+        except KeyError:
+            cache_data['queue_files'][i]['bqName'] = create_bq.get_bq_name(path=_path)
+            with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
+                
+        if cache_data['queue_files'][i]['questionCount'] == 0:
+            cache_data['queue_files'][i]['questionCount'] = getBQ.enunciado_count(path=_path)()
+            with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
     
-    file_name = os.path.basename(path)
-    BQ_name = re.sub(r'.docx','',file_name).upper()
-    unidade = ''.join([ch for ch in BQ_name if ch.isdigit()])
-    match unidade[0]:
-            case '1' :
-                item = 'BQ 01'
-            case '2' :
-                item = 'BQ 02'
-            case '3' :
-                item = 'BQ 03'
-            case '4' :
-                item = 'BQ 04'
-    BQ_name = unidecode(BQ_name)
-    BQ_name = re.sub(r'\d','',BQ_name)
-    BQ_name = re.sub(r'\s+', ' ', BQ_name)
-    BQ_name = re.sub(r'\s$', '', BQ_name)
-    BQ_name = re.sub(r'^\s', '', BQ_name)
-    BQ_name = BQ_name.strip()
-    BQ_name = f'{BQ_name} - {item}_GRADUACAO'
-    print(BQ_name)
-            
-    isjunction = junctionWindow.window()
+    for i in range(cache_length):
         
-    try:
-        id_BQ = ''
-        BQ_count = 0
-        await page.goto(bq_id_max)
-        id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
-        if isjunction == 'No':
-            BQ_count = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='questionCount'))
-        elif isjunction == 'Yes':
-            pass
-        print(f'ID found: {id_BQ}')
-    except Exception as e:
-        await page.goto(rootBQ)
-        await create_bq.create_bq(page=page, BQ_name=BQ_name)
-        await page.goto(bq_id)
-        
-        length = await page.evaluate('JSON.parse(document.body.innerText).results.length')
-        count = await page.evaluate('JSON.parse(document.body.innerText).paging.count')
-        # counter = count - length
-        
-        while not id_BQ:
+        if cache_data['queue_files'][i]['processingStatus'] == "Finished":
+            print(f'{cache_data['queue_files'][i]['bqName']} is already finished!')
+        else:
+            path = cache_data['queue_files'][i]['path']
+            isjunction = cache_data['queue_files'][i]['isJunction']
+            questionCount = cache_data['queue_files'][i]['questionsMade']
+                    
+            doc = cache_data['queue_files'][i]['questionCount']
+            print(doc)
+            BQ_name = cache_data['queue_files'][i]['bqName']
+            print(BQ_name)
+                    
+                
             try:
+                id_BQ = ''
+                BQ_count = 0
+                await page.goto(bq_id_max)
                 id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+                if questionCount == 0:
+                    if isjunction == 'No':
+                        BQ_count = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='questionCount'))
+                        cache_data['queue_files'][i]['questionsMade'] = BQ_count
+                        with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                            json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
+                    elif isjunction == 'Yes':
+                        pass
+                else:
+                    pass
+
                 print(f'ID found: {id_BQ}')
             except Exception as e:
-                print(f'Error fetching id_BQ: {e}')
-                try:
-                    if offset <= count:
-                        offset+=length
-                        id_BQ = await loop_BQ_id(offset)
+                await page.goto(rootBQ)
+                await create_bq.create_bq(page=page, BQ_name=BQ_name)
+                await page.goto(bq_id)
+                
+                length = await page.evaluate('JSON.parse(document.body.innerText).results.length')
+                count = await page.evaluate('JSON.parse(document.body.innerText).paging.count')
+                # counter = count - length
+                
+                while not id_BQ:
+                    try:
+                        id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
                         print(f'ID found: {id_BQ}')
-                except Exception as e:
-                    print(f'Error in loop_BQ_id: {e}')
+                    except Exception as e:
+                        print(f'Error fetching id_BQ: {e}')
+                        try:
+                            if offset <= count:
+                                offset+=length
+                                id_BQ = await loop_BQ_id(offset)
+                                print(f'ID found: {id_BQ}')
+                        except Exception as e:
+                            print(f'Error in loop_BQ_id: {e}')
 
 
-    await page.goto(BQTest(id_BQ=id_BQ))
-    
-    for index in range(doc):
-        index +=1
-        if index <= BQ_count:
-            print(f'\nQuestão : {index} - already made!')
-            pass
-        else:
-            new_context = await browser.new_context(no_viewport=True)
-            await new_context.add_cookies(cookies)
-            new_page = await new_context.new_page()
+            await page.goto(BQTest(id_BQ=id_BQ))
             
-            start_time = time.time()
-            print(f'\nQuestão : {index}')
-            
-            await new_page.goto(url=BQTest(id_BQ=id_BQ), wait_until='commit')
-            # await new_page.wait_for_timeout(1000)
-            
-            await create_bq.create_question(index=index, path=path, page=new_page)
-            
-            await new_context.close()
-            
-            end_time = time.time()
-            execution_time = end_time - start_time
-            executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
-            print('{:5} | {}'.format(f'Run: {index}',executionTime))
-            
-            gc.collect()
+            for index in range(doc):
+                index +=1
+                
+                if index <= BQ_count:
+                    print(f'\nQuestão : {index} - already made!')
+                    pass
+                else:
+                    new_context = await browser.new_context(no_viewport=True)
+                    await new_context.add_cookies(cookies)
+                    new_page = await new_context.new_page()
+                    
+                    start_time = time.time()
+                    print(f'\nQuestão : {index}')
+                    
+                    await new_page.goto(url=BQTest(id_BQ=id_BQ), wait_until='commit')
+                    # await new_page.wait_for_timeout(1000)
+                    
+                    await create_bq.create_question(index=index, path=path, page=new_page)
+                    
+                    await new_context.close()
+                    
+                    end_time = time.time()
+                    execution_time = end_time - start_time
+                    executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
+                    print('{:5} | {}'.format(f'Run: {index}',executionTime))
+                    
+                    cache_data['queue_files'][i]['questionsMade'] = index
+                    with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                        json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
+                        
+                    if cache_data['queue_files'][i]['questionsMade'] < doc:
+                        cache_data['queue_files'][i]['processingStatus'] = "Running"
+                        with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                            json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
+                        
+                    gc.collect()
+                    
+            if cache_data['queue_files'][i]['questionsMade'] == doc:
+                
+                cache_data['queue_files'][i]['processingStatus'] = "Finished"
+                with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                    json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
+                
+    os.remove(CACHE_FILE)
 
 
 async def main():

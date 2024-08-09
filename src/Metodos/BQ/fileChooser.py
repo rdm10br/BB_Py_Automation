@@ -64,12 +64,25 @@ class MainWindow(QMainWindow):
             )
         if self.fileName:
             # print(f'\n O arquivo selecionado tem o caminho: {self.fileName}\n')
-            
-            data = {"selected_files": self.fileName}
+             # Initialize an empty list for the selected files
+            queue_files = []
+
+            # Iterate over the selected files
+            for file_path in self.fileName:
+                file_info = {
+                    "path": file_path,
+                    "questionCount": 0,       # Default value
+                    "questionsMade": 0,       # Default value
+                    "processingStatus": "Not Started",  # Default value
+                    # "isJunction": ""       # Default value
+                }
+                queue_files.append(file_info)
+                
+            data = {"queue_files": queue_files}
             # json_data = json.dumps(data, indent=4)
             
             # Save the JSON string to a file
-            with open(r"src\Metodos\BQ\__pycache__\selected_files.json", "w", encoding="utf-8") as json_file:
+            with open(r"src\Metodos\BQ\__pycache__\queue_files.json", "w", encoding="utf-8") as json_file:
                 # json_file.write(json_data)
                 json.dump(data, json_file, ensure_ascii=False, indent=4)
             

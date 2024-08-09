@@ -40,7 +40,6 @@ async def checkup_login(page: Page) -> None:
         page (Page): Page constructor form Playwright that
         you want this function to run
     """
-    # baseURL = "https://sereduc.blackboard.com/"
     loginURL = f'./webapps/login/'
     
     await page.goto(loginURL)

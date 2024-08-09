@@ -1,9 +1,30 @@
 from playwright.async_api import Page, expect
 from Metodos.BQ import getBQ as gb
 import regex as re
-# import os
+import os
 from unidecode import unidecode
 
+def get_bq_name(path: str) -> str:
+    file_name = os.path.basename(path)
+    BQ_name = re.sub(r'.docx','',file_name).upper()
+    unidade = ''.join([ch for ch in BQ_name if ch.isdigit()])
+    match unidade[0]:
+            case '1' :
+                item = 'BQ 01'
+            case '2' :
+                item = 'BQ 02'
+            case '3' :
+                item = 'BQ 03'
+            case '4' :
+                item = 'BQ 04'
+    BQ_name = unidecode(BQ_name)
+    BQ_name = re.sub(r'\d','',BQ_name)
+    BQ_name = re.sub(r'\s+', ' ', BQ_name)
+    BQ_name = re.sub(r'\s$', '', BQ_name)
+    BQ_name = re.sub(r'^\s', '', BQ_name)
+    BQ_name = BQ_name.strip()
+    BQ_name = f'{BQ_name} - {item}_GRADUACAO'
+    return BQ_name
 
 async def create_bq(page: Page, BQ_name: str) -> str:
     """_summary_

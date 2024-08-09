@@ -64,7 +64,7 @@ class MainWindow(QMainWindow):
         self.setDisabled(True)
         self.close()
 
-def window():
+def window(bq_name: str):
     print('Waiting for user choice...')
     app = QApplication.instance()  # Check if QApplication already exists
     if app is None:  # If not, create one
