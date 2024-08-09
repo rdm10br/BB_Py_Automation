@@ -126,8 +126,14 @@ async def run(playwright: Playwright) -> None:
             try:
                 id_BQ = ''
                 BQ_count = 0
-                await page.goto(bq_id_max)
-                id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+                try:
+                    id_BQ = cache_data['queue_files'][i]['idBQ']
+                except KeyError:
+                    await page.goto(bq_id_max)
+                    id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
+                    cache_data['queue_files'][i]['idBQ'] = id_BQ
+                    with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                        json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
                 if questionCount == 0:
                     if isjunction == 'No':
                         BQ_count = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='questionCount'))
@@ -138,7 +144,6 @@ async def run(playwright: Playwright) -> None:
                         pass
                 else:
                     pass
-
                 print(f'ID found: {id_BQ}')
             except Exception as e:
                 await page.goto(rootBQ)
