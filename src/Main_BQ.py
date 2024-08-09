@@ -73,24 +73,21 @@ async def run(playwright: Playwright) -> None:
     print('cookies caught')
     
     if os.path.exists(CACHE_FILE):
-        with open(CACHE_FILE, 'r') as f:
+        with open(CACHE_FILE, 'r', encoding="utf-8") as f:
             cache_data = json.load(f)
         print('Json queue found')
     else:
         fileChooser.window_file()
         print('files caught')
-        
+        print('Json queue created')
+        with open(CACHE_FILE, 'r', encoding="utf-8") as f:
+            cache_data = json.load(f)
+        print('Json queue openned')
+            
     cache_length = len(cache_data['queue_files'])
     
     for i in range(cache_length):
         _path = cache_data['queue_files'][i]['path']
-        
-        try:
-            cache_data['queue_files'][i]['isJunction']
-        except KeyError:
-            cache_data['queue_files'][i]['isJunction'] = junctionWindow.window()
-            with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
-                json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
         
         try:
             cache_data['queue_files'][i]['bqName']
@@ -98,9 +95,16 @@ async def run(playwright: Playwright) -> None:
             cache_data['queue_files'][i]['bqName'] = create_bq.get_bq_name(path=_path)
             with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                 json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
-                
+
+        try:
+            cache_data['queue_files'][i]['isJunction']
+        except KeyError:
+            cache_data['queue_files'][i]['isJunction'] = junctionWindow.window(bq_name=cache_data['queue_files'][i]['bqName'])
+            with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
+        
         if cache_data['queue_files'][i]['questionCount'] == 0:
-            cache_data['queue_files'][i]['questionCount'] = getBQ.enunciado_count(path=_path)()
+            cache_data['queue_files'][i]['questionCount'] = getBQ.enunciado_count(path=_path)
             with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                 json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
     
