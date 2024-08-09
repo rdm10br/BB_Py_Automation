@@ -12,7 +12,7 @@ from Decorators import capture_console_output_async, TimeStampedStream
 @capture_console_output_async
 async def run(playwright: Playwright) -> None:
     load_dotenv()
-    id_repository = os.getenv('ID_REPOSITORY')
+    id_repository = os.getenv('BQ_ID_REPOSITORY')
     baseURL = os.getenv('BASE_URL')
     CACHE_FILE = r'src\Metodos\BQ\__pycache__\queue_files.json'
     
