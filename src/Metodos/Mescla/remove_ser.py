@@ -22,4 +22,4 @@ async def removeSer(page: Page, id_interno: str) -> None:
         await page.get_by_role('button', name='Excluir').click()
         await page.wait_for_load_state('load')
         await page.wait_for_timeout(1000*3)
-        # await expect(page.get_by_role("heading", name="Nenhum resultado encontrado").is_visible())
+        await expect(page.get_by_role("heading", name="Nenhum resultado encontrado").is_visible())
