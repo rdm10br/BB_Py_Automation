@@ -8,7 +8,7 @@ async def run() -> None:
     print('asking for credentials...')
     username, password = getCredentials.get_credentials()
     print('credentials caugth...')
-    cache_file = os.path.join(os.path.curdir, r'src\Metodos\Login\__pycache__\login-teste.json')
+    cache_file = os.path.join(os.path.curdir, r'src\Metodos\Login\__pycache__\login.json')
     cache_info = {
         "username": username,
         "password": password
