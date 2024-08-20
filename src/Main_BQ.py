@@ -176,7 +176,7 @@ async def run(playwright: Playwright) -> None:
                     print(f'\nQuestão : {index} - already made!')
                     pass
                 else:
-                    new_context = await browser.new_context(no_viewport=True)
+                    new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                     await new_context.add_cookies(cookies)
                     new_page = await new_context.new_page()
                     
