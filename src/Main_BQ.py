@@ -142,6 +142,7 @@ async def run(playwright: Playwright) -> None:
                     elif isjunction == 'Yes':
                         pass
                 else:
+                    BQ_count = questionCount
                     pass
                 print(f'ID found: {id_BQ}')
             except Exception as e:
