@@ -16,8 +16,8 @@ async def API_Ativ_Course_count(page: Page, id_interno: str) -> str:
     Returns:
         str: ```count```
     """
-    baseURL = "https://sereduc.blackboard.com/"
-    internalID_API = f'{baseURL}learn/api/public/v3/courses/{id_interno}'
+    # baseURL = "https://sereduc.blackboard.com/"
+    internalID_API = f'./learn/api/public/v3/courses/{id_interno}'
     
     request = '() => {return JSON.parse(document.body.innerText).name.match(/(?<=Extensão).*(?=[(])/)}'
 

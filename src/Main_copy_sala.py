@@ -1,6 +1,6 @@
-import asyncio, gc,  sys
+import asyncio, gc,  sys, os
 from playwright.async_api import Playwright, async_playwright, expect
-
+from dotenv import load_dotenv
 
 from Metodos import checkup_login, getPlanilha, copiaSala
 from Decorators import capture_console_output_async, TimeStampedStream
@@ -8,14 +8,17 @@ from Decorators import capture_console_output_async, TimeStampedStream
 
 @capture_console_output_async
 async def run(playwright: Playwright) -> None:
+    load_dotenv()
+    baseURL = os.getenv('BASE_URL')
+    
     sys.stdout = TimeStampedStream(sys.stdout)
     browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
-    context = await browser.new_context(no_viewport=True)
+    context = await browser.new_context(base_url=baseURL, no_viewport=True)
     page = await context.new_page()
 
-    baseURL = 'https://sereduc.blackboard.com/'
     
-    await page.goto(baseURL)
+    
+    await page.goto('./')
     
     # Verificar se está logado e logar
     await checkup_login.checkup_login(page=page)
@@ -34,7 +37,7 @@ async def run(playwright: Playwright) -> None:
             pass
         else :
             new_browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
-            new_context = await new_browser.new_context(no_viewport=True)
+            new_context = await new_browser.new_context(base_url=baseURL, no_viewport=True)
             # Assuming 'cookies' is the list of cookies obtained earlier
             await new_context.add_cookies(cookies)
             new_page = await new_context.new_page()

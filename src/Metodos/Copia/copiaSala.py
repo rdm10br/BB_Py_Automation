@@ -1,4 +1,4 @@
-from playwright.async_api import Playwright, async_playwright, expect, Page
+from playwright.async_api import Page
 from Metodos.API import getPlanilha
 
 async def copySala(page: Page, index: int) -> None:
@@ -13,8 +13,8 @@ async def copySala(page: Page, index: int) -> None:
     """
     id_master = getPlanilha.getCell_plan2(index=index)
     id_copia = getPlanilha.getCell_copy_plan2(index=index)
-    baseURL = "https://sereduc.blackboard.com/"
-    coppyOnBlack = f"{baseURL}webapps/blackboard/execute/copy_content?navItem=copy_course_content_new&target=no&type=course"
+    # baseURL = "https://sereduc.blackboard.com/"
+    coppyOnBlack = f"./webapps/blackboard/execute/copy_content?navItem=copy_course_content_new&target=no&type=course"
 
     print(f'Trying to copy classroom from {id_master} to {id_copia};')
 

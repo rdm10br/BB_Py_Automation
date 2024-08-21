@@ -6,17 +6,17 @@ from Metodos.API import getPlanilha as gp
 
 async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -> str:
 
-    baseURL = 'https://sereduc.blackboard.com/'
-    internalID_API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents'
-    internalID_API_noPublic = f'{baseURL}learn/api/v1/courses/{id_interno}/contents'
-    APIGradeCollum = f'{baseURL}learn/api/v1/courses/{id_interno}/gradebook/columns'
+    
+    internalID_API = f'./learn/api/public/v1/courses/{id_interno}/contents'
+    internalID_API_noPublic = f'./learn/api/v1/courses/{id_interno}/contents'
+    APIGradeCollum = f'./learn/api/v1/courses/{id_interno}/gradebook/columns'
 
     def APIFolder_noPublic(fatherID: str):
-        API = f'{baseURL}learn/api/v1/courses/{id_interno}/contents/{fatherID}/children'
+        API = f'./learn/api/v1/courses/{id_interno}/contents/{fatherID}/children'
         return API
     
     def APIFolder(father_id: str):
-        API = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children'
+        API = f'./learn/api/public/v1/courses/{id_interno}/contents/{father_id}/children'
         return API
 
     def request_unfiltered_noResults(config: str):
@@ -88,95 +88,97 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
     async def check_item_in_all_folders_unidade(item_search: str):
         results = ''
         id_folder: list = []
+        try:
+            await page.goto(url=internalID_API, wait_until='networkidle')
 
-        await page.goto(url=internalID_API, wait_until='networkidle')
+            for index in range(4):
+                index += 1
+                config = 'id'
+                unidade = f'Unidade {index}'
+                print(f'Checking Unidade {index} id...')
+                id_value = await page.evaluate(filteredRequest_title(item_search=unidade, config=config))
+                id_folder.append(id_value)
+                print(id_folder[index-1])
 
-        for index in range(4):
-            index += 1
-            config = 'id'
-            unidade = f'Unidade {index}'
-            print(f'Checking Unidade {index} id...')
-            id_value = await page.evaluate(filteredRequest_title(item_search=unidade, config=config))
-            id_folder.append(id_value)
-            print(id_folder[index-1])
+            for i in range(4):
+                await page.goto(url=APIFolder(id_folder[i]), wait_until='networkidle')
+                i += 1
 
-        for i in range(4):
-            await page.goto(url=APIFolder(id_folder[i]), wait_until='networkidle')
-            i += 1
+                config = 'availability.available'
+                print(f'Checking {item_search} visibility...')
 
-            config = 'availability.available'
-            print(f'Checking {item_search} visibility...')
+                try:
+                    result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
+                except Exception as e:
+                    if f'{item_search} not found in room {id_interno}' in str(e):
+                        print(f'Erro na sala: {id_interno}; Item: {item_search} não foi encontrado')
+                        continue
+                    else:
+                        print('Erro ao processar request:', e)
+                        continue
+                config = 'contentHandler.url'
+                print(f'Checking {item_search} associated URL...')
 
-            try:
-                result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
-            except Exception as e:
-                if f'{item_search} not found in room {id_interno}' in str(e):
-                    print(f'Erro na sala: {id_interno}; Item: {item_search} não foi encontrado')
-                    continue
+                try:
+                    result_url = await page.evaluate(filteredRequest_title(item_search, config))
+                    if result_url == 'https://www.sereducacional.com' or result_url == 'https://www.sereducacional.com/':
+                        result_url = f'{result_url} is wrong! | there is no content in {item_search} from Unidade {i}!'
+                except Exception as e:
+                    if f'{item_search} not found in room {id_interno}' in str(e):
+                        result = f'{result}\nErro na sala: {id_interno}; Item: {item_search} não foi encontrado'
+                        print(f'Erro na sala: {id_interno}; Item: {item_search} não foi encontrado')
+                        continue
+                    else:
+                        print('Erro ao processar request:', e)
+                        continue
+
+                # verificar validade do link
+                new_result = f'''{item_Search} from Unidade {i} :
+                visibility: {result_visibility} |
+                URL: {result_url}\n'''
+                if result_visibility != f'{item_search} not found in room {id_interno}':
+                    results = f'''{results}{new_result}'''
                 else:
-                    print('Erro ao processar request:', e)
-                    continue
-            config = 'contentHandler.url'
-            print(f'Checking {item_search} associated URL...')
-
-            try:
-                result_url = await page.evaluate(filteredRequest_title(item_search, config))
-                if result_url == 'https://www.sereducacional.com' or result_url == 'https://www.sereducacional.com/':
-                    result_url = f'{result_url} is wrong! | there is no content in {item_search} from Unidade {i}!'
-            except Exception as e:
-                if f'{item_search} not found in room {id_interno}' in str(e):
-                    result = f'{result}\nErro na sala: {id_interno}; Item: {item_search} não foi encontrado'
-                    print(f'Erro na sala: {id_interno}; Item: {item_search} não foi encontrado')
-                    continue
-                else:
-                    print('Erro ao processar request:', e)
-                    continue
-
-            # verificar validade do link
-            new_result = f'''{item_Search} from Unidade {i} :
-            visibility: {result_visibility} |
-            URL: {result_url}\n'''
-            if result_visibility != f'{item_search} not found in room {id_interno}':
-                results = f'''{results}{new_result}'''
-            else:
-                results = f'{results}{item_search} não encontrado na Unidade {i}\n'
-            
-            item = f'{item_search} from Unidade {i}'
-            match item:
-                case 'Material Didático Interativo from Unidade 1':
-                    gp.writeOnExcel_Plan1_M1(index=line, return_status=new_result)
-                case 'Material Didático Interativo from Unidade 2':
-                    gp.writeOnExcel_Plan1_M2(index=line, return_status=new_result)
-                case 'Material Didático Interativo from Unidade 3':
-                    gp.writeOnExcel_Plan1_M3(index=line, return_status=new_result)
-                case 'Material Didático Interativo from Unidade 4':
-                    gp.writeOnExcel_Plan1_M4(index=line, return_status=new_result)
-                case 'Videoteca: Videoaula from Unidade 1':
-                    gp.writeOnExcel_Plan1_V1(index=line, return_status=new_result)
-                case 'Videoteca: Videoaula from Unidade 2':
-                    gp.writeOnExcel_Plan1_V2(index=line, return_status=new_result)
-                case 'Videoteca: Videoaula from Unidade 3':
-                    gp.writeOnExcel_Plan1_V3(index=line, return_status=new_result)
-                case 'Videoteca: Videoaula from Unidade 4':
-                    gp.writeOnExcel_Plan1_V4(index=line, return_status=new_result)
-                case 'Biblioteca Virtual: e-Book from Unidade 1':
-                    gp.writeOnExcel_Plan1_B1(index=line, return_status=new_result)
-                case 'Biblioteca Virtual: e-Book from Unidade 2':
-                    gp.writeOnExcel_Plan1_B2(index=line, return_status=new_result)
-                case 'Biblioteca Virtual: e-Book from Unidade 3':
-                    gp.writeOnExcel_Plan1_B3(index=line, return_status=new_result)
-                case 'Biblioteca Virtual: e-Book from Unidade 4':
-                    gp.writeOnExcel_Plan1_B4(index=line, return_status=new_result)
-                case _:
-                    continue
-        return results
+                    results = f'{results}{item_search} não encontrado na Unidade {i}\n'
+                
+                item = f'{item_search} from Unidade {i}'
+                match item:
+                    case 'Material Didático Interativo from Unidade 1':
+                        gp.writeOnExcel_Plan1_M1(index=line, return_status=new_result)
+                    case 'Material Didático Interativo from Unidade 2':
+                        gp.writeOnExcel_Plan1_M2(index=line, return_status=new_result)
+                    case 'Material Didático Interativo from Unidade 3':
+                        gp.writeOnExcel_Plan1_M3(index=line, return_status=new_result)
+                    case 'Material Didático Interativo from Unidade 4':
+                        gp.writeOnExcel_Plan1_M4(index=line, return_status=new_result)
+                    case 'Videoteca: Videoaula from Unidade 1':
+                        gp.writeOnExcel_Plan1_V1(index=line, return_status=new_result)
+                    case 'Videoteca: Videoaula from Unidade 2':
+                        gp.writeOnExcel_Plan1_V2(index=line, return_status=new_result)
+                    case 'Videoteca: Videoaula from Unidade 3':
+                        gp.writeOnExcel_Plan1_V3(index=line, return_status=new_result)
+                    case 'Videoteca: Videoaula from Unidade 4':
+                        gp.writeOnExcel_Plan1_V4(index=line, return_status=new_result)
+                    case 'Biblioteca Virtual: e-Book from Unidade 1':
+                        gp.writeOnExcel_Plan1_B1(index=line, return_status=new_result)
+                    case 'Biblioteca Virtual: e-Book from Unidade 2':
+                        gp.writeOnExcel_Plan1_B2(index=line, return_status=new_result)
+                    case 'Biblioteca Virtual: e-Book from Unidade 3':
+                        gp.writeOnExcel_Plan1_B3(index=line, return_status=new_result)
+                    case 'Biblioteca Virtual: e-Book from Unidade 4':
+                        gp.writeOnExcel_Plan1_B4(index=line, return_status=new_result)
+                    case _:
+                        continue
+            return results
+        except:
+            print('folder or item not found')
 
     async def activity_configs(item_search: str):
         search_item = ''.join([ch for ch in item_search if ch.isdigit()])
         
         async def configs(item_search: str, id_interno: str, itemID: str):
             
-            APIEncapsulamento = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/'''
+            APIEncapsulamento = f'''./learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/'''
             # search_item = ''.join([ch for ch in item_search if ch.isdigit()])
             description_DIG = 'Já estudou o conteúdo desta unidade? Agora teste seus conhecimentos respondendo ao Questionário. Você pode realizá-lo quantas vezes desejar e descobrir o quanto aprendeu, sem interferir na sua nota da disciplina.'
             description_TRAD = [
@@ -242,12 +244,25 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
             print(f'Checking {item_search} test result options...')
             result_options = await page.evaluate(filteredRequest_title(item_search, config))
             
-            if (result_options[0] in options_correct and
-                result_options[1] in options_correct and
-                result_options[2] in options_correct and
-                result_options[3] in options_correct and
-                result_options[4] in options_correct):
-                result_options = f'{item_search} test result options config is correct'
+            try:
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.feedbackSettings.aag.options'
+                _result_options = await page.evaluate(filteredRequest_title(item_search, config))
+            except:
+                config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.feedbackSettings.aiag.options'
+                _result_options = await page.evaluate(filteredRequest_title(item_search, config))
+            
+            for _i in range(len(_result_options)):
+                result_options.append(_result_options[_i])
+            
+            if len(result_options) == 5:
+                if (result_options[0] in options_correct and
+                    result_options[1] in options_correct and
+                    result_options[2] in options_correct and
+                    result_options[3] in options_correct and
+                    result_options[4] in options_correct):
+                    result_options = f'{item_search} test result options config is correct'
+                else:
+                    result_options = f'{item_search} test result options config is wrong'
             else:
                 result_options = f'{item_search} test result options config is wrong'
             
@@ -274,7 +289,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
             config = 'id'
             IDcover = await page.evaluate(request_unfiltered0(config=config))
                 
-            APIBQItem = f'''{baseURL}learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/{IDcover}/questions?expand=sourceInfo'''
+            APIBQItem = f'''./learn/api/v1/courses/{id_interno}/assessments/{itemID}/questions/{IDcover}/questions?expand=sourceInfo'''
             
             await page.goto(url=APIBQItem, wait_until='commit')
             
@@ -613,14 +628,14 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
                 print(f'Checking {item_Search} contentHandler.targetId...')
                 targetID = await page.evaluate(filteredRequest_title(item_Search, config))
                 
-                APITargetID = f'{baseURL}learn/api/public/v1/courses/{id_interno}/contents/{targetID}'
+                APITargetID = f'./learn/api/public/v1/courses/{id_interno}/contents/{targetID}'
                 await page.goto(url=APITargetID, wait_until='commit')
                 
                 config = 'contentHandler.discussionId'
                 print(f'Checking {item_Search} contentHandler.discussionId...')
                 discussionID = await page.evaluate(request_unfiltered_noResults(config=config))
                 
-                API_Discussion_groups = f'{baseURL}learn/api/public/v1/courses/{id_interno}/discussions/{discussionID}/groups'
+                API_Discussion_groups = f'./learn/api/public/v1/courses/{id_interno}/discussions/{discussionID}/groups'
                 await page.goto(url=API_Discussion_groups, wait_until='commit')
                 
                 config = 'length'

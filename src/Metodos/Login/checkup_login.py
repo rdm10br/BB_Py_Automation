@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 import json, os, time
-from playwright.async_api import expect, Page
+from playwright.async_api import Page
 
 from Metodos.Login import login
 # from . import login
@@ -40,16 +40,15 @@ async def checkup_login(page: Page) -> None:
         page (Page): Page constructor form Playwright that
         you want this function to run
     """
-    baseURL = "https://sereduc.blackboard.com/"
-    loginURL = f'{baseURL}webapps/login/'
+    loginURL = f'./webapps/login/'
     
     await page.goto(loginURL)
-    await page.wait_for_load_state('networkidle')
+    await page.wait_for_load_state('domcontentloaded')
     
     if await load_cookies_from_cache(page):
         print('Using cache to login...')
-        await page.goto(baseURL)
-        await page.wait_for_load_state('networkidle')
+        await page.goto('./')
+        await page.wait_for_load_state('domcontentloaded')
         if "Disciplinas" in await page.title():
             print('Logged in successfully using cached cookies!')
             return

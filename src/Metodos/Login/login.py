@@ -1,4 +1,4 @@
-from playwright.async_api import Playwright, async_playwright, expect, Page
+from playwright.async_api import Page
 import os, json
 from Metodos.Login import getCredentials
 # from . import getCredentials
@@ -12,8 +12,8 @@ async def login(page: Page) -> None:
             page (Page): Page constructor form Playwright that
         you want this Function to run
         """
-        baseURL = "https://sereduc.blackboard.com/"
-        ultraURL = f'{baseURL}ultra/course'
+        # baseURL = "https://sereduc.blackboard.com/"
+        ultraURL = f'./ultra/course'
         
         
         if await page.locator('#agree_button').is_visible():

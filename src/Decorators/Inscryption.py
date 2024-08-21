@@ -6,10 +6,10 @@ from Metodos import getFromAPI
 async def Auto_Sub(page: Page, index: int):
     
     id_interno = await getFromAPI.API_Req(page=page, index=index)
-    baseURL = 'https://sereduc.blackboard.com/'
-    # rootURL = f'{baseURL}webapps/blackboard/execute/recycler?course_id={id_interno}&action=select&context=COURSE#'
-    inscryption = f'{baseURL}webapps/blackboard/execute/editCourseEnrollment?course_id={id_interno}&sourceType=COURSES'
-    API_User = f'{baseURL}learn/api/public/v1/users/me'
+    
+    # rootURL = f'./webapps/blackboard/execute/recycler?course_id={id_interno}&action=select&context=COURSE#'
+    inscryption = f'./webapps/blackboard/execute/editCourseEnrollment?course_id={id_interno}&sourceType=COURSES'
+    API_User = f'./learn/api/public/v1/users/me'
     
     await page.goto(API_User, wait_until='commit')
     await page.wait_for_load_state('load')
@@ -27,19 +27,19 @@ async def Auto_Sub(page: Page, index: int):
 async def Auto_Unsub(page: Page, index: int):
     
     id_interno = await getFromAPI.API_Req(page=page, index=index)
-    baseURL = 'https://sereduc.blackboard.com/'
     
-    # rootURL = f'{baseURL}webapps/blackboard/execute/recycler?course_id='\
+    
+    # rootURL = f'./webapps/blackboard/execute/recycler?course_id='\
     #     f'{id_interno}&action=select&context=COURSE#'
     # offset = 9999
     
     # verify if the user shows up if not verify pagination
-    # inscryption = f'{baseURL}webapps/blackboard/execute/courseEnrollment?'\
+    # inscryption = f'./webapps/blackboard/execute/courseEnrollment?'\
     #     f'sortCol=userrole&sourceType=COURSES&numResults={offset}&course_id='\
     #     f'{id_interno}&sortDir=DESCENDING'
     
-    classUrlUltra = f'{baseURL}ultra/courses/{id_interno}/outline'
-    API_User = f'{baseURL}learn/api/public/v1/users/me'
+    classUrlUltra = f'./ultra/courses/{id_interno}/outline'
+    API_User = f'./learn/api/public/v1/users/me'
     
     await page.goto(API_User, wait_until='commit')
     await page.wait_for_load_state('load')

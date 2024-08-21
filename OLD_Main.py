@@ -174,8 +174,9 @@ class MainWindow(QMainWindow):
         }
 
         try:
-            with open(cache_file, 'w') as file:
-                json.dump(cache_info, file, indent=4)
+            with open(cache_file, 'w', encoding='UTF-8') as file:
+                json.dump(cache_info, file, ensure_ascii=False, indent=4)
+                
             QMessageBox.information(self, 'Success', 'Information saved to cache.')
             print(f"Finished running {self.thread.script_path}")
         except Exception as e:

@@ -1,4 +1,4 @@
-from playwright.async_api import Playwright, async_playwright, expect, Page
+from playwright.async_api import Page
 
 
 async def ajusteData(page: Page, dataShow: str, dataHide: str) -> None:
@@ -11,7 +11,7 @@ async def ajusteData(page: Page, dataShow: str, dataHide: str) -> None:
         dataShow (str): Date to show the item in classroom
         dataHide (str): Date to hide the item in classroom
     """
-    baseURL = "https://sereduc.blackboard.com/"
+    # baseURL = "https://sereduc.blackboard.com/"
     # rootURL = f'{baseURL}webapps/blackboard/execute/content/adaptiveReleaseRules?course_id={internalID}&content_id={contentID}'
     
     await page.get_by_role("checkbox", name="Fale com o Tutor").check()
