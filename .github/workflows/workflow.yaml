@@ -3,7 +3,7 @@ name: Continuous Integration
 on:
   pull_request:
     branches:
-      - 'master'
+      - 'dev'
 
 jobs:
   continuous-integration:
