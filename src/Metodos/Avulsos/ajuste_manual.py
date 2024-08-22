@@ -1,14 +1,15 @@
 from playwright.async_api import Page
 
 
-async def ajusteCanal(page: Page, id_interno: str) -> None:
+async def ajusteManual(page: Page, id_interno: str) -> None:
     
     classURL = f'./ultra/courses/'
     urlClassUltra = f'{classURL}{id_interno}/outline'
     urlSearch = f'{urlClassUltra}?search=Manuais'
+    
     link = 'https://sereduc.blackboard.com/bbcswebdav/xid-345163866_1'
     
-    print('Starting adjustments: "Canais de Comunicação"')
+    print('Starting adjustments: "Manual do AVA"')
     await page.goto(urlSearch)
     await page.wait_for_load_state('domcontentloaded')
     await page.wait_for_load_state('networkidle')
@@ -17,7 +18,7 @@ async def ajusteCanal(page: Page, id_interno: str) -> None:
         print('Opening "Manuais" folder')
         await page.get_by_role("button", name="Manuais", exact=True).click()
         print('Opening menu options')
-        await page.get_by_label("Mais opções para Canais de Comunicação").click()
+        await page.get_by_label("Mais opções para Manual do AVA").click()
         print('Editing item...')
         await page.get_by_text("Editar", exact=True).click()
         await page.get_by_placeholder("Digite um URL").click(click_count=3)
@@ -30,4 +31,4 @@ async def ajusteCanal(page: Page, id_interno: str) -> None:
         await page.wait_for_load_state('networkidle')
         await page.wait_for_timeout(1.5*1000)
     else:
-        print('Canais de Comunicação não encontrado!')
+        print('Manual do AVA não encontrado!')
