@@ -1,5 +1,6 @@
 import regex as re
 import docx, spacy
+from docx.shared import RGBColor
 from spacy.matcher import Matcher
 from functools import lru_cache
 
@@ -7,7 +8,7 @@ nlp = spacy.load("pt_core_news_sm")
 matcher = Matcher(nlp.vocab)
 
 @lru_cache
-def read_document(path) -> str:
+def read_document(path: str) -> str:
     '''
     Return the file content
     
@@ -272,32 +273,74 @@ def get_Alternativa_hole(index: int, path: str, choices: str) -> str:
             print('''Por favor verifique a chamada da função get_Alternativa,
                   tipo de alternativa desejada não esperada pela função''')
 
+@lru_cache
+def get_correct_alternative_by_any_color_wrong(path: str, index: int) -> str:
+    try:
+        doc = docx.Document(path)
+        
+        text = read_document(path)
+        index_marker = text.find(get_Enunciado(index=index, path=path))
+        
+        paragraphs = doc.paragraphs[index_marker:]
+        for para in paragraphs:
+            for run in para.runs:
+                if (run.font.color and run.font.color.rgb) or run.font.highlight_color or run.bold:
+                    return para.text
+        return None
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+    
+
+@lru_cache
+def get_correct_alternative_by_any_color(path: str, index: int) -> str:
+    try:
+        doc = docx.Document(path)
+        
+        enunciado_text = get_Enunciado(index=index, path=path)
+        
+        # Print to debug the enunciado text
+        print(f"Looking for enunciado: {enunciado_text}")
+        
+        found_paragraph = False
+        for para in doc.paragraphs:
+            # Debugging: Print the paragraph text
+            print(f"Checking paragraph: {para.text.strip()}")
+            
+            if enunciado_text in para.text:
+                found_paragraph = True
+                print(f"Found enunciado in paragraph: {para.text.strip()}")
+                continue
+            
+            if found_paragraph:  # Start checking paragraphs after the enunciado
+                for run in para.runs:
+                    if run.bold or ((run.font.color and run.font.color.rgb) or run.font.highlight_color):
+                        print(f"Correct alternative found: {para.text.strip()}")
+                        return para.text
+        print("No matching alternative found.")
+        return None
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+
+
 def main() -> None:
-    path = r'C:\Users\013190873\Downloads\Matemática Financeira 1.docx'
-    # path = r'C:\Users\013190873\Downloads\DISCIPLINAMATEMÁTICA FINANCEIRA.docx'
-    # path = r'C:\Users\013190873\Downloads\Topografia e Geoprocessamento (engenharia) 1.docx'
+    path = r'C:\Users\013190873\Downloads\Questionário_Álgebra Linear_Unidade I_DIGITAL PAGES_ORIGINAL.docx'
     
     # teste = enunciado_count(path=path)
     # print(f'\n Enunciado count: {teste}')
     
-    index = 0
+    index = 10
     teste2 = get_Enunciado(index=index, path=path)
     
-    print(f'\n Question:\n{teste2}')
-    # teste2 = re.sub(r'\s+', ' ', teste2)
-    # teste2 = re.sub(r'\s$', '', teste2)
-    # teste2 = re.sub(r'^\s', '', teste2)
-    # teste2 = teste2.strip()
     # print(f'\n Question:\n{teste2}')
     
     teste3 = get_Alternativa(index=index, path=path, choices='e')
     
-    print(f'\n Choices:\n{teste3}')
-    # teste3 = re.sub(r'\s+', ' ', teste3)
-    # teste3 = re.sub(r'\s$', '', teste3)
-    # teste3 = re.sub(r'^\s', '', teste3)
-    # teste3 = teste3.strip()
     # print(f'\n Choices:\n{teste3}')
+    
+    teste_right = get_correct_alternative_by_any_color(path=path, index=index)
+    print(f'alternativa correta: {teste_right}')
 
 if __name__ == "__main__":
     main()
