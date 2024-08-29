@@ -5,9 +5,9 @@ from PySide6.QtCore import Qt, QTimer
 import sys
 
 class MainWindow(QMainWindow):
-    def __init__(self) -> None:
+    def __init__(self, bq_name: str) -> None:
         super().__init__()
-
+        
         self.setWindowTitle("Escolha o BQ")
         self.setWindowOpacity(0.95)
         self.setWindowIcon(QIcon(r'src\Metodos\BQ\icons\folder.png'))
@@ -23,7 +23,7 @@ class MainWindow(QMainWindow):
 
         layout = QVBoxLayout(self.central_widget)
         
-        self.label = QLabel("É uma junção?", self)
+        self.label = QLabel(f"{bq_name} É uma junção?", self)
         self.label.setStyleSheet('color: white;')
         layout.addWidget(self.label)
 
@@ -69,13 +69,13 @@ def window(bq_name: str):
     app = QApplication.instance()  # Check if QApplication already exists
     if app is None:  # If not, create one
         app = QApplication(sys.argv)
-    window = MainWindow()
+    window = MainWindow(bq_name)
     window.show()
     app.exec()
     return window.choice if hasattr(window, 'choice') else None
 
 if __name__ == "__main__":
-    user_choice = window()
+    user_choice = window('teste')
     if user_choice:
         print(f'User chose: {user_choice}')
     else:

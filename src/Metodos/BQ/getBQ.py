@@ -1,8 +1,10 @@
+import docx.opc
+import docx.opc.exceptions
 import regex as re
 import docx, spacy
-from docx.shared import RGBColor
 from spacy.matcher import Matcher
 from functools import lru_cache
+# from docx.shared import RGBColor
 
 nlp = spacy.load("pt_core_news_sm")
 matcher = Matcher(nlp.vocab)
@@ -292,35 +294,157 @@ def get_correct_alternative_by_any_color_wrong(path: str, index: int) -> str:
         return None
     
 
+# @lru_cache
+# def get_correct_alternative_by_any_color(path: str, index: int) -> str:
+#     try:
+#         doc = docx.Document(path)
+#         enunciado_text = get_Enunciado(index=index, path=path).strip()
+        
+#         print(f"Looking for enunciado: {enunciado_text}")
+        
+#         found_paragraphs = []
+#         current_paragraph = []
+#         found_enunciado = False
+
+#         for para in doc.paragraphs:
+#             paragraph_text = para.text.strip()
+
+#             # Identifica o início da questão
+#             if enunciado_text in paragraph_text:
+#                 found_enunciado = True
+#                 current_paragraph.append(paragraph_text)
+#             elif found_enunciado:
+#                 # Adiciona parágrafos subsequentes até encontrar uma alternativa
+#                 current_paragraph.append(paragraph_text)
+                
+#                 # Verifica se o parágrafo termina com um sinal de pontuação forte, indicando o final de uma sentença ou alternativa.
+#                 if paragraph_text.endswith((".", ":", ";", "!", "?")):
+#                     found_paragraphs.append(" ".join(current_paragraph))
+#                     current_paragraph = []
+
+#             # Para de procurar após identificar um possível final de questão
+#             if found_enunciado and "Assinale a alternativa correta:" in paragraph_text:
+#                 break
+
+#         if not found_paragraphs:
+#             print("\nNo matching Question found.")
+#             return None
+
+#         # Verifica alternativas formatadas
+#         for para in found_paragraphs:
+#             doc_para = docx.Document()
+#             doc_para.add_paragraph(para)
+#             for run in doc_para.paragraphs[0].runs:
+#                 if run.bold or ((run.font.color and run.font.color.rgb) or run.font.highlight_color):
+#                     print(f"\nCorrect alternative found: {para.strip()}")
+#                     return para.strip()
+
+#         print("\nNo matching alternative found.")
+#         return None
+    
+#     except docx.opc.exceptions.PackageNotFoundError:
+#         print("\nError: The file path is incorrect ou the file is not a valid .docx file.")
+#         return None
+    
+#     except Exception as e:
+#         print(f"\nUnexpected error: {e}")
+#         return None
+
+# @lru_cache
+# def get_correct_alternative_by_any_color(path: str, index: int) -> str:
+#     try:
+#         doc = docx.Document(path)
+#         enunciado_text = get_Enunciado(index=index, path=path).strip()
+        
+#         counter = len(doc.paragraphs)
+        
+#         count = enunciado_count(path)
+        
+#         print(f"Looking for enunciado: {enunciado_text}")
+        
+#         alternatives = []
+#         current_alternative = []
+
+#         for para in doc.paragraphs:
+#             paragraph_text = para.text.strip()
+
+#             if re.match(r'^[a-eA-E]\)', paragraph_text):
+#                 if current_alternative:
+#                     alternatives.append(" ".join(current_alternative))
+#                 current_alternative = [paragraph_text]
+#             else:
+#                 current_alternative.append(paragraph_text)
+                
+#             if "Assinale a alternativa correta:" in paragraph_text:
+#                 break
+
+#         if current_alternative:
+#             alternatives.append(" ".join(current_alternative))
+
+#         if not alternatives:
+#             print("\nNo alternatives found for the question.")
+#             return None
+
+#         # Verifica alternativas com destaque
+#         for alternative in alternatives:
+#             doc_alternative = docx.Document()
+#             doc_alternative.add_paragraph(alternative)
+#             for run in doc_alternative.paragraphs[0].runs:
+#                 if run.bold or (run.font.color and run.font.color.rgb) or run.font.highlight_color:
+#                     print(f"\nCorrect alternative found: {alternative.strip()}")
+#                     return alternative.strip()
+
+#         print("\nNo matching alternative found.")
+#         return None
+
+#     except docx.opc.exceptions.PackageNotFoundError:
+#         print("\nError: The file path is incorrect or the file is not a valid .docx file.")
+#         return None
+
+#     except Exception as e:
+#         print(f"\nUnexpected error: {e}")
+#         return None
+
+
 @lru_cache
 def get_correct_alternative_by_any_color(path: str, index: int) -> str:
     try:
         doc = docx.Document(path)
-        
-        enunciado_text = get_Enunciado(index=index, path=path)
-        
-        # Print to debug the enunciado text
-        print(f"Looking for enunciado: {enunciado_text}")
-        
-        found_paragraph = False
+        alternatives = []
+        highlighted_alternatives = []
+
         for para in doc.paragraphs:
-            # Debugging: Print the paragraph text
-            print(f"Checking paragraph: {para.text.strip()}")
-            
-            if enunciado_text in para.text:
-                found_paragraph = True
-                print(f"Found enunciado in paragraph: {para.text.strip()}")
-                continue
-            
-            if found_paragraph:  # Start checking paragraphs after the enunciado
-                for run in para.runs:
-                    if run.bold or ((run.font.color and run.font.color.rgb) or run.font.highlight_color):
-                        print(f"Correct alternative found: {para.text.strip()}")
-                        return para.text
-        print("No matching alternative found.")
+            paragraph_text = para.text.strip()
+
+            if re.match(r'^[a-eA-E]\)', paragraph_text):
+                alternatives.append(paragraph_text)
+            elif alternatives and paragraph_text:
+                alternatives[-1] += f" {paragraph_text}"
+
+            if "Assinale a alternativa correta:" in paragraph_text:
+                break
+
+        if not alternatives:
+            print("\nNo alternatives found for the question.")
+            return None
+
+        for alternative in alternatives:
+            if any(run.bold or run.font.color or run.font.highlight_color for run in para.runs):
+                highlighted_alternatives.append(alternative.strip())
+
+        if highlighted_alternatives:
+            print(f"\nHighlighted alternatives found: {highlighted_alternatives}")
+            return highlighted_alternatives[index] if index < len(highlighted_alternatives) else None
+
+        print("\nNo matching alternative found.")
         return None
+
+    except (docx.opc.exceptions.PackageNotFoundError, IndexError) as e:
+        print(f"\nError: {e}")
+        return None
+
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"\nUnexpected error: {e}")
         return None
 
 
@@ -330,7 +454,7 @@ def main() -> None:
     # teste = enunciado_count(path=path)
     # print(f'\n Enunciado count: {teste}')
     
-    index = 10
+    index = 0
     teste2 = get_Enunciado(index=index, path=path)
     
     # print(f'\n Question:\n{teste2}')
@@ -340,7 +464,7 @@ def main() -> None:
     # print(f'\n Choices:\n{teste3}')
     
     teste_right = get_correct_alternative_by_any_color(path=path, index=index)
-    print(f'alternativa correta: {teste_right}')
+    print(f'\nalternativa correta: {teste_right}\n')
 
 if __name__ == "__main__":
     main()
