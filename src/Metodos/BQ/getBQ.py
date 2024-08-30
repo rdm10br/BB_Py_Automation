@@ -276,66 +276,7 @@ def get_Alternativa_hole(index: int, path: str, choices: str) -> str:
                   tipo de alternativa desejada não esperada pela função''')
 
 @lru_cache
-def get_correct_alternative_by_any_color_wrong(path: str, index: int) -> str:
-    try:
-        doc = docx.Document(path)
-        
-        text = read_document(path)
-        index_marker = text.find(get_Enunciado(index=index, path=path))
-        
-        paragraphs = doc.paragraphs[index_marker:]
-        for para in paragraphs:
-            for run in para.runs:
-                if (run.font.color and run.font.color.rgb) or run.font.highlight_color or run.bold:
-                    return para.text
-        return None
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
-
-# @lru_cache
-# def get_correct_alternative_by_any_color(path: str, index: int) -> str:
-#     try:
-#         doc = docx.Document(path)
-#         alternatives = []
-#         highlighted_alternatives = []
-
-#         for para in doc.paragraphs:
-#             paragraph_text = para.text.strip()
-
-#             if re.match(r'^[a-eA-E]\)', paragraph_text):
-#                 alternatives.append(para)
-#             elif alternatives and paragraph_text:
-#                 alternatives[-1] += f" {paragraph_text}"
-
-#             if "Assinale a alternativa correta:" in paragraph_text:
-#                 break
-
-#         if not alternatives:
-#             print("\nNo alternatives found for the question.")
-#             return None
-
-#         for alternative in alternatives:
-#             if any(run.bold or run.font.color or run.font.highlight_color for run in para.runs):
-#                 highlighted_alternatives.append(alternative.strip())
-
-#         if highlighted_alternatives:
-#             print(f"\nHighlighted alternatives found: {highlighted_alternatives}")
-#             return highlighted_alternatives[index] if index < len(highlighted_alternatives) else None
-
-#         print("\nNo matching alternative found.")
-#         return None
-
-#     except (docx.opc.exceptions.PackageNotFoundError, IndexError) as e:
-#         print(f"\nError: {e}")
-#         return None
-
-#     except Exception as e:
-#         print(f"\nUnexpected error: {e}")
-#         return None
-
-@lru_cache
-def get_correct_alternative_by_any_color(path: str, index: int) -> str:
+def get_correct_alternative_by_any_color(path: str) -> str:
     try:
         document = docx.Document(path)
         alternativas = []
@@ -343,14 +284,14 @@ def get_correct_alternative_by_any_color(path: str, index: int) -> str:
     
         for paragraph in document.paragraphs:
             texto = paragraph.text.strip()
-            if texto and texto[0] in "ABCDEabcde":
+            if texto and texto[0] in "ABCDEabcde" and texto[1] in ").":
                 alternativas.append(texto)
                 for run in paragraph.runs:
                     if run.font.highlight_color or (run.font.color and run.font.color.rgb):
                         alternativas_com_destaque.append(texto)
                         break
         
-        return alternativas, alternativas_com_destaque
+        return alternativas_com_destaque
 
     except (docx.opc.exceptions.PackageNotFoundError, IndexError) as e:
         print(f"\nError: {e}")
@@ -359,6 +300,11 @@ def get_correct_alternative_by_any_color(path: str, index: int) -> str:
     except Exception as e:
         print(f"\nUnexpected error: {e}")
         return None
+    
+@lru_cache
+def get_correct_alternative_from_list (path: str, index: int):
+    awnser_list = get_correct_alternative_by_any_color(path)
+    return awnser_list[index]
 
 def main() -> None:
     path = r'C:\Users\013190873\Downloads\Questionário_Álgebra Linear_Unidade I_DIGITAL PAGES_ORIGINAL.docx'
@@ -366,16 +312,16 @@ def main() -> None:
     # teste = enunciado_count(path=path)
     # print(f'\n Enunciado count: {teste}')
     
-    index = 0
+    index = 12
     teste2 = get_Enunciado(index=index, path=path)
     
-    # print(f'\n Question:\n{teste2}')
+    print(f'\n Question:\n{teste2}')
     
-    teste3 = get_Alternativa(index=index, path=path, choices='e')
+    teste3 = get_Alternativa(index=index, path=path, choices='a')
     
-    # print(f'\n Choices:\n{teste3}')
+    print(f'\n Choices:\n{teste3}')
     
-    teste_right = get_correct_alternative_by_any_color(path=path, index=index)
+    teste_right = get_correct_alternative_from_list(path=path, index=index)
     print(f'\nalternativa correta: {teste_right}\n')
 
 if __name__ == "__main__":
