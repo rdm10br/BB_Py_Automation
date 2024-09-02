@@ -281,15 +281,33 @@ def get_correct_alternative_by_any_color(path: str) -> str:
         document = docx.Document(path)
         alternativas = []
         alternativas_com_destaque = []
+        alternativas_corretas = []
     
         for paragraph in document.paragraphs:
             texto = paragraph.text.strip()
             if texto and texto[0] in "ABCDEabcde" and texto[1] in ").":
                 alternativas.append(texto)
                 for run in paragraph.runs:
-                    if run.font.highlight_color or (run.font.color and run.font.color.rgb):
+                    if run.font.highlight_color or (run.font.color and (run.font.color.rgb == RGBColor(255, 0, 0))):
                         alternativas_com_destaque.append(texto)
                         break
+        
+        if len(alternativas_com_destaque) == 0:
+            for paragraph in document.paragraphs:
+                texto = paragraph.text.strip()
+                # Gabarito: A
+                if texto and texto in "Gabarito: ":
+                    alternativas_corretas.append(texto[-1])
+                # Resposta: b
+                elif texto and texto in "Resposta: ":
+                    alternativas_corretas.append(texto[-1])
+                # Alternativa Correta: letra A.
+                elif texto and texto in "Alternativa Correta: letra ":
+                    alternativas_corretas.append(texto[-2])
+            
+            # ALTERNATIVA CORRETA 12%
+            
+            alternativas_com_destaque = alternativas_corretas
         
         return alternativas_com_destaque
 
@@ -304,7 +322,7 @@ def get_correct_alternative_by_any_color(path: str) -> str:
 @lru_cache
 def get_correct_alternative_from_list (path: str, index: int):
     awnser_list = get_correct_alternative_by_any_color(path)
-    return awnser_list[index]
+    return awnser_list[index][0]
 
 def main() -> None:
     path = r'C:\Users\013190873\Downloads\Questionário_Álgebra Linear_Unidade I_DIGITAL PAGES_ORIGINAL.docx'
@@ -312,7 +330,7 @@ def main() -> None:
     # teste = enunciado_count(path=path)
     # print(f'\n Enunciado count: {teste}')
     
-    index = 12
+    index = 19
     teste2 = get_Enunciado(index=index, path=path)
     
     print(f'\n Question:\n{teste2}')
