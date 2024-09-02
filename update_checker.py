@@ -43,9 +43,9 @@ def apply_update():
                 # Ensure the destination directory exists
                 os.makedirs(os.path.dirname(dest_file_path), exist_ok=True)
                 
-                # Move the file to the destination path
                 print(f'Updating {filename}...')
                 print(f'Updating to {dest_file_path}...')
+                # Move the file to the destination path
                 shutil.move(src_file_path, dest_file_path)
     
     os.remove('update.zip')
