@@ -64,7 +64,10 @@ async def create_question(index: int, path: str, page: Page):
     alternativa_e = re.sub(r'\s+', ' ', alternativa_e)
     alternativa_e = alternativa_e.strip()
     
-    alternativa_correta = gb.get_correct_alternative_from_list(path=path, index=index)
+    try:
+        alternativa_correta = gb.get_correct_alternative_from_list(path=path, index=index)
+    except:
+        alternativa_correta = 'a'
     
     await page.get_by_role("button", name="Criar pergunta").click()
     await page.get_by_role("menuitem", name="Múltipla Escolha").click()
