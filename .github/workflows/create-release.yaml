@@ -22,6 +22,19 @@ jobs:
           PREVIOUS_TAG=$(git describe --tags --abbrev=0 "${{ env.TAG_NAME }}"^)
           echo "RELEASE_NOTES=$(git log $PREVIOUS_TAG..${{ env.TAG_NAME }} --oneline --pretty=format:"%h %s" | awk '{print ":seedling: " $0}')" >> $GITHUB_ENV
 
+      - name: Update release.json
+        run: |
+          echo "Updating release.json with version ${{ env.TAG_NAME }}"
+          echo '{"CURRENT_VERSION": "'${{ env.TAG_NAME }}'"}' > release.json
+
+      - name: Commit release.json
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add release.json
+          git commit -m "Update release.json to ${{ env.TAG_NAME }}"
+          git push origin HEAD
+
       - name: Create GitHub Release
         uses: actions/create-release@v1
         with:
