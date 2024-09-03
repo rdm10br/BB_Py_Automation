@@ -78,7 +78,7 @@ def main():
         download_update(latest_version)
         apply_update()
         # restart_application()
-        print('Update complete.')
+        print('\nUpdate complete.')
     else:
         print('\nNo updates available.')
 
