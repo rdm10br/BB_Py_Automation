@@ -10,8 +10,8 @@ def check_for_updates(current_version):
 
 
 def download_update(version):
-    # url = f'https://github.com/rdm10br/BB_Py_Automation/archive/refs/tags/{version}.zip'
-    url = 'https://github.com/rdm10br/BB_Py_Automation/archive/refs/tags/pre-release.zip'
+    # url = 'https://github.com/rdm10br/BB_Py_Automation/archive/refs/tags/pre-release.zip'
+    url = f'https://github.com/rdm10br/BB_Py_Automation/archive/refs/tags/v{version}.zip'
     response = requests.get(url, stream=True)
     response.raise_for_status()
     with open('update.zip', 'wb') as file:
