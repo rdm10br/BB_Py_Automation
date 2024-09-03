@@ -2,7 +2,8 @@ import requests, zipfile, os, json, tempfile, shutil
 
 
 def check_for_updates(current_version):
-    response = requests.get('https://api.github.com/repos/rdm10br/BB_Py_Automation/releases/tags/pre-release')
+    # response = requests.get('https://api.github.com/repos/rdm10br/BB_Py_Automation/releases/tags/pre-release')
+    response = requests.get('https://api.github.com/repos/rdm10br/BB_Py_Automation/releases/latest')
     response.raise_for_status()
     latest_version = response.json().get('name')
     return latest_version if latest_version > current_version else None
