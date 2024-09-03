@@ -135,7 +135,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(button_module6, 8, 1, 1, 1)
         
         button_module7 = QPushButton("Atividades Praticas")
-        button_module7.clicked.connect(lambda: self.run_module(r"src\Main_ATividades_Praticas.py"))
+        button_module7.clicked.connect(lambda: self.run_module(r"src\Main_ATividades_Teste.py"))
         layout.addWidget(button_module7, 6, 0)
         
         button_module8 = QPushButton("Ajuste de Datas")

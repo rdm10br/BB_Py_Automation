@@ -42,39 +42,36 @@ async def create_question(index: int, path: str, page: Page):
     index-=1
     enunciado = gb.get_Enunciado(index=index, path=path)
     enunciado = re.sub(r'\s+', ' ', enunciado)
-    # enunciado = re.sub(r'\s$', '', enunciado)
-    # enunciado = re.sub(r'^\s', '', enunciado)
     enunciado = enunciado.strip()
+    
     alternativa_a = gb.get_Alternativa(index=index, path=path, choices='a')
     alternativa_a = re.sub(r'\s+', ' ', alternativa_a)
-    # alternativa_a = re.sub(r'\s$', '', alternativa_a)
-    # alternativa_a = re.sub(r'^\s', '', alternativa_a)
     alternativa_a = alternativa_a.strip()
+    
     alternativa_b = gb.get_Alternativa(index=index, path=path, choices='b')
     alternativa_b = re.sub(r'\s+', ' ', alternativa_b)
-    # alternativa_b = re.sub(r'\s$', '', alternativa_b)
-    # alternativa_b = re.sub(r'^\s', '', alternativa_b)
     alternativa_b = alternativa_b.strip()
+    
     alternativa_c = gb.get_Alternativa(index=index, path=path, choices='c')
     alternativa_c = re.sub(r'\s+', ' ', alternativa_c)
-    # alternativa_c = re.sub(r'\s$', '', alternativa_c)
-    # alternativa_c = re.sub(r'^\s', '', alternativa_c)
     alternativa_c = alternativa_c.strip()
+    
     alternativa_d = gb.get_Alternativa(index=index, path=path, choices='d')
     alternativa_d = re.sub(r'\s+', ' ', alternativa_d)
-    # alternativa_d = re.sub(r'\s$', '', alternativa_d)
-    # alternativa_d = re.sub(r'^\s', '', alternativa_d)
     alternativa_d = alternativa_d.strip()
+    
     alternativa_e = gb.get_Alternativa(index=index, path=path, choices='e')
     alternativa_e = re.sub(r'\s+', ' ', alternativa_e)
-    # alternativa_d = re.sub(r'\s$', '', alternativa_e)
-    # alternativa_d = re.sub(r'^\s', '', alternativa_e)
     alternativa_e = alternativa_e.strip()
+    
+    try:
+        alternativa_correta = gb.get_correct_alternative_from_list(path=path, index=index)
+    except:
+        alternativa_correta = 'a'
     
     await page.get_by_role("button", name="Criar pergunta").click()
     await page.get_by_role("menuitem", name="Múltipla Escolha").click()
     await page.wait_for_load_state('domcontentloaded')
-    # await page.wait_for_load_state('networkidle')
     try:
         await page.frame_locator("[id=\"questionText\\.text_ifr\"]").get_by_label("Área rich-text. Pressione ALT").fill(enunciado)
     except:
@@ -104,5 +101,25 @@ async def create_question(index: int, path: str, page: Page):
         await page.frame_locator("internal:role=row[name=\"Correta 5 Resposta e. Para\"i] >> iframe[title=\"Rich Text Area\"]").get_by_label("Área rich-text. Pressione ALT").fill(alternativa_e)
     except:
         pass
+    
+    # Right choice
+    try:
+        match alternativa_correta.lower():
+            case 'a':
+                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 1").check()
+            case 'b':
+                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 2").check()
+            case 'c':
+                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 3").check()
+            case 'd':
+                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 4").check()
+            case 'e':
+                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 5").check()
+            case _:
+                print(f'Question {index+1} no right choice found!')
+                pass
+    except:
+        pass
+    
     await page.get_by_role("button", name="Enviar", exact=True).click()
     await page.wait_for_load_state('networkidle')

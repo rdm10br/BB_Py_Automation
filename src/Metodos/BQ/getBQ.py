@@ -1,13 +1,16 @@
+import docx.opc
+import docx.opc.exceptions
 import regex as re
 import docx, spacy
 from spacy.matcher import Matcher
 from functools import lru_cache
+from docx.shared import RGBColor
 
 nlp = spacy.load("pt_core_news_sm")
 matcher = Matcher(nlp.vocab)
 
 @lru_cache
-def read_document(path) -> str:
+def read_document(path: str) -> str:
     '''
     Return the file content
     
@@ -272,32 +275,72 @@ def get_Alternativa_hole(index: int, path: str, choices: str) -> str:
             print('''Por favor verifique a chamada da função get_Alternativa,
                   tipo de alternativa desejada não esperada pela função''')
 
+@lru_cache
+def get_correct_alternative_by_any_color(path: str) -> str:
+    try:
+        document = docx.Document(path)
+        alternativas = []
+        alternativas_com_destaque = []
+        alternativas_corretas = []
+    
+        for paragraph in document.paragraphs:
+            texto = paragraph.text.strip()
+            if texto and texto[0] in "ABCDEabcde" and texto[1] in ").":
+                alternativas.append(texto)
+                for run in paragraph.runs:
+                    if run.font.highlight_color or (run.font.color and (run.font.color.rgb == RGBColor(255, 0, 0))):
+                        alternativas_com_destaque.append(texto)
+                        break
+        
+        if len(alternativas_com_destaque) == 0:
+            for paragraph in document.paragraphs:
+                texto = paragraph.text.strip()
+                # Gabarito: A
+                if texto and texto in "Gabarito: ":
+                    alternativas_corretas.append(texto[-1])
+                # Resposta: b
+                elif texto and texto in "Resposta: ":
+                    alternativas_corretas.append(texto[-1])
+                # Alternativa Correta: letra A.
+                elif texto and texto in "Alternativa Correta: letra ":
+                    alternativas_corretas.append(texto[-2])
+            
+            # ALTERNATIVA CORRETA 12%
+            
+            alternativas_com_destaque = alternativas_corretas
+        
+        return alternativas_com_destaque
+
+    except (docx.opc.exceptions.PackageNotFoundError, IndexError) as e:
+        print(f"\nError: {e}")
+        return None
+
+    except Exception as e:
+        print(f"\nUnexpected error: {e}")
+        return None
+    
+@lru_cache
+def get_correct_alternative_from_list (path: str, index: int):
+    awnser_list = get_correct_alternative_by_any_color(path)
+    return awnser_list[index][0]
+
 def main() -> None:
-    path = r'C:\Users\013190873\Downloads\Matemática Financeira 1.docx'
-    # path = r'C:\Users\013190873\Downloads\DISCIPLINAMATEMÁTICA FINANCEIRA.docx'
-    # path = r'C:\Users\013190873\Downloads\Topografia e Geoprocessamento (engenharia) 1.docx'
+    path = r'C:\Users\013190873\Downloads\Questionário_Álgebra Linear_Unidade I_DIGITAL PAGES_ORIGINAL.docx'
     
     # teste = enunciado_count(path=path)
     # print(f'\n Enunciado count: {teste}')
     
-    index = 0
+    index = 19
     teste2 = get_Enunciado(index=index, path=path)
     
     print(f'\n Question:\n{teste2}')
-    # teste2 = re.sub(r'\s+', ' ', teste2)
-    # teste2 = re.sub(r'\s$', '', teste2)
-    # teste2 = re.sub(r'^\s', '', teste2)
-    # teste2 = teste2.strip()
-    # print(f'\n Question:\n{teste2}')
     
-    teste3 = get_Alternativa(index=index, path=path, choices='e')
+    teste3 = get_Alternativa(index=index, path=path, choices='a')
     
     print(f'\n Choices:\n{teste3}')
-    # teste3 = re.sub(r'\s+', ' ', teste3)
-    # teste3 = re.sub(r'\s$', '', teste3)
-    # teste3 = re.sub(r'^\s', '', teste3)
-    # teste3 = teste3.strip()
-    # print(f'\n Choices:\n{teste3}')
+    
+    teste_right = get_correct_alternative_from_list(path=path, index=index)
+    print(f'\nalternativa correta: {teste_right}\n')
 
 if __name__ == "__main__":
     main()

@@ -1,23 +1,23 @@
-name: Continuous Integration
+name: Auto Update
 
 on:
-  push:
-    branches:
-      - 'dev'
-  pull_request:
-    branches:
-      - 'Master'
+  schedule:
+    - cron: '0 0 * * 0'  # Runs every Sunday at midnight
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  continuous-integration:
+  update:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Python 3.12
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
+
       - name: Install dependencies
         run: |
           python -m venv venv
@@ -26,3 +26,7 @@ jobs:
           pip install -r requirements.txt --force-reinstall
           python -m playwright install
           python -m spacy download pt_core_news_sm
+
+      - name: Run update checker
+        run: |
+          python update_checker.py
