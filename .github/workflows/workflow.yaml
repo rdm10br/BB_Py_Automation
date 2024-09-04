@@ -18,11 +18,44 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
-      - name: Install dependencies
+
+      # - name: Install dependencies
+      #   run: |
+      #     python -m venv venv
+      #     source venv/bin/activate
+      #     pip install --upgrade pip
+      #     pip install -r requirements.txt --force-reinstall
+      #     python -m playwright install
+      #     python -m spacy download pt_core_news_sm
+
+      # Fetch all tags
+      - name: Fetch tags
+        run: git fetch --tags
+
+      # Determine the next tag version
+      - name: Determine next version
+        id: next_version
         run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt --force-reinstall
-          python -m playwright install
-          python -m spacy download pt_core_news_sm
+          # Get the latest tag, sort them and take the latest
+          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "Latest tag: $latest_tag"
+          
+          # Extract the version numbers and increment the patch version
+          IFS='.' read -r -a parts <<< "${latest_tag#v}"
+          major=${parts[0]}
+          minor=${parts[1]}
+          patch=${parts[2]}
+          patch=$((patch + 1))
+          new_tag="v$major.$minor.$patch"
+          echo "New tag: $new_tag"
+          
+          # Set the new tag as an output for the next steps
+          echo "NEW_TAG=$new_tag" >> $GITHUB_ENV
+
+      # Create and push the new tag
+      - name: Create a new tag
+        run: |
+          git tag -a ${{ env.NEW_TAG }} -m "CI release ${{ env.NEW_TAG }}"
+          git push origin ${{ env.NEW_TAG }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.CICD_TOKEN }}  # Required to push the tag
