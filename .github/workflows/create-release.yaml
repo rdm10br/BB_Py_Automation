@@ -21,8 +21,12 @@ jobs:
       - name: Generate Release Notes
         id: release_notes
         run: |
-          PREVIOUS_TAG=$(git describe --tags --abbrev=0 "${{ env.TAG_NAME }}"^)
-          echo "RELEASE_NOTES=$(git log $PREVIOUS_TAG..${{ env.TAG_NAME }} --oneline --pretty=format:"%h %s" | awk '{print ":seedling: " $0}')" >> $GITHUB_ENV
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 "${{ env.TAG_NAME }}"^ 2>/dev/null || echo "")
+          if [ -z "$PREVIOUS_TAG" ]; then
+            echo "RELEASE_NOTES=$(git log --oneline --pretty=format:"%h %s" | awk '{print ":seedling: " $0}')" >> $GITHUB_ENV
+          else
+            echo "RELEASE_NOTES=$(git log $PREVIOUS_TAG..${{ env.TAG_NAME }} --oneline --pretty=format:"%h %s" | awk '{print ":seedling: " $0}')" >> $GITHUB_ENV
+          fi
 
       - name: Update release.json
         run: |
