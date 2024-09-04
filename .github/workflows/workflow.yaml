@@ -62,13 +62,13 @@ jobs:
       
       - name: Update release.json
         run: |
-          echo "Updating release.json with version ${{ env.TAG_NAME }}"
-          echo '{"CURRENT_VERSION": "'${{ env.TAG_NAME }}'"}' > release.json
+          echo "Updating release.json with version ${{ env.NEW_TAG }}"
+          echo '{"CURRENT_VERSION": "'${{ env.NEW_TAG }}'"}' > release.json
   
       - name: Commit release.json
         run: |
           git add release.json
-          git commit -m "Update release.json to ${{ env.TAG_NAME }}"
+          git commit -m "Update release.json to ${{ env.NEW_TAG }}"
           git push origin HEAD
 
       - name: Create a new tag
