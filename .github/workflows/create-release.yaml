@@ -1,6 +1,11 @@
 name: Create Release
 
 on:
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types:
+      - completed
+  workflow_dispatch:  # Allows manual triggering
   push:
     tags:
       - 'v*.*.*'  # Trigger on version tags like v1.0.0
@@ -11,6 +16,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: dev  # Checkout the dev branch
 
       - name: Extract Tag Name
         id: extract_tag
@@ -19,8 +26,25 @@ jobs:
       - name: Generate Release Notes
         id: release_notes
         run: |
-          PREVIOUS_TAG=$(git describe --tags --abbrev=0 "${{ env.TAG_NAME }}"^)
-          echo "RELEASE_NOTES=$(git log $PREVIOUS_TAG..${{ env.TAG_NAME }} --oneline --pretty=format:"%h %s" | awk '{print ":seedling: " $0}')" >> $GITHUB_ENV
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 "${{ env.TAG_NAME }}"^ 2>/dev/null || echo "")
+          if [ -z "$PREVIOUS_TAG" ]; then
+            echo "RELEASE_NOTES=$(git log --oneline --pretty=format:"%h %s" | awk '{print ":seedling: " $0}')" >> $GITHUB_ENV
+          else
+            echo "RELEASE_NOTES=$(git log $PREVIOUS_TAG..${{ env.TAG_NAME }} --oneline --pretty=format:"%h %s" | awk '{print ":seedling: " $0}')" >> $GITHUB_ENV
+          fi
+
+      - name: Update release.json
+        run: |
+          echo "Updating release.json with version ${{ env.TAG_NAME }}"
+          echo '{"CURRENT_VERSION": "'${{ env.TAG_NAME }}'"}' > release.json
+
+      - name: Commit release.json
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add release.json
+          git commit -m "Update release.json to ${{ env.TAG_NAME }}"
+          git push origin HEAD
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
@@ -30,3 +54,5 @@ jobs:
           body: ${{ env.RELEASE_NOTES }}
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the default token
