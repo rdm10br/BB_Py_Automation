@@ -6,7 +6,11 @@ def check_for_updates(current_version):
     response = requests.get('https://api.github.com/repos/rdm10br/BB_Py_Automation/releases/latest')
     response.raise_for_status()
     latest_version = response.json().get('name').lstrip('v')
-    return latest_version if latest_version > current_version else None
+    
+    latest_version_tuple = tuple(map(int, latest_version.split('.')))
+    current_version_tuple = tuple(map(int, current_version.split('.')))
+    
+    return latest_version if latest_version_tuple > current_version_tuple else None
 
 
 def download_update(version):
