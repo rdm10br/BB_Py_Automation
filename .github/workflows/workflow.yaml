@@ -59,6 +59,17 @@ jobs:
             echo "Tag ${{ env.NEW_TAG }} already exists. Aborting."
             exit 1
           fi
+      
+      - name: Update release.json
+        run: |
+          echo "Updating release.json with version ${{ env.TAG_NAME }}"
+          echo '{"CURRENT_VERSION": "'${{ env.TAG_NAME }}'"}' > release.json
+  
+      - name: Commit release.json
+        run: |
+          git add release.json
+          git commit -m "Update release.json to ${{ env.TAG_NAME }}"
+          git push origin HEAD
 
       - name: Create a new tag
         run: |
