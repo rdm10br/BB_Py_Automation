@@ -48,6 +48,11 @@ jobs:
           
           echo "NEW_TAG=$new_tag" >> $GITHUB_ENV
 
+      - name: Configure Git user
+        run: |
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@github.com"
+
       - name: Check if tag already exists
         run: |
           if git rev-parse "${{ env.NEW_TAG }}" >/dev/null 2>&1; then
