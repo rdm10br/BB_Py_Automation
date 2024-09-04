@@ -21,4 +21,4 @@ SET ScriptPath=update_checker.py
 SET WorkingDir=%cd%
 SET TriggerTime=14:00
 
-schtasks /create /tn "%TaskName%" /tr "%WorkingDir%\%ScriptPath%" /sc daily /st %TriggerTime% /f /ru %username%
+@REM schtasks /create /tn "%TaskName%" /tr "%WorkingDir%\%ScriptPath%" /sc daily /st %TriggerTime% /f /ru %username%
