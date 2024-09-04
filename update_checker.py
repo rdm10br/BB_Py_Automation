@@ -66,7 +66,7 @@ def main():
         print("\nError reading the cache file.")
         return
     
-    CURRENT_VERSION = cache_data.get('CURRENT_VERSION')
+    CURRENT_VERSION = cache_data.get('CURRENT_VERSION').lstrip('v')
     if not CURRENT_VERSION:
         print("\nCurrent version not found in cache.")
         return
