@@ -19,10 +19,6 @@ jobs:
         with:
           ref: dev  # Checkout the dev branch
 
-      # - name: Extract Tag Name
-      #   id: extract_tag
-      #   run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-
       - name: Get Latest Tag from GitHub API
         id: get_latest_tag
         run: |
