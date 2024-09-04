@@ -106,20 +106,20 @@ async def create_question(index: int, path: str, page: Page):
     try:
         match alternativa_correta.lower():
             case 'a':
+                print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
                 await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 1").check()
-                print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
             case 'b':
+                print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
                 await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 2").check()
-                print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
             case 'c':
+                print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
                 await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 3").check()
-                print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
             case 'd':
+                print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
                 await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 4").check()
-                print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
             case 'e':
-                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 5").check()
                 print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
+                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 5").check()
             case _:
                 print(f'Question {index+1} no right choice found!')
                 pass
