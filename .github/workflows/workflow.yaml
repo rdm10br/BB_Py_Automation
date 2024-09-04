@@ -14,10 +14,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Use Python 3.12
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12'
+      
+      # - name: Use Python 3.12
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: '3.12'
 
       # - name: Install dependencies
       #   run: |
@@ -28,19 +29,15 @@ jobs:
       #     python -m playwright install
       #     python -m spacy download pt_core_news_sm
 
-      # Fetch all tags
       - name: Fetch tags
         run: git fetch --tags
 
-      # Determine the next tag version
       - name: Determine next version
         id: next_version
         run: |
-          # Get the latest tag, sort them and take the latest
-          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || echo "v0.0.0")
           echo "Latest tag: $latest_tag"
           
-          # Extract the version numbers and increment the patch version
           IFS='.' read -r -a parts <<< "${latest_tag#v}"
           major=${parts[0]}
           minor=${parts[1]}
@@ -49,13 +46,18 @@ jobs:
           new_tag="v$major.$minor.$patch"
           echo "New tag: $new_tag"
           
-          # Set the new tag as an output for the next steps
           echo "NEW_TAG=$new_tag" >> $GITHUB_ENV
 
-      # Create and push the new tag
+      - name: Check if tag already exists
+        run: |
+          if git rev-parse "${{ env.NEW_TAG }}" >/dev/null 2>&1; then
+            echo "Tag ${{ env.NEW_TAG }} already exists. Aborting."
+            exit 1
+          fi
+
       - name: Create a new tag
         run: |
           git tag -a ${{ env.NEW_TAG }} -m "CI release ${{ env.NEW_TAG }}"
           git push origin ${{ env.NEW_TAG }}
         env:
-          GITHUB_TOKEN: ${{ secrets.CICD_TOKEN }}  # Required to push the tag
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required to push the tag
