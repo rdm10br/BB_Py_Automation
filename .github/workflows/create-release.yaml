@@ -19,9 +19,15 @@ jobs:
         with:
           ref: dev  # Checkout the dev branch
 
-      - name: Extract Tag Name
-        id: extract_tag
-        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+      # - name: Extract Tag Name
+      #   id: extract_tag
+      #   run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Get Latest Tag from GitHub API
+        id: get_latest_tag
+        run: |
+          TAG_NAME=$(curl --silent "https://api.github.com/repos/${{ github.repository }}/tags" | jq -r '.[0].name')
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
 
       - name: Generate Release Notes
         id: release_notes
