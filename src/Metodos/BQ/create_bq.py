@@ -107,19 +107,24 @@ async def create_question(index: int, path: str, page: Page):
         match alternativa_correta.lower():
             case 'a':
                 print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
-                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 1").check()
+                # await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 1").check()
+                await page.locator('#correctAnswerIdent0').check()
             case 'b':
                 print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
-                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 2").check()
+                # await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 2").check()
+                await page.locator('#correctAnswerIdent1').check()
             case 'c':
                 print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
-                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 3").check()
+                # await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 3").check()
+                await page.locator('#correctAnswerIdent2').check()
             case 'd':
                 print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
-                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 4").check()
+                # await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 4").check()
+                await page.locator('#correctAnswerIdent3').check()
             case 'e':
                 print(f'Question {index+1} right choice found: {alternativa_correta.lower()}')
-                await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 5").check()
+                # await page.frame_locator("iframe[name=\"classic-learn-iframe\"]").get_by_role("radio", name="Correta 5").check()
+                await page.locator('#correctAnswerIdent4').check()
             case _:
                 print(f'Question {index+1} no right choice found!')
                 pass
@@ -127,4 +132,5 @@ async def create_question(index: int, path: str, page: Page):
         pass
     
     await page.get_by_role("button", name="Enviar", exact=True).click()
-    await page.wait_for_load_state('networkidle')
+    # await page.wait_for_load_state('networkidle')
+    await page.wait_for_timeout(1000*3)
