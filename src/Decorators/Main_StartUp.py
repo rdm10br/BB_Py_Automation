@@ -50,6 +50,7 @@ def playwright_StartUp(func):
             # await flush_then_wait()
             total_lines_plan1 = getPlanilha.total_lines
             
+            start_time0 = time.time()
             for index in range(total_lines_plan1):
                 index+=1
                 # progress_updated = Signal(int)
@@ -82,7 +83,12 @@ def playwright_StartUp(func):
                     print(f'Index: {index} in plan is alredy writen')
                     # await flush_then_wait()
                     index+=1
-
+            
+            end_time0 = time.time()
+            execution_time = end_time0 - start_time0
+            executionTime0 = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
+            print(executionTime0)
+            
             print('Execution End')
             # await flush_then_wait()
             await browser.close()
@@ -117,6 +123,7 @@ def playwright_StartUp_nosub(func):
             # await flush_then_wait()
             total_lines_plan1 = getPlanilha.total_lines
             
+            start_time0 = time.time()
             for index in range(total_lines_plan1):
                 index+=1
                 # progress_updated = Signal(int)
@@ -147,7 +154,12 @@ def playwright_StartUp_nosub(func):
                     print(f'Index: {index} in plan is alredy writen')
                     # await flush_then_wait()
                     index+=1
-
+                    
+            end_time0 = time.time()
+            execution_time = end_time0 - start_time0
+            executionTime0 = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
+            print(executionTime0)
+            
             print('Execution End')
             # await flush_then_wait()
             await browser.close()

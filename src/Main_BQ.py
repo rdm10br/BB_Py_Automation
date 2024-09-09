@@ -107,6 +107,7 @@ async def run(playwright: Playwright) -> None:
             with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                 json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
     
+    start_time_queue = time.time()
     for i in range(cache_length):
         cache = cache_data['queue_files'][i]
         if cache['processingStatus'] == "Finished":
@@ -170,6 +171,7 @@ async def run(playwright: Playwright) -> None:
 
             await page.goto(BQTest(id_BQ=id_BQ))
             
+            start_time_doc = time.time()
             for index in range(doc):
                 index +=1
                 
@@ -207,12 +209,22 @@ async def run(playwright: Playwright) -> None:
                         
                     gc.collect()
                     
+                end_time_doc = time.time()
+                execution_time_doc = end_time_doc - start_time_doc
+                executionTime_doc = f'Execution time: {'{:.2f}'.format(execution_time_doc)} seconds'
+                print(executionTime_doc)
+                    
             if cache['questionsMade'] == doc:
                 
                 cache['processingStatus'] = "Finished"
                 with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                     json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
-                
+    
+    end_time_queue = time.time()
+    execution_time_queue = end_time_queue - start_time_queue
+    executionTime_queue = f'Execution time: {'{:.2f}'.format(execution_time_queue)} seconds'
+    print(executionTime_queue)
+    
     os.remove(CACHE_FILE)
 
 

@@ -72,6 +72,49 @@ def download(item: str):
                 logging.error("All download attempts failed.")
 
 
+def compare_items_from_git(item: str) -> str:
+    url = f'https://api.github.com/repos/{GIT_REPO}/contents/{item}?ref={BRANCH}'
+    try:
+        response = requests.get(url)
+        content = response.json().get('content')
+        response.raise_for_status()
+        
+        decoded_content = base64.b64decode(content).decode('utf-8')
+        
+        local_file_path = f'./{item}'
+        with open(local_file_path, 'r', encoding='utf-8') as local_file:
+            local_file_content = local_file.read()
+            
+        if decoded_content == local_file_content:
+            logging.info("The contents are identical.")
+            return None
+        else:
+            logging.info("The contents are different.")
+            return str(response.json().get('download_url'))
+    except Exception as e:
+        logging.warning("Failed to retrieve the content from GitHub.")
+
+
+def compare_items(item: str, tmpdirname: str) -> str:
+    try:
+        local_file_path = f'./{item}'
+        with open(local_file_path, 'r', encoding='utf-8') as local_file:
+            local_file_content = local_file.read()
+        
+        downloaded_content_path = f'{tmpdirname}/{item}'
+        with open(downloaded_content_path, 'r', encoding='utf-8') as local_file:
+            downloaded_content = local_file.read()
+        
+        if downloaded_content == local_file_content:
+            logging.info("The contents are identical.")
+            return None
+        else:
+            logging.info("The contents are different.")
+            return ''
+    except Exception as e:
+        logging.warning("Failed to retrieve the content from GitHub.")
+
+
 def apply_update():
     try:
         with tempfile.TemporaryDirectory() as tmpdirname:

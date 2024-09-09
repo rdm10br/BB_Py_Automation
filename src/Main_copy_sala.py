@@ -34,6 +34,7 @@ async def run(playwright: Playwright) -> None:
     
     cookies = await page.context.cookies(urls=baseURL)
     
+    start_time0 = time.time()
     for index in range(totalplan2) :
         index +=1
         
@@ -63,6 +64,11 @@ async def run(playwright: Playwright) -> None:
             await new_browser.close()
             
             gc.collect()
+            
+    end_time0 = time.time()
+    execution_time = end_time0 - start_time0
+    executionTime0 = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
+    print(executionTime0)
             
     print('Copy Finished')
         

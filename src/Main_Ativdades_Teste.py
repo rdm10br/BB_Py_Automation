@@ -1,4 +1,4 @@
-import asyncio
+import asyncio, time
 from playwright.async_api import Page
 from Metodos import getPlanilha, getFromAPI, gruposAtividades, AjusteNotaZero
 from Decorators.Main_StartUp import playwright_StartUp
@@ -132,11 +132,16 @@ async def run(page: Page, index) -> None:
         await gruposAtividades.inserirArquivo(page=page, id_interno=id_interno, Area=course_area)
         print(course_area)
         
+        start_time0 = time.time()
         for curso in cursos:
             await gruposAtividades.inserirGruposAtividadesAV1(page=page, id_interno=id_interno, curso=curso)
             await page.wait_for_load_state('load')
             await gruposAtividades.inserirGruposAtividadesAV2(page=page, id_interno=id_interno, curso=curso)
             await page.wait_for_load_state('load')
+        end_time0 = time.time()
+        execution_time = end_time0 - start_time0
+        executionTime0 = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
+        print(executionTime0)
         
         getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
     
