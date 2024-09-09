@@ -16,9 +16,10 @@ echo Setup complete. Activate the virtual environment with 'venv\Scripts\activat
 
 echo Setup schedule to updater.
 
-SET TaskName=BBPyAuto_DailyUpdater
-SET ScriptPath=update_checker.py
 SET WorkingDir=%cd%
 SET TriggerTime=14:00
+SET TaskName=BlackBot_DailyUpdater
+SET TaskBat=%WorkingDir%\run_update_checker.bat
 
-@REM schtasks /create /tn "%TaskName%" /tr "%WorkingDir%\%ScriptPath%" /sc daily /st %TriggerTime% /f /ru %username%
+REM Create scheduled task
+schtasks /create /tn "%TaskName%" /tr "\"%TaskBat%\"" /sc daily /st %TriggerTime% /f /ru %USERNAME%
