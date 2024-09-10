@@ -19,10 +19,10 @@ SET ScriptPath=%WorkingDir%\update_checker.py
 SET PythonInterpreter=%WorkingDir%\venv\Scripts\python.exe
 
 REM Ensure Logs directory exists
-IF NOT EXIST "%WorkingDir%\Logs" (
-    mkdir "%WorkingDir%\Logs"
+IF NOT EXIST "%WorkingDir%\Logs\Updater" (
+    mkdir "%WorkingDir%\Logs\Updater"
 )
 
 @REM echo %WorkingDir% > C:\Users\%USERNAME%\Desktop\log-teste.log
 
-%PythonInterpreter% %ScriptPath% > %WorkingDir%\Logs\output-updater-%DateTime%.log 2>&1
+%PythonInterpreter% %ScriptPath% > %WorkingDir%\Logs\Updater\output-updater-%DateTime%.log 2>&1

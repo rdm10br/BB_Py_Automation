@@ -1,5 +1,6 @@
 import requests, zipfile, os, json, tempfile, shutil, logging, time, base64
 from dotenv import load_dotenv
+from updater_rollback import rollback
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 load_dotenv()
@@ -187,6 +188,14 @@ def main():
             logging.info('Update complete.')
         except Exception as e:
             logging.error(f"Update failed: {e}")
+            try:
+                logging.warning('Rollback Needed...')
+                logging.info('Rollbacking in 1 version...')
+                version = rollback(1)
+                download_update(version)
+                apply_update()
+            except:
+                logging.error('Lost internet connection or Update Failed')
 
     else:
         logging.info('No updates available.')
