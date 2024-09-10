@@ -123,9 +123,9 @@ def main():
     if latest_version is None:
         logging.info('Available for RollBack.')
         regression = get_versions()
-        # version = rollback(regression=regression)
-        # download_update(version=version)
-        # apply_update()
+        version = rollback(regression=regression)
+        download_update(version=version)
+        apply_update()
     else:
         logging.info(f'New version: \'{latest_version}\' available, Current version: \'{CURRENT_VERSION}, Updating...')
         try:

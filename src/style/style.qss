@@ -106,7 +106,7 @@ QPushButton#save_button:pressed {
 }
 
 QPushButton#button_2 {
-    image: url(src/icon/automation.png);
+    /*image: url(src/style/icon/automation.png);*/
     image-position: left;
 }
 
@@ -136,6 +136,14 @@ QSpinBox::up-button, QSpinBox::down-button {
 QSpinBox::up-arrow, QSpinBox::down-arrow {
     width: 12px;
     height: 12px;
+}
+QSpinBox::up-arrow {
+    image: url(src/style/icon/up-arrow.png);
+    image-position: left;
+}
+QSpinBox::down-arrow {
+    image: url(src/style/icon/down-arrow.png);
+    image-position: left;
 }
 QSpinBox::up-button:hover, QSpinBox::down-button:hover {
     background-color: #c1c1c1;
