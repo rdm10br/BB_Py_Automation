@@ -68,7 +68,7 @@ jobs:
       - name: Commit release.json
         run: |
           git add release.json
-          git commit -m "Update release.json to ${{ env.NEW_TAG }}"
+          git commit -m "💚 ci: Update release.json to ${{ env.NEW_TAG }}"
           git push origin HEAD
 
       - name: Create a new tag
