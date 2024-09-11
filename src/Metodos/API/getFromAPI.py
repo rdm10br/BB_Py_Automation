@@ -1,6 +1,6 @@
+import json
 import regex as re
 from playwright.async_api import Page
-from functools import lru_cache
 
 
 from Metodos.API import getPlanilha
@@ -58,7 +58,31 @@ async def API_Ativ_Course(page: Page, id_externo: str) -> str:
     string_sem_especiais = re.sub(r'[^\w\s]', '', str(course_area))
     return str(course_area)
 
-@lru_cache
+async def API_Ativ_Course_id_interno(page: Page, id_interno: str) -> str:
+    """
+    Async Function that search in the API for the ```course_area``` of the
+    classroom you want, in the order of the Excel file you gave.
+
+    Args:
+        page (Page): Page constructor form Playwright that
+        you want this API to run
+        id_interno (str): the Internal ID of the classroom you want
+
+    Returns:
+        str: ```course_area```
+    """
+    internalID_API = f'./learn/api/public/v3/courses/{id_interno}'
+    
+    request = '() => {return JSON.parse(document.body.innerText).name.match(/(?<=[(]).*(?=[)])/)}'
+
+    print(f'Looking on Api Request Activity to find course area of {id_interno}')
+
+    await page.goto(internalID_API)
+    course_area = await page.evaluate(request)
+    # Remover caracteres especiais usando expressões regulares
+    string_sem_especiais = re.sub(r'[^\w\s]', '', str(course_area))
+    return str(course_area)
+
 async def API_Ativ_Groups(page: Page, id_interno: str, item: str) -> str:
     """_summary_
 
@@ -127,19 +151,18 @@ async def API_AP_Rules(page: Page, id_interno: str, id_item: str) -> str:
     
     return id_group
 
-@lru_cache
-async def check_item_in_all_folders_unidade(page: Page, id_interno: str, item_search: str):
-    results = ''
-    id_folder: list = []
-    internalID_API = f''
+async def API_AP_all_folders(page: Page, id_interno: str) -> str:
     
-    def filteredRequest_title(item: str, _config: str):
+    id_folder: list = []
+    internalID_API = f'./learn/api/public/v1/courses/{id_interno}/contents'
+    
+    def filteredRequest_title(_item: str, _config: str):
         return (f'''() => {{
-            const data = JSON.parse(document.body.innerText).results.find(item => item.title === "{item}");
+            const data = JSON.parse(document.body.innerText).results.find(item => item.title === "{_item}");
             if (data && (data.{_config}).toString) {{
                 return data.{_config};
             }} else {{
-                throw new Error('Group: {item} not found in room {id_interno}');
+                throw new Error('Group: {_item} not found in room {id_interno}');
                 }}
             }}''')
     
@@ -153,53 +176,43 @@ async def check_item_in_all_folders_unidade(page: Page, id_interno: str, item_se
         for index in range(2):
             index += 1
             config = 'id'
-            unidade = f'AV{index} - Atividade Prática de Extensão'
+            _item = f'AV{index} - Atividade Prática de Extensão'
             print(f'Checking AV{index} - Atividade Prática de Extensão id...')
-            id_value = await page.evaluate(filteredRequest_title(item_search=unidade, config=config))
+            id_value = await page.evaluate(filteredRequest_title(_item=_item, _config=config))
             id_folder.append(id_value)
             print(id_folder[index-1])
 
-        for i in range(2):
-            await page.goto(url=APIFolder(id_folder[i]), wait_until='networkidle')
-            i += 1
-
-            config = 'availability.available'
-            print(f'Checking {item_search} visibility...')
-
-            try:
-                result_visibility = await page.evaluate(filteredRequest_title(item_search, config))
-            except Exception as e:
-                if f'{item_search} not found in room {id_interno}' in str(e):
-                    print(f'Erro na sala: {id_interno}; Item: {item_search} não foi encontrado')
-                    continue
-                else:
-                    print('Erro ao processar request:', e)
-                    continue
-            config = 'contentHandler.url'
-            print(f'Checking {item_search} associated URL...')
-
-            try:
-                result_url = await page.evaluate(filteredRequest_title(item_search, config))
-                if result_url == 'https://www.sereducacional.com' or result_url == 'https://www.sereducacional.com/':
-                    result_url = f'{result_url} is wrong! | there is no content in {item_search} from Unidade {i}!'
-            except Exception as e:
-                if f'{item_search} not found in room {id_interno}' in str(e):
-                    result = f'{result}\nErro na sala: {id_interno}; Item: {item_search} não foi encontrado'
-                    print(f'Erro na sala: {id_interno}; Item: {item_search} não foi encontrado')
-                    continue
-                else:
-                    print('Erro ao processar request:', e)
-                    continue
-                
-            new_result = f'''{item_search} from Unidade {i} :
-            visibility: {result_visibility} |
-            URL: {result_url}\n'''
-            if result_visibility != f'{item_search} not found in room {id_interno}':
-                results = f'''{results}{new_result}'''
-            else:
-                results = f'{results}{item_search} não encontrado na Unidade {i}\n'
+        i = 0
+        for id in id_folder:
+            i+=1
             
-            item = f'{item_search} from Unidade {i}'
-        return results
+            COURSE_MAPPING = r'src\Json\course_mapping.json'
+
+            with open(COURSE_MAPPING, 'r', encoding='utf-8') as f:
+                course_mapping = json.load(f)
+            
+            course_area = await API_Ativ_Course_id_interno(page=page, id_interno=id_interno)
+            
+            if course_area in course_mapping:
+                
+                for course in course_mapping[course_area]:
+                    
+                    id_group = await API_Ativ_Groups(page=page, id_interno=id_interno, item=course)
+                    
+                    await page.goto(url=APIFolder(id), wait_until='networkidle')
+                    
+                    config = 'id'
+                    item  = f'Envio AV{i} - Atividade Prática de Extensão ({course})'
+                    id_item = await page.evaluate(filteredRequest_title(_item=item, _config=config))
+                    id_item_group = await API_AP_Rules(page=page, id_interno=id_interno, id_item=id_item)
+                    
+                    if id_item_group == id_group:
+                        print(f'{item} is associated correctly')
+                    else:
+                        print(f'{item} is associated wrongly')
+            else:
+                print(f'{course_area} not listed in the Json file')
+            
     except:
-        print('folder or item not found')
+        print(f'{_item} or {item} not found')
+        raise

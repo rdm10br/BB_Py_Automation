@@ -209,10 +209,10 @@ async def run(playwright: Playwright) -> None:
                         
                     gc.collect()
                     
-                end_time_doc = time.time()
-                execution_time_doc = end_time_doc - start_time_doc
-                executionTime_doc = f'Execution time: {'{:.2f}'.format(execution_time_doc)} seconds'
-                print(executionTime_doc)
+            end_time_doc = time.time()
+            execution_time_doc = end_time_doc - start_time_doc
+            executionTime_doc = f'Execution time: {'{:.2f}'.format(execution_time_doc)} seconds'
+            print(executionTime_doc)
                     
             if cache['questionsMade'] == doc:
                 
