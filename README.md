@@ -18,11 +18,12 @@ openpyxl,
 pandas,
 playwright,
 pyarrow,
-pyperclip,
 pyside6,
 python-docx,
+python-dotenv,
 pytest-playwright,
 regex,
+setproctitle,
 spacy,
 unidecode
 

@@ -1,11 +1,11 @@
 import pandas as pd
 import openpyxl
 import pyarrow
-# import os
+import os
 # print(os.getcwd())
 
 # Acessando o arquivo
-arq_excel = r'Planilhas\SALAS.xlsx'
+arq_excel = os.path.join(os.getcwd(),r'Planilhas\SALAS.xlsx')
 
 # Lendo o arquivo
 col = "ID"
