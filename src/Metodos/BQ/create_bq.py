@@ -134,3 +134,4 @@ async def create_question(index: int, path: str, page: Page):
     await page.get_by_role("button", name="Enviar", exact=True).click()
     # await page.wait_for_load_state('networkidle')
     await page.wait_for_timeout(1000*3)
+    await expect(page.locator('#totalQuestions').get_by_text(f'{index+1}')).to_be_visible(timeout=1000*10)
