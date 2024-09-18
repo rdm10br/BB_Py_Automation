@@ -19,6 +19,7 @@ class TimeStampedStream:
                 self.stream.write(timestamp + line + "\n")
             else:
                 self.stream.write("\n")
+        self.stream.flush()
         
     def flush(self):
         self.stream.flush()
@@ -40,6 +41,7 @@ def capture_console_output(func):
     class ConsoleAndFile(io.StringIO):
         def write(self, data):
             sys.__stdout__.write(data)  # Write to the original stdout
+            sys.__stdout__.flush()
             super().write(data)  # Write to the StringIO buffer
 
     def wrapper(*args, **kwargs):
@@ -80,6 +82,7 @@ def capture_console_output_async(func):
         def write(self, data: str):
             if data.strip():  # Only write non-empty lines
                 sys.__stdout__.write(data)  # Write to the original stdout
+                sys.__stdout__.flush()
                 super().write(data)  # Write to the StringIO buffer
 
     async def wrapper(*args, **kwargs):
