@@ -8,5 +8,6 @@
         "./src"
     ],
     "python.analysis.typeCheckingMode": "off",
-    "files.autoSave": "afterDelay"
+    "files.autoSave": "afterDelay",
+    "explorer.compactFolders": false
 }
