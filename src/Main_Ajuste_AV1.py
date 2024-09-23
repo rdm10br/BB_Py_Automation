@@ -1,5 +1,5 @@
 import asyncio
-from playwright.async_api import Page, expect
+from playwright.async_api import Page
 
 from Metodos import getPlanilha, getFromAPI, ajuste_AV1
 from Decorators.Main_StartUp import playwright_StartUp_nosub

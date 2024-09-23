@@ -1,5 +1,5 @@
 import asyncio, gc,  sys, os, time
-from playwright.async_api import Playwright, async_playwright, expect
+from playwright.async_api import Playwright, async_playwright
 from dotenv import load_dotenv
 
 from Metodos import checkup_login, getPlanilha, copiaSala
