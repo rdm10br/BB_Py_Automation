@@ -57,7 +57,7 @@ async def Auto_Unsub(page: Page, index: int):
     await page.wait_for_load_state('domcontentloaded')
     await page.wait_for_load_state('networkidle')
     try:
-        await page.locator('#rosterView-list > ul > li > div > div.medium-5.columns > div > div').click()
+        await page.locator('#rosterView-list > ul > li > div > div.medium-5.columns > div > div').click(timeout=3*1000)
         await page.wait_for_load_state('load')
         await page.locator('#roster-settings > ng-form > div.nested-panel > div > div > div.element-card.account > button').click()
         await page.locator('body > div.panel-has-focus > div > footer > div > div.reveal-modal__footer-buttons > span:nth-child(2) > button').click()
