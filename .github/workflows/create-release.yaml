@@ -6,9 +6,9 @@ on:
     types:
       - completed
   workflow_dispatch:  # Allows manual triggering
-  push:
-    tags:
-      - 'v*.*.*'  # Trigger on version tags like v1.0.0
+  # push:
+  #   tags:
+  #     - 'v*.*.*'  # Trigger on version tags like v1.0.0
 
 jobs:
   release:
