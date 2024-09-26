@@ -35,17 +35,45 @@ jobs:
       - name: Determine next version
         id: next_version
         run: |
+          # Get the latest tag or fallback to v0.0.0 if no tag exists
           latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || echo "v0.0.0")
           echo "Latest tag: $latest_tag"
           
+          # Extract major, minor, and patch parts from the tag
           IFS='.' read -r -a parts <<< "${latest_tag#v}"
           major=${parts[0]}
           minor=${parts[1]}
           patch=${parts[2]}
-          patch=$((patch + 1))
+
+          # Determine the type of version bump (major, minor, patch)
+          VERSION_BUMP="patch"  # Default to patch
+          if git log -1 --pretty=%B | grep -qE '\[major\]'; then
+            VERSION_BUMP="major"
+          elif git log -1 --pretty=%B | grep -qE '\[minor\]'; then
+            VERSION_BUMP="minor"
+          fi
+
+          # Bump the appropriate part based on the version bump type
+          case "$VERSION_BUMP" in
+            major)
+              major=$((major + 1))
+              minor=0
+              patch=0
+              ;;
+            minor)
+              minor=$((minor + 1))
+              patch=0
+              ;;
+            patch)
+              patch=$((patch + 1))
+              ;;
+          esac
+
+          # Create the new version tag
           new_tag="v$major.$minor.$patch"
           echo "New tag: $new_tag"
           
+          # Save the new tag to the GITHUB_ENV for later use
           echo "NEW_TAG=$new_tag" >> $GITHUB_ENV
 
       - name: Configure Git user
