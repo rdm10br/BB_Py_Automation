@@ -65,12 +65,19 @@ class Worker(QThread):
                     
                     if "Start loop " in line:
                         loop_count += 1
-                        os.chdir('src')
+                        script_dir = os.path.dirname(os.path.abspath(__file__))
+                        src_dir = os.path.join(script_dir, 'src')
+                        if src_dir not in sys.path:
+                            sys.path.insert(0, src_dir)
+                            
                         from Metodos import getPlanilha
+                        
                         try:
                             total = getPlanilha.total_lines
+                            print(total)
                         except:
                             total = getPlanilha.total_lines_plan2
+                            print(total)
                             
                         progress = (loop_count/total)*100
                         self.progress_updated.emit(progress)
