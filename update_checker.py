@@ -118,6 +118,10 @@ def compare_items(item: str, tmpdirname: str) -> str:
 
 def apply_update():
     try:
+        excluded_files = [
+            'SALAS.xlsx'
+            ]
+        
         with tempfile.TemporaryDirectory() as tmpdirname:
             with zipfile.ZipFile('update.zip', 'r') as zip_ref:
                 zip_ref.extractall(tmpdirname)
@@ -127,22 +131,27 @@ def apply_update():
             
             for root, dirs, files in os.walk(tmpdirname):
                 for filename in files:
-                    src_file_path = os.path.join(root, filename)
                     
-                    # Determine the relative path within the extracted structure
-                    relative_path = os.path.relpath(src_file_path, tmpdirname)
-                    
-                    relative_path = os.path.relpath(src_file_path, os.path.join(tmpdirname, single_top_dir))
-                    
-                    dest_file_path = os.path.join(os.getcwd(), relative_path)
-                    
-                    # Ensure the destination directory exists
-                    os.makedirs(os.path.dirname(dest_file_path), exist_ok=True)
-                    
-                    logging.info(f'Updating {filename} to {dest_file_path}...')
-                    
-                    # Move the file to the destination path
-                    shutil.move(src_file_path, dest_file_path)
+                    if filename in excluded_files:
+                        logging.info(f'Skipping {filename}...')
+                        continue
+                    else:
+                        src_file_path = os.path.join(root, filename)
+                        
+                        # Determine the relative path within the extracted structure
+                        relative_path = os.path.relpath(src_file_path, tmpdirname)
+                        
+                        relative_path = os.path.relpath(src_file_path, os.path.join(tmpdirname, single_top_dir))
+                        
+                        dest_file_path = os.path.join(os.getcwd(), relative_path)
+                        
+                        # Ensure the destination directory exists
+                        os.makedirs(os.path.dirname(dest_file_path), exist_ok=True)
+                        
+                        logging.info(f'Updating {filename} to {dest_file_path}...')
+                        
+                        # Move the file to the destination path
+                        shutil.move(src_file_path, dest_file_path)
         
         os.remove('update.zip')
         logging.info("Update applied successfully.")
