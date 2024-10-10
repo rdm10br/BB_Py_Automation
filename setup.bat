@@ -19,7 +19,7 @@ echo Setup schedule to updater.
 SET WorkingDir=%cd%
 SET TriggerTime=14:00
 SET TaskName=BlackBot_DailyUpdater
-SET TaskBat=%WorkingDir%\run_update_checker.bat
+SET TaskBat=%WorkingDir%\run_update_checker.vbs
 
 REM Create scheduled task
-schtasks /create /tn "%TaskName%" /tr "\"%TaskBat%\"" /sc daily /st %TriggerTime% /f /ru %USERNAME%
+schtasks /create /tn "%TaskName%" /tr "wscript.exe \"%TaskBat%\"" /sc daily /st %TriggerTime% /f /ru %USERNAME%
