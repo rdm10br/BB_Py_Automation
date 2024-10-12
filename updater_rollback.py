@@ -4,10 +4,12 @@ from PySide6.QtGui import QIcon, QFontDatabase
 import requests, os, json, logging
 from dotenv import load_dotenv
 
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 load_dotenv()
 GIT_REPO = os.getenv('GIT_REPO')
 BRANCH = os.getenv('BRANCH')
+
 
 class RegressWindow(QDialog):
     def __init__(self):
@@ -53,12 +55,69 @@ class RegressWindow(QDialog):
         self.num_versions = self.spin_box.value()
         self.accept()  # Closes the dialog and returns control
 
+
+class AskWindow(QDialog):
+    def __init__(self, latest_version, current_version):
+        super().__init__()
+        self.load_stylesheet(r"src\style\style.qss")
+        self.setWindowTitle("Update Confirmation")
+        self.setWindowIcon(QIcon(r'src\style\icon\automation0.png'))
+        font_id = QFontDatabase.addApplicationFont(r"src\font\Poppins\Poppins-Regular.ttf")
+        QFontDatabase.applicationFontFamilies(font_id)
+        
+        # Create layout and widgets
+        layout = QVBoxLayout()
+        self.label0 = QLabel(f'New version: \'{latest_version}\' available, Current version: \'{current_version}')
+        layout.addWidget(self.label0)
+        
+        self.label = QLabel("Do you want to update?")
+        layout.addWidget(self.label)
+        
+        # Create "Yes" and "No" buttons
+        self.button_yes = QPushButton("Yes")
+        self.button_no = QPushButton("No")
+        layout.addWidget(self.button_yes)
+        layout.addWidget(self.button_no)
+        
+        # Set the layout
+        self.setLayout(layout)
+        
+        # Connect button clicks to their respective slots
+        self.button_yes.clicked.connect(self.on_yes)
+        self.button_no.clicked.connect(self.on_no)
+        
+        # Store the result (yes/no)
+        self.result = None
+    
+    def load_stylesheet(self, file_name):
+        with open(file_name, "r") as file:
+            self.setStyleSheet(file.read())
+    
+    def on_yes(self):
+        # Set result to "Yes" and close the dialog
+        self.result = "Yes"
+        self.accept()  # Closes the dialog and returns control
+    
+    def on_no(self):
+        # Set result to "No" and close the dialog
+        self.result = "No"
+        self.accept()  # Closes the dialog and returns control
+
+
 def get_versions():
     app = QApplication([])  # Initialize the application
     window = RegressWindow()  # Create the dialog window
     
     if window.exec():  # This shows the window and waits for the user to submit
         return window.num_versions  # Return the selected number of versions
+
+
+def update_option(latest_version, current_version):
+    app = QApplication([])
+    window = AskWindow(latest_version, current_version)
+    
+    if window.exec():
+        return window.result
 
 
 def rollback(regression: int):
@@ -88,6 +147,7 @@ def rollback(regression: int):
             return name
     else:
         print("No tags found or internet connection lost.")
+
 
 def main():
     # Import Here to avoid circular import from update_checker
@@ -127,14 +187,25 @@ def main():
         download_update(version=version)
         apply_update()
     else:
-        logging.info(f'New version: \'{latest_version}\' available, Current version: \'{CURRENT_VERSION}, Updating...')
-        try:
-            download_update(latest_version)
+        logging.info(f'New version: \'{latest_version}\' available, Current version: \'{CURRENT_VERSION}')
+        user_response = update_option(latest_version, CURRENT_VERSION)
+        if user_response is 'Yes':
+            logging.info('User accepted to update!')
+            logging.info('Updating...')
+            try:
+                download_update(latest_version)
+                apply_update()
+                logging.info('Update complete.')
+            except Exception as e:
+                logging.error(f"Update failed: {e}")
+        else:
+            logging.info('User did not accept to update!')
+            logging.info('Rollingback...')
+            regression = get_versions()
+            version = rollback(regression=regression)
+            download_update(version=version)
             apply_update()
-            logging.info('Update complete.')
-        except Exception as e:
-            logging.error(f"Update failed: {e}")
 
-        
+
 if __name__ == "__main__":
     main()
