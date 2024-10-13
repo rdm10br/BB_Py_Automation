@@ -1,7 +1,5 @@
 import pandas as pd
-import openpyxl
-import pyarrow
-import os
+import os, pyarrow, openpyxl
 # print(os.getcwd())
 
 # Acessando o arquivo
