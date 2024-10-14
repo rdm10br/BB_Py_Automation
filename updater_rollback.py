@@ -67,7 +67,7 @@ class AskWindow(QDialog):
         
         # Create layout and widgets
         layout = QVBoxLayout()
-        self.label0 = QLabel(f'New version: \'{latest_version}\' available, Current version: \'{current_version}')
+        self.label0 = QLabel(f'There is a new version available: \'{latest_version}\',\nCurrent version: \'{current_version}')
         layout.addWidget(self.label0)
         
         self.label = QLabel("Do you want to update?")
