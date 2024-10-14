@@ -11,9 +11,9 @@ class getSpreadSheet():
         self.arq_excel = os.path.join(os.getcwd(),r'Planilhas\SALAS.xlsx')
         self.CACHE_FILE = r'src\Json\course_mapping.json'
         # Lendo o arquivo
+        self.plan_1 = 'salas'
         self.col_id = "ID"
         self.col_status = 'STATUS'
-        self.plan_1 = 'salas'
         self.col_status_plan1 = 'B'
         self.col_plan1_result = 'C'
         self.col_plan1_forum = 'D'
@@ -49,20 +49,23 @@ class getSpreadSheet():
         self.col_plan1_web = 'AH'
         self.col_plan1_solicite = 'AI'
         self.col_plan1_ser = 'AJ'
+        
         self.df_map_plan1 = pd.read_excel(self.arq_excel, sheet_name=self.plan_1)
         self.total_lines = len(self.df_map_plan1)
 
+        self.plan_2 = 'salaCopia'
         self.col_plan2_origin = "ID_ORIGIN"
         self.col_plan2_copy = 'ID_DESTINY'
         self.col_plan2_status = 'STATUS'
         self.col_status_plan2 = 'C'
-        self.plan_2 = 'salaCopia'
+        
         self.df_map_plan2 = pd.read_excel(self.arq_excel, sheet_name=self.plan_2)
         self.total_lines_plan2 = len(self.df_map_plan2)
 
+        self.plan_3 = 'atividades'
         self.col_plan3_curso = "CURSO"
         self.col_plan3_GA = 'GRANDE ÁREA'
-        self.plan_3 = 'atividades'
+        
         self.df_map_plan3 = pd.read_excel(self.arq_excel, sheet_name=self.plan_3)
         self.total_lines_plan3 = len(self.df_map_plan3)
 
@@ -81,17 +84,21 @@ class getSpreadSheet():
                 print("index does not exist")
     
     def writeOnExcel(self, index, return_status, _workbook, column_return):
-        # Load an existing Excel workbook
-        workbook = openpyxl.load_workbook(self.arq_excel)
+        try:
+            # Load an existing Excel workbook
+            workbook =  openpyxl.load_workbook(self.arq_excel)
+            
+            # Select the active sheet
+            sheet = workbook[_workbook]
 
-        # Select the active sheet
-        sheet = workbook[_workbook]
+            # Write data to the Excel sheet
+            sheet[f'{column_return}{index + 1}'] = return_status
 
-        # Write data to the Excel sheet
-        sheet[f'{column_return}{index+1}'] = return_status
-
-        # Save the changes to the existing file
-        workbook.save(self.arq_excel)
+            # Save the changes to the existing file
+            print('Saving the SpreadSheet')
+            workbook.save(self.arq_excel)
+        except Exception as e:
+            print(f"Failed to write to Excel: {e}")
     
     def getCell_id(self, index: int):
         return self.getCell(index, self.df_map_plan1, self.col_id)
@@ -215,34 +222,33 @@ class getSpreadSheet():
         
     def writeOnExcel_Plan1_SER(self, index, return_status):
         self.writeOnExcel(index, return_status, self.plan_1, self.col_plan1_ser)
-        
-    # def getCell_curso(index):
-        #     # Ajustando o índice para começar do zero
-        #     index -= 1
-        #     try :
-        #     # Verificando se o índice está dentro do intervalo válido
-        #         if 0 <= index < total_lines_plan3:
-        #             # Obtendo o valor da célula na linha e coluna especificadas
-        #             cell_value = df_map_plan3.at[index, col_plan3_curso]
-        #             return str(cell_value)
-        #         else:
-        #             return total_lines
-        #     except Exception as e:
-        #             print("index does not exist")
-                    
-        # def filter_GA(GA):
-            
-        #     cursos_filtrados = df_map_plan3.loc[df_map_plan3[col_plan3_GA] == GA, 'CURSO']
-            
-        #     return str(cursos_filtrados)
     
     def filter_GA(self):
-        # Group by 'GRANDE ÁREA' and collect all 'CURSO' values in a list for each 'GRANDE ÁREA'
-        grouped_data = self.df_map_plan3.groupby(self.col_plan3_GA)[self.col_plan3_curso].apply(list)
+        """
+        Groups the courses by 'GRANDE ÁREA' and stores the result in a JSON file.
+        """
+        try:
+            # Group by 'GRANDE ÁREA' and collect all 'CURSO' values in a list for each group
+            grouped_data = self.df_map_plan3.groupby(self.col_plan3_GA)[self.col_plan3_curso].apply(list)
 
-        # Convert the grouped data into a dictionary
-        result_dict = grouped_data.to_dict()
+            # Convert the grouped data into a dictionary
+            # result_dict = grouped_data.to_dict()
+            
+            # Convert the grouped data into a dictionary with formatted keys
+            result_dict = {str([key]): value for key, value in grouped_data.items()}
 
-        # Convert the dictionary to JSON format
-        with open(self.CACHE_FILE, "w", encoding="utf-8") as f:
-            json.dump(result_dict, f, ensure_ascii=False, indent=4)
+            # Ensure the CACHE_FILE path exists, then write the dictionary to a JSON file
+            with open(self.CACHE_FILE, "w", encoding="utf-8") as f:
+                json.dump(result_dict, f, ensure_ascii=False, indent=4)
+            print(f"Data successfully written to {self.CACHE_FILE}")
+        except Exception as e:
+            print(f"An error occurred while filtering 'GRANDE ÁREA': {e}")
+
+
+def main():
+    spreadSheet = getSpreadSheet()
+    spreadSheet.filter_GA()
+
+
+if __name__ == "__main__":
+    main()

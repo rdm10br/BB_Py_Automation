@@ -1,9 +1,10 @@
 import pandas as pd
-import os, pyarrow, openpyxl
+import os, pyarrow, openpyxl, json
 # print(os.getcwd())
 
 # Acessando o arquivo
 arq_excel = os.path.join(os.getcwd(),r'Planilhas\SALAS.xlsx')
+CACHE_FILE = r'src\Json\course_mapping_test.json'
 
 # Lendo o arquivo
 col = "ID"
@@ -135,29 +136,7 @@ def getCell_copy_plan2(index: int):
             return total_lines_plan2
     except Exception as e:
             print("index does not exist")
-            
-# def getCell_curso(index):
-#     # Ajustando o índice para começar do zero
-#     index -= 1
-#     try :
-#     # Verificando se o índice está dentro do intervalo válido
-#         if 0 <= index < total_lines_plan3:
-#             # Obtendo o valor da célula na linha e coluna especificadas
-#             cell_value = df_map_plan3.at[index, col_plan3_curso]
-#             return str(cell_value)
-#         else:
-#             return total_lines
-#     except Exception as e:
-#             print("index does not exist")
-            
-# def filter_GA(GA):
     
-#     cursos_filtrados = df_map_plan3.loc[df_map_plan3[col_plan3_GA] == GA, 'CURSO']
-    
-#     return str(cursos_filtrados)
-    
-    
-            
 def writeOnExcel_Plan2(index, return_status):
     # Load an existing Excel workbook
     workbook = openpyxl.load_workbook(arq_excel)
@@ -697,12 +676,31 @@ def writeOnExcel_Plan1_SER(index, return_status):
 
     # Save the changes to the existing file
     workbook.save(arq_excel)
+    
+def filter_GA():
+    """
+    Groups the courses by 'GRANDE ÁREA' and stores the result in a JSON file.
+    """
+    try:
+        # Group by 'GRANDE ÁREA' and collect all 'CURSO' values in a list for each group
+        grouped_data = df_map_plan3.groupby(col_plan3_GA)[col_plan3_curso].apply(list)
 
-# index = 1
-# for index in range(total_lines_plan2) :
-#     index +=1
-#     cell = getCell_plan2(index)
-#     cell_copy = getCell_copy_plan2(index)
-#     print(f'o número presente na celula é :{cell} na linha: {index+1} da cóluna : {col_plan2} e na coluna : {col_plan2_copy} está o ID de copia {cell_copy}')
+        # Convert the grouped data into a dictionary
+        # result_dict = grouped_data.to_dict()
+        
+        # Convert the grouped data into a dictionary with formatted keys
+        result_dict = {str([key]): value for key, value in grouped_data.items()}
 
-# print(filter_GA(GA='COMUNICAÇÃO'))
+        # Ensure the CACHE_FILE path exists, then write the dictionary to a JSON file
+        with open(CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(result_dict, f, ensure_ascii=False, indent=4)
+        print(f"Data successfully written to {CACHE_FILE}")
+    except Exception as e:
+        print(f"An error occurred while filtering 'GRANDE ÁREA': {e}")
+
+
+def main():
+    filter_GA()
+
+if __name__ == '__main__':
+    main()

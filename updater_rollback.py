@@ -189,7 +189,7 @@ def main():
     else:
         logging.info(f'New version: \'{latest_version}\' available, Current version: \'{CURRENT_VERSION}')
         user_response = update_option(latest_version, CURRENT_VERSION)
-        if user_response is 'Yes':
+        if user_response == 'Yes':
             logging.info('User accepted to update!')
             logging.info('Updating...')
             try:
