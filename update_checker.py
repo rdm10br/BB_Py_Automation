@@ -1,8 +1,9 @@
-import requests, zipfile, os, json, tempfile, shutil, logging, time, base64
+import requests, zipfile, os, json, tempfile, shutil, logging, time, base64, subprocess, sys
 from dotenv import load_dotenv
 from updater_rollback import rollback
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 load_dotenv()
 GIT_REPO = os.getenv('GIT_REPO')
 BRANCH = os.getenv('BRANCH')
@@ -11,13 +12,14 @@ BRANCH = os.getenv('BRANCH')
 def check_for_updates(current_version: str):
     try:
         # response = requests.get(f'https://api.github.com/repos/{GIT_REPO}/releases/tags/pre-release')
-        response = requests.get(f'https://api.github.com/repos/{GIT_REPO}/releases/latest')
+        response = requests.get(
+            f'https://api.github.com/repos/{GIT_REPO}/releases/latest')
         response.raise_for_status()
         latest_version: str = response.json().get('name').lstrip('v')
-        
+
         latest_version_tuple = tuple(map(int, latest_version.split('.')))
         current_version_tuple = tuple(map(int, current_version.split('.')))
-        
+
         return latest_version if latest_version_tuple > current_version_tuple else None
     except Exception as e:
         logging.error(f"Failed to check for updates: {e}")
@@ -27,8 +29,8 @@ def check_for_updates(current_version: str):
 def download_update(version):
     # url = 'https://github.com/{GIT_REPO}/archive/refs/tags/pre-release.zip'
     url = f'https://github.com/{GIT_REPO}/archive/refs/tags/v{version}.zip'
-    retries=3
-    delay=5
+    retries = 3
+    delay = 5
     attempt = 0
     while attempt < retries:
         try:
@@ -40,7 +42,8 @@ def download_update(version):
             logging.info("Update downloaded successfully.")
             return  # Exit the function if successful
         except Exception as e:
-            logging.error(f"Failed to download update (Attempt {attempt + 1}/{retries}): {e}")
+            logging.error(f"Failed to download update (Attempt {
+                          attempt + 1}/{retries}): {e}")
             attempt += 1
             if attempt < retries:
                 logging.info(f"Retrying in {delay} seconds...")
@@ -51,8 +54,8 @@ def download_update(version):
 
 def download(item: str):
     url = f'https://api.github.com/repos/{GIT_REPO}/contents/{item}?ref={BRANCH}'
-    retries=3
-    delay=5
+    retries = 3
+    delay = 5
     attempt = 0
     while attempt < retries:
         try:
@@ -79,13 +82,13 @@ def compare_items_from_git(item: str) -> str:
         response = requests.get(url)
         content = response.json().get('content')
         response.raise_for_status()
-        
+
         decoded_content = base64.b64decode(content).decode('utf-8')
-        
+
         local_file_path = f'./{item}'
         with open(local_file_path, 'r', encoding='utf-8') as local_file:
             local_file_content = local_file.read()
-            
+
         if decoded_content == local_file_content:
             logging.info("The contents are identical.")
             return None
@@ -101,11 +104,11 @@ def compare_items(item: str, tmpdirname: str) -> str:
         local_file_path = f'./{item}'
         with open(local_file_path, 'r', encoding='utf-8') as local_file:
             local_file_content = local_file.read()
-        
+
         downloaded_content_path = f'{tmpdirname}/{item}'
         with open(downloaded_content_path, 'r', encoding='utf-8') as local_file:
             downloaded_content = local_file.read()
-        
+
         if downloaded_content == local_file_content:
             logging.info("The contents are identical.")
             return None
@@ -120,39 +123,44 @@ def apply_update():
     try:
         excluded_files = [
             'SALAS.xlsx'
-            ]
-        
+        ]
+
         with tempfile.TemporaryDirectory() as tmpdirname:
             with zipfile.ZipFile('update.zip', 'r') as zip_ref:
                 zip_ref.extractall(tmpdirname)
-            
+
             top_level_dirs = next(os.walk(tmpdirname))[1]
-            single_top_dir = top_level_dirs[0] if len(top_level_dirs) == 1 else None
-            
+            single_top_dir = top_level_dirs[0] if len(
+                top_level_dirs) == 1 else None
+
             for root, dirs, files in os.walk(tmpdirname):
                 for filename in files:
-                    
+
                     if filename in excluded_files:
                         logging.info(f'Skipping {filename}...')
                         continue
                     else:
                         src_file_path = os.path.join(root, filename)
-                        
+
                         # Determine the relative path within the extracted structure
-                        relative_path = os.path.relpath(src_file_path, tmpdirname)
-                        
-                        relative_path = os.path.relpath(src_file_path, os.path.join(tmpdirname, single_top_dir))
-                        
-                        dest_file_path = os.path.join(os.getcwd(), relative_path)
-                        
+                        relative_path = os.path.relpath(
+                            src_file_path, tmpdirname)
+
+                        relative_path = os.path.relpath(
+                            src_file_path, os.path.join(tmpdirname, single_top_dir))
+
+                        dest_file_path = os.path.join(
+                            os.getcwd(), relative_path)
+
                         # Ensure the destination directory exists
-                        os.makedirs(os.path.dirname(dest_file_path), exist_ok=True)
-                        
+                        os.makedirs(os.path.dirname(
+                            dest_file_path), exist_ok=True)
+
                         logging.info(f'Updating {filename} to {dest_file_path}...')
-                        
+
                         # Move the file to the destination path
                         shutil.move(src_file_path, dest_file_path)
-        
+
         os.remove('update.zip')
         logging.info("Update applied successfully.")
     except Exception as e:
@@ -162,12 +170,13 @@ def apply_update():
 
 def main():
     CACHE_FILE = r'release.json'
-    
+
     try:
         with open(CACHE_FILE, 'r', encoding="utf-8") as f:
             cache_data = json.load(f)
     except FileNotFoundError:
-        logging.warning(f"File {CACHE_FILE} not found. Creating with default version.")
+        logging.warning(
+            f"File {CACHE_FILE} not found. Creating with default version.")
         cache_data = {'CURRENT_VERSION': 'v0.0.0'}
         with open(CACHE_FILE, 'w', encoding='UTF-8') as file:
             json.dump(cache_data, file, ensure_ascii=False, indent=4)
@@ -178,23 +187,35 @@ def main():
             json.dump(cache_data, file, ensure_ascii=False, indent=4)
     except Exception as e:
         logging.error(f"An unexpected error occurred: {e}")
-    
+
     CURRENT_VERSION = cache_data.get('CURRENT_VERSION').lstrip('v')
     if not CURRENT_VERSION:
-        logging.error('Current version not found in cache. Resetting to default version.')
+        logging.error(
+            'Current version not found in cache. Resetting to default version.')
         cache_data = {'CURRENT_VERSION': 'v0.0.0'}
         with open(CACHE_FILE, 'w', encoding='UTF-8') as file:
             json.dump(cache_data, file, ensure_ascii=False, indent=4)
         return
-    
+
     latest_version = check_for_updates(CURRENT_VERSION)
-    
+
     if latest_version:
         logging.info(f'New version: \'{latest_version}\' available, Current version: \'{CURRENT_VERSION}, Updating...')
         try:
+            requirements = compare_items_from_git('requirements.txt')
             download_update(latest_version)
             apply_update()
-            logging.info('Update complete.')
+            if requirements is None:
+                logging.info('Update complete.')
+            else:
+                try:
+                    subprocess.check_call(
+                        [sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt'])
+                    logging.info("Requirements installed successfully.")
+                    logging.info('Update complete.')
+                except subprocess.CalledProcessError as e:
+                    logging.warning(
+                        f"An error occurred while installing the requirements: {e}")
         except Exception as e:
             logging.error(f"Update failed: {e}")
             try:
@@ -205,7 +226,6 @@ def main():
                 apply_update()
             except:
                 logging.error('Lost internet connection or Update Failed')
-
     else:
         logging.info('No updates available.')
 
