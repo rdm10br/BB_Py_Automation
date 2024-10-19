@@ -48,16 +48,6 @@ class Worker(QThread):
                                            bufsize=1,
                                            universal_newlines=True)
 
-                # for line in iter(process.stdout.readline, ''):
-                #     print(f'test: {line}')
-                #     print(f'test 2: {line.strip()}')
-                #     progress = self.parse_progress_from_output(line.strip())
-
-                # progress = 48
-                # self.progress_updated.emit(progress)
-
-                # process.stdout.close()
-
                 loop_count: int = 0
                 
                 for line in process.stdout:
