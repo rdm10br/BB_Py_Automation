@@ -64,9 +64,10 @@ class Worker(QThread):
                         
                         try:
                             total = getPlanilha.total_lines
+                            if total == 0:
+                                total = getPlanilha.total_lines_plan2
                             print(total)
                         except:
-                            total = getPlanilha.total_lines_plan2
                             print(total)
                             
                         progress = (loop_count/total)*100
