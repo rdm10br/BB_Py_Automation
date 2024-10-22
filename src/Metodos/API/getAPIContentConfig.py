@@ -759,7 +759,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
                     visibility: {result} |
                     {item_search} title is correct!'''
                 except Exception as e:
-                    text = f'{item_search} title is incorrect!'
+                    text = f'{item_search} title is wrong!'
                     result = f'''{item_Search}:
                     visibility: {result} |
                     {text}'''
