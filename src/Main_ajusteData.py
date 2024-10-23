@@ -8,7 +8,6 @@ from Decorators.Main_StartUp import playwright_StartUp
 
 dataShow, dataHide = getData.get_data()
 
-
 @playwright_StartUp
 async def run(page: Page, index) -> None:
 
@@ -24,7 +23,7 @@ async def run(page: Page, index) -> None:
 
     await page.goto(classBulkEdit)
 
-    await ajusteData.ajusteData(page=Page, dataShow=dataShow, dataHide=dataHide)
+    await ajusteData.ajusteData(page=page, dataShow=dataShow, dataHide=dataHide)
     getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
 
 
