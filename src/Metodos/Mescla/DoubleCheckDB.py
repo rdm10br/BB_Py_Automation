@@ -27,6 +27,7 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
     ]
     # todos que tem config clicar [ex: _Item]
     # Sofia link
+    # Teste
 
     async def loopItemList(page: Page, id_interno, item_list):
         for item in item_list:
