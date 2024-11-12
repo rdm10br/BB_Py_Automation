@@ -68,7 +68,7 @@ def API_ID(id_interno: str, item):
             
         # Verifique se o item existe na lista de itens
         for i in items:
-            if isinstance(i, dict) and i.get('title') == item:  # Verifica se o item tem o título correspondente
+            if i.get('title') == item:  # Verifica se o item tem o título correspondente
                 if 'id' in i:  # Verifica se existe a chave 'id'
                     return i.get('id', False)  # Retorna o id ou False
         return False  # Se o item não for encontrado ou o formato estiver errado
@@ -119,9 +119,6 @@ def API(_url: str) -> list:
         # Converte a resposta em JSON
         data = response.json()
 
-        # Extrai o campo 'title' do JSON. Se não existir, retorna uma lista vazia
-        item_list = [item.get('title', '') for item in data.get('results', [])]
-
         # Armazena o retorno da URL no cache
         cache[_url] = data
         
@@ -129,13 +126,20 @@ def API(_url: str) -> list:
         with open(cache_file, 'w', encoding='UTF-8') as f:
             json.dump(cache, f, ensure_ascii=False, indent=4)
 
-        return item_list
-
+        return data
     except Exception as e:
         # Aqui você pode logar o erro ou retorná-lo de alguma forma mais informativa
         print(f"Ocorreu um erro: {e}")
         return []  # Retorna uma lista vazia em caso de erro
     
+    
+def Item_list(id_interno: str):
+    url = f'/learn/api/public/v1/courses/{id_interno}/contents'
+    data = API(url)
+    # Extrai o campo 'title' do JSON. Se não existir, retorna uma lista vazia
+    item_list = [item.get('title', '') for item in data.get('results', [])]
+    return item_list
+
 # def API(url: str) -> list:
 #     try:
 #         # Carrega as variáveis de ambiente do arquivo .env
@@ -183,8 +187,8 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
     # Chama a função API de forma assíncrona usando asyncio.to_thread
     url = f'/learn/api/public/v1/courses/{id_interno}/contents'
    
-    _item_list = await asyncio.to_thread(API, url)
-    # print(_item_list)
+    _item_list = await asyncio.to_thread(Item_list, id_interno)
+    print(_item_list)
     
     item_list = _item_list  # Agora estamos usando o item_list retornado pela função API
     
