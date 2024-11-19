@@ -4,21 +4,6 @@ import regex as re
 import requests, json, os, asyncio
 from dotenv import load_dotenv
 
-# def load_cache() -> dict:
-#     """Carrega o cache de cookies de um arquivo JSON."""
-#     cache_file = r'src\Metodos\Login\__pycache__\login_cache.json'
-#     if os.path.exists(cache_file):
-#         with open(cache_file, 'r') as c:
-#             return json.load(c)
-#     return {}
-
-# # Função para salvar o cache de cookies de volta para o arquivo JSON
-# def save_cache(cache: dict) -> None:
-#     """Salva o cache de cookies no arquivo JSON."""
-#     cache_file = r'src\Metodos\Login\__pycache__\login_cache.json'
-#     with open(cache_file, 'w') as c:
-#         json.dump(cache, c, indent=4)
-
 def folder(id_interno: str, item) -> bool:
     url = f'/learn/api/public/v1/courses/{id_interno}/contents'
     data = API(url)  # A API deve retornar os dados completos
@@ -36,25 +21,6 @@ def folder(id_interno: str, item) -> bool:
         print(f"Ocorreu um erro ao verificar o item: {e}")
         return False
     
-    # id_DB = await getApiContent.API_Req_Content(page, id_interno, item)
-    
-# def API_ID(id_interno: str, item):
-#     url = f'/learn/api/public/v1/courses/{id_interno}/contents'
-#     data = API(url)  # A API deve retornar os dados completos
-   
-#     try:
-#         # Verifica se o item contém 'hasChildren' e se ele é True
-#         for i in data.get('results', []):
-#             if i.get('title') == item:  # Verifica o item específico
-#                 if 'id' in i:  # Verifica se a chave 'hasChildren' existe
-#                     return i.get('id', False)  # Retorna o valor de 'hasChildren'
-#                 else:
-#                     return False  # Se 'hasChildren' não existir, retorna False
-#         return False  # Se o item não for encontrado
-#     except Exception as e:
-#         print(f"Ocorreu um erro ao verificar o item: {e}")
-#         return False
-
 def API_ID(id_interno: str, item):
     url = f'/learn/api/public/v1/courses/{id_interno}/contents'
     data = API(url)  # A API deve retornar os dados completos
@@ -70,11 +36,43 @@ def API_ID(id_interno: str, item):
         for i in items:
             if i.get('title') == item:  # Verifica se o item tem o título correspondente
                 if 'id' in i:  # Verifica se existe a chave 'id'
-                    return i.get('id', False)  # Retorna o id ou False
+                    return i.get('id')  # Retorna o id ou False
         return False  # Se o item não for encontrado ou o formato estiver errado
     except Exception as e:
         print(f"Ocorreu um erro ao verificar o item: {e}")
         return False
+
+def API_child_id(id_interno, item, item_unidade):
+    id_parent = API_ID(id_interno, item)
+    url = f'/learn/api/public/v1/courses/{id_interno}/contents/{id_parent}/children'
+    Item_list = api_child(id_interno, item)
+    data = API(url)
+    if item_unidade in Item_list:
+        try:
+            # Verifique se a resposta é uma lista ou um dicionário
+            if isinstance(data, dict):  # Se for um dicionário, tente acessar 'results'
+                items = data.get('results', [])
+            elif isinstance(data, list):  # Se for uma lista, use diretamente
+                items = data
+                
+            # Verifique se o item existe na lista de itens
+            for i in items:
+                if i.get('title') == item_unidade:  # Verifica se o item tem o título correspondente
+                    if 'id' in i:  # Verifica se existe a chave 'id'
+                        return i.get('id', False)  # Retorna o id ou False
+            return False  # Se o item não for encontrado ou o formato estiver errado
+        except Exception as e:
+            print(f"Ocorreu um erro ao verificar o item: {e}")
+            return False
+    
+    
+def api_child(id_interno, item) -> list:
+    id_parent = API_ID(id_interno, item)
+    url = f'/learn/api/public/v1/courses/{id_interno}/contents/{id_parent}/children'
+    data = API(url)
+
+    item_list = [item.get('title', '') for item in data.get('results', [])]
+    return item_list
 
 def API(_url: str) -> list:
     try:
@@ -140,49 +138,6 @@ def Item_list(id_interno: str):
     item_list = [item.get('title', '') for item in data.get('results', [])]
     return item_list
 
-# def API(url: str) -> list:
-#     try:
-#         # Carrega as variáveis de ambiente do arquivo .env
-#         load_dotenv()
-#         BASE_URL = os.getenv('BASE_URL')
-        
-#         # Caminho do arquivo de cache de cookies
-#         cookie_file = r'src\Metodos\Login\__pycache__\login_cache.json'
-        
-#         # Lê o arquivo de cache para obter os cookies
-#         with open(cookie_file, 'r') as c:
-#             cache = json.load(c)
-        
-#         # Verifica se 'cookies' está presente e é uma lista
-#         if not isinstance(cache, dict) or not isinstance(cache.get('cookies'), list):
-#             raise ValueError(f"Erro: O arquivo de cache não contém a chave 'cookies' ou ela não é uma lista. Conteúdo do cache: {cache}")
-        
-#         # Converte a lista de cookies em um dicionário
-#         cookies = {cookie['name']: cookie['value'] for cookie in cache['cookies']}
-        
-#         # Fazendo a requisição HTTP síncrona com requests
-#         response = requests.get(
-#             url=f'{BASE_URL}{url}',
-#             cookies=cookies
-#         )
-        
-#         # Verifica se a requisição foi bem-sucedida
-#         response.raise_for_status()
-        
-#         # Converte a resposta em JSON
-#         data = response.json()
-        
-#         # Extrai o campo 'title' do JSON. Se não existir, retorna uma lista vazia
-#         item_list = [item.get('title', '') for item in data.get('results', [])]
-#         # item_list = data.get('title', [])
-        
-#         return item_list
-
-#     except Exception as e:
-#         # Aqui você pode logar o erro ou retorná-lo de alguma forma mais informativa
-#         print(f"Ocorreu um erro: {e}")
-#         return []  # Retorna uma lista vazia em caso de erro
-
 async def DoubleCheckDB(page: Page, id_interno: str) -> None:
     # Chama a função API de forma assíncrona usando asyncio.to_thread
     url = f'/learn/api/public/v1/courses/{id_interno}/contents'
@@ -200,7 +155,15 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
     #     ...
         
     # hasChildren
-    
+    # item_unidade = [
+    #     'Material Didático Interativo',
+    #     'Videoteca: Videoaula',
+    #     'Biblioteca Virtual: e-Book',
+    #     'Atividade de Autoapredizagem 1',
+    #     'Atividade de Autoapredizagem 2',
+    #     'Atividade de Autoapredizagem 3',
+    #     'Atividade de Autoapredizagem 4'
+    # ]
     _ItemRolagem = [
         'Workshop',
         'AV1',
@@ -222,28 +185,56 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
             if "Unidade" in item:
                 # id_DB = await getApiContent.API_Req_Content(page, id_interno, item)
                 id_DB = API_ID(id_interno, item)
+                if not id_DB:
+                    print(f"ID não encontrado para o item: {item}")
+                    continue  # Pula para o próximo item se o ID não for encontrado
                 await page.goto(url=f"./ultra/courses/{id_interno}/outline")
+                
                 try:
-                    await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
-                    await page.get_by_text("Atividade de Autoaprendizagem").first.click()
-                    await page.get_by_role("link", name="Configurações", exact=True).click()
-                    await page.wait_for_load_state('load')
-                    await page.wait_for_timeout(3*1000)
-                    await page.mouse.wheel(0, 1000)  # Rola 1000px para baixo
-                    await page.wait_for_timeout(2*1000)
-                    await page.mouse.wheel(0, 800)  # Rola 800px para baixo
-                    await page.wait_for_timeout(2*1000)
-                    await page.mouse.wheel(0, 350)  # Rola 350px para baixo
-                    await page.wait_for_timeout(2*1000)
-                    await page.wait_for_load_state('load')
-                    await page.wait_for_timeout(6*1000)
-                    await page.get_by_role("button", name="Fechar").click()
-                    await page.get_by_role("button", name="Fechar").click()
+                    await page.wait_for_load_state("domcontentloaded")
+                    await page.locator('text=Unidade 1').wait_for(state="visible", timeout=1000*30)
+
+                    
+                    if not await page.locator(f'//div[@data-content-id="{id_DB}"]').is_visible(timeout=10000):  # Espera 10 segundos para o item estar visível
+                        print(f"Elemento com id {id_DB} não encontrado na página.")
+                        continue  # Pula para o próximo item
+                    item_unidade = api_child(id_interno, item)
+                    for i in item_unidade:
+                        id_i = API_child_id(id_interno, item, i)
+                        await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
+                        await page.locator(f'//div[@data-content-id="{id_i}"]').click()
+                        # await page.locator('text=Atividade de Autoapredizagem').wait_for(state="visible", timeout=1000*30)
+                        # await page.locator('Atividade de Autoaprendizagem').first.click()
+
+
+                        # await page.get_by_role("link", name="Atividade de Autoapredizagem").click()
+                        # await page.get_by_text("Atividade de Autoapredizagem").first.click()
+                        if "Atividade de Autoapredizagem" in i:
+                            await page.get_by_role("link", name="Configurações", exact=True).click()
+                            await page.wait_for_load_state('load')
+                            await page.wait_for_timeout(3*1000)
+                            await page.mouse.wheel(0, 1000)  # Rola 1000px para baixo
+                            await page.wait_for_timeout(2*1000)
+                            await page.mouse.wheel(0, 800)  # Rola 800px para baixo
+                            await page.wait_for_timeout(2*1000)
+                            await page.mouse.wheel(0, 350)  # Rola 350px para baixo
+                            await page.wait_for_timeout(2*1000)
+                            await page.wait_for_load_state('load')
+                            await page.wait_for_timeout(6*1000)
+                            await page.get_by_role("button", name="Fechar").click()
+                        
+                        await page.wait_for_timeout(3*1000)
+                        await page.get_by_role("button", name="Fechar").click()
+                        # await page.locator('button', has_text='x').first.click()
+
                 except Exception as e:
                     print(f'Erro ao processar request {item} in {id_interno}:', e)
             else:
                 # id_DB = await getApiContent.API_Req_Content(page, id_interno, item)
                 id_DB = API_ID(id_interno, item)
+                if not id_DB:
+                    print(f"ID não encontrado para o item: {item}")
+                    continue  # Pula para o próximo item se o ID não for encontrado
                 await page.goto(url=f"./ultra/courses/{id_interno}/outline")
                 await page.wait_for_load_state('load')
                 await page.wait_for_timeout(5*1000)
@@ -279,10 +270,10 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
     await page.wait_for_timeout(2*1000)
     await page.get_by_role("button", name="Fechar").click()
     await page.wait_for_load_state('load')
-    await page.wait_for_timeout(3*1000)
+    await page.wait_for_timeout(2*1000)
     await page.get_by_role("link", name="Grupos").click()
     await page.wait_for_load_state('load')
-    await page.wait_for_timeout(3*1000)
+    await page.wait_for_timeout(2*1000)
     await page.get_by_role("link", name="Conteúdo da disciplina").click()
     await page.wait_for_load_state('load')
     await page.wait_for_timeout(3*1000)
@@ -290,9 +281,9 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
     await page.goto(url=f"./ultra/courses/{id_interno}/outline")
     await page.get_by_role("link", name="Banco de questões Gerenciar").click()
     await page.wait_for_load_state('load')
-    await page.wait_for_timeout(6*1000)
+    await page.wait_for_timeout(4*1000)
     await page.get_by_role("button", name="Fechar").click()
     await page.get_by_role("link", name="Imagem do curso Editar").click()
     await page.wait_for_load_state('load')
-    await page.wait_for_timeout(6*1000)
+    await page.wait_for_timeout(4*1000)
     await page.get_by_role("button", name="Fechar").click()
