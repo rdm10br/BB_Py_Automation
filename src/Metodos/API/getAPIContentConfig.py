@@ -227,6 +227,9 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.autoPostGrades'
             print(f'Checking {item_search} autoPostGrades...')
             result_autoPostGrades = await page.evaluate(filteredRequest_title(item_search, config))
+            
+            if result_autoPostGrades != "True":
+                result_autoPostGrades = 'False is Worng!'
 
             # config = 'genericReadOnlyData.dueDate'
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.dueDate'
