@@ -93,8 +93,9 @@ def API(_url: str) -> list:
         cookies = {cookie['name']: cookie['value'] for cookie in cache_cookies['cookies']}
         
         if os.path.exists(cache_file):
-            with open(cache_file, 'r') as f:
+            with open(cache_file, 'r', encoding='UTF-8') as f:
                 cache = json.load(f)
+
         else:
             cache = {}
 
@@ -155,15 +156,7 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
     #     ...
         
     # hasChildren
-    # item_unidade = [
-    #     'Material Didático Interativo',
-    #     'Videoteca: Videoaula',
-    #     'Biblioteca Virtual: e-Book',
-    #     'Atividade de Autoapredizagem 1',
-    #     'Atividade de Autoapredizagem 2',
-    #     'Atividade de Autoapredizagem 3',
-    #     'Atividade de Autoapredizagem 4'
-    # ]
+
     _ItemRolagem = [
         'Workshop',
         'AV1',
@@ -178,10 +171,19 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
         'Fale com o Tutor'
     ]
     
-    # Sofia link
-    
     async def loopItemList(page: Page, id_interno, item_list):
         for item in item_list:
+            
+            if "Organize seus estudos com a Sofia" in item:
+                await page.wait_for_load_state("domcontentloaded")
+                await page.get_by_label("Mais opções para Organize").click()
+                await page.get_by_text("Editar", exact=True).click()
+                await page.locator('text=Detalhes do link LTI').wait_for(state="visible", timeout=1000*30)
+                await page.get_by_placeholder("Formato: meuwebsite.com").click()
+                await page.get_by_placeholder("Formato: meuwebsite.com").press("End")
+                await page.wait_for_timeout(2*1000)
+                await page.get_by_role("button", name="Fechar").click()
+                
             if "Unidade" in item:
                 # id_DB = await getApiContent.API_Req_Content(page, id_interno, item)
                 id_DB = API_ID(id_interno, item)
@@ -192,24 +194,27 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
                 
                 try:
                     await page.wait_for_load_state("domcontentloaded")
-                    await page.locator('text=Unidade 1').wait_for(state="visible", timeout=1000*30)
+                    await page.locator('text=Unidade 1').wait_for(state="visible", timeout=1000*60)
 
                     
                     if not await page.locator(f'//div[@data-content-id="{id_DB}"]').is_visible(timeout=10000):  # Espera 10 segundos para o item estar visível
                         print(f"Elemento com id {id_DB} não encontrado na página.")
                         continue  # Pula para o próximo item
                     item_unidade = api_child(id_interno, item)
+                    await page.wait_for_load_state("domcontentloaded", timeout=1000*10)
+                    await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
+                    await page.wait_for_load_state("domcontentloaded", timeout=1000*10)
+                    
                     for i in item_unidade:
                         id_i = API_child_id(id_interno, item, i)
-                        await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
+                        await page.wait_for_load_state("domcontentloaded")
+                        await page.wait_for_timeout(1000*4)
                         await page.locator(f'//div[@data-content-id="{id_i}"]').click()
-                        # await page.locator('text=Atividade de Autoapredizagem').wait_for(state="visible", timeout=1000*30)
-                        # await page.locator('Atividade de Autoaprendizagem').first.click()
+                        print(f"Processando item: {i}")
+                        await page.wait_for_timeout(1000*6)
 
-
-                        # await page.get_by_role("link", name="Atividade de Autoapredizagem").click()
-                        # await page.get_by_text("Atividade de Autoapredizagem").first.click()
-                        if "Atividade de Autoapredizagem" in i:
+                        if "Atividade de Autoaprendizagem" in i:
+                            print("Encontrou 'Atividade de Autoaprendizagem' no item")
                             await page.get_by_role("link", name="Configurações", exact=True).click()
                             await page.wait_for_load_state('load')
                             await page.wait_for_timeout(3*1000)
@@ -225,7 +230,6 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
                         
                         await page.wait_for_timeout(3*1000)
                         await page.get_by_role("button", name="Fechar").click()
-                        # await page.locator('button', has_text='x').first.click()
 
                 except Exception as e:
                     print(f'Erro ao processar request {item} in {id_interno}:', e)
@@ -237,9 +241,10 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
                     continue  # Pula para o próximo item se o ID não for encontrado
                 await page.goto(url=f"./ultra/courses/{id_interno}/outline")
                 await page.wait_for_load_state('load')
-                await page.wait_for_timeout(5*1000)
+                await page.wait_for_timeout(1000*6)
                 try:
                     if item in _ItemRolagem:
+                        print("Rolando a página...")
                         await page.mouse.wheel(0, 5000)  # Rola 5000px para baixo
                         await page.wait_for_timeout(2*1000)
                     await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
