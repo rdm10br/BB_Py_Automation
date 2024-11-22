@@ -156,113 +156,6 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
     #     ...
         
     # hasChildren
-
-    _ItemRolagem = [
-        'Workshop',
-        'AV1',
-        'Avaliações',
-        'WebAula'
-    ]
-    _ItemConfig = [  #todos que tem config clicar, menos fale com tutor
-        'Desafio Colaborativo',
-        'AV1'
-    ]
-    _ItemConfigFcT = [  #Fale com tutor config
-        'Fale com o Tutor'
-    ]
-    
-    async def loopItemList(page: Page, id_interno, item_list):
-        for item in item_list:
-            
-            if "Organize seus estudos com a Sofia" in item:
-                await page.wait_for_load_state("domcontentloaded")
-                await page.get_by_label("Mais opções para Organize").click()
-                await page.get_by_text("Editar", exact=True).click()
-                await page.locator('text=Detalhes do link LTI').wait_for(state="visible", timeout=1000*30)
-                await page.get_by_placeholder("Formato: meuwebsite.com").click()
-                await page.get_by_placeholder("Formato: meuwebsite.com").press("End")
-                await page.wait_for_timeout(2*1000)
-                await page.get_by_role("button", name="Fechar").click()
-                
-            if "Unidade" in item:
-                # id_DB = await getApiContent.API_Req_Content(page, id_interno, item)
-                id_DB = API_ID(id_interno, item)
-                if not id_DB:
-                    print(f"ID não encontrado para o item: {item}")
-                    continue  # Pula para o próximo item se o ID não for encontrado
-                await page.goto(url=f"./ultra/courses/{id_interno}/outline")
-                
-                try:
-                    await page.wait_for_load_state("domcontentloaded")
-                    await page.locator('text=Unidade 1').wait_for(state="visible", timeout=1000*60)
-
-                    
-                    if not await page.locator(f'//div[@data-content-id="{id_DB}"]').is_visible(timeout=10000):  # Espera 10 segundos para o item estar visível
-                        print(f"Elemento com id {id_DB} não encontrado na página.")
-                        continue  # Pula para o próximo item
-                    item_unidade = api_child(id_interno, item)
-                    await page.wait_for_load_state("domcontentloaded", timeout=1000*10)
-                    await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
-                    await page.wait_for_load_state("domcontentloaded", timeout=1000*10)
-                    
-                    for i in item_unidade:
-                        id_i = API_child_id(id_interno, item, i)
-                        await page.wait_for_load_state("domcontentloaded")
-                        await page.wait_for_timeout(1000*4)
-                        await page.locator(f'//div[@data-content-id="{id_i}"]').click()
-                        print(f"Processando item: {i}")
-                        await page.wait_for_timeout(1000*6)
-
-                        if "Atividade de Autoaprendizagem" in i:
-                            print("Encontrou 'Atividade de Autoaprendizagem' no item")
-                            await page.get_by_role("link", name="Configurações", exact=True).click()
-                            await page.wait_for_load_state('load')
-                            await page.wait_for_timeout(3*1000)
-                            await page.mouse.wheel(0, 1000)  # Rola 1000px para baixo
-                            await page.wait_for_timeout(2*1000)
-                            await page.mouse.wheel(0, 800)  # Rola 800px para baixo
-                            await page.wait_for_timeout(2*1000)
-                            await page.mouse.wheel(0, 350)  # Rola 350px para baixo
-                            await page.wait_for_timeout(2*1000)
-                            await page.wait_for_load_state('load')
-                            await page.wait_for_timeout(6*1000)
-                            await page.get_by_role("button", name="Fechar").click()
-                        
-                        await page.wait_for_timeout(3*1000)
-                        await page.get_by_role("button", name="Fechar").click()
-
-                except Exception as e:
-                    print(f'Erro ao processar request {item} in {id_interno}:', e)
-            else:
-                # id_DB = await getApiContent.API_Req_Content(page, id_interno, item)
-                id_DB = API_ID(id_interno, item)
-                if not id_DB:
-                    print(f"ID não encontrado para o item: {item}")
-                    continue  # Pula para o próximo item se o ID não for encontrado
-                await page.goto(url=f"./ultra/courses/{id_interno}/outline")
-                await page.wait_for_load_state('load')
-                await page.wait_for_timeout(1000*6)
-                try:
-                    if item in _ItemRolagem:
-                        print("Rolando a página...")
-                        await page.mouse.wheel(0, 5000)  # Rola 5000px para baixo
-                        await page.wait_for_timeout(2*1000)
-                    await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
-                    await page.wait_for_load_state('load')
-                    await page.wait_for_timeout(3*1000)
-                    if item in _ItemConfigFcT:
-                        await page.get_by_label("Editar configurações do diário").click()
-                        await page.wait_for_load_state('load')
-                        await page.wait_for_timeout(2*1000)
-                    if item in _ItemConfig:
-                        await page.get_by_role("link", name="Configurações", exact=True).click()
-                        await page.wait_for_load_state('load')
-                        await page.wait_for_timeout(3*1000)
-                    await page.get_by_role("button", name="Fechar").click()
-                    await page.wait_for_load_state('load')
-                    await page.wait_for_timeout(5*1000)
-                except Exception as e:
-                    print(f'Erro ao processar request {item} in {id_interno}:', e)
     
     await page.goto(url=f"./ultra/courses/{id_interno}/outline")
     await page.get_by_role("link", name="Boletim de notas").click()
@@ -292,3 +185,115 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
     await page.wait_for_load_state('load')
     await page.wait_for_timeout(4*1000)
     await page.get_by_role("button", name="Fechar").click()
+
+async def loopItemList(page: Page, id_interno, item_list):
+    
+    _ItemRolagem = [
+        'Workshop',
+        'AV1',
+        'Avaliações',
+        'WebAula'
+        ]
+    _ItemConfig = [  #todos que tem config clicar, menos fale com tutor
+            'Desafio Colaborativo',
+            'AV1'
+        ]
+    _ItemConfigFcT = [  #Fale com tutor config
+        'Fale com o Tutor'
+        ]
+    
+    for item in item_list:
+        
+        if "Organize seus estudos com a Sofia" in item:
+                await page.wait_for_load_state("domcontentloaded")
+                await page.get_by_label("Mais opções para Organize").click()
+                await page.get_by_text("Editar", exact=True).click()
+                await page.locator('text=Detalhes do link LTI').wait_for(state="visible", timeout=1000*30)
+                await page.get_by_placeholder("Formato: meuwebsite.com").click()
+                await page.get_by_placeholder("Formato: meuwebsite.com").press("End")
+                await page.wait_for_timeout(2*1000)
+                await page.get_by_role("button", name="Fechar").click()
+                
+        if "Unidade" in item:
+            await unidade(id_interno, item)
+            # id_DB = await getApiContent.API_Req_Content(page, id_interno, item)
+            
+        else:
+            # id_DB = await getApiContent.API_Req_Content(page, id_interno, item)
+            id_DB = API_ID(id_interno, item)
+            if not id_DB:
+                print(f"ID não encontrado para o item: {item}")
+                continue  # Pula para o próximo item se o ID não for encontrado
+            await page.goto(url=f"./ultra/courses/{id_interno}/outline")
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(1000*6)
+            try:
+                if item in _ItemRolagem:
+                    print("Rolando a página...")
+                    await page.mouse.wheel(0, 5000)  # Rola 5000px para baixo
+                    await page.wait_for_timeout(2*1000)
+                await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
+                await page.wait_for_load_state('load')
+                await page.wait_for_timeout(3*1000)
+                if item in _ItemConfigFcT:
+                    await page.get_by_label("Editar configurações do diário").click()
+                    await page.wait_for_load_state('load')
+                    await page.wait_for_timeout(2*1000)
+                if item in _ItemConfig:
+                    await page.get_by_role("link", name="Configurações", exact=True).click()
+                    await page.wait_for_load_state('load')
+                    await page.wait_for_timeout(3*1000)
+                await page.get_by_role("button", name="Fechar").click()
+                await page.wait_for_load_state('load')
+                await page.wait_for_timeout(5*1000)
+            except Exception as e:
+                print(f'Erro ao processar request {item} in {id_interno}:', e)
+
+async def unidade(page: Page, id_interno, item):
+    id_DB = API_ID(id_interno, item)
+    if not id_DB:
+        print(f"ID não encontrado para o item: {item}")
+        # continue  # Pula para o próximo item se o ID não for encontrado
+    await page.goto(url=f"./ultra/courses/{id_interno}/outline")
+    
+    try:
+        await page.wait_for_load_state("domcontentloaded")
+        await page.locator('text=Unidade 1').wait_for(state="visible", timeout=1000*60)
+
+        
+        if not await page.locator(f'//div[@data-content-id="{id_DB}"]').is_visible(timeout=10000):  # Espera 10 segundos para o item estar visível
+            print(f"Elemento com id {id_DB} não encontrado na página.")
+            # continue  # Pula para o próximo item
+        item_unidade = api_child(id_interno, item)
+        await page.wait_for_load_state("domcontentloaded", timeout=1000*10)
+        await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
+        await page.wait_for_load_state("domcontentloaded", timeout=1000*10)
+        
+        for i in item_unidade:
+            id_i = API_child_id(id_interno, item, i)
+            await page.wait_for_load_state("domcontentloaded")
+            await page.wait_for_timeout(1000*4)
+            await page.locator(f'//div[@data-content-id="{id_i}"]').click()
+            print(f"Processando item: {i}")
+            await page.wait_for_timeout(1000*6)
+
+            if "Atividade de Autoaprendizagem" in i:
+                print("Encontrou 'Atividade de Autoaprendizagem' no item")
+                await page.get_by_role("link", name="Configurações", exact=True).click()
+                await page.wait_for_load_state('load')
+                await page.wait_for_timeout(3*1000)
+                await page.mouse.wheel(0, 1000)  # Rola 1000px para baixo
+                await page.wait_for_timeout(2*1000)
+                await page.mouse.wheel(0, 800)  # Rola 800px para baixo
+                await page.wait_for_timeout(2*1000)
+                await page.mouse.wheel(0, 350)  # Rola 350px para baixo
+                await page.wait_for_timeout(2*1000)
+                await page.wait_for_load_state('load')
+                await page.wait_for_timeout(6*1000)
+                await page.get_by_role("button", name="Fechar").click()
+            
+            await page.wait_for_timeout(3*1000)
+            await page.get_by_role("button", name="Fechar").click()
+
+    except Exception as e:
+        print(f'Erro ao processar request {item} in {id_interno}:', e)
