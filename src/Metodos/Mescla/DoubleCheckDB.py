@@ -216,10 +216,8 @@ async def loopItemList(page: Page, id_interno, item_list):
                 
         if "Unidade" in item:
             await unidade(id_interno, item)
-            # id_DB = await getApiContent.API_Req_Content(page, id_interno, item)
             
         else:
-            # id_DB = await getApiContent.API_Req_Content(page, id_interno, item)
             id_DB = API_ID(id_interno, item)
             if not id_DB:
                 print(f"ID não encontrado para o item: {item}")
