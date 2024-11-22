@@ -65,7 +65,14 @@ async def inserirGruposAtividadesAV1(page: Page, id_interno, curso):
     print(f'Opening {item}...')
     await page.goto(searchURL)
     print('Opening config...')
-    await page.get_by_label("Condições de liberação de").click()
+    
+    await page.get_by_label(item).wait_for(state='visible', timeout=1000*6)
+    
+    try:
+        await page.get_by_role("link", name="Editar condições de liberação").click(timeout=1000*2)
+    except:
+        await page.get_by_label("Condições de liberação de").click(timeout=1000*2)
+        
     print('Checking...')
     await page.get_by_label("Membros ou grupos específicos").check()
     print('Opening comboBox...')
@@ -80,7 +87,7 @@ async def inserirGruposAtividadesAV1(page: Page, id_interno, curso):
     await page.locator("#course-groups-combobox-menu > li > ul", has_text=curso).click()
     await page.wait_for_timeout(1500)
     print('Clicking out...')
-    await page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()
+    await page.get_by_text('Limite o acesso a este conteúdo criando regras com uma ou mais condições.').click()
     print('Saving...')
     await page.get_by_role("button", name="Salvar").click()
     await page.wait_for_load_state('load')
@@ -99,11 +106,14 @@ async def inserirGruposAtividadesAV2(page: Page, id_interno, curso):
 
     print(f'Opening {item}...')
     await page.goto(searchURL)
-    # await page.get_by_role("button", name="Condições de liberação").click()
-    # await page.get_by_role("option", name="Condições de liberação").click()
-
+    
+    await page.get_by_label(item).wait_for(state='visible', timeout=1000*6)
     print('Opening config...')
-    await page.get_by_label("Condições de liberação de").click()
+    try:
+        await page.get_by_role("link", name="Editar condições de liberação").click(timeout=1000*2)
+    except:
+        await page.get_by_label("Condições de liberação de").click(timeout=1000*2)
+        
     print('Checking...')
     await page.get_by_label("Membros ou grupos específicos").check()
     print('Opening comboBox...')
@@ -118,7 +128,7 @@ async def inserirGruposAtividadesAV2(page: Page, id_interno, curso):
     await page.locator("#course-groups-combobox-menu > li > ul", has_text=curso).click()
     await page.wait_for_timeout(1500)
     print('Clicking out...')
-    await page.get_by_text('Você pode limitar o acesso a este conteúdo. Escolha').click()
+    await page.get_by_text('Limite o acesso a este conteúdo criando regras com uma ou mais condições.').click()
     print('Saving...')
     await page.get_by_role("button", name="Salvar").click()
     await page.wait_for_load_state('load')
