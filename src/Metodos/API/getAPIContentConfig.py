@@ -229,7 +229,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
             result_autoPostGrades = await page.evaluate(filteredRequest_title(item_search, config))
             
             if result_autoPostGrades != "True":
-                result_autoPostGrades = 'False is Worng!'
+                result_autoPostGrades = 'False is Wronng!'
 
             # config = 'genericReadOnlyData.dueDate'
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.gradingColumn.dueDate'
@@ -244,7 +244,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
                 result_dueDate = await adjust_date(result_dueDate)
                     
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.feedbackSettings.as.options'
-            print(f'Checking {item_search} test result options...')
+            print(f'Checking {item_search} test result individual options...')
             result_options = await page.evaluate(filteredRequest_title(item_search, config))
             
             try:
@@ -263,11 +263,11 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
                     result_options[2] in options_correct and
                     result_options[3] in options_correct and
                     result_options[4] in options_correct):
-                    result_options = f'{item_search} test result options config is correct'
+                    result_options = f'{item_search} test result options individual config is correct'
                 else:
-                    result_options = f'{item_search} test result options config is wrong'
+                    result_options = f'{item_search} test result options individual config is wrong'
             else:
-                result_options = f'{item_search} test result options config is wrong'
+                result_options = f'{item_search} test result options individual config is wrong'
             
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfAnswersRequired'
             print(f'Checking {item_search} Randomization of Answers Required...')
@@ -276,7 +276,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
             if result_isRandomizationOfAnswersRequired == "ALWAYS":
                 result_isRandomizationOfAnswersRequired = f'{item_search} is set to always ramdomize Answers'
             else:
-                result_isRandomizationOfAnswersRequired = f'{item_search} is not set to always ramdomize Answers'
+                result_isRandomizationOfAnswersRequired = f'{item_search} is wrong, not set to always ramdomize Answers'
             
             config = 'contentDetail["resource/x-bb-asmt-test-link"].test.deploymentSettings.isRandomizationOfQuestionsRequired'
             print(f'Checking {item_search} Randomization of Questions Required...')
