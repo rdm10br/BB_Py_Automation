@@ -77,3 +77,28 @@
 #         # Aqui você pode logar o erro ou retorná-lo de alguma forma mais informativa
 #         print(f"Ocorreu um erro: {e}")
 #         return []  # Retorna uma lista vazia em caso de erro
+
+if "contentHandler": {
+                    "id": "resource/x-bb-asmt-test-link"
+                    
+await page.locator("div").filter(has_text=re.compile(r"^AV1$")).first.click()
+await page.get_by_role("link", name="Configurações", exact=True).click()
+await page.get_by_role("button", name="Fechar").click()
+await page.get_by_role("button", name="Fechar").click()
+                    
+
+ "contentHandler": {
+        "id": "resource/x-bb-folder"
+
+await page.locator("div").filter(has_text=re.compile(r"^AV1$")).first.click()
+await page.get_by_role("link", name="Avaliação Workshop").click()
+await page.get_by_role("link", name="Configurações", exact=True).click()
+await page.get_by_role("button", name="Fechar").click()
+await page.get_by_role("button", name="Fechar").click()
+await page.get_by_role("link", name="Atividade Contextualizada").click()
+await page.get_by_role("link", name="Configurações", exact=True).click()
+await page.get_by_role("button", name="Fechar").click()
+await page.get_by_role("button", name="Fechar").click()
+await page.locator("div").filter(has_text=re.compile(r"^AV1$")).first.click()
+        
+    

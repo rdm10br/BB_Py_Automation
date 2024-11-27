@@ -4,22 +4,22 @@ import regex as re
 import requests, json, os, asyncio
 from dotenv import load_dotenv
 
-def folder(id_interno: str, item) -> bool:
+def folder(id_interno: str, item) -> str:
     url = f'/learn/api/public/v1/courses/{id_interno}/contents'
     data = API(url)  # A API deve retornar os dados completos
     
     try:
-        # Verifica se o item contém 'hasChildren' e se ele é True
+        # Verifica se o item contém 'contentHandler' e se ele é True
         for i in data.get('results', []):
             if i.get('title') == item:  # Verifica o item específico
-                if 'hasChildren' in i:  # Verifica se a chave 'hasChildren' existe
-                    return i.get('hasChildren', False)  # Retorna o valor de 'hasChildren'
-                else:
-                    return False  # Se 'hasChildren' não existir, retorna False
-        return False  # Se o item não for encontrado
+                if 'contentHandler' in i:  # Verifica se a chave 'contentHandler' existe
+                    # Verifica o id do contentHandler e retorna o tipo correspondente
+                    print(i.get('contentHandler', {}).get('id', None))
+                    return i.get('contentHandler', {}).get('id', None)  # Retorna o id do contentHandler
+        return None  # Se o item não for encontrado ou não tiver contentHandler
     except Exception as e:
         print(f"Ocorreu um erro ao verificar o item: {e}")
-        return False
+        return None
     
 def API_ID(id_interno: str, item):
     url = f'/learn/api/public/v1/courses/{id_interno}/contents'
@@ -147,15 +147,8 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
     print(_item_list)
     
     item_list = _item_list  # Agora estamos usando o item_list retornado pela função API
-    
-    # try:
-    #     isFolder = folder()
-    #     ...
-    # except:
-    #     isFolder = False
-    #     ...
         
-    # hasChildren
+    # contentHandler
     
     await page.goto(url=f"./ultra/courses/{id_interno}/outline")
     await page.get_by_role("link", name="Boletim de notas").click()
@@ -196,27 +189,58 @@ async def loopItemList(page: Page, id_interno, item_list):
         ]
     _ItemConfig = [  #todos que tem config clicar, menos fale com tutor
             'Desafio Colaborativo',
-            'AV1'
+            # 'AV1'
         ]
     _ItemConfigFcT = [  #Fale com tutor config
         'Fale com o Tutor'
         ]
+    _ItemDCTimeout= [
+        'Meu Desempenho'
+    ]
+    
+    _ItemSFTimeout= [
+        'Organize seus estudos com a Sofia'
+    ]
     
     for item in item_list:
         
-        if "Organize seus estudos com a Sofia" in item:
-                await page.wait_for_load_state("domcontentloaded")
-                await page.get_by_label("Mais opções para Organize").click()
-                await page.get_by_text("Editar", exact=True).click()
-                await page.locator('text=Detalhes do link LTI').wait_for(state="visible", timeout=1000*30)
-                await page.get_by_placeholder("Formato: meuwebsite.com").click()
-                await page.get_by_placeholder("Formato: meuwebsite.com").press("End")
-                await page.wait_for_timeout(2*1000)
-                await page.get_by_role("button", name="Fechar").click()
-                
-        if "Unidade" in item:
-            await unidade(id_interno, item)
+        # if "Organize seus estudos com a Sofia" in item:
+        #         await page.wait_for_load_state("domcontentloaded")
+        #         await page.get_by_label("Mais opções para Organize").click()
+        #         await page.get_by_text("Editar", exact=True).click()
+        #         await page.locator('text=Detalhes do link LTI').wait_for(state="visible", timeout=1000*30)
+        #         await page.get_by_placeholder("Formato: meuwebsite.com").click()
+        #         await page.get_by_placeholder("Formato: meuwebsite.com").press("End")
+        #         await page.wait_for_timeout(2*1000)
+        #         await page.get_by_role("button", name="Fechar").click()
+        
+        if "Atividade de Aulas Práticas" in item:
+            print("Rolando a página...")
+            await page.mouse.wheel(0, 5000)  # Rola 5000px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.get_by_role("button", name="Atividade de Aulas Práticas", exact=True).click()
+            await page.get_by_role("link", name="Atividade Prática").click()
+            await page.get_by_role("link", name="Configurações", exact=True).click()
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(3*1000)
+            await page.mouse.wheel(0, 1000)  # Rola 1000px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.mouse.wheel(0, 800)  # Rola 800px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.mouse.wheel(0, 350)  # Rola 350px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(6*1000)
+            await page.get_by_role("button", name="Fechar").click()
+            await page.get_by_role("button", name="Fechar").click()
+            await page.get_by_role("button", name="Atividade de Aulas Práticas", exact=True).click()
+        
+        if "AV1" in item:
+            await AV1(page, id_interno, item)
             
+        if "Unidade" in item:
+            await unidade(page, id_interno, item)
+
         else:
             id_DB = API_ID(id_interno, item)
             if not id_DB:
@@ -224,27 +248,81 @@ async def loopItemList(page: Page, id_interno, item_list):
                 continue  # Pula para o próximo item se o ID não for encontrado
             await page.goto(url=f"./ultra/courses/{id_interno}/outline")
             await page.wait_for_load_state('load')
-            await page.wait_for_timeout(1000*6)
+            await page.wait_for_timeout(5*1000)
             try:
-                if item in _ItemRolagem:
+                if item in _ItemDCTimeout:
+                    print("executando o seguinte item: Meu Desempenho")
+                    await page.get_by_role("link", name="Meu Desempenho", exact=True).click()
+                    await page.wait_for_load_state('load')
+                    await page.wait_for_timeout(10*1000)
+                    await page.get_by_role("button", name="Fechar").click()
+                    await page.wait_for_load_state('load')
+                    await page.wait_for_timeout(2*1000)
+                    continue
+                
+                if item in _ItemSFTimeout:
+                    print("executando o seguinte item: Organize seus estudos com a Sofia")
+                    await page.get_by_role("link", name="Organize seus estudos com a").click()
+                    await page.wait_for_load_state('load')
+                    await page.wait_for_timeout(10*1000)
+                    await page.get_by_role("button", name="Fechar").click()
+                    await page.wait_for_load_state("domcontentloaded")
+                    await page.get_by_label("Mais opções para Organize").click()
+                    await page.get_by_text("Editar", exact=True).click()
+                    await page.locator('text=Detalhes do link LTI').wait_for(state="visible", timeout=1000*30)
+                    await page.get_by_placeholder("Formato: meuwebsite.com").click()
+                    await page.get_by_placeholder("Formato: meuwebsite.com").press("End")
+                    await page.wait_for_timeout(2*1000)
+                    await page.get_by_role("button", name="Fechar").click()
+                
+                    continue
+                
+                elif item in _ItemRolagem:
                     print("Rolando a página...")
                     await page.mouse.wheel(0, 5000)  # Rola 5000px para baixo
                     await page.wait_for_timeout(2*1000)
-                await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
-                await page.wait_for_load_state('load')
-                await page.wait_for_timeout(3*1000)
-                if item in _ItemConfigFcT:
+                # await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
+                # await page.wait_for_load_state('load')
+                # await page.wait_for_timeout(3*1000)
+                elif item in _ItemConfigFcT:
+                    print("executando o seguinte item: Fale com o Tutor")
+                    await page.wait_for_load_state('load')
+                    await page.wait_for_timeout(4*1000)
+                    await page.get_by_role("link", name="Fale com o Tutor").click()
+                    await page.wait_for_load_state('load')
+                    await page.wait_for_timeout(4*1000)
                     await page.get_by_label("Editar configurações do diário").click()
                     await page.wait_for_load_state('load')
-                    await page.wait_for_timeout(2*1000)
-                if item in _ItemConfig:
+                    await page.wait_for_timeout(4*1000)
+                elif item in _ItemConfig:
+                    print("executando o seguinte item: Desafio Colaborativo")
+                    await page.wait_for_load_state('load')
+                    await page.wait_for_timeout(4*1000)
+                    await page.get_by_role("link", name="Desafio Colaborativo").click()
+                    await page.wait_for_timeout(3*1000)
                     await page.get_by_role("link", name="Configurações", exact=True).click()
                     await page.wait_for_load_state('load')
+                    await page.wait_for_timeout(5*1000)
+                # await page.get_by_role("button", name="Fechar").click()
+                # await page.wait_for_load_state('load')
+                # await page.wait_for_timeout(5*1000)
+                else:
+                    await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
+                    await page.wait_for_load_state('load')
                     await page.wait_for_timeout(3*1000)
-                await page.get_by_role("button", name="Fechar").click()
-                await page.wait_for_load_state('load')
-                await page.wait_for_timeout(5*1000)
+                    await page.get_by_role("button", name="Fechar").click()
+                    await page.wait_for_load_state('load')
+                    await page.wait_for_timeout(5*1000)
+                    
+                    continue
+
             except Exception as e:
+                # await page.locator(f'//div[@data-content-id="{id_DB}"]').click()
+                # await page.wait_for_load_state('load')
+                # await page.wait_for_timeout(3*1000)
+                # await page.get_by_role("button", name="Fechar").click()
+                # await page.wait_for_load_state('load')
+                # await page.wait_for_timeout(5*1000)
                 print(f'Erro ao processar request {item} in {id_interno}:', e)
 
 async def unidade(page: Page, id_interno, item):
@@ -295,3 +373,88 @@ async def unidade(page: Page, id_interno, item):
 
     except Exception as e:
         print(f'Erro ao processar request {item} in {id_interno}:', e)
+    
+async def AV1(page: Page, id_interno, item):
+    try:
+        # Obtemos o tipo de contentHandler
+        contentHandler_id = folder(id_interno, item)
+        
+        if contentHandler_id == "resource/x-bb-asmt-test-link":
+            # Realiza as ações se contentHandler for "resource/x-bb-asmt-test-link"
+            await page.wait_for_timeout(2*1000)
+            await page.mouse.wheel(0, 5000)  # Rola 5000px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.get_by_role("link", name="AV1").click()
+            await page.get_by_role("link", name="Configurações", exact=True).click()
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(3*1000)
+            await page.mouse.wheel(0, 1000)  # Rola 1000px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.locator("#attempt-count").select_option("number:5")
+            await page.wait_for_timeout(5*1000)
+            await page.locator("#attempt-count").select_option("number:1")
+            await page.wait_for_timeout(2*1000)
+            await page.mouse.wheel(0, 800)  # Rola 800px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.mouse.wheel(0, 500)  # Rola 350px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(2*1000)
+            await page.get_by_role("button", name="Fechar").click()
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(2*1000)
+            await page.get_by_role("button", name="Fechar").click()
+        
+        elif contentHandler_id == "resource/x-bb-folder":
+            # Realiza as ações se contentHandler for "resource/x-bb-folder"
+            await page.wait_for_timeout(2*1000)
+            await page.mouse.wheel(0, 5000)  # Rola 5000px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.get_by_role("button", name="AV1", exact=True).click()
+            # await page.get_by_role("div").filter(has_text=re.compile(r"^AV1$")).first.click()
+            await page.get_by_role("link", name="Avaliação Workshop").click()
+            await page.get_by_role("link", name="Configurações", exact=True).click()
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(3*1000)
+            await page.mouse.wheel(0, 1000)  # Rola 1000px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.mouse.wheel(0, 800)  # Rola 800px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.locator("#attempt-count").select_option("number:5")
+            await page.get_by_role("button", name="Fechar").click()
+            await page.locator("#attempt-count").select_option("number:1")
+            # await page.get_by_role("button", name="Fechar").click()
+            await page.wait_for_timeout(2*1000)
+            await page.mouse.wheel(0, 350)  # Rola 350px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(6*1000)
+            await page.get_by_role("button", name="Fechar").click()
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(2*1000)
+            await page.get_by_role("button", name="Fechar").click()
+            await page.get_by_role("link", name="Atividade Contextualizada").click()
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(2*1000)
+            await page.get_by_role("link", name="Configurações", exact=True).click()
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(3*1000)
+            await page.mouse.wheel(0, 1000)  # Rola 1000px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.mouse.wheel(0, 800)  # Rola 800px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.mouse.wheel(0, 350)  # Rola 350px para baixo
+            await page.wait_for_timeout(2*1000)
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(6*1000)
+            await page.get_by_role("button", name="Fechar").click()
+            await page.wait_for_load_state('load')
+            await page.wait_for_timeout(2*1000)
+            await page.get_by_role("button", name="Fechar").click()
+            await page.get_by_role("button", name="AV1", exact=True).click()
+        
+        else:
+            print(f"Content handler não encontrado ou não corresponde a um tipo esperado. ID: {contentHandler_id}")
+    
+    except Exception as e:
+        print(f"Ocorreu um erro durante a execução de AV1: {e}")
