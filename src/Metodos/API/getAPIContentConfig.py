@@ -228,7 +228,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
             print(f'Checking {item_search} autoPostGrades...')
             result_autoPostGrades = await page.evaluate(filteredRequest_title(item_search, config))
             
-            if result_autoPostGrades != "true":
+            if not result_autoPostGrades:
                 result_autoPostGrades = 'False is Wronng!'
 
             # config = 'genericReadOnlyData.dueDate'
