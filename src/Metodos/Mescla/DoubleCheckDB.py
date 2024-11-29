@@ -303,6 +303,12 @@ async def loopItemList(page: Page, id_interno, item_list):
                     await page.get_by_role("link", name="Configurações", exact=True).click()
                     await page.wait_for_load_state('load')
                     await page.wait_for_timeout(5*1000)
+                
+                elif "Solicite seu livro impresso" in item:
+                    await page.wait_for_timeout(1*1000)
+                    continue
+                
+                    
                 # await page.get_by_role("button", name="Fechar").click()
                 # await page.wait_for_load_state('load')
                 # await page.wait_for_timeout(5*1000)
@@ -367,6 +373,14 @@ async def unidade(page: Page, id_interno, item):
                 await page.wait_for_load_state('load')
                 await page.wait_for_timeout(6*1000)
                 await page.get_by_role("button", name="Fechar").click()
+                await page.wait_for_timeout(2*1000)
+                await page.get_by_role("button", name="Fechar").click()
+                
+                continue
+            
+            if "Material complementar" in i:
+                    print("Encontrou 'Material complementar', pulando item.")
+                    continue
             
             await page.wait_for_timeout(3*1000)
             await page.get_by_role("button", name="Fechar").click()
@@ -411,7 +425,6 @@ async def AV1(page: Page, id_interno, item):
             await page.mouse.wheel(0, 5000)  # Rola 5000px para baixo
             await page.wait_for_timeout(2*1000)
             await page.get_by_role("button", name="AV1", exact=True).click()
-            # await page.get_by_role("div").filter(has_text=re.compile(r"^AV1$")).first.click()
             await page.get_by_role("link", name="Avaliação Workshop").click()
             await page.get_by_role("link", name="Configurações", exact=True).click()
             await page.wait_for_load_state('load')
@@ -423,7 +436,6 @@ async def AV1(page: Page, id_interno, item):
             await page.locator("#attempt-count").select_option("number:5")
             await page.get_by_role("button", name="Fechar").click()
             await page.locator("#attempt-count").select_option("number:1")
-            # await page.get_by_role("button", name="Fechar").click()
             await page.wait_for_timeout(2*1000)
             await page.mouse.wheel(0, 350)  # Rola 350px para baixo
             await page.wait_for_timeout(2*1000)
