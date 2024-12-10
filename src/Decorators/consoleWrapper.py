@@ -82,7 +82,7 @@ def capture_console_output_async(func):
     class ConsoleAndFile(io.StringIO):
         def write(self, data: str):
             if data.strip():  # Only write non-empty lines
-                sys.__stdout__.write(data.encode('utf-8', errors='replace').decode('utf-8'))  # Write to the original stdout
+                sys.__stdout__.write(data)  # Write to the original stdout
                 sys.__stdout__.flush()
                 super().write(data)  # Write to the StringIO buffer
 

@@ -297,6 +297,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
             await page.goto(url=APIBQItem, wait_until='commit')
             
             config = 'sourceInfo.name'
+            print(f'Checking {item_search} associated BQ...')
             BQ_associated = await page.evaluate(request_unfiltered0(config=config))
             
             result = f'''{item_search}:
