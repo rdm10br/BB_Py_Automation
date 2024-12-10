@@ -677,6 +677,21 @@ def writeOnExcel_Plan1_SER(index, return_status):
     # Save the changes to the existing file
     workbook.save(arq_excel)
     
+def writeOnExcel_Plan1_AV1(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['salas']
+    
+    col_status_plan1 = 'AK' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)
+    
 def filter_GA():
     """
     Groups the courses by 'GRANDE ÁREA' and stores the result in a JSON file.

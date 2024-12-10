@@ -871,6 +871,8 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
                             return result
                         except:
                             result = f'{item_Search} not found in room {id_interno}'
+                    else:
+                        return result
                 except:
                     return result
         case 'AV2':
@@ -1124,6 +1126,8 @@ async def doublecheck_config_main_Master(page: Page, id_interno: str, index: int
     gp.writeOnExcel_Plan1_AOL4(index=index, return_status=results_AOL4)
     result_AOLS = f'\n{results_AOL1}\n{results_AOL2}\n{results_AOL3}\n{results_AOL4}'
     
+    results_AV1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='AV1')
+    gp.writeOnExcel_Plan1_AV1(index=index, return_status=results_AV1)
     results_Avaliacao = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliações')
     gp.writeOnExcel_Plan1_AVALICAO(index=index, return_status=results_Avaliacao)
     results_Web = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='WebAula')
@@ -1132,7 +1136,7 @@ async def doublecheck_config_main_Master(page: Page, id_interno: str, index: int
     gp.writeOnExcel_Plan1_SOLICITE(index=index, return_status=results_solicite)
     results_ser = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
     gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
-    result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}'
+    result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}\n{results_AV1}'
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_AOLS}{result_bottom}'
     return result
@@ -1177,6 +1181,8 @@ async def doublecheck_config_main_TRAD(page: Page, id_interno: str, index: int) 
     gp.writeOnExcel_Plan1_AOL4(index=index, return_status=results_AOL4)
     result_AOLS = f'\n{results_AOL1}\n{results_AOL2}\n{results_AOL3}\n{results_AOL4}'
     
+    results_AV1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='AV1')
+    gp.writeOnExcel_Plan1_AV1(index=index, return_status=results_AV1)
     results_Avaliacao = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliações')
     gp.writeOnExcel_Plan1_AVALICAO(index=index, return_status=results_Avaliacao)
     results_Web = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='WebAula')
@@ -1185,7 +1191,7 @@ async def doublecheck_config_main_TRAD(page: Page, id_interno: str, index: int) 
     gp.writeOnExcel_Plan1_SOLICITE(index=index, return_status=results_solicite)
     results_ser = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
     gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
-    result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}'
+    result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}\n{results_AV1}'
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AOLS}{result_bottom}'
     return result
@@ -1230,6 +1236,8 @@ async def doublecheck_config_main_DIG(page: Page, id_interno: str, index: int) -
     gp.writeOnExcel_Plan1_A4(index=index, return_status=results_AtivAuto4)
     result_AtivAuto = f'\n{results_AtivAuto1}\n{results_AtivAuto2}\n{results_AtivAuto3}\n{results_AtivAuto4}'
     
+    results_AV1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='AV1')
+    gp.writeOnExcel_Plan1_AV1(index=index, return_status=results_AV1)
     results_Avaliacao = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Avaliações')
     gp.writeOnExcel_Plan1_AVALICAO(index=index, return_status=results_Avaliacao)
     results_Web = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='WebAula')
@@ -1238,7 +1246,7 @@ async def doublecheck_config_main_DIG(page: Page, id_interno: str, index: int) -
     gp.writeOnExcel_Plan1_SOLICITE(index=index, return_status=results_solicite)
     results_ser = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
     gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
-    result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}'
+    result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}\n{results_AV1}'
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_bottom}'
     return result
@@ -1283,7 +1291,8 @@ async def doublecheck_config_main_MEC(page: Page, id_interno: str, index: int) -
     gp.writeOnExcel_Plan1_A4(index=index, return_status=results_AtivAuto4)
     result_AtivAuto = f'\n{results_AtivAuto1}\n{results_AtivAuto2}\n{results_AtivAuto3}\n{results_AtivAuto4}'
     
-    
+    results_AV1 = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='AV1')
+    gp.writeOnExcel_Plan1_AV1(index=index, return_status=results_AV1)
     results_Web = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='WebAula')
     gp.writeOnExcel_Plan1_WEB(index=index, return_status=results_Web)
     results_solicite = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Solicite seu livro impresso')
@@ -1291,7 +1300,7 @@ async def doublecheck_config_main_MEC(page: Page, id_interno: str, index: int) -
     results_ser = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
     gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
     # results_manuais = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Manuais')
-    result_bottom = f'\n{results_Web}\n{results_solicite}\n{results_ser}'
+    result_bottom = f'\n{results_Web}\n{results_solicite}\n{results_ser}\n{results_AV1}'
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_bottom}'
     return result
