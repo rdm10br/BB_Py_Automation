@@ -516,6 +516,63 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
             return result
         except:
             return None
+        
+    async def gradebook():
+        
+        await page.goto(APIGradeCollum, wait_until='commit')
+        results_gradebook = {}
+        
+        # Populate itemList with relevant data
+        itemList = await page.evaluate('''() => {
+            // Parse the JSON from the page body
+            const data = JSON.parse(document.body.innerText);
+            
+            // Ensure results exist and map columnName
+            if (data.results && Array.isArray(data.results)) {
+                return data.results.map(item => item.columnName).filter(Boolean); // Filter out undefined/null
+            }
+            
+            // Return an empty array if results are not valid
+            return [];
+        }''')
+        
+        if not itemList:
+            print("No items found in the gradebook.")
+            return results_gradebook
+        
+        # List of configurations to retrieve
+        configs = [
+            'columnName',
+            'id',
+            'visible',
+            'possible',
+            'multipleAttempts',
+            'aggregationModel',
+            'visibleInBook',
+            'autoPostGrades',
+            'description.displayText',
+            'position',
+            'calculatedFormula.formula',
+            'calculatedFormula.aliases'
+        ]
+        
+            # Iterate over each item in the itemList
+        for item in itemList:
+            # Initialize a dictionary for the current item
+            results_gradebook[item] = {}
+            
+            # Fetch each configuration
+            for config in configs:
+                try:
+                    # Use page.evaluate to fetch the value for the current config
+                    value = await page.evaluate(filteredRequest_columnName(config=config, item_search=item))
+                    results_gradebook[item][config] = value
+                except Exception as e:
+                    print(f"Error retrieving config '{config}' for item '{item}': {e}")
+                    results_gradebook[item][config] = None  # Default to None on error
+                
+        return str(results_gradebook)
+        ...
 
     match item_Search:
         case 'Fórum de Interação entre Professores e Tutores':
@@ -1051,6 +1108,11 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
                     return result
         case 'Manuais': #
             ...
+        case 'Boletim':
+            await page.goto(url=APIGradeCollum, wait_until='commit')
+            result = await gradebook()
+            ...
+            return result
         case _:
             result = f'Item: [{item_Search}] não encontrado ou nomeclatura errada'
             print(result)
@@ -1138,7 +1200,10 @@ async def doublecheck_config_main_Master(page: Page, id_interno: str, index: int
     gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
     result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}\n{results_AV1}'
     
-    result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_AOLS}{result_bottom}'
+    results_gradebook = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Boletim')
+    gp.writeOnExcel_Plan1_Boletim(index=index, return_status=results_gradebook)
+    
+    result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_AOLS}{result_bottom}\n{results_gradebook}'
     return result
 
 
@@ -1192,6 +1257,9 @@ async def doublecheck_config_main_TRAD(page: Page, id_interno: str, index: int) 
     results_ser = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)')
     gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
     result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}\n{results_AV1}'
+    
+    results_gradebook = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Boletim')
+    gp.writeOnExcel_Plan1_Boletim(index=index, return_status=results_gradebook)
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AOLS}{result_bottom}'
     return result
@@ -1248,6 +1316,9 @@ async def doublecheck_config_main_DIG(page: Page, id_interno: str, index: int) -
     gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
     result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}\n{results_AV1}'
     
+    results_gradebook = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Boletim')
+    gp.writeOnExcel_Plan1_Boletim(index=index, return_status=results_gradebook)
+    
     result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_bottom}'
     return result
 
@@ -1301,6 +1372,9 @@ async def doublecheck_config_main_MEC(page: Page, id_interno: str, index: int) -
     gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
     # results_manuais = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Manuais')
     result_bottom = f'\n{results_Web}\n{results_solicite}\n{results_ser}\n{results_AV1}'
+    
+    results_gradebook = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Boletim')
+    gp.writeOnExcel_Plan1_Boletim(index=index, return_status=results_gradebook)
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_bottom}'
     return result

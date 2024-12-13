@@ -162,7 +162,7 @@ def playwright_StartUp_nosub_test(func):
             baseURL = os.getenv('BASE_URL')
 
             sys.stdout = TimeStampedStream(sys.stdout)
-            print('\\nExecution Start')
+            print('\nExecution Start')
 
             browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'], timeout=60 * 1000)
             context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark')

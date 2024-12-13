@@ -1,9 +1,9 @@
-import asyncio
+import asyncio, subprocess
 from playwright.async_api import Page
 
 
 from Metodos import getPlanilha, getFromAPI, getAPIContentConfig
-from Decorators.Main_StartUp import playwright_StartUp_nosub
+from Decorators.Main_StartUp import playwright_StartUp_nosub, playwright_StartUp_nosub_test
 
 
 @playwright_StartUp_nosub
@@ -37,10 +37,12 @@ async def run(page: Page, index) -> None:
         print(result)
         getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
         getPlanilha.writeOnExcel_Plan1_Result(index=index, return_status=result)
+        ...
 
         
 async def main():
     await run()
+    subprocess.Popen(r'start Planilhas\SALAS.xlsx', shell=True)
 
 
 asyncio.run(main())
