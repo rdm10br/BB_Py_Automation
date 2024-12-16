@@ -1,5 +1,7 @@
 import pytz
 from datetime import datetime
+import regex as re
+from openpyxl.utils import get_column_letter, column_index_from_string
 from playwright.async_api import Page
 
 from Metodos.API import getPlanilha as gp
@@ -517,7 +519,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
         except:
             return None
         
-    async def gradebook():
+    async def gradebook() -> dict:
         
         await page.goto(APIGradeCollum, wait_until='commit')
         results_gradebook = {}
@@ -566,12 +568,32 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
                 try:
                     # Use page.evaluate to fetch the value for the current config
                     value = await page.evaluate(filteredRequest_columnName(config=config, item_search=item))
+                    
+                    if config == 'calculatedFormula.formula':
+                        value = re.sub(pattern=r'<math xmlns="http://www.w3.org/1998/Math/MathML"><mo>', repl='', string=value)
+                        value = re.sub(pattern=r'</mo><mi>@X@BBCalColElem\(', repl='', string=value)
+                        value = re.sub(pattern=r'{"running":true,"selected":', repl='', string=value)
+                        value = re.sub(pattern=r'}\)@X@</mi><mo>', repl='', string=value)
+                        value = re.sub(pattern=r'</mo><mo>', repl='', string=value)
+                        value = re.sub(pattern=r'</mo><mn>', repl='', string=value)
+                        value = re.sub(pattern=r'</mn></math>X_Running_Total=true', repl='', string=value)
+                        ...
+                        
                     results_gradebook[item][config] = value
+                    
                 except Exception as e:
-                    print(f"Error retrieving config '{config}' for item '{item}': {e}")
+                    config_validated = [
+                        'calculatedFormula.formula',
+                        'calculatedFormula.aliases',
+                        'description.displayText'
+                        ]
+                    if config in config_validated:
+                        ...
+                    else:
+                        print(f"Error retrieving config '{config}' for item '{item}': {e}")
                     results_gradebook[item][config] = None  # Default to None on error
                 
-        return str(results_gradebook)
+        return results_gradebook
         ...
 
     match item_Search:
@@ -1200,8 +1222,13 @@ async def doublecheck_config_main_Master(page: Page, id_interno: str, index: int
     gp.writeOnExcel_Plan1_SER(index=index, return_status=results_ser)
     result_bottom = f'\n{results_Avaliacao}\n{results_Web}\n{results_solicite}\n{results_ser}\n{results_AV1}'
     
-    results_gradebook = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Boletim')
-    gp.writeOnExcel_Plan1_Boletim(index=index, return_status=results_gradebook)
+    results_gradebook: dict = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Boletim')
+    gp.writeOnExcel_Plan1_Boletim(index=index, return_status=str(results_gradebook))
+    
+    column_index = column_index_from_string('AM')
+    for i, (key, value) in enumerate(results_gradebook.items()):
+        column_letter = get_column_letter(column_index + i)
+        gp.writeOnExcel(index=index, return_status=str(value), column_return=column_letter)
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_AOLS}{result_bottom}\n{results_gradebook}'
     return result

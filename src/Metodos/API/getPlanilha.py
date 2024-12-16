@@ -707,6 +707,28 @@ def writeOnExcel_Plan1_Boletim(index, return_status):
     # Save the changes to the existing file
     workbook.save(arq_excel)
     
+def writeOnExcel(
+    index: int,
+    return_status: str,
+    column_return: str,
+    _workbook: str ='salas'
+    ) -> None:
+        try:
+            # Load an existing Excel workbook
+            workbook =  openpyxl.load_workbook(arq_excel)
+            
+            # Select the active sheet
+            sheet = workbook[_workbook]
+
+            # Write data to the Excel sheet
+            sheet[f'{column_return}{index + 1}'] = return_status
+
+            # Save the changes to the existing file
+            # print('Saving the SpreadSheet')
+            workbook.save(arq_excel)
+        except Exception as e:
+            print(f"Failed to write to Excel: {e}")
+    
 def filter_GA():
     """
     Groups the courses by 'GRANDE ÁREA' and stores the result in a JSON file.
