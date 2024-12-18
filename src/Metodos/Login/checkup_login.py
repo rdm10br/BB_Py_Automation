@@ -7,7 +7,7 @@ from Metodos.Login import login
 
 timer = time.strftime('%d-%m-%Y-%H-%M-%S')
 CACHE_FILE = r'src\Metodos\Login\__pycache__\login_cache.json'
-CACHE_DURATION_HOURS = 3
+CACHE_DURATION_HOURS = 0
 
 
 async def load_cookies_from_cache(page: Page) -> bool:
@@ -46,9 +46,10 @@ async def checkup_login(page: Page) -> None:
     await page.wait_for_load_state('domcontentloaded')
     
     if await load_cookies_from_cache(page):
-        print('Using cache to login...')
+        print('Using cookie cache to login...')
         await page.goto('./')
         await page.wait_for_load_state('domcontentloaded')
+        await page.get_by_role('link', name='Administrador').wait_for(state='visible', timeout=30*1000)
         if "Disciplinas" in await page.title():
             print('Logged in successfully using cached cookies!')
             return
@@ -66,6 +67,7 @@ async def checkup_login(page: Page) -> None:
                     await page.wait_for_load_state('networkidle')
                     await page.wait_for_load_state('domcontentloaded')
                     await page.wait_for_load_state('load')
+                    await page.get_by_role('link', name='Administrador').wait_for(state='visible', timeout=30*1000)
             except Exception as e:
                 if "Blackboard Learn" in await page.title():
                     print(f"Error during login attempt: {attempt}")
