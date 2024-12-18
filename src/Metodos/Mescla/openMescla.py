@@ -12,6 +12,6 @@ async def open_Mescla(page: Page, id_interno: str) -> None:
     
     await page.get_by_label("Usar disponibilidade de termo").check()
     await page.get_by_label("Usar definição de termo (").check()
-    await page.get_by_role("button", name="Enviar")
+    await page.get_by_role("button", name="Enviar").click()
     await page.wait_for_load_state('load')
     await page.wait_for_load_state('networkidle')
