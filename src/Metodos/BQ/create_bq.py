@@ -67,9 +67,12 @@ async def create_question(index: int, path: str, page: Page):
     try:
         alternativa_correta = gb.get_correct_alternative_from_list(path=path, index=index)
     except:
+        print(f'Question {index+1} no right choice found, default A')
         alternativa_correta = 'a'
     
+    await page.get_by_role("button", name="Criar pergunta").wait_for(state='visible', timeout=10*1000)
     await page.get_by_role("button", name="Criar pergunta").click()
+    await page.get_by_role("menuitem", name="Múltipla Escolha").wait_for(state='visible', timeout=10*1000)
     await page.get_by_role("menuitem", name="Múltipla Escolha").click()
     await page.wait_for_load_state('domcontentloaded')
     try:
@@ -131,7 +134,8 @@ async def create_question(index: int, path: str, page: Page):
     except:
         pass
     
+    await page.get_by_role("button", name="Enviar", exact=True).wait_for(state='visible', timeout=5*1000)
     await page.get_by_role("button", name="Enviar", exact=True).click()
-    # await page.wait_for_load_state('networkidle')
+    await page.wait_for_load_state('domcontentloaded')
     await page.wait_for_timeout(1000*3)
-    await expect(page.locator('#totalQuestions').get_by_text(f'{index+1}')).to_be_visible(timeout=1000*10)
+    await expect(page.locator('#totalQuestions').get_by_text(f'{index+1}')).to_be_visible(timeout=10*1000)

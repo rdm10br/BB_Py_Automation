@@ -1,10 +1,11 @@
+import regex as re
 import docx.opc
 import docx.opc.exceptions
-import regex as re
 import docx, spacy
+from docx.oxml.ns import qn
+from docx.shared import RGBColor
 from spacy.matcher import Matcher
 from functools import lru_cache
-from docx.shared import RGBColor
 
 nlp = spacy.load("pt_core_news_sm")
 matcher = Matcher(nlp.vocab)
@@ -17,10 +18,21 @@ def read_document(path: str) -> str:
     Function to read a docx file, given the file path in the ```path```
     variable, and store in a variable
     '''
+    def get_list_marker(paragraph) -> str:
+        num_pr = paragraph._element.find(qn('w:numPr'))
+        if num_pr:
+            ilvl = num_pr.find(qn('w:ilvl'))
+            num_id = num_pr.find(qn('w:numId'))
+            if ilvl is not None and num_id is not None:
+                # Placeholder for marker logic (e.g., "a)", "1.", etc.)
+                return f"{chr(97 + int(ilvl.get(qn('w:val'))))})"  # 'a)', 'b)', etc.
+        return None
+    
     try:
         doc = docx.Document(docx=path)
         content = []
         for paragraph in doc.paragraphs:
+            get_list_marker(paragraph)
             content.append(paragraph.text)
         text_content = "\n".join(content)
         text_content = re.sub(r'\n+', '', text_content)
@@ -325,12 +337,12 @@ def get_correct_alternative_from_list (path: str, index: int):
     return awnser_list[index][0]
 
 def main() -> None:
-    path = r'C:\Users\013190873\Downloads\Questionário_Álgebra Linear_Unidade I_DIGITAL PAGES_ORIGINAL.docx'
+    path = r'C:\Users\013190873\Downloads\TEORIA DE VOO AVANCADO 1.docx'
     
-    # teste = enunciado_count(path=path)
-    # print(f'\n Enunciado count: {teste}')
+    teste = enunciado_count(path=path)
+    print(f'\n Enunciado count: {teste}')
     
-    index = 19
+    index = 13
     teste2 = get_Enunciado(index=index, path=path)
     
     print(f'\n Question:\n{teste2}')

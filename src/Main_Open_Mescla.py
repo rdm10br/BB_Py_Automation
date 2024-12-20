@@ -14,6 +14,7 @@ async def run(page: Page, index) -> None:
         print(id_externo)
         
         await openMescla.open_Mescla(page=page, id_interno=id_interno)
+        getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
         
 
 async def main():
