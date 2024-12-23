@@ -84,6 +84,7 @@ async def run(playwright: Playwright) -> None:
             
     cache_length = len(cache_data['queue_files'])
     
+    # loop for store queue_file.json info
     for i in range(cache_length):
         _cache = cache_data['queue_files'][i]
         _path = _cache['path']
@@ -107,6 +108,7 @@ async def run(playwright: Playwright) -> None:
             with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                 json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
     
+    # loop for create question
     start_time_queue = time.time()
     for i in range(cache_length):
         cache = cache_data['queue_files'][i]
@@ -134,17 +136,18 @@ async def run(playwright: Playwright) -> None:
                     cache['idBQ'] = id_BQ
                     with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                         json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
-                if questionCount == 0:
+                    
                     if isjunction == 'No':
                         BQ_count = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='questionCount'))
                         cache['questionsMade'] = BQ_count
                         with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                             json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
-                    elif isjunction == 'Yes':
-                        pass
-                else:
-                    BQ_count = questionCount
-                    pass
+                    
+                    if BQ_count >= questionCount:
+                        questionCount = BQ_count
+                    else:
+                        BQ_count = questionCount
+                    
                 print(f'ID found: {id_BQ}')
             except Exception as e:
                 await page.goto(rootBQ)

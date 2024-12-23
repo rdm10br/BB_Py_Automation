@@ -664,11 +664,22 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
 
                 config = 'contentDetail["resource/x-bb-journallink"].blog.entryModificationAllowed'
                 print(f'Checking {item_Search} entryModificationAllowed...')
-                result_entry_modifucation = await page.evaluate(filteredRequest_title(item_Search, config))
+                result_entry_modifucation: str = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                if result_entry_modifucation.lower() == 'true':
+                    result_entry_modifucation = 'True is wrong!'
+                elif result_entry_modifucation.lower() == 'false':
+                    result_entry_modifucation = 'False is right!'
 
                 config = 'contentDetail["resource/x-bb-journallink"].blog.commentModificationAllowed'
                 print(f'Checking {item_Search} commentModificationAllowed...')
-                result_comment_Modification = await page.evaluate(filteredRequest_title(item_Search, config))
+                result_comment_Modification: str = await page.evaluate(filteredRequest_title(item_Search, config))
+                
+                if result_comment_Modification.lower() == 'true':
+                    result_comment_Modification = 'True is wrong!'
+                elif result_comment_Modification.lower() == 'false':
+                    result_comment_Modification = 'False is right!'
+                
 
                 result = f'''{item_Search}:
                 visibility : {result_visibility} |

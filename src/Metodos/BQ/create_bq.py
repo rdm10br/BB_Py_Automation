@@ -40,34 +40,49 @@ async def create_bq(page: Page, BQ_name: str) -> str:
     
 async def create_question(index: int, path: str, page: Page):
     index-=1
+    file_name = os.path.basename(path)
+    
     enunciado = gb.get_Enunciado(index=index, path=path)
     enunciado = re.sub(r'\s+', ' ', enunciado)
     enunciado = enunciado.strip()
+    if enunciado == "":
+        raise ValueError(f"Question statement is empty for question {index + 1} from {file_name}!")
     
     alternativa_a = gb.get_Alternativa(index=index, path=path, choices='a')
     alternativa_a = re.sub(r'\s+', ' ', alternativa_a)
     alternativa_a = alternativa_a.strip()
+    if alternativa_a == "":
+        raise ValueError(f"Alternative A is empty for question {index + 1} from {file_name}!")
     
     alternativa_b = gb.get_Alternativa(index=index, path=path, choices='b')
     alternativa_b = re.sub(r'\s+', ' ', alternativa_b)
     alternativa_b = alternativa_b.strip()
+    if alternativa_b == "":
+        raise ValueError(f"Alternative B is empty for question {index + 1} from {file_name}!")
     
     alternativa_c = gb.get_Alternativa(index=index, path=path, choices='c')
     alternativa_c = re.sub(r'\s+', ' ', alternativa_c)
     alternativa_c = alternativa_c.strip()
+    if alternativa_c == "":
+        raise ValueError(f"Alternative C is empty for question {index + 1} from {file_name}!")
     
     alternativa_d = gb.get_Alternativa(index=index, path=path, choices='d')
     alternativa_d = re.sub(r'\s+', ' ', alternativa_d)
     alternativa_d = alternativa_d.strip()
+    if alternativa_d == "":
+        raise ValueError(f"Alternative D is empty for question {index + 1} from {file_name}!")
     
     alternativa_e = gb.get_Alternativa(index=index, path=path, choices='e')
     alternativa_e = re.sub(r'\s+', ' ', alternativa_e)
     alternativa_e = alternativa_e.strip()
+    if alternativa_e == "":
+        raise ValueError(f"Alternative E is empty for question {index + 1} from {file_name}!")
+    
     
     try:
         alternativa_correta = gb.get_correct_alternative_from_list(path=path, index=index)
-    except:
-        print(f'Question {index+1} no right choice found, default A')
+    except Exception as e:
+        print(f"Question {index + 1} no right choice found, defaulting to A. Error: {e}")
         alternativa_correta = 'a'
     
     await page.get_by_role("button", name="Criar pergunta").wait_for(state='visible', timeout=10*1000)
