@@ -2,10 +2,10 @@ from PySide6.QtWidgets import (QApplication, QMainWindow,
     QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog)
 from PySide6.QtGui import QIcon, QCursor
 from PySide6.QtCore import Qt, QTimer
-import sys, json
+import sys, json, os
 
 class MainWindow(QMainWindow):
-    def __init__(self) -> None:
+    def __init__(self, bq_name: str) -> None:
         super().__init__()
 
         self.setWindowTitle("Escolha o BQ")
@@ -23,7 +23,11 @@ class MainWindow(QMainWindow):
 
         layout = QVBoxLayout(self.central_widget)
         
-        self.label = QLabel("Escolha o arquivo do BQ:", self)
+        if bq_name != '':
+            self.label = QLabel(f"Escolha a junção de {bq_name}:", self)
+        else:
+            self.label = QLabel("Escolha o arquivo do BQ:", self)
+        
         self.label.setStyleSheet('color: white;')
         layout.addWidget(self.label)
 
@@ -78,24 +82,44 @@ class MainWindow(QMainWindow):
                 }
                 queue_files.append(file_info)
                 
-            data = {"queue_files": queue_files}
-            # json_data = json.dumps(data, indent=4)
-            
-            # Save the JSON string to a file
-            with open(r"src\Metodos\BQ\__pycache__\queue_files.json", "w", encoding="utf-8") as json_file:
-                # json_file.write(json_data)
+            # Define the path to the JSON file
+            json_file_path = r"src\Metodos\BQ\__pycache__\queue_files.json"
+
+            # Check if the file exists
+            if os.path.exists(json_file_path):
+                try:
+                    # Load the existing data
+                    with open(json_file_path, "r", encoding="utf-8") as json_file:
+                        data = json.load(json_file)
+                    
+                    # Ensure the key exists and append new data
+                    if "queue_files" in data:
+                        data["queue_files"].extend(queue_files)
+                    else:
+                        data["queue_files"] = queue_files
+                except json.JSONDecodeError:
+                    # Handle corrupted or empty JSON file
+                    data = {"queue_files": queue_files}
+            else:
+                # If the file does not exist, initialize new data
+                data = {"queue_files": queue_files}
+
+            # Write the updated or new data back to the file
+            with open(json_file_path, "w", encoding="utf-8") as json_file:
                 json.dump(data, json_file, ensure_ascii=False, indent=4)
-            
+                
             self.setDisabled(True)
             self.close()
             print(f'file choosen path: {self.fileName}')
             return self.fileName
 
 
-def window_file():
+def window_file(bq_name: str = ''):
     print('choosing file...')
-    app = QApplication(sys.argv)
-    window = MainWindow()
+    app = QApplication.instance()  # Check if QApplication already exists
+    if app is None:  # If not, create one
+        app = QApplication(sys.argv)
+    window = MainWindow(bq_name)
     window.show()
     app.exec()
     return window.fileName

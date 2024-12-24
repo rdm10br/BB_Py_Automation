@@ -121,6 +121,7 @@ QDialog{
 }
 
 QSpinBox {
+    color: black;
     background-color: white;
     border-radius: 10px;
     padding: 5px;

@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 
 #importando Metodos principais
-from Metodos import checkup_login, getBQ, fileChooser, create_bq, junctionWindow
+from Metodos import checkup_login, getBQ, fileChooser, create_bq, junctionWindow, junctionSizeWindow
 from Decorators import capture_console_output_async, TimeStampedStream
 
 @lru_cache
@@ -107,9 +107,47 @@ async def run(playwright: Playwright) -> None:
             _cache['questionCount'] = getBQ.enunciado_count(path=_path)
             with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
                 json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
+        
+        if _cache['isJunction'] == 'Yes':
+            print('Choose other BQ for the Junction...')
+            size = junctionSizeWindow.window()
+            for _size in range(size):
+                fileChooser.window_file(bq_name=f'{cache_data['queue_files'][i]['bqName']} Parte {_size+1}')
+    
+    with open(CACHE_FILE, 'r', encoding="utf-8") as f:
+        cache_data = json.load(f)
+    cache_length = len(cache_data['queue_files'])
+    
+    for i in range(cache_length):
+        _cache = cache_data['queue_files'][i]
+        _path = _cache['path']
+        
+        try:
+            _cache['bqName']
+        except KeyError:
+            _cache['bqName'] = create_bq.get_bq_name(path=_path)
+            with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
+
+        try:
+            _cache['isJunction']
+        except KeyError:
+            _cache['isJunction'] = 'Yes'
+            with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
+        
+        if _cache['questionCount'] == 0:
+            _cache['questionCount'] = getBQ.enunciado_count(path=_path)
+            with open(CACHE_FILE, "w", encoding="utf-8") as json_file:
+                json.dump(cache_data, json_file, indent=4, ensure_ascii=False)
     
     # loop for create question
     start_time_queue = time.time()
+    
+    with open(CACHE_FILE, 'r', encoding="utf-8") as f:
+        cache_data = json.load(f)
+    cache_length = len(cache_data['queue_files'])
+        
     for i in range(cache_length):
         cache = cache_data['queue_files'][i]
         if cache['processingStatus'] == "Finished":
