@@ -1,17 +1,13 @@
 {
     "['Educação I']": [
-        "Formação de Docente para Educação Básica - Geografia",
-        "Formação de Docente para Educação Básica - Letras",
-        "Formação de Docente para Educação Básica - História",
+        "Formação de Docente para Educação Básica - Pedagogia",
         "Formação Pedagógica em Matemática para Graduados",
         "Formação Pedagógica em Pedagogia para Graduados",
         "Segunda Licenciatura em Geografia",
         "Segunda Licenciatura em História",
         "Segunda Licenciatura em Letras - Português",
         "Segunda Licenciatura em Matemática",
-        "Segunda Licenciatura em Pedagogia",
-        "Segunda Licenciatura em Letras - Inglês",
-        "Segunda Licenciatura em Letras - Espanhol"
+        "Segunda Licenciatura em Pedagogia"
     ],
     "['Educação II']": [
         "Ciências Biológicas",
@@ -20,6 +16,7 @@
         "Letras - Espanhol",
         "Letras - Inglês",
         "Letras - Português",
+        "Letras - Português e Espanhol",
         "Licenciatura em Educação Especial",
         "Licenciatura em Educação Física",
         "Matemática"
@@ -101,6 +98,8 @@
     ],
     "['Negócios e Gestão IV']": [
         "Ciência Política",
+        "Gestão da Qualidade",
+        "Gestão de Serviços Jurídicos, Cartorários e Notariais",
         "Gestão de Serviços Jurídicos e Notariais",
         "Gestão Pública",
         "Segurança Pública"
