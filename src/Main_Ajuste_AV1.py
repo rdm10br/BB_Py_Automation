@@ -13,7 +13,7 @@ async def run(page: Page, index) -> None:
         
         print(id_externo)
         
-        result = await ajuste_AV1.newAV1(page=page, id_interno=id_interno)
+        result = await ajuste_AV1.rebuceteio(page=page, id_interno=id_interno)
         getPlanilha.writeOnExcel_Plan1(index=index, return_status=result)
 
 async def main():

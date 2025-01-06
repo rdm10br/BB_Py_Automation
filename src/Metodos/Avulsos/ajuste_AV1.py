@@ -2,10 +2,9 @@ from playwright.async_api import Page
 # from Metodos import getPlanilha
 
 
-async def verify_calculated(page: Page, id_interno: str):
+async def verify_calculated(page: Page, id_interno: str, item: str):
     
     api = f'./learn/api/v1/courses/{id_interno}/gradebook/columns'
-    item = 'AV1'
     request = f'''JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}").calculationType'''
     
     await page.goto(url=api, wait_until='commit')
@@ -17,34 +16,52 @@ async def verify_calculated(page: Page, id_interno: str):
         result = 'calculationType not found'
         return result
 
-
-async def newAV1(page: Page, id_interno: str) -> None:
-    
+async def createcalc(page: Page, id_interno: str, item: str):
     urlGradeBook = f'./ultra/courses/{id_interno}/grades?gradebookView=list'
-    verify = await verify_calculated(page=page, id_interno=id_interno)
+    verify = await verify_calculated(page=page, id_interno=id_interno, item=item)
     timer_padrão = 1000*2
     
     if verify == "CUSTOM":
-        result = 'AV1 is a calculated item'
+        result = f'{item} is a calculated item'
         print(result)
         return result
     elif verify == 'calculationType not found':
-        result = 'AV1 calculationType not found'
+        result = f'{item} calculationType not found'
         print(result)
         return result
     else:
-        print('AV1 is not a Calculated item')
+        print(f'{item} is not a Calculated item')
         await page.goto(url=urlGradeBook, wait_until='commit')
-        await page.get_by_label("Adicionar nova coluna do boletim de notas acima do(a) Nota atual").click()
+        await page.wait_for_load_state('networkidle')
+        await page.wait_for_load_state('load')
+        await page.get_by_role("link", name="Nota atual").wait_for(state='visible', timeout=6000)
+        try:
+            await page.get_by_label("Adicionar nova coluna do boletim de notas acima do(a) Nota atual").click(timeout=2*1000)
+        except:
+            try:
+                await page.locator("bb-grader-column").filter(has_text="AV2 Sem categoria").get_by_label("Adicionar nova coluna do").click(timeout=2*1000)
+            except:
+                await page.locator("bb-grader-column").filter(has_text="AV1 Sem categoria").get_by_label("Adicionar nova coluna do").click(timeout=2*1000)
         await page.get_by_role("menuitem", name="Adicionar cálculo", exact=True).click()
-        await page.get_by_label("Novo cálculo em undefined").fill("AV1")
+        await page.get_by_label("Novo cálculo em undefined").fill(f"{item}")
         await page.get_by_text("Selecionar um esquema de notas").click()
         await page.wait_for_timeout(timer_padrão)
         await page.get_by_role("button", name="Total ").click()
         await page.wait_for_timeout(timer_padrão)
         await page.get_by_role("button", name="TOTAL ( )").click()
-        await page.get_by_text("Trabalho do curso AV1").click()
-        await page.locator("ul").filter(has_text="TOTAL ( Trabalho do curso AV1").click()
+        await page.get_by_text(f"Trabalho do curso {item}").click()
+        await page.locator("ul").filter(has_text= f"TOTAL ( Trabalho do curso {item}").click()
+        await page.wait_for_timeout(2000)
         await page.get_by_role("button", name="Salvar").click()
+        await page.get_by_role("button", name="Fechar").click()
         await page.wait_for_load_state('load')
-        return 'OK'
+        await page.wait_for_timeout(3000)
+        
+async def rebuceteio(page: Page, id_interno: str):
+    item_list = ["AV1", "AV2", "AF"]
+    for item in item_list:
+       try:
+           await createcalc(page, id_interno, item)
+       except Exception as e:
+           print(f'{item} error: {e}')
+    return "OK"
