@@ -342,7 +342,6 @@ async def unidade(page: Page, id_interno, item):
         await page.wait_for_load_state("domcontentloaded")
         await page.locator('text=Unidade 1').wait_for(state="visible", timeout=1000*60)
 
-        
         if not await page.locator(f'//div[@data-content-id="{id_DB}"]').is_visible(timeout=10000):  # Espera 10 segundos para o item estar visível
             print(f"Elemento com id {id_DB} não encontrado na página.")
             # continue  # Pula para o próximo item
