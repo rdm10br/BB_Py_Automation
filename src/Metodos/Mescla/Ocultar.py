@@ -56,6 +56,7 @@ async def ocultar_boletim(page: Page, id_interno: str) -> None:
         await page.get_by_role("button", name="Mostrar/ocultar(Clique para").nth(1).hover()
         await page.get_by_role("menuitem", name="Ocultar colunas selecionadas", exact=True).click()
         await page.get_by_role("button", name="Enviar").click()
+        await page.wait_for_load_state("networkidle")
         await page.wait_for_load_state('load')
         print('Sala Ajustada com sucesso')
             
