@@ -1,4 +1,4 @@
-import gc, sys, time, os, asyncio
+import gc, sys, time, os, asyncio, requests
 from functools import wraps, lru_cache
 from playwright.async_api import async_playwright
 from multiprocessing import cpu_count
@@ -39,14 +39,22 @@ def playwright_StartUp(func):
             start_time0 = time.time()
             for index in range(total_lines_plan1):
                 index+=1
-                # progress_updated = Signal(int)
-                # progress_updated.emit(f'{index}')
                 print(f'Start loop {index}/{total_lines_plan1}')
-                # await flush_then_wait()
                 cell_status = getPlanilha.getCell_status(index=index)
                 start_time = time.time()
+                id_externo = getPlanilha.getCell(index)
                 
-                if cell_status == 'nan':
+                _url = f'./learn/api/public/v3/courses/courseId:{id_externo}'
+                cookies_cache = {cookie['name']: cookie['value'] for cookie in cookies}
+                
+                response = requests.get(
+                    url=f'{baseURL}{_url}',
+                    cookies=cookies_cache
+                )
+                # Verifica se a requisição foi bem-sucedida
+                print(f'response status for classroom: {id_externo} | {response.status_code}')
+                
+                if cell_status == 'nan' and str(response.status_code) == '200':
                     
                     new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                     await new_context.add_cookies(cookies)
@@ -63,12 +71,15 @@ def playwright_StartUp(func):
                     execution_time = end_time - start_time
                     executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
                     print('{:5} | {}'.format(f'Run: {index}/{total_lines_plan1}',executionTime))
-                    # await flush_then_wait()
                     gc.collect()
+                elif str(response.status_code) == '404':
+                    print(f'Index: {index} | sala: {id_externo} not found!')
+                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='not found!')
+                elif str(response.status_code) == '401':
+                    print(f'Index: {index} | sala: {id_externo} not authorized!')
+                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='not authorized!')
                 else :
                     print(f'Index: {index} in plan is alredy writen')
-                    # await flush_then_wait()
-                    index+=1
             
             end_time0 = time.time()
             execution_time = end_time0 - start_time0
@@ -76,7 +87,6 @@ def playwright_StartUp(func):
             print(executionTime0)
             
             print('Execution End')
-            # await flush_then_wait()
             await browser.close()
 
     return wrapper
@@ -106,20 +116,37 @@ def playwright_StartUp_nosub(func):
             
             cookies = await page.context.cookies(urls=baseURL)
             print('cookies caught')
-            # await flush_then_wait()
             total_lines_plan1 = getPlanilha.total_lines
             
             start_time0 = time.time()
             for index in range(total_lines_plan1):
                 index+=1
-                # progress_updated = Signal(int)
-                # progress_updated.emit(f'{index}')
+                
                 print(f'Start loop {index}/{total_lines_plan1}')
-                # await flush_then_wait()
                 cell_status = getPlanilha.getCell_status(index=index)
                 start_time = time.time()
+                id_externo = getPlanilha.getCell(index)
                 
-                if cell_status == 'nan':
+                _url = f'./learn/api/public/v3/courses/courseId:{id_externo}'
+                cookies_cache = {cookie['name']: cookie['value'] for cookie in cookies}
+                
+                response = requests.get(
+                    url=f'{baseURL}{_url}',
+                    cookies=cookies_cache
+                )
+                # Verifica se a requisição foi bem-sucedida
+                print(f'response status for classroom: {id_externo} | {response.status_code}')
+                
+                _url = f'./learn/api/public/v1/courses/{response.json().get('id')}/contents'
+                request = requests.get(
+                    url=f'{baseURL}{_url}',
+                    cookies=cookies_cache
+                )
+                # is_empty = request.json().get('results')
+                
+                # print(is_empty)
+                
+                if cell_status == 'nan' and str(response.status_code) == '200':
                     
                     new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                     await new_context.add_cookies(cookies)
@@ -134,12 +161,15 @@ def playwright_StartUp_nosub(func):
                     execution_time = end_time - start_time
                     executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
                     print('{:5} | {}'.format(f'Run: {index}/{total_lines_plan1}',executionTime))
-                    # await flush_then_wait()
                     gc.collect()
+                elif str(response.status_code) == '404':
+                    print(f'Index: {index} | sala: {id_externo} not found!')
+                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='not found!')
+                elif str(response.status_code) == '401':
+                    print(f'Index: {index} | sala: {id_externo} not authorized!')
+                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='not authorized!')
                 else :
                     print(f'Index: {index} in plan is alredy writen')
-                    # await flush_then_wait()
-                    index+=1
                     
             end_time0 = time.time()
             execution_time = end_time0 - start_time0
@@ -147,7 +177,6 @@ def playwright_StartUp_nosub(func):
             print(executionTime0)
             
             print('Execution End')
-            # await flush_then_wait()
             await browser.close()
 
     return wrapper
