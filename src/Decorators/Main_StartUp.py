@@ -54,7 +54,17 @@ def playwright_StartUp(func):
                 # Verifica se a requisição foi bem-sucedida
                 print(f'response status for classroom: {id_externo} | {response.status_code}')
                 
-                if cell_status == 'nan' and str(response.status_code) == '200':
+                _url = f'./learn/api/public/v1/courses/{response.json().get('id')}/contents'
+                request = requests.get(
+                    url=f'{baseURL}{_url}',
+                    cookies=cookies_cache
+                )
+                is_empty = len(request.json().get('results'))
+                
+                if is_empty != None:
+                    print(f'itens in {id_externo}: {is_empty}')
+                
+                if cell_status == 'nan' and str(response.status_code) == '200' and is_empty > 0:
                     
                     new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                     await new_context.add_cookies(cookies)
@@ -78,6 +88,9 @@ def playwright_StartUp(func):
                 elif str(response.status_code) == '401':
                     print(f'Index: {index} | sala: {id_externo} not authorized!')
                     getPlanilha.writeOnExcel_Plan1(index=index, return_status='not authorized!')
+                elif is_empty == 0:
+                    print(f'Index: {index} | sala: {id_externo} is empty!')
+                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='empty')
                 else :
                     print(f'Index: {index} in plan is alredy writen')
             
@@ -142,11 +155,12 @@ def playwright_StartUp_nosub(func):
                     url=f'{baseURL}{_url}',
                     cookies=cookies_cache
                 )
-                # is_empty = request.json().get('results')
+                is_empty = len(request.json().get('results'))
                 
-                # print(is_empty)
+                if is_empty != None:
+                    print(f'itens in {id_externo}: {is_empty}')
                 
-                if cell_status == 'nan' and str(response.status_code) == '200':
+                if cell_status == 'nan' and str(response.status_code) == '200' and is_empty > 0:
                     
                     new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                     await new_context.add_cookies(cookies)
@@ -168,6 +182,9 @@ def playwright_StartUp_nosub(func):
                 elif str(response.status_code) == '401':
                     print(f'Index: {index} | sala: {id_externo} not authorized!')
                     getPlanilha.writeOnExcel_Plan1(index=index, return_status='not authorized!')
+                elif is_empty == 0:
+                    print(f'Index: {index} | sala: {id_externo} is empty!')
+                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='empty')
                 else :
                     print(f'Index: {index} in plan is alredy writen')
                     
