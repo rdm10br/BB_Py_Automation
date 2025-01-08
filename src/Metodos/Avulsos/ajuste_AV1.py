@@ -5,16 +5,21 @@ from playwright.async_api import Page
 async def verify_calculated(page: Page, id_interno: str, item: str):
     
     api = f'./learn/api/v1/courses/{id_interno}/gradebook/columns'
-    request = f'''JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}").calculationType'''
+    request = f'JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}" && item.calculationType=="CUSTOM").calculationType'
+    request2 = f'JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}")'
     
     await page.goto(url=api, wait_until='commit')
     try:
         result = await page.evaluate(request)
         return str(result)
     except Exception as e:
-        print(e)
-        result = 'calculationType not found'
-        return result
+        try:
+            await page.evaluate(request2)
+            return None
+        except:
+            print(e)
+            result = 'Item not found'
+            return result
 
 async def createcalc(page: Page, id_interno: str, item: str):
     urlGradeBook = f'./ultra/courses/{id_interno}/grades?gradebookView=list'
@@ -23,10 +28,11 @@ async def createcalc(page: Page, id_interno: str, item: str):
     
     if verify == "CUSTOM":
         result = f'{item} is a calculated item'
+        print('salvo pelo gongo')
         print(result)
         return result
-    elif verify == 'calculationType not found':
-        result = f'{item} calculationType not found'
+    elif verify == 'Item not found':
+        result = f'{item} Item not found'
         print(result)
         return result
     else:
