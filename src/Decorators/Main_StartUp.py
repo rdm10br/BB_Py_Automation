@@ -8,6 +8,7 @@ from Metodos import getPlanilha, checkup_login
 from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_async
 from Decorators.Inscryption import Auto_Sub, Auto_Unsub
 
+
 def playwright_StartUp(func):
     @lru_cache
     @wraps(func)
@@ -44,53 +45,55 @@ def playwright_StartUp(func):
                 start_time = time.time()
                 id_externo = getPlanilha.getCell(index)
                 
-                _url = f'./learn/api/public/v3/courses/courseId:{id_externo}'
-                cookies_cache = {cookie['name']: cookie['value'] for cookie in cookies}
-                
-                response = requests.get(
-                    url=f'{baseURL}{_url}',
-                    cookies=cookies_cache
-                )
-                # Verifica se a requisição foi bem-sucedida
-                print(f'response status for classroom: {id_externo} | {response.status_code}')
-                
-                _url = f'./learn/api/public/v1/courses/{response.json().get('id')}/contents'
-                request = requests.get(
-                    url=f'{baseURL}{_url}',
-                    cookies=cookies_cache
-                )
-                is_empty = len(request.json().get('results'))
-                
-                if is_empty != None:
-                    print(f'itens in {id_externo}: {is_empty}')
-                
-                if cell_status == 'nan' and str(response.status_code) == '200' and is_empty > 0:
+                if cell_status == 'nan':
                     
-                    new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
-                    await new_context.add_cookies(cookies)
-                    new_page = await new_context.new_page()
+                    _url = f'./learn/api/public/v3/courses/courseId:{id_externo}'
+                    cookies_cache = {cookie['name']: cookie['value'] for cookie in cookies}
                     
-                    await Auto_Sub(page=new_page, index=index)
-                    await func(new_page, index, *args, **kwargs)
-                    await Auto_Unsub(page=new_page, index=index)
+                    response = requests.get(
+                        url=f'{baseURL}{_url}',
+                        cookies=cookies_cache
+                    )
+                    # Verifica se a requisição foi bem-sucedida
+                    print(f'response status for classroom: {id_externo} | {response.status_code}')
                     
-                    await new_page.close()
-                    await new_context.close()
+                    _url = f'./learn/api/public/v1/courses/{response.json().get('id')}/contents'
+                    request = requests.get(
+                        url=f'{baseURL}{_url}',
+                        cookies=cookies_cache
+                    )
+                    is_empty = len(request.json().get('results'))
                     
-                    end_time = time.time()
-                    execution_time = end_time - start_time
-                    executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
-                    print('{:5} | {}'.format(f'Run: {index}/{total_lines_plan1}',executionTime))
-                    gc.collect()
-                elif str(response.status_code) == '404':
-                    print(f'Index: {index} | sala: {id_externo} not found!')
-                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='not found!')
-                elif str(response.status_code) == '401':
-                    print(f'Index: {index} | sala: {id_externo} not authorized!')
-                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='not authorized!')
-                elif is_empty == 0:
-                    print(f'Index: {index} | sala: {id_externo} is empty!')
-                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='empty')
+                    if is_empty != None:
+                        print(f'itens in {id_externo}: {is_empty}')
+                        
+                    if str(response.status_code) == '200' and is_empty > 0:
+                    
+                        new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
+                        await new_context.add_cookies(cookies)
+                        new_page = await new_context.new_page()
+                        
+                        await Auto_Sub(page=new_page, index=index)
+                        await func(new_page, index, *args, **kwargs)
+                        await Auto_Unsub(page=new_page, index=index)
+                        
+                        await new_page.close()
+                        await new_context.close()
+                        
+                        end_time = time.time()
+                        execution_time = end_time - start_time
+                        executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
+                        print('{:5} | {}'.format(f'Run: {index}/{total_lines_plan1}',executionTime))
+                        gc.collect()
+                    elif str(response.status_code) == '404':
+                        print(f'Index: {index} | sala: {id_externo} not found!')
+                        getPlanilha.writeOnExcel_Plan1(index=index, return_status='not found!')
+                    elif str(response.status_code) == '401':
+                        print(f'Index: {index} | sala: {id_externo} not authorized!')
+                        getPlanilha.writeOnExcel_Plan1(index=index, return_status='not authorized!')
+                    elif is_empty == 0:
+                        print(f'Index: {index} | sala: {id_externo} is empty!')
+                        getPlanilha.writeOnExcel_Plan1(index=index, return_status='empty')
                 else :
                     print(f'Index: {index} in plan is alredy writen')
             
@@ -103,6 +106,7 @@ def playwright_StartUp(func):
             await browser.close()
 
     return wrapper
+
 
 def playwright_StartUp_nosub(func):
     @lru_cache
@@ -140,51 +144,53 @@ def playwright_StartUp_nosub(func):
                 start_time = time.time()
                 id_externo = getPlanilha.getCell(index)
                 
-                _url = f'./learn/api/public/v3/courses/courseId:{id_externo}'
-                cookies_cache = {cookie['name']: cookie['value'] for cookie in cookies}
                 
-                response = requests.get(
-                    url=f'{baseURL}{_url}',
-                    cookies=cookies_cache
-                )
-                # Verifica se a requisição foi bem-sucedida
-                print(f'response status for classroom: {id_externo} | {response.status_code}')
-                
-                _url = f'./learn/api/public/v1/courses/{response.json().get('id')}/contents'
-                request = requests.get(
-                    url=f'{baseURL}{_url}',
-                    cookies=cookies_cache
-                )
-                is_empty = len(request.json().get('results'))
-                
-                if is_empty != None:
-                    print(f'itens in {id_externo}: {is_empty}')
-                
-                if cell_status == 'nan' and str(response.status_code) == '200' and is_empty > 0:
+                if cell_status == 'nan':
                     
-                    new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
-                    await new_context.add_cookies(cookies)
-                    new_page = await new_context.new_page()
+                    _url = f'./learn/api/public/v3/courses/courseId:{id_externo}'
+                    cookies_cache = {cookie['name']: cookie['value'] for cookie in cookies}
                     
-                    await func(new_page, index, *args, **kwargs)
+                    response = requests.get(
+                        url=f'{baseURL}{_url}',
+                        cookies=cookies_cache
+                    )
+                    # Verifica se a requisição foi bem-sucedida
+                    print(f'response status for classroom: {id_externo} | {response.status_code}')
                     
-                    await new_page.close()
-                    await new_context.close()
+                    _url = f'./learn/api/public/v1/courses/{response.json().get('id')}/contents'
+                    request = requests.get(
+                        url=f'{baseURL}{_url}',
+                        cookies=cookies_cache
+                    )
+                    is_empty = len(request.json().get('results'))
                     
-                    end_time = time.time()
-                    execution_time = end_time - start_time
-                    executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
-                    print('{:5} | {}'.format(f'Run: {index}/{total_lines_plan1}',executionTime))
-                    gc.collect()
-                elif str(response.status_code) == '404':
-                    print(f'Index: {index} | sala: {id_externo} not found!')
-                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='not found!')
-                elif str(response.status_code) == '401':
-                    print(f'Index: {index} | sala: {id_externo} not authorized!')
-                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='not authorized!')
-                elif is_empty == 0:
-                    print(f'Index: {index} | sala: {id_externo} is empty!')
-                    getPlanilha.writeOnExcel_Plan1(index=index, return_status='empty')
+                    if is_empty != None:
+                        print(f'itens in {id_externo}: {is_empty}')
+                        
+                    if str(response.status_code) == '200' and is_empty > 0:
+                        new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
+                        await new_context.add_cookies(cookies)
+                        new_page = await new_context.new_page()
+                        
+                        await func(new_page, index, *args, **kwargs)
+                        
+                        await new_page.close()
+                        await new_context.close()
+                        
+                        end_time = time.time()
+                        execution_time = end_time - start_time
+                        executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
+                        print('{:5} | {}'.format(f'Run: {index}/{total_lines_plan1}',executionTime))
+                        gc.collect()
+                    elif str(response.status_code) == '404':
+                        print(f'Index: {index} | sala: {id_externo} not found!')
+                        getPlanilha.writeOnExcel_Plan1(index=index, return_status='not found!')
+                    elif str(response.status_code) == '401':
+                        print(f'Index: {index} | sala: {id_externo} not authorized!')
+                        getPlanilha.writeOnExcel_Plan1(index=index, return_status='not authorized!')
+                    elif is_empty == 0:
+                        print(f'Index: {index} | sala: {id_externo} is empty!')
+                        getPlanilha.writeOnExcel_Plan1(index=index, return_status='empty')
                 else :
                     print(f'Index: {index} in plan is alredy writen')
                     
@@ -197,6 +203,7 @@ def playwright_StartUp_nosub(func):
             await browser.close()
 
     return wrapper
+
 
 def playwright_StartUp_nosub_test(func):
     @lru_cache
