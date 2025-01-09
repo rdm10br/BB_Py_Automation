@@ -94,3 +94,37 @@ async def ocultar_boletim(page: Page, id_interno: str) -> None:
             print('Sala Ajustada com sucesso')
         except:
             print('Sala Ajustada com sucesso')
+            
+
+async def   AdeusCTRL2(page: Page, id_interno: str):
+   
+    Item_list = ['Atividade de Autoaprendizagem 1','Atividade de Autoaprendizagem 2','Atividade de Autoaprendizagem 3','Atividade de Autoaprendizagem 4']
+       
+    api = f'./learn/api/v1/courses/{id_interno}/gradebook/columns'
+    def request(item: str):return f'JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}" && item.visibleInBook == true).position'
+    await page.goto(api, wait_until='networkidle')
+    position = []
+    
+    for i in Item_list:
+        try:
+            position.append(await page.evaluate(request(i)))
+        except:
+            print(f'item: {i} not found')
+    try:
+        url_edit = f'./webapps/gradebook/do/instructor/enterGradeCenter?course_id={id_interno}'
+        await page.goto(url=url_edit, wait_until='commit')
+        await page.wait_for_load_state('domcontentloaded')
+        await page.get_by_role("button", name="Gerenciar").hover()
+        await page.get_by_role("menuitem", name="Organização das colunas").click()
+        print('Ocultando os itens novamente...')
+        
+        for p in position: await page.locator(f"[id=\"item_{p}\\.layoutCheckBox\"]").check()
+        await page.get_by_role("button", name="Mostrar/ocultar(Clique para").nth(1).hover()
+        await page.get_by_role("menuitem", name="Ocultar colunas selecionadas", exact=True).click()
+        await page.wait_for_timeout(2*2000)
+        await page.get_by_role("button", name="Enviar").click()
+        await page.wait_for_load_state("networkidle")
+        await page.wait_for_load_state('load')
+        print('Sala Ajustada com sucesso')
+    except:
+        print('Sala Ajustada com sucesso')

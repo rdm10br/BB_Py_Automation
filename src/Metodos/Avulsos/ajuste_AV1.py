@@ -8,7 +8,8 @@ async def verify_calculated(page: Page, id_interno: str, item: str):
     request = f'JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}" && item.calculationType=="CUSTOM").calculationType'
     request2 = f'JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}")'
     
-    await page.goto(url=api, wait_until='commit')
+    await page.goto(url=api, wait_until='networkidle')
+    await page.wait_for_load_state('load')
     try:
         result = await page.evaluate(request)
         return str(result)
@@ -40,14 +41,14 @@ async def createcalc(page: Page, id_interno: str, item: str):
         await page.goto(url=urlGradeBook, wait_until='commit')
         await page.wait_for_load_state('networkidle')
         await page.wait_for_load_state('load')
-        await page.get_by_role("link", name="Nota atual").wait_for(state='visible', timeout=6000)
+        await page.get_by_role("link", name="Nota atual").wait_for(state='visible', timeout=8*1000)
         try:
-            await page.get_by_label("Adicionar nova coluna do boletim de notas acima do(a) Nota atual").click(timeout=2*1000)
+            await page.get_by_label("Adicionar nova coluna do boletim de notas acima do(a) Nota atual").click(timeout=4*1000)
         except:
             try:
-                await page.locator("bb-grader-column").filter(has_text="AV2 Sem categoria").get_by_label("Adicionar nova coluna do").click(timeout=2*1000)
+                await page.locator("bb-grader-column").filter(has_text="AV2 Sem categoria").get_by_label("Adicionar nova coluna do").click(timeout=4*1000)
             except:
-                await page.locator("bb-grader-column").filter(has_text="AV1 Sem categoria").get_by_label("Adicionar nova coluna do").click(timeout=2*1000)
+                await page.locator("bb-grader-column").filter(has_text="AV1 Sem categoria").get_by_label("Adicionar nova coluna do").click(timeout=4*1000)
         await page.get_by_role("menuitem", name="Adicionar cálculo", exact=True).click()
         await page.get_by_label("Novo cálculo em undefined").fill(f"{item}")
         await page.get_by_text("Selecionar um esquema de notas").click()
@@ -55,13 +56,14 @@ async def createcalc(page: Page, id_interno: str, item: str):
         await page.get_by_role("button", name="Total ").click()
         await page.wait_for_timeout(timer_padrão)
         await page.get_by_role("button", name="TOTAL ( )").click()
-        await page.get_by_text(f"Trabalho do curso {item}").click()
+        await page.get_by_text(f"Trabalho do curso {item}", exact=True).click()
         await page.locator("ul").filter(has_text= f"TOTAL ( Trabalho do curso {item}").click()
-        await page.wait_for_timeout(2000)
+        await page.wait_for_timeout(4*1000)
         await page.get_by_role("button", name="Salvar").click()
         await page.get_by_role("button", name="Fechar").click()
         await page.wait_for_load_state('load')
-        await page.wait_for_timeout(3000)
+        await page.wait_for_timeout(4*1000)
+        print(f'{item} Calculated item created!')
         
 async def rebuceteio(page: Page, id_interno: str):
     item_list = ["AV1", "AV2", "AF"]

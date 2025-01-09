@@ -11,6 +11,7 @@ async def run(page: Page, index) -> None:
         id_interno = await getFromAPI.API_Req(page=page, index=index)
         
         await Ocultar.ocultar_boletim(page, id_interno)
+        await Ocultar.AdeusCTRL2(page, id_interno)
         getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
 
 async def main():
