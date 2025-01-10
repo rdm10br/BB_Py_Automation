@@ -1416,3 +1416,10 @@ async def doublecheck_config_main_MEC(page: Page, id_interno: str, index: int) -
     
     result =f'{result_top}{result_folder}{result_Materials}{result_AtivAuto}{result_bottom}'
     return result
+
+
+async def doublecheck_config_gradebook(page: Page, id_interno: str, index: int) -> str:
+    
+    results_gradebook = await API_Config(line=index, page=page, id_interno=id_interno, item_Search='Boletim')
+    gp.writeOnExcel_Plan1_Boletim(index=index, return_status=results_gradebook)
+    return results_gradebook

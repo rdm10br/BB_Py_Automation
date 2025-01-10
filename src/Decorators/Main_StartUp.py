@@ -1,4 +1,5 @@
-import gc, sys, time, os, asyncio, requests
+import gc, sys, time, os, asyncio, requests, json
+from datetime import datetime, timedelta
 from functools import wraps, lru_cache
 from playwright.async_api import async_playwright
 from multiprocessing import cpu_count
@@ -56,6 +57,16 @@ def playwright_StartUp(func):
                     )
                     # Verifica se a requisição foi bem-sucedida
                     print(f'response status for classroom: {id_externo} | {response.status_code}')
+                    
+                    if str(response.status_code) == '401':
+                        await checkup_login.checkup_login(page=page)
+                        cookies = await page.context.cookies(urls=baseURL)
+
+                        response = requests.get(
+                            url=f'{baseURL}{_url}',
+                            cookies=cookies_cache
+                        )
+                        print(f'response status for classroom: {id_externo} | {response.status_code}')
                     
                     _url = f'./learn/api/public/v1/courses/{response.json().get('id')}/contents'
                     request = requests.get(
@@ -157,6 +168,16 @@ def playwright_StartUp_nosub(func):
                     # Verifica se a requisição foi bem-sucedida
                     print(f'response status for classroom: {id_externo} | {response.status_code}')
                     
+                    if str(response.status_code) == '401':
+                        await checkup_login.checkup_login(page=page)
+                        cookies = await page.context.cookies(urls=baseURL)
+
+                        response = requests.get(
+                            url=f'{baseURL}{_url}',
+                            cookies=cookies_cache
+                        )
+                        print(f'response status for classroom: {id_externo} | {response.status_code}')
+                    
                     _url = f'./learn/api/public/v1/courses/{response.json().get('id')}/contents'
                     request = requests.get(
                         url=f'{baseURL}{_url}',
@@ -166,6 +187,7 @@ def playwright_StartUp_nosub(func):
                     
                     if is_empty != None:
                         print(f'itens in {id_externo}: {is_empty}')
+                        
                         
                     if str(response.status_code) == '200' and is_empty > 0:
                         new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
