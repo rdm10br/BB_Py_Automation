@@ -174,7 +174,7 @@ def playwright_StartUp_nosub(func):
 
                         response = requests.get(
                             url=f'{baseURL}{_url}',
-                            cookies=cookies_cache
+                            cookies=cookies
                         )
                         print(f'response status for classroom: {id_externo} | {response.status_code}')
                     
