@@ -172,11 +172,22 @@ async def API_AP_all_folders(page: Page, id_interno: str) -> str:
     
     try:
         await page.goto(url=internalID_API, wait_until='networkidle')
-
-        for index in range(2):
+        index = 0
+        _item_list = [
+            'AV1 - Projeto de Extensão',
+            'AV2 - Relatório de Extensão'
+            ]
+        # for index in range(2):
+        #     index += 1
+        #     config = 'id'
+        #     _item = f'AV{index} - Atividade Prática de Extensão'
+        #     print(f'Checking AV{index} - Atividade Prática de Extensão id...')
+        #     id_value = await page.evaluate(filteredRequest_title(_item=_item, _config=config))
+        #     id_folder.append(id_value)
+        #     print(id_folder[index-1])
+        for _item in _item_list:
             index += 1
             config = 'id'
-            _item = f'AV{index} - Atividade Prática de Extensão'
             print(f'Checking AV{index} - Atividade Prática de Extensão id...')
             id_value = await page.evaluate(filteredRequest_title(_item=_item, _config=config))
             id_folder.append(id_value)

@@ -13,7 +13,7 @@ async def run(page: Page, index) -> None:
     id_interno = await getFromAPI.API_Req(page=page, index=index)
  
     print(id_externo)
- 
+    
     await Prof.prof_access(page=page, id_interno=id_interno)
     getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
  

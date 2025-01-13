@@ -64,10 +64,9 @@ async def inserirGruposAtividadesAV1(page: Page, id_interno, curso):
 
     print(f'Opening {item}...')
     await page.goto(searchURL)
+    
+    await page.get_by_label(item).wait_for(state='visible', timeout=1000*10)
     print('Opening config...')
-    
-    await page.get_by_label(item).wait_for(state='visible', timeout=1000*6)
-    
     try:
         await page.get_by_role("link", name="Editar condições de liberação").click(timeout=1000*2)
     except:
@@ -107,7 +106,7 @@ async def inserirGruposAtividadesAV2(page: Page, id_interno, curso):
     print(f'Opening {item}...')
     await page.goto(searchURL)
     
-    await page.get_by_label(item).wait_for(state='visible', timeout=1000*6)
+    await page.get_by_label(item).wait_for(state='visible', timeout=1000*10)
     print('Opening config...')
     try:
         await page.get_by_role("link", name="Editar condições de liberação").click(timeout=1000*2)
