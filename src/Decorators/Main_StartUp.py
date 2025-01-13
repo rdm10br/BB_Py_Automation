@@ -61,6 +61,7 @@ def playwright_StartUp(func):
                     if str(response.status_code) == '401':
                         await checkup_login.checkup_login(page=page)
                         cookies = await page.context.cookies(urls=baseURL)
+                        cookies_cache = {cookie['name']: cookie['value'] for cookie in cookies}
 
                         response = requests.get(
                             url=f'{baseURL}{_url}',
@@ -73,7 +74,7 @@ def playwright_StartUp(func):
                         url=f'{baseURL}{_url}',
                         cookies=cookies_cache
                     )
-                    is_empty = len(request.json().get('results'))
+                    is_empty = (lambda: len(request.json().get('results')) if request.json() and request.json().get('results') else 0)()
                     
                     if is_empty != None:
                         print(f'itens in {id_externo}: {is_empty}')
