@@ -14,12 +14,33 @@ async def ocultar_boletim(page: Page, id_interno: str) -> None:
     }'''
     # config = 'JSON.parse(document.body.innerText).results.find(item => item.columnName == "Avaliação Workshop")'
     
+    async def loop_AV1(page: Page) -> bool:
+        await page.get_by_role("cell", name="AV1 (Oculto)").wait_for(state='visible', timeout=2000)
+        await page.wait_for_timeout(2*1000)
+        print('AV1 Desocultando...')
+        await page.get_by_label("AV1").check(timeout=2*1000)
+        await page.wait_for_timeout(2*1000)
+        await page.get_by_role("button", name="Mostrar/ocultar(Clique para").nth(1).hover()
+        await page.get_by_role("menuitem", name="Mostrar colunas selecionadas", exact=True).click()
+        await page.wait_for_timeout(2*2000)
+        await page.get_by_role("button", name="Enviar").click()
+        await page.wait_for_load_state("networkidle")
+        await page.wait_for_load_state('load')
+        await page.get_by_role("button", name="Gerenciar").hover()
+        await page.get_by_role("menuitem", name="Organização das colunas").click()
+        await page.get_by_role("row", name="AV1 Não está em um Período de avaliação Nota calculada").get_by_label("AV1").wait_for(state='visible', timeout=2*1000)
+        await page.wait_for_timeout(2*1000)
+        print('AV1 desocultada!')
+        return False
+    
     await page.goto(api, wait_until='commit')
     try:
         await page.evaluate(request)
         is_ws = True
     except:
         is_ws = False
+        
+    checkAV1: bool = True
         
     try:
         url_edit = f'./webapps/gradebook/do/instructor/enterGradeCenter?course_id={id_interno}'
@@ -56,6 +77,15 @@ async def ocultar_boletim(page: Page, id_interno: str) -> None:
                     await page.wait_for_timeout(2*1000)
                 except:
                     print('AV1 calculada não existe')
+        else:
+            while checkAV1:
+                try:
+                    checkAV1 = await loop_AV1(page)
+                except Exception as e:
+                    if await page.get_by_role("row", name="AV1 Não está em um Período de avaliação Nota calculada").get_by_label("AV1").wait_for(state='visible', timeout=2*1000):
+                        checkAV1 = False
+                    else:
+                        print(f'error: {e}')
         try:
             await page.get_by_role("cell", name="AV2 (Oculto)").wait_for(state='visible', timeout=2000)
             await page.wait_for_timeout(2*1000)
@@ -118,10 +148,12 @@ async def AdeusCTRL2(
     def request(item: str):return f'JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}" && item.visibleInBook == true).position'
     await page.goto(api, wait_until='networkidle')
     position = []
+    # position_dict: dict = {}
     
     for i in Item_list:
         try:
             position.append(await page.evaluate(request(i)))
+            # position_dict[await page.evaluate(request(i))] = i
         except:
             print(f'item: {i} não encontrado ou já está oculto')
     if len(position) > 0:
@@ -129,6 +161,11 @@ async def AdeusCTRL2(
             url_edit = f'./webapps/gradebook/do/instructor/enterGradeCenter?course_id={id_interno}'
             await page.goto(url=url_edit, wait_until='commit')
             await page.wait_for_load_state('domcontentloaded')
+            
+            for p in position:
+                await page.locator(f"#cmlink_h{position}").click()
+                await page.get_by_role("link", name="Ocultar dos alunos (ligado/").click()
+            
             await page.get_by_role("button", name="Gerenciar").hover()
             await page.get_by_role("menuitem", name="Organização das colunas").click()
             print('Ocultando os itens novamente...')

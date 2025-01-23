@@ -66,11 +66,16 @@ async def createcalc(page: Page, id_interno: str, item: str):
         await page.wait_for_timeout(4*1000)
         print(f'{item} Calculated item created!')
         
-async def rebuceteio(page: Page, id_interno: str):
-    item_list = ["AV1", "AV2", "AF"]
+async def rebuceteio(
+    page: Page,
+    id_interno: str,
+    item_list: list = ["AV1", "AV2", "AF"]
+    ) -> str:
+    result: list = []
     for item in item_list:
        try:
            await createcalc(page, id_interno, item)
        except Exception as e:
            print(f'{item} error: {e}')
-    return "OK"
+           result.append(item)
+    return str(result) if len(result) > 0 else 'OK'
