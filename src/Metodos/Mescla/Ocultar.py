@@ -82,7 +82,7 @@ async def ocultar_boletim(page: Page, id_interno: str) -> None:
                 try:
                     checkAV1 = await loop_AV1(page)
                 except Exception as e:
-                    if await page.get_by_role("row", name="AV1 Não está em um Período de avaliação Nota calculada").get_by_label("AV1").wait_for(state='visible', timeout=2*1000):
+                    if await page.get_by_role("row", name="AV1 Não está em um Período de avaliação Nota calculada").get_by_label("AV1").is_visible(timeout = 1*2000):
                         checkAV1 = False
                     else:
                         print(f'error: {e}')
