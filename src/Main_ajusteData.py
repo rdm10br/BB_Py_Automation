@@ -8,7 +8,7 @@ from Decorators.Main_StartUp import playwright_StartUp
 
 dataShow, dataHide = getData.get_data()
 
-@playwright_StartUp
+@playwright_StartUp()
 async def run(page: Page, index) -> None:
 
     id_externo = getPlanilha.getCell(index=index)

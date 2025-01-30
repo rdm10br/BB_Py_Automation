@@ -6,7 +6,7 @@ from Metodos import getPlanilha, getFromAPI, getAPIContentConfig
 from Decorators.Main_StartUp import playwright_StartUp_nosub, playwright_StartUp_nosub_test
 
 
-@playwright_StartUp_nosub
+@playwright_StartUp_nosub(headless=True)
 async def run(page: Page, index) -> None:
     
         id_externo = getPlanilha.getCell(index=index)
