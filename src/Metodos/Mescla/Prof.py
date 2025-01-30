@@ -1,9 +1,9 @@
 from playwright.async_api import Page
 
 
-async def prof_access(page: Page, id_interno: int) -> None:
+async def prof_access(page: Page, id_interno: int, role: str = 'Instructor') -> None:
     
-    url = f'./learn/api/public/v1/courses/{id_interno}/users'
+    url = f'./learn/api/public/v1/courses/{id_interno}/users?role={role}'
     def url_user(i: int, userID='userId'): return f'./learn/api/public/v1/users/{filtered_users[i][userID]}'
     
     await page.goto(url=url, wait_until='domcontentloaded')

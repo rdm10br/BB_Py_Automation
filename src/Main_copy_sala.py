@@ -19,7 +19,6 @@ async def run(playwright: Playwright) -> None:
     start_time0 = time.time()
 
     
-    
     await page.goto('./')
     
     # Verificar se está logado e logar
