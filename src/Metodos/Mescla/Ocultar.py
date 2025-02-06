@@ -162,9 +162,9 @@ async def AdeusCTRL2(
             await page.goto(url=url_edit, wait_until='commit')
             await page.wait_for_load_state('domcontentloaded')
             
-            for p in position:
-                await page.locator(f"#cmlink_h{position}").click()
-                await page.get_by_role("link", name="Ocultar dos alunos (ligado/").click()
+            # for p in position:
+            #     await page.locator(f"#cmlink_h{position}").click()
+            #     await page.get_by_role("link", name="Ocultar dos alunos (ligado/").click()
             
             await page.get_by_role("button", name="Gerenciar").hover()
             await page.get_by_role("menuitem", name="Organização das colunas").click()

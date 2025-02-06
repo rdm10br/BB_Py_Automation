@@ -11,13 +11,70 @@ async def ajusteGradebook(
     api = f'./learn/api/v1/courses/{id_interno}/gradebook/columns'
     url_edit = f'./webapps/gradebook/do/instructor/enterGradeCenter?course_id={id_interno}'
     
+    order_list: dict[str, dict[str, any]] = {
+        'Nota Geral':{
+            'position': 6,
+            'exist': True},
+        'Nota Atual': {
+            'position': 6,
+            'exist': True},
+        'AV1': {
+            'position': 7,
+            'categoria': 'Assignment.name',
+            'exist': True}, # .gradebookCategory.title | Assignment.name / Test.name
+        'AV1': {
+            'position': 8,
+            'categoria': 'CUSTOM',
+            'exist': True}, # Calculada | .calculationType
+        'Atividade Prática': {
+            'position': 9,
+            'categoria': 'Exercício',
+            'exist': True},
+        'AV2': {
+            'position': 10,
+            'categoria': 'Test.name',
+            'exist': True},
+        'AF': {
+            'position': 11,
+            'categoria': 'Test.name',
+            'exist': True},
+        'Avaliação Final': {
+            'position': 12,
+            'categoria': 'Test.name',
+            'exist': True},
+        'AV2': {
+            'position': 13,
+            'categoria': 'CUSTOM',
+            'exist': True},
+        'AF': {
+            'position': 14,
+            'categoria': 'CUSTOM',
+            'exist': True},
+        'Atividade de Autoaprendizagem 1': {
+            'position': 15,
+            'categoria': 'Test.name',
+            'exist': True},
+        'Atividade de Autoaprendizagem 2': {
+            'position': 16,
+            'categoria': 'Test.name',
+            'exist': True},
+        'Atividade de Autoaprendizagem 3': {
+            'position': 17,
+            'categoria': 'Test.name',
+            'exist': True},
+        'Atividade de Autoaprendizagem 4': {
+            'position': 18,
+            'categoria': 'Test.name',
+            'exist': True}
+    }
+    
     def request(item: str):return f'JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}" && item.visibleInBook == false).position'
     # def request_item(item: str):return f'JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}").position'
     def request_not_hidden(item: str):return f'JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}" && item.visibleInBook == true).position'
     def request_last_item(length: str):return f'JSON.parse(document.body.innerText).results[{length-1}].position'
     
     async def drag_loop(page: Page, position_list: list):
-        for i, p in enumerate(list):
+        for i, p in enumerate(position_list):
             try:
                 await page.locator(f'#item_{p} > td.dragCell > span').drag_to(
                     target=page.locator(f"[id=\"item_{(position_list[i-1] if i-1 >= 0 else last)}\\.layoutCheckBox\"]"),
