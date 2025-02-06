@@ -153,7 +153,8 @@ async def AdeusCTRL2(
     for i in Item_list:
         try:
             position.append(await page.evaluate(request(i)))
-            # position_dict[await page.evaluate(request(i))] = i
+            position_dict[await page.evaluate(request(i))] = i
+            print(f'item: {i} foi encontrado e não está oculto')
         except:
             print(f'item: {i} não encontrado ou já está oculto')
     if len(position) > 0:
@@ -161,10 +162,13 @@ async def AdeusCTRL2(
             url_edit = f'./webapps/gradebook/do/instructor/enterGradeCenter?course_id={id_interno}'
             await page.goto(url=url_edit, wait_until='commit')
             await page.wait_for_load_state('domcontentloaded')
-            
-            # for p in position:
-            #     await page.locator(f"#cmlink_h{position}").click()
-            #     await page.get_by_role("link", name="Ocultar dos alunos (ligado/").click()
+                
+            for p in position:
+                try:
+                    await page.locator(f"#cmlink_h{p}").click(timeout=4*1000)
+                    await page.get_by_role("link", name="Ocultar dos alunos (ligado/").click()
+                except:
+                    ...
             
             await page.get_by_role("button", name="Gerenciar").hover()
             await page.get_by_role("menuitem", name="Organização das colunas").click()
