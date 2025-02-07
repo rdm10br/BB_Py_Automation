@@ -148,7 +148,7 @@ async def AdeusCTRL2(
     def request(item: str):return f'JSON.parse(document.body.innerText).results.find(item => item.columnName == "{item}" && item.visibleInBook == true).position'
     await page.goto(api, wait_until='networkidle')
     position = []
-    # position_dict: dict = {}
+    position_dict: dict = {}
     
     for i in Item_list:
         try:
@@ -163,12 +163,15 @@ async def AdeusCTRL2(
             await page.goto(url=url_edit, wait_until='commit')
             await page.wait_for_load_state('domcontentloaded')
                 
-            for p in position:
-                try:
-                    await page.locator(f"#cmlink_h{p}").click(timeout=4*1000)
-                    await page.get_by_role("link", name="Ocultar dos alunos (ligado/").click()
-                except:
-                    ...
+            # for p in position:
+            #     try:
+            #         await page.locator(f"#cmlink_h{p}").click(timeout=4*1000)
+            #         await page.get_by_role("link", name="Ocultar dos alunos (ligado/").click()
+            #         await page.frame_locator("iframe[name=\"bb-base-admin-iframe\"]").get_by_role("columnheader", name="Coluna não visível para usuáriosNota Geral Clique para obter mais opções").locator("span").click()
+            #         await page.frame_locator("iframe[name=\"bb-base-admin-iframe\"]").get_by_role("link", name="Ocultar dos alunos (ligado/").click()
+            #         await page.frame_locator("iframe[name=\"bb-base-admin-iframe\"]").get_by_role("columnheader", name="Nota Geral Clique para obter mais opções", exact=True).locator("span").click()
+            #     except:
+            #         ...
             
             await page.get_by_role("button", name="Gerenciar").hover()
             await page.get_by_role("menuitem", name="Organização das colunas").click()
