@@ -1,12 +1,12 @@
 from playwright.async_api import Page
 
 
-async def ajusteCanal(page: Page, id_interno: str) -> None:
+async def ajusteCanal(page: Page, id_interno: str, link: str = 'https://sereduc.blackboard.com/bbcswebdav/xid-522872899_1') -> None:
     
     classURL = f'./ultra/courses/'
     urlClassUltra = f'{classURL}{id_interno}/outline'
     urlSearch = f'{urlClassUltra}?search=Manuais'
-    link = 'https://sereduc.blackboard.com/bbcswebdav/xid-345163866_1'
+    
     
     print('Starting adjustments: "Canais de Comunicação"')
     await page.goto(urlSearch)

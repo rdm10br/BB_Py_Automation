@@ -1,13 +1,11 @@
 from playwright.async_api import Page
 
 
-async def ajusteManual(page: Page, id_interno: str) -> None:
+async def ajusteManual(page: Page, id_interno: str, link: str = 'https://sereduc.blackboard.com/bbcswebdav/xid-522872900_1') -> None:
     
     classURL = f'./ultra/courses/'
     urlClassUltra = f'{classURL}{id_interno}/outline'
     urlSearch = f'{urlClassUltra}?search=Manuais'
-    
-    link = 'https://sereduc.blackboard.com/bbcswebdav/xid-345163866_1'
     
     print('Starting adjustments: "Manual do AVA"')
     await page.goto(urlSearch)

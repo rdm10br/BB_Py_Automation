@@ -1,7 +1,7 @@
 from playwright.async_api import Page
 
 
-async def ajusteSerMelhor(page: Page, id_interno: str) -> None:
+async def ajusteSerMelhor(page: Page, id_interno: str, linkSerMelhor: str = 'https://forms.office.com/r/DDDfzh2Vg3') -> None:
     """
     Function that adjusts that link in the 'Ser Melhor' item;
 
@@ -14,8 +14,7 @@ async def ajusteSerMelhor(page: Page, id_interno: str) -> None:
     classURL = f'./ultra/courses/'
     urlClassUltra = f'{classURL}{id_interno}/outline'
     urlSearch = f'{urlClassUltra}?search=Ser Melhor'
-    # linkSerMelhor = 'https://forms.office.com/r/wX8V5625hs' #20241
-    linkSerMelhor = 'https://forms.office.com/r/i55D2gacpC' #20242
+    # linkSerMelhor = 'https://forms.office.com/r/DDDfzh2Vg3' #20251
     
     print('Starting adjustments: "Ser Melhor"')
     await page.goto(urlSearch)
