@@ -11,6 +11,8 @@ async def open_Mescla(page: Page, id_interno: str) -> None:
     await page.locator('#courseDesctext_tbl > tbody > tr > td > div').wait_for(state='visible', timeout=1000*30)
     
     await page.get_by_label("Usar disponibilidade de termo").check()
+    # await page.frame_locator("iframe[name=\"bb-base-admin-iframe\"]").get_by_label("Disponível", exact=True).get_by_text("Não").click()
+    # await page.locator("#available_no").click()
     await page.get_by_label("Usar definição de termo (").check()
     await page.get_by_role("button", name="Enviar").click()
     await page.wait_for_load_state('load')
