@@ -82,3 +82,11 @@ async def open_Mescla(page: Page, id_interno: str) -> None:
                 results[id_interno][i][config] = result
                        
         await page.goto(SearchOnBlack(results[id_interno]['externalId']))
+        
+        # await page.frame_locator("iframe[name=\"bb-base-admin-iframe\"]").get_by_role("link", name="7.5187.276830").click()
+        # await page.get_by_role("heading", name="Módulo AB - 276830 . 7 - Tó").click()
+        # await page.get_by_role("textbox").press("ControlOrMeta+a")
+        # await page.get_by_role("heading", name="Conteúdo da Disciplina").click()
+        # await page.get_by_label("Fechar", exact=True).click()
+        # await page.frame_locator("iframe[name=\"bb-base-admin-iframe\"]").get_by_role("link", name="7.5187.275845").click()
+        # await page.get_by_label("Fechar", exact=True).click()
