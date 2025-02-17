@@ -1,7 +1,7 @@
 import regex as re
 from playwright.sync_api import Page
 
-async def open_Mescla(page: Page, id_interno: str) -> None:
+async def adjust_name(page: Page, id_interno: str) -> None:
     
     # API Mescla
     API_M = f'./learn/api/public/v3/courses/{id_interno}'
@@ -25,7 +25,7 @@ async def open_Mescla(page: Page, id_interno: str) -> None:
     def request(_config: str, i: int) -> str:
         req = f'''() => {{
             const data = JSON.parse(document.body.innerText).results[{i}];
-            if (data && (data.{_config}).toString) {{
+            if (data && String(data.{_config})) {{
                 return data.{_config};
             }} else {{
                 throw new Error('Not found in room {id_interno}');
@@ -36,7 +36,7 @@ async def open_Mescla(page: Page, id_interno: str) -> None:
     def request_no_result(_config: str) -> str:
         req = f'''() => {{
             const data = JSON.parse(document.body.innerText);
-            if (data && (data.{_config}).toString) {{
+            if (data && String(data.{_config})) {{
                 return data.{_config};
             }} else {{
                 throw new Error('Not found in room {id_interno}');
@@ -56,6 +56,9 @@ async def open_Mescla(page: Page, id_interno: str) -> None:
     
     results = {}
     
+    if id_interno not in results:
+        results[id_interno] = {}
+    
     await page.goto(API_M, wait_until='domcontentloaded')
     
     for config in configs:
@@ -72,7 +75,11 @@ async def open_Mescla(page: Page, id_interno: str) -> None:
         
         length = await page.evaluate(request_length)
         
+        print(f'{id_interno} : {length} courses')
+        
         for i in range(length):
+            if i not in results[id_interno]:
+                results[id_interno][i] = {}
             for config in configs_children:
                 result = await page.evaluate(request(config, i))
                 
@@ -81,12 +88,23 @@ async def open_Mescla(page: Page, id_interno: str) -> None:
                 
                 results[id_interno][i][config] = result
                        
-        await page.goto(SearchOnBlack(results[id_interno]['externalId']))
+        await page.goto(SearchOnBlack(results[id_interno]['externalId']), wait_until='domcontentloaded')
         
-        # await page.frame_locator("iframe[name=\"bb-base-admin-iframe\"]").get_by_role("link", name="7.5187.276830").click()
-        # await page.get_by_role("heading", name="Módulo AB - 276830 . 7 - Tó").click()
-        # await page.get_by_role("textbox").press("ControlOrMeta+a")
-        # await page.get_by_role("heading", name="Conteúdo da Disciplina").click()
-        # await page.get_by_label("Fechar", exact=True).click()
-        # await page.frame_locator("iframe[name=\"bb-base-admin-iframe\"]").get_by_role("link", name="7.5187.275845").click()
-        # await page.get_by_label("Fechar", exact=True).click()
+        await page.get_by_role("link", name=results[id_interno]['externalId']).click()
+        await page.wait_for_load_state('domcontentloaded')
+        
+        await page.get_by_label("Editar o nome do curso").click()
+        await page.get_by_role("textbox").press("ControlOrMeta+a")
+        await page.get_by_role("textbox").fill(results[id_interno]['name'])
+        await page.get_by_role("textbox").press("Enter")
+        
+        for i in range(length):
+            await page.goto(SearchOnBlack(results[id_interno]['externalId']), wait_until='domcontentloaded')
+            
+            await page.get_by_role("link", name=results[id_interno][i]['childCourse.externalId']).click()
+            await page.wait_for_load_state('domcontentloaded')
+            
+            await page.get_by_label("Editar o nome do curso").click()
+            await page.get_by_role("textbox").press("ControlOrMeta+a")
+            await page.get_by_role("textbox").fill(results[id_interno][i]['childCourse.name'])
+            await page.get_by_role("textbox").press("Enter")
