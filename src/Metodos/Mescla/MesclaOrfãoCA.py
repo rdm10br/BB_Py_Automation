@@ -116,6 +116,8 @@ def filtro():
                 # Check if entry has neither parentId nor hasChildren
                 if "parentId" not in entry and "hasChildren" not in entry:
                     orphan_entries.append(filtered_entry)
+                elif "hasChildren" in entry:
+                    print(f'{entry['courseId']}    {entry['name']}')
                 else:
                     filtered_data[key] = filtered_entry
     print(orphan_entries)

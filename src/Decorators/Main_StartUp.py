@@ -191,7 +191,7 @@ def playwright_StartUp_nosub(timeout: int = 60*1000, headless: bool = False, arg
                         
                         if os.path.basename(sys.argv[0]) == 'Main_Open_Mescla.py':
                             is_empty = 1
-                        elif os.path.basename(sys.argv[0]) == 'vsf.py':
+                        elif os.path.basename(sys.argv[0]) == 'Main_Orfão.py':
                             is_empty = 1
                             response.status_code = 200
                         else:
