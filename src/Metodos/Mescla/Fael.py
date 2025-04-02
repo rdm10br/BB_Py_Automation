@@ -3,7 +3,7 @@ import json
 
 async def ajusteGradebook(page: Page, id_interno: str) -> None:
     api = f'./learn/api/v1/courses/{id_interno}/gradebook/columns'
-    url_edit = f'./webapps/gradebook/do/instructor/enterGradeCenter?course_id={id_interno}'
+    # url_edit = f'./webapps/gradebook/do/instructor/enterGradeCenter?course_id={id_interno}'
 
     # Lista esperada de colunas e posições
     order_list = {
