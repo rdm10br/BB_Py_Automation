@@ -2,7 +2,7 @@ from playwright.async_api import async_playwright, Page
 import json
 
 async def ajusteGradebook(page: Page, id_interno: str) -> None:
-    api = f'./learn/api/v1/courses/{id_interno}/gradebook/columns'
+    api = f'https://sereduc.blackboard.com/learn/api/v1/courses/{id_interno}/gradebook/columns'
     # url_edit = f'./webapps/gradebook/do/instructor/enterGradeCenter?course_id={id_interno}'
 
     # Lista esperada de colunas e posições
