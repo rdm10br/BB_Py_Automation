@@ -1,46 +1,19 @@
-# import asyncio
-# from playwright.async_api import async_playwright
-# # import Page
+import asyncio, os
+from Decorators.Main_StartUp import playwright_StartUp_nosub
+from playwright.async_api import async_playwright, Page
+from Metodos import Fael, getPlanilha, getFromAPI
 
-# from Metodos import getFromAPI, Fael
-# from Decorators.Main_StartUp import playwright_StartUp_nosub
-
-
-# @playwright_StartUp_nosub()
-# # Execução principal
-# async def main():
-#     async with async_playwright() as p:
-#         browser = await p.chromium.launch(headless=False)  # Altere para True se não precisar visualizar
-#         page = await browser.new_page()
-#         await Fael.ajusteGradebook(page, "_104675_1")
-#         await browser.close()
-
-# import asyncio
-# asyncio.run(main())
-
-# import asyncio
-# from Metodos import getFromAPI, Fael
-# from Decorators.Main_StartUp import playwright_StartUp_nosub
-
-# @playwright_StartUp_nosub(headless=False)
-# async def main(page):  # Agora recebe page diretamente do decorator
-#     print("Iniciando")
-#     await Fael.ajusteGradebook(page, "_104675_1")
-#     print("Finalizando")
-
-# Removendo asyncio.run(main()), pois o decorator já deve estar gerenciando a execução
-
-import asyncio
-from playwright.async_api import async_playwright
-from Metodos import Fael
-
-async def main():
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=False)  # Visível
-        page = await browser.new_page()
-        print("Iniciando ajusteGradebook...")  # Debug
-        await Fael.ajusteGradebook(page, "_104675_1")
-        print("Finalizando ajusteGradebook.")
-        await browser.close()
-
+@playwright_StartUp_nosub()
+async def main(page: Page, index) -> None:
+   
+    # Recuperando o id_externo da planilha
+    id_interno = await getFromAPI.API_Req(page=page, index=index)
+    
+    # Passando o id_externo como 'id_interno' para a função ajusteGradebook
+    print("Iniciando ajusteGradebook...")
+    await Fael.ajusteGradebook(page, id_interno)  # Passando id_externo como id_interno
+    getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
+    print("Finalizando ajusteGradebook.")
+    
 asyncio.run(main())  # Rodar sem o decorator
+
