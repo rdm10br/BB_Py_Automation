@@ -76,7 +76,7 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
     while True:
         extracted_dict, last = await get_column_state()
         
-        if str(isMescla).lower is 'false':
+        if str(isMescla).lower == 'false':
             if 'attendance' in extracted_dict:
                 order_list = {
                 'nota geral': 7,
