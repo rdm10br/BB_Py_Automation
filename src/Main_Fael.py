@@ -16,4 +16,3 @@ async def main(page: Page, index) -> None:
     print("Finalizando ajusteGradebook.")
     
 asyncio.run(main())  # Rodar sem o decorator
-

@@ -25,7 +25,7 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
         last = await page.evaluate(f'JSON.parse(document.body.innerText).results[{length - 1}].position')
         return extracted_dict, last
 
-    async def drag_loop(page: Page, id_interno: str, extracted_dict: dict, order_list: dict, _last, target_name, source_name):
+    async def drag_loop(page: Page, extracted_dict: dict, _last, target_name, source_name):
         await page.goto(url_edit, wait_until='domcontentloaded')
         await page.get_by_role("button", name="Gerenciar").hover()
         await page.get_by_role("menuitem", name="Organização das colunas").click()
@@ -76,7 +76,7 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
     while True:
         extracted_dict, last = await get_column_state()
         
-        if str(isMescla).lower is 'false':
+        if str(isMescla).lower == 'false':
             if 'attendance' in extracted_dict:
                 order_list = {
                 'nota geral': 7,
@@ -173,6 +173,6 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
         
         name = diff_items[0]
         target_name = encontrar_target(name, order_list, extracted_dict, diff_items)
-        await drag_loop(page, id_interno, extracted_dict, order_list, last, target_name, name)
+        await drag_loop(page, extracted_dict, last, target_name, name)
 
     print("\n✅ Todos os valores estão em ordem!")
