@@ -4,7 +4,12 @@ import json
 async def ajusteGradebook(page: Page, id_interno: str) -> None:
     url_edit = f'./webapps/gradebook/do/instructor/enterGradeCenter?course_id={id_interno}'
     api = f'./learn/api/v1/courses/{id_interno}/gradebook/columns'
-
+    
+    url_mescla = f'/learn/api/public/v3/courses/{id_interno}'
+    await page.goto(url_mescla, wait_until='domcontentloaded')
+    isMescla = await page.evaluate('JSON.parse(document.body.innerText).hasChildren')
+    
+    
     async def get_column_state():
         await page.goto(api, wait_until='networkidle')
         extract_js = """
@@ -71,28 +76,29 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
     while True:
         extracted_dict, last = await get_column_state()
         
-        if 'attendance' in extracted_dict:
-            order_list = {
-            'nota geral': 7,
-            'pesquisa de satisfação': 8,
-            'exercício de fixação 01': 9,
-            'exercício de fixação 02': 10,
-            'exercício de fixação 03': 11,
-            'avaliação workshop': 12,
-            'exercício do conhecimento': 13,
-            'avaliação discursiva': 14,
-            'av1': 15,
-            'avaliação objetiva': 16,
-            'av2': 17,
-            'nota final': 18,
-            'nota final - espelho': 19,
-            'exame final': 20,
-            'af': 21,
-            'af - espelho': 22,
-            'nota final com exame': 23
-            }
-        else:
-            order_list = {
+        if str(isMescla).lower is 'false':
+            if 'attendance' in extracted_dict:
+                order_list = {
+                'nota geral': 7,
+                'pesquisa de satisfação': 8,
+                'exercício de fixação 01': 9,
+                'exercício de fixação 02': 10,
+                'exercício de fixação 03': 11,
+                'avaliação workshop': 12,
+                'exercício do conhecimento': 13,
+                'avaliação discursiva': 14,
+                'av1': 15,
+                'avaliação objetiva': 16,
+                'av2': 17,
+                'nota final': 18,
+                'nota final - espelho': 19,
+                'exame final': 20,
+                'af': 21,
+                'af - espelho': 22,
+                'nota final com exame': 23
+                }
+            else:
+                order_list = {
             'nota geral': 6,
             'pesquisa de satisfação': 7,
             'exercício de fixação 01': 8,
@@ -111,7 +117,48 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
             'af - espelho': 21,
             'nota final com exame': 22
             }
-        
+        else:
+            if 'attendance' in extracted_dict:
+                order_list = {
+                'nota geral': 8,
+                'pesquisa de satisfação': 9,
+                'exercício de fixação 01': 10,
+                'exercício de fixação 02': 11,
+                'exercício de fixação 03': 12,
+                'avaliação workshop': 13,
+                'exercício do conhecimento': 14,
+                'avaliação discursiva': 15,
+                'av1': 16,
+                'avaliação objetiva': 17,
+                'av2': 18,
+                'nota final': 19,
+                'nota final - espelho': 20,
+                'exame final': 21,
+                'af': 22,
+                'af - espelho': 23,
+                'nota final com exame': 24
+                }
+            else:
+                order_list = {
+                'nota geral': 7,
+                'pesquisa de satisfação': 8,
+                'exercício de fixação 01': 9,
+                'exercício de fixação 02': 10,
+                'exercício de fixação 03': 11,
+                'avaliação workshop': 12,
+                'exercício do conhecimento': 13,
+                'avaliação discursiva': 14,
+                'av1': 15,
+                'avaliação objetiva': 16,
+                'av2': 17,
+                'nota final': 18,
+                'nota final - espelho': 19,
+                'exame final': 20,
+                'af': 21,
+                'af - espelho': 22,
+                'nota final com exame': 23
+                }
+                
         diferencas = {
         name: extracted_dict[name]
         for name, pos in order_list.items()
