@@ -57,7 +57,6 @@ async def ajusteData(page: Page) -> None:
         ...
         
         
-        
     
     await page.get_by_role("button", name="Editar datas", exact=True).click()
     await page.get_by_label("Tipo de edição").click()
@@ -71,3 +70,7 @@ async def ajusteData(page: Page) -> None:
 
     # page.get_by_text("Avaliação Exercício do").click()
     # page.get_by_role("checkbox", name="Exercício do Conhecimento", exact=True).check()
+    for item in listadois:
+        await page.get_by_role("checkbox", name=item).check()
+        await page.wait_for_timeout(2500)
+        ...
