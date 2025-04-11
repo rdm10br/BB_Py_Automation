@@ -25,15 +25,24 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
         last = await page.evaluate(f'JSON.parse(document.body.innerText).results[{length - 1}].position')
         return extracted_dict, last
 
-    async def drag_loop(page: Page, extracted_dict: dict, _last, target_name, source_name):
+    async def drag_loop(page: Page, extracted_dict: dict, target_name, source_name):
         await page.goto(url_edit, wait_until='domcontentloaded')
+        await page.wait_for_timeout(1.5*1000)
         await page.get_by_role("button", name="Gerenciar").hover()
+        await page.wait_for_timeout(1.5*1000)
         await page.get_by_role("menuitem", name="Organização das colunas").click()
         await page.wait_for_load_state('load')
-
+        
+        # EU VOU CORRINGAR NESSA POHA PQP
+        if source_name == 'attendance':
+            source_name = target_name
+            target_name = 'attendance'
+            
         try:
             source_pos = extracted_dict[source_name]
-            target_pos = extracted_dict.get(target_name, _last)
+            target_pos = extracted_dict.get(target_name)
+            if target_pos is None:
+                target_pos = 0  # Move para o topo da lista
 
             await page.locator(f'#item_{source_pos} > td.dragCell > span').drag_to(
                 target=page.locator(f"#item_{target_pos} > td.dragCell > span"),
@@ -51,18 +60,45 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
         except Exception as e:
             print(f'{source_name} erro: {e} | item não encontrado.')
 
+    # def encontrar_target(name_atual, order_list, extracted_dict, diff_items):
+    #     sorted_items = sorted(order_list.items(), key=lambda x: x[1])
+    #     idx_atual = next((i for i, (name, _) in enumerate(sorted_items) if name == name_atual), None)
+
+    #     if idx_atual is None:
+    #         return None
+
+    #     for i in range(idx_atual - 1, -1, -1):
+    #         nome_anterior = sorted_items[i][0]
+    #         if nome_anterior in extracted_dict and nome_anterior not in diff_items:
+    #             return nome_anterior
+    #     return None
+    
     def encontrar_target(name_atual, order_list, extracted_dict, diff_items):
+        # Regra especial: se for 'attendance', usar 'nota geral' como target
+        if name_atual == 'attendance' and 'nota geral' in extracted_dict:
+            return 'nota geral'
+
         sorted_items = sorted(order_list.items(), key=lambda x: x[1])
         idx_atual = next((i for i, (name, _) in enumerate(sorted_items) if name == name_atual), None)
 
         if idx_atual is None:
             return None
 
+        # Procura por um item anterior que esteja em ordem
         for i in range(idx_atual - 1, -1, -1):
             nome_anterior = sorted_items[i][0]
             if nome_anterior in extracted_dict and nome_anterior not in diff_items:
                 return nome_anterior
+
+        # Se não achar ninguém antes, tenta achar o PRÓXIMO em ordem
+        for i in range(idx_atual + 1, len(sorted_items)):
+            nome_proximo = sorted_items[i][0]
+            if nome_proximo in extracted_dict and nome_proximo not in diff_items:
+                return nome_proximo
+
         return None
+
+
 
     # Initial save to ensure columns can be dragged
     await page.goto(url_edit, wait_until='domcontentloaded')
@@ -79,6 +115,7 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
         if str(isMescla).lower == 'false':
             if 'attendance' in extracted_dict:
                 order_list = {
+                'attendance': 6,
                 'nota geral': 7,
                 'pesquisa de satisfação': 8,
                 'exercício de fixação 01': 9,
@@ -120,6 +157,7 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
         else:
             if 'attendance' in extracted_dict:
                 order_list = {
+                'attendance': 7,
                 'nota geral': 8,
                 'pesquisa de satisfação': 9,
                 'exercício de fixação 01': 10,
@@ -171,8 +209,9 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
         sorted_items = sorted(order_list.items(), key=lambda x: x[1])
         diff_items = [name for name, _ in sorted_items if name in extracted_dict and extracted_dict[name] != order_list[name]]
         
+        # test = diff_items[1] if diff_items[0] == 'nota geral' else diff_items[0]
         name = diff_items[0]
         target_name = encontrar_target(name, order_list, extracted_dict, diff_items)
-        await drag_loop(page, extracted_dict, last, target_name, name)
+        await drag_loop(page, extracted_dict, target_name, name)
 
     print("\n✅ Todos os valores estão em ordem!")
