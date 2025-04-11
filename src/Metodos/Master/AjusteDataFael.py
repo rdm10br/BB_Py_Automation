@@ -66,18 +66,16 @@ async def ajusteData(page: Page) -> None:
     await page.get_by_role("checkbox", name="Hora de entrega").check()
     await page.wait_for_timeout(2000)
     await page.get_by_role("textbox", name="Hora de entrega").fill("23:59")
+    await page.wait_for_timeout(1500)
+    await page.get_by_text("Data de entregaHora de entrega").click()
     await page.wait_for_timeout(2000)
     await page.get_by_role("button", name="Editar datas").click()
     
     await page.wait_for_timeout(3000)
-
-    await page.get_by_text("Avaliação Workshop").click()
-    await page.get_by_text("Avaliação Discursiva").click()
-
-
-    for item in listadois:
-        await page.get_by_role("checkbox", name=item).check()
-        await page.wait_for_timeout(2500)
+    
+    
+    await page.locator("#Avaliação\\ Workshop-2-checkbox").click()
+    await page.locator("#Avaliação\\ Discursiva-3-checkbox").click()
 
 
     await page.get_by_role("button", name="Editar datas", exact=True).click()
@@ -86,5 +84,56 @@ async def ajusteData(page: Page) -> None:
     await page.get_by_role("checkbox", name="Data de entrega").check()
     await page.get_by_role("textbox", name="Data de entrega").fill("10/05/25")
     await page.get_by_role("checkbox", name="Hora de entrega").check()
+    await page.wait_for_timeout(2000)
     await page.get_by_role("textbox", name="Hora de entrega").fill("23:59")
+    await page.wait_for_timeout(1500)
+    await page.get_by_text("Data de entregaHora de entrega").click()
+    await page.wait_for_timeout(2000)
     await page.get_by_role("button", name="Editar datas").click()
+    await page.wait_for_timeout(2000)
+
+
+    
+    await page.get_by_role("checkbox", name="Fale com o tutor").check()
+    await page.get_by_role("button", name="Editar datas", exact=True).click()
+    await page.get_by_label("Tipo de edição").click()
+    await page.get_by_role("option", name="Alterar para data e/ou hora").click()
+    await page.get_by_role("checkbox", name="Data de fim do acesso").check()
+    await page.get_by_role("textbox", name="Data de fim do acesso").fill("17/05/25")
+    await page.wait_for_timeout(1500)
+    await page.get_by_role("checkbox", name="Horário de fim do acesso").check()
+    await page.get_by_role("textbox", name="Horário de fim do acesso").fill("23:59")
+    await page.wait_for_timeout(1500)
+    await page.get_by_text("Data de fim do acessoHorário").click()
+    await page.get_by_role("button", name="Editar datas").click()
+    await page.wait_for_timeout(1500)
+    
+    
+    
+    await page.get_by_role("checkbox", name="Converse com a sua Turma").check()
+    await page.get_by_role("button", name="Editar datas", exact=True).click()
+    await page.get_by_label("Tipo de edição").click()
+    await page.get_by_role("option", name="Alterar para data e/ou hora").click()
+    await page.get_by_role("checkbox", name="Data de fim do acesso").check()
+    await page.get_by_role("textbox", name="Data de fim do acesso").fill("10/05/25")
+    await page.wait_for_timeout(1500)
+    await page.get_by_role("checkbox", name="Horário de fim do acesso").check()
+    await page.get_by_role("textbox", name="Horário de fim do acesso").fill("23:59")
+    await page.wait_for_timeout(1500)
+    await page.get_by_text("Data de fim do acessoHorário").click()
+    await page.get_by_role("button", name="Editar datas").click()
+    await page.wait_for_timeout(1500)
+    
+    
+    await page.get_by_text("Avaliação Workshop").click()
+    await page.locator("#Avaliação\\ Workshop-0-checkbox").click()
+    await page.get_by_role("button", name="Editar datas", exact=True).click()
+    await page.get_by_role("checkbox", name="Data de início do acesso").check()
+    await page.get_by_role("textbox", name="Data de início do acesso").fill("20/04/25")
+    await page.wait_for_timeout(1500)
+    await page.get_by_role("checkbox", name="Horário de início do acesso").check()
+    await page.get_by_role("textbox", name="Horário de início do acesso").fill("00:00")
+    await page.wait_for_timeout(1500)
+    await page.get_by_text("Data de início do acessoHorá").click()
+    await page.get_by_role("button", name="Editar datas").click()
+    await page.wait_for_timeout(1500)
