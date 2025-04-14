@@ -71,7 +71,6 @@ async def atribuirGruposDIG(page: Page, id_interno: str) -> None:
         you want this Function to run
         id_interno (str): internal ID of the classroom
     """
-    # baseURL = "https://sereduc.blackboard.com/"
     classURL = f'./ultra/courses/{id_interno}'
     groups = f'{classURL}/groups'
     item_search = 'Desafio Colaborativo'

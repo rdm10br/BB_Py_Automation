@@ -14,13 +14,11 @@ async def inserirArquivo(page: Page, id_interno: str, Area: str) -> None:
         id_interno (str): internal ID of the classroom
         Area (str): Course Area of the classroom
     """
-    # baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"./webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id="\
         f"{id_interno}&toggleType=all&fromPage=groups"
     Area = re.sub(r"\[\'", '', Area)
     Area = re.sub(r"\'\]", '', Area)
     file_path = fr'Planilhas\Grupo - {Area}.csv'
-
         
     print(f'Uploading group: {file_path}')
     await page.goto(importgroup)
