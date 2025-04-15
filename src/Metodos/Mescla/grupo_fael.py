@@ -83,20 +83,31 @@ async def atribuirGruposFael(page: Page, id_interno: str) -> None:
             await page.wait_for_load_state('networkidle')
             pass
         else:
+            await page.get_by_role("link", name="Atribuir a grupos").wait_for(state='visible', timeout=4*1000)
             await page.get_by_role("link", name="Atribuir a grupos").click(timeout=4*1000)
             await page.get_by_role("button", name="Personalizar").click()
             await page.get_by_role("option", name="Conjunto de grupos: Coligada").click()
             print('Saving...')
-            
-            if await page.get_by_text("Nenhum grupo encontrado").is_visible() is True:
-                print(f'Error de Modal na sala {id_interno} no item {item_search}')
-                await page.locator('#notification-modal-api-error > div.reveal-modal__header > button').click()
-                
-            await page.get_by_label("Salvar").click()
-            await page.wait_for_load_state('networkidle')
-            print('Saving...')
-            await page.get_by_role("button", name="Salvar").click()
-            await page.wait_for_load_state('networkidle')
+            try:
+                print('teste - nenhum grupo')
+                await page.get_by_text("Nenhum grupo encontrado").wait_for(state='visible', timeout=5*1000)
+                print('pass...')
+                if await page.get_by_text("Nenhum grupo encontrado").is_visible() is True:
+                    print(f'Error de Modal na sala {id_interno} no item {item_search}')
+                    loc = "body > div.MuiDialogroot-0-2-2 > div.MuiDialogcontainer-0-2-5.makeStylescontainer-0-2-1.MuiDialogscrollBody-0-2-4 > div > div > div.MuiDialogActionsroot-0-2-1402.MuiDialogActionsspacing-0-2-1403 > button > span"
+                    loc = "body > div.MuiDialogroot-0-2-2 > div.MuiDialogcontainer-0-2-5.makeStylescontainer-0-2-1.MuiDialogscrollBody-0-2-4 > div > div > div.MuiDialogActionsroot-0-2-1405.MuiDialogActionsspacing-0-2-1406 > button"
+                    await page.locator("button > span", has_text='OK').click(timeout=1.8*1_000_000)
+                await page.get_by_label("Salvar").click()
+                await page.wait_for_load_state('networkidle')
+                print('Saving...')
+                await page.get_by_role("button", name="Salvar").click()
+                await page.wait_for_load_state('networkidle')
+            except:
+                await page.get_by_label("Salvar").click()
+                await page.wait_for_load_state('networkidle')
+                print('Saving...')
+                await page.get_by_role("button", name="Salvar").click()
+                await page.wait_for_load_state('networkidle')
         #check if modal error
         if await page.get_by_text("Olá! Para acessar este recurso você precisa estar matriculado na sala").is_visible() is True:
             print(f'Error de Modal na sala {id_interno} no item {item_search}')
