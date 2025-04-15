@@ -82,18 +82,19 @@ async def rebuceteio(
 
 async def ajusteFael(page: Page, id_interno: str) -> None:
     urlGradeBook = f'./ultra/courses/{id_interno}/grades?gradebookView=list'
-    timer_padrão = 1000*2
+    timer_padrão = 2*1000
     items = ['AV2', 'AF']
+    
     for item in items:
         verify = await verify_calculated(page=page, id_interno=id_interno, item=item)
         if verify == "CUSTOM":
             result = f'{item} is a calculated item'
             print(result)
             await page.goto(urlGradeBook, wait_until='domcontentloaded')
-            await page.wait_for_load_state('networkidle')
             await page.wait_for_load_state('load')
-            await page.wait_for_timeout(timer_padrão)
-            await page.locator("bb-grader-column").filter(has_text=f"{item} Sem categoria").locator("path").click()
+            await page.get_by_role("link", name="Nota atual").wait_for(state='visible', timeout=4*timer_padrão)
+            
+            await page.locator("bb-grader-column").filter(has_text=f"{item} Sem categoria").locator("path").click(timeout=timer_padrão)
             await page.locator("#gradebook-item-panel-content a").nth(2).click()
             try:
                 await page.get_by_role("button", name="TOTAL ( )").hover(timeout=timer_padrão)
@@ -116,7 +117,7 @@ async def ajusteFael(page: Page, id_interno: str) -> None:
                 await page.wait_for_load_state('load')
                 await page.wait_for_timeout(timer_padrão)
             except Exception as e:
-                print(f'{item} error : {e}')
+                print(f'{item} error  in {id_interno}: {e}')
         elif verify == 'Item not found':
             result = f'{item} Item not found in {id_interno}'
             print(result)

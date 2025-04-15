@@ -34,12 +34,13 @@ async def ajusteData(
         "Exercício de Fixação 03",
         "Exercício do Conhecimento",
     ]
-    
+    await page.get_by_role("row", name="​📝​ Avaliações e Exercícios").wait_for(state='visible', timeout=16*1000)
     await page.get_by_role("row", name="​📝​ Avaliações e Exercícios").get_by_label("row.openFolder").click()
     await page.get_by_text("Exercícios de Fixação").click()
     await page.get_by_text("Avaliação Exercício do").click()
     
     for item in listaum:
+        await page.get_by_role("checkbox", name=item, exact=True).wait_for(state='visible', timeout=8*1000)
         await page.get_by_role("checkbox", name=item, exact=True).check()
         await page.wait_for_timeout(2500)
         
@@ -58,8 +59,8 @@ async def ajusteData(
     await page.wait_for_load_state('load')
     await page.wait_for_timeout(2000)
     
+    await page.locator("#Avaliação\\ Workshop-2-checkbox").wait_for(state='visible', timeout=8*1000)
     await page.locator("#Avaliação\\ Workshop-2-checkbox").click()
-    await page.wait_for_timeout(1500)
     await page.locator("#Avaliação\\ Discursiva-3-checkbox").click()
 
     await page.get_by_role("button", name="Editar datas", exact=True).click()
@@ -76,6 +77,7 @@ async def ajusteData(
     await page.get_by_role("button", name="Editar datas").click()
     await page.wait_for_timeout(2000)
     
+    await page.get_by_role("checkbox", name="Fale com o tutor").wait_for(state='visible', timeout=8*1000)
     await page.get_by_role("checkbox", name="Fale com o tutor").check()
     await page.get_by_role("button", name="Editar datas", exact=True).click()
     await page.get_by_label("Tipo de edição").click()
@@ -90,6 +92,7 @@ async def ajusteData(
     await page.get_by_role("button", name="Editar datas").click()
     await page.wait_for_timeout(1500)
     
+    await page.get_by_role("checkbox", name="Converse com a sua Turma").wait_for(state='visible', timeout=8*1000)
     await page.get_by_role("checkbox", name="Converse com a sua Turma").check()
     await page.get_by_role("button", name="Editar datas", exact=True).click()
     await page.get_by_label("Tipo de edição").click()
@@ -104,6 +107,7 @@ async def ajusteData(
     await page.get_by_role("button", name="Editar datas").click()
     await page.wait_for_timeout(1500)
     
+    await page.get_by_text("Avaliação Workshop").wait_for(state='visible', timeout=8*1000)
     await page.get_by_text("Avaliação Workshop").click()
     await page.locator("#Avaliação\\ Workshop-0-checkbox").click()
     await page.get_by_role("button", name="Editar datas", exact=True).click()
