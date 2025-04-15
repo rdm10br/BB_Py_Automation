@@ -87,6 +87,11 @@ async def atribuirGruposFael(page: Page, id_interno: str) -> None:
             await page.get_by_role("button", name="Personalizar").click()
             await page.get_by_role("option", name="Conjunto de grupos: Coligada").click()
             print('Saving...')
+            
+            if await page.get_by_text("Nenhum grupo encontrado").is_visible() is True:
+                print(f'Error de Modal na sala {id_interno} no item {item_search}')
+                await page.locator('#notification-modal-api-error > div.reveal-modal__header > button').click()
+                
             await page.get_by_label("Salvar").click()
             await page.wait_for_load_state('networkidle')
             print('Saving...')

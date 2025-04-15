@@ -53,9 +53,11 @@ async def Auto_Unsub(page: Page, index: int):
     await page.wait_for_timeout(1500)
     await page.press('body', 'Enter')
     await page.press('#search-roster-field', 'Enter')
+    await page.get_by_placeholder("Nome ou Sobrenome").press("Enter")
     await page.wait_for_load_state('load')
     await page.wait_for_load_state('domcontentloaded')
     await page.wait_for_load_state('networkidle')
+    await page.wait_for_timeout(5*1000)
     try:
         await page.locator('#rosterView-list > ul > li > div > div.medium-5.columns > div > div').click(timeout=3*1000)
         await page.wait_for_load_state('load')
@@ -66,7 +68,7 @@ async def Auto_Unsub(page: Page, index: int):
         await page.wait_for_load_state('networkidle')
         await page.wait_for_timeout(1500)
     except Exception as e:
-        await page.locator('#rosterView-grid > ul > li > div > a > bb-username > bb-ui-username > div > div').click()
+        await page.locator('#rosterView-grid > ul > li > div > a > bb-username > bb-ui-username > div > div').click(timeout=3*1000)
         await page.wait_for_load_state('load')
         await page.locator('#roster-settings > ng-form > div.nested-panel > div > div > div.element-card.account > button').click()
         await page.locator('body > div.panel-has-focus > div > footer > div > div.reveal-modal__footer-buttons > span:nth-child(2) > button').click()

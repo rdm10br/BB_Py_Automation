@@ -16,10 +16,10 @@ async def main(page: Page, index) -> None:
     await ajuste_AV1.ajusteFael(page, id_interno)
     
     # data1 : str, optional
-    # description: Defaults to '17/05/25', this date changes the due date to [Exercício de Fixação 01, 02, 03, Exercício do Conhecimento] and Opening date [Fale com o tutor].
+    # description: Defaults to '17/05/25', this date changes the due date to [Exercício de Fixação 01, 02, 03, Exercício do Conhecimento] and Ending date [Fale com o tutor].
 
     # data2 : str, optional
-    # description: Defaults to '10/05/25', this date changes the due date to [Avaliação Workshop, Discursiva] and Opening date [Converse com a sua Turma]
+    # description: Defaults to '10/05/25', this date changes the due date to [Avaliação Workshop, Discursiva] and Ending date [Converse com a sua Turma]
 
     # data3 : str, optional
     # description: Defaults to '20/04/25', this date changes the Opening date to [Avaliação Workshop]
