@@ -90,7 +90,7 @@ async def atribuirGruposFael(page: Page, id_interno: str) -> None:
             print('Saving...')
             try:
                 print('teste - nenhum grupo')
-                await page.get_by_text("Nenhum grupo encontrado").wait_for(state='visible', timeout=5*1000)
+                await page.get_by_text("Nenhum grupo encontrado").wait_for(state='visible', timeout=6*1000)
                 print('pass...')
                 if await page.get_by_text("Nenhum grupo encontrado").is_visible() is True:
                     print(f'Error de Modal na sala {id_interno} no item {item_search}')
