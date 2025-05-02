@@ -153,21 +153,21 @@ async def DoubleCheckDB(page: Page, id_interno: str) -> None:
     await page.goto(url=f"./ultra/courses/{id_interno}/outline")
     await page.get_by_role("link", name="Boletim de notas").click()
     await page.wait_for_load_state('load')
-    await page.wait_for_timeout(2*1000)
+    await page.wait_for_timeout(3*1000)
     await page.get_by_label("Configurações", exact=True).click()
     await page.wait_for_load_state('load')
-    await page.wait_for_timeout(2*1000)
+    await page.wait_for_timeout(4*1000)
     await page.mouse.wheel(0, 500)  # Rola 500px para baixo
-    await page.wait_for_timeout(2*1000)
+    await page.wait_for_timeout(4*1000)
     await page.get_by_role("button", name="Fechar").click()
     await page.wait_for_load_state('load')
-    await page.wait_for_timeout(2*1000)
+    await page.wait_for_timeout(4*1000)
     await page.get_by_role("link", name="Grupos").click()
     await page.wait_for_load_state('load')
-    await page.wait_for_timeout(2*1000)
+    await page.wait_for_timeout(4*1000)
     await page.get_by_role("link", name="Conteúdo da disciplina").click()
     await page.wait_for_load_state('load')
-    await page.wait_for_timeout(3*1000)
+    await page.wait_for_timeout(4*1000)
     await loopItemList(page, id_interno, item_list)
     await page.goto(url=f"./ultra/courses/{id_interno}/outline")
     await page.get_by_role("link", name="Banco de questões Gerenciar").click()
@@ -291,18 +291,54 @@ async def loopItemList(page: Page, id_interno, item_list):
                     await page.get_by_role("link", name="Fale com o Tutor").click()
                     await page.wait_for_load_state('load')
                     await page.wait_for_timeout(4*1000)
-                    await page.get_by_label("Editar configurações do diário").click()
+                    # await page.get_by_role("button", name="Oculto para alunos").click()
+                    # await page.wait_for_timeout(2*1000)
+                    # await page.get_by_role("menuitem", name="Visível para alunos").click()
+                    # await page.wait_for_timeout(2*1000)
+                    try:
+                        # Tenta localizar o botão "Oculto para alunos" e clicar nele
+                        if await page.locator("button", has_text="Oculto para alunos").count() > 0:
+                            print("Conteúdo está OCULTO. Alterando para VISÍVEL...")
+                            await page.wait_for_timeout(2 * 1000)
+                            await page.get_by_role("button", name="Oculto para alunos").click()
+                            await page.wait_for_timeout(2 * 1000)
+                            await page.get_by_role("menuitem", name="Visível para alunos").click()
+                            await page.wait_for_timeout(2 * 1000)
+                        else:
+                            print("Conteúdo já está VISÍVEL.")
+                            # Aqui você pode executar a ação correspondente para quando o conteúdo já estiver visível
+                    except Exception as e:
+                        print("Erro ao localizar ou clicar no botão:", e)
+                    await page.get_by_label("Editar configurações do diário").click()  # Caso ocorra erro, tenta outra ação
                     await page.wait_for_load_state('load')
-                    await page.wait_for_timeout(4*1000)
+                    await page.wait_for_timeout(4 * 1000)
                 elif item in _ItemConfig:
                     print("executando o seguinte item: Desafio Colaborativo")
                     await page.wait_for_load_state('load')
                     await page.wait_for_timeout(4*1000)
                     await page.get_by_role("link", name="Desafio Colaborativo").click()
                     await page.wait_for_timeout(3*1000)
+                    try:
+                        # Tenta localizar o botão "Oculto para alunos" e clicar nele
+                        if await page.locator("button", has_text="Oculto para alunos").count() > 0:
+                            print("Conteúdo está OCULTO. Alterando para VISÍVEL...")
+                            await page.wait_for_timeout(2 * 1000)
+                            await page.get_by_role("button", name="Oculto para alunos").click()
+                            await page.wait_for_timeout(2 * 1000)
+                            await page.get_by_role("menuitem", name="Visível para alunos").click()
+                            await page.wait_for_timeout(2 * 1000)
+                        else:
+                            print("Conteúdo já está VISÍVEL.")
+                            # Aqui você pode executar a ação correspondente para quando o conteúdo já estiver visível
+                    except Exception as e:
+                        print("Erro ao localizar ou clicar no botão:", e)
                     await page.get_by_role("link", name="Configurações", exact=True).click()
                     await page.wait_for_load_state('load')
                     await page.wait_for_timeout(5*1000)
+                    await page.wait_for_load_state('load')
+                    await page.wait_for_timeout(2*1000)
+                    await page.mouse.wheel(0, 500)  # Rola 500px para baixo
+                    await page.wait_for_timeout(4*1000)
                 
                 elif "Solicite seu livro impresso" in item:
                     await page.wait_for_timeout(1*1000)
