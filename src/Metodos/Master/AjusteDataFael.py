@@ -67,10 +67,14 @@ async def ajusteData(
     await page.wait_for_timeout(2000)
     
     print('adjusting "workshop" folder, "discursiva" folder.....')
-
-    await page.locator("#Avaliação\\ Workshop-2-checkbox").wait_for(state='visible', timeout=15*1000)
-    await page.locator("#Avaliação\\ Workshop-2-checkbox").click()
-    await page.locator("#Avaliação\\ Discursiva-3-checkbox").click()
+    try:
+        await page.locator("#Avaliação\\ Workshop-2-checkbox").wait_for(state='visible', timeout=15*1000)
+        await page.locator("#Avaliação\\ Workshop-2-checkbox").click()
+        await page.locator("#Avaliação\\ Discursiva-3-checkbox").click()
+    except:
+        await page.locator("#Avaliação\\ Workshop-3-checkbox").wait_for(state='visible', timeout=5*1000)
+        await page.locator("#Avaliação\\ Workshop-3-checkbox").click()
+        await page.locator("#Avaliação\\ Discursiva-4-checkbox").click()
 
     print('edit date...')
     await page.get_by_role("button", name="Editar datas", exact=True).click()
@@ -129,9 +133,17 @@ async def ajusteData(
     await page.wait_for_timeout(1500)
     
     print('edit workshop date...')
-    await page.get_by_text("Avaliação Workshop").wait_for(state='visible', timeout=8*1000)
-    await page.get_by_text("Avaliação Workshop").click()
-    await page.locator("#Avaliação\\ Workshop-0-checkbox").click()
+    
+    try:
+        await page.get_by_text("Avaliação Workshop").wait_for(state='visible', timeout=8*1000)
+        await page.get_by_text("Avaliação Workshop").click()
+        await page.locator("#Avaliação\\ Workshop-0-checkbox").click()
+    except:
+        await page.get_by_text("PastaAvaliação Workshop").wait_for(state='visible', timeout=8*1000)
+        await page.get_by_text("PastaAvaliação Workshop").click()
+        await page.locator("#Avaliação\\ Workshop-0-checkbox").click()
+        # await page.get_by_role("row", name="Avaliação Workshop Teste").get_by_label("", exact=True).check()
+    
     await page.get_by_role("button", name="Editar datas", exact=True).click()
     print('release date...')
     await page.get_by_role("checkbox", name="Data de início do acesso").check()

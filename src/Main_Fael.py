@@ -23,10 +23,10 @@ async def main(page: Page, index) -> None:
 
     # data3 : str, optional
     # description: Defaults to '20/04/25', this date changes the Opening date to [Avaliação Workshop]
-    await AjusteDataFael.ajusteData(page, id_interno, data1='17/05/25', data2='10/05/25', data3='20/04/25')
+    await AjusteDataFael.ajusteData(page, id_interno, data1='17/06/25', data2='10/06/25', data3='20/05/25')
     
-    await grupo_fael.inserirArquivo(page, id_interno)
-    await grupo_fael.atribuirGruposFael(page, id_interno)
+    # await grupo_fael.inserirArquivo(page, id_interno)
+    # await grupo_fael.atribuirGruposFael(page, id_interno)
     
     getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
     print("Finalizando ajusteGradebook.")
