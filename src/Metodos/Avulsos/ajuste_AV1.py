@@ -94,7 +94,9 @@ async def ajusteFael(page: Page, id_interno: str) -> None:
             await page.wait_for_load_state('load')
             await page.get_by_role("link", name="Nota atual").wait_for(state='visible', timeout=4*timer_padrão)
             
-            await page.locator("bb-grader-column").filter(has_text=f"{item} Sem categoria").locator("path").click(timeout=timer_padrão)
+            # await page.get_by_role("row", name=f"{item} Sem categoria Mais opções").click(timeout=timer_padrão)
+            await page.get_by_role("row", name=f"{item} Sem categoria Mais opções").get_by_label("components.directives.element").click(timeout=timer_padrão)
+            # await page.locator("bb-grader-column").filter(has_text=f"{item} Sem categoria").locator("path").click(timeout=timer_padrão)
             await page.locator("#gradebook-item-panel-content a").nth(2).click()
             try:
                 await page.get_by_role("button", name="TOTAL ( )").hover(timeout=timer_padrão)
