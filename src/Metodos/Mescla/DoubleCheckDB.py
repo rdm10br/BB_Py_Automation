@@ -317,7 +317,7 @@ async def loopItemList(page: Page, id_interno, item_list):
                     await page.wait_for_load_state('load')
                     await page.wait_for_timeout(4*1000)
                     await page.get_by_role("link", name="Desafio Colaborativo").click()
-                    await page.wait_for_timeout(3*1000)
+                    await page.wait_for_timeout(4*1000)
                     try:
                         # Tenta localizar o botão "Oculto para alunos" e clicar nele
                         if await page.locator("button", has_text="Oculto para alunos").count() > 0:
@@ -389,7 +389,7 @@ async def unidade(page: Page, id_interno, item):
         for i in item_unidade:
             id_i = API_child_id(id_interno, item, i)
             await page.wait_for_load_state("domcontentloaded")
-            await page.wait_for_timeout(1000*4)
+            await page.wait_for_timeout(1000*6)
             await page.locator(f'//div[@data-content-id="{id_i}"]').click()
             print(f"Processando item: {i}")
             await page.wait_for_timeout(1000*6)
@@ -411,11 +411,12 @@ async def unidade(page: Page, id_interno, item):
                 await page.wait_for_timeout(2*1000)
                 await page.get_by_role("button", name="Fechar").click()
                 
-                continue
+                continue        
             
             if "Material complementar" in i:
-                    print("Encontrou 'Material complementar', pulando item.")
-                    continue
+                print("Encontrou 'Material complementar', pulando item.")
+                await page.wait_for_timeout(3*1000)
+                await page.get_by_role("button", name="Fechar").click()
             
             await page.wait_for_timeout(3*1000)
             await page.get_by_role("button", name="Fechar").click()
