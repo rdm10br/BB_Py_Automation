@@ -51,7 +51,7 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
                 force=True
             )
 
-            await page.wait_for_timeout(1.5 * 1000)
+            await page.wait_for_timeout(2 * 1000)
             await page.wait_for_load_state('domcontentloaded')
             await page.wait_for_load_state('load')
             await page.get_by_role("button", name="Enviar").click()
