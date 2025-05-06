@@ -10,7 +10,7 @@ from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_
 from Decorators.Inscryption import Auto_Sub, Auto_Unsub
 
 
-def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized', scale: float = 0.9):
+def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized'):
     def decorator(func):
         @lru_cache
         @wraps(func)
@@ -24,7 +24,7 @@ def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str 
                 print('\nExecution Start')
                 
                 browser = await playwright.chromium.launch(headless=headless, args=[arg], timeout=timeout)
-                context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark', device_scale_factor=scale)
+                context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark')
                 page = await context.new_page()
                 
                 start_time0 = time.time()
@@ -82,7 +82,7 @@ def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str 
                             
                         if str(response.status_code) == '200' and is_empty > 0:
                         
-                            new_context = await browser.new_context(base_url=baseURL, no_viewport=True, device_scale_factor=scale)
+                            new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                             await new_context.add_cookies(cookies)
                             new_page = await new_context.new_page()
                             
@@ -122,7 +122,7 @@ def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str 
     return decorator
 
 
-def playwright_StartUp_nosub(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized', scale: float = 0.9):
+def playwright_StartUp_nosub(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized'):
     def decorator(func):
         @lru_cache
         @wraps(func)
@@ -136,7 +136,7 @@ def playwright_StartUp_nosub(timeout: int = 60*1000, headless: bool = False, arg
                 print('\nExecution Start')
                 
                 browser = await playwright.chromium.launch(headless=headless, args=[arg], timeout=timeout)
-                context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark', device_scale_factor=scale)
+                context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark')
                 page = await context.new_page()
                 
                 start_time0 = time.time()
@@ -203,7 +203,7 @@ def playwright_StartUp_nosub(timeout: int = 60*1000, headless: bool = False, arg
                             
                             
                         if str(response.status_code) == '200' and is_empty > 0:
-                            new_context = await browser.new_context(base_url=baseURL, no_viewport=True, device_scale_factor=scale)
+                            new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                             await new_context.add_cookies(cookies)
                             new_page = await new_context.new_page()
                             
@@ -241,7 +241,7 @@ def playwright_StartUp_nosub(timeout: int = 60*1000, headless: bool = False, arg
     return decorator
 
 
-def playwright_StartUp_nosub_test(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized', scale: float = 0.9):
+def playwright_StartUp_nosub_test(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized'):
     def decorator(func):
         @lru_cache
         @wraps(func)
@@ -255,7 +255,7 @@ def playwright_StartUp_nosub_test(timeout: int = 60*1000, headless: bool = False
                 print('\nExecution Start')
 
                 browser = await playwright.chromium.launch(headless=headless, args=[arg], timeout=timeout)
-                context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark', device_scale_factor=scale)
+                context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark')
                 page = await context.new_page()
 
                 # Login check
