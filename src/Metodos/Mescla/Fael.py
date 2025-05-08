@@ -115,29 +115,70 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
         if str(isMescla).lower == 'true':
             if 'attendance' in extracted_dict and 'atividade prática' in extracted_dict:
                 order_list = {
-                    'attendance': 7,
-                    'nota geral': 8,
-                    'pesquisa de satisfação': 9,
-                    'atividade prática': 10,
-                    'exercício de fixação 01': 11,
-                    'exercício de fixação 02': 12,
-                    'exercício de fixação 03': 13,
-                    'avaliação workshop': 14,
-                    'exercício do conhecimento': 15,
-                    'avaliação discursiva': 16,
-                    'av1': 17,
-                    'avaliação objetiva': 18,
-                    'av2': 19,
-                    'nota final': 20,
-                    'nota final - espelho': 21,
-                    'exame final': 22,
-                    'af': 23,
-                    'af - espelho': 24,
-                    'nota final com exame': 25
+                    'attendance': 8,
+                    'nota geral': 9,
+                    'pesquisa de satisfação': 10,
+                    'atividade prática': 11,
+                    'exercício de fixação 01': 12,
+                    'exercício de fixação 02': 13,
+                    'exercício de fixação 03': 14,
+                    'avaliação workshop': 15,
+                    'exercício do conhecimento': 16,
+                    'avaliação discursiva': 17,
+                    'av1': 18,
+                    'avaliação objetiva': 19,
+                    'av2': 20,
+                    'nota final': 21,
+                    'nota final - espelho': 22,
+                    'exame final': 23,
+                    'af': 24,
+                    'af - espelho': 25,
+                    'nota final com exame': 26
                     }
             elif 'attendance' in extracted_dict:
                 order_list = {
-                'attendance': 7,
+                'attendance': 8,
+                'nota geral': 9,
+                'pesquisa de satisfação': 10,
+                'exercício de fixação 01': 11,
+                'exercício de fixação 02': 12,
+                'exercício de fixação 03': 13,
+                'avaliação workshop': 14,
+                'exercício do conhecimento': 15,
+                'avaliação discursiva': 16,
+                'av1': 17,
+                'avaliação objetiva': 18,
+                'av2': 19,
+                'nota final': 20,
+                'nota final - espelho': 21,
+                'exame final': 22,
+                'af': 23,
+                'af - espelho': 24,
+                'nota final com exame': 25
+                }
+            elif 'atividade prática' in extracted_dict:
+                order_list = {
+                'nota geral': 8,
+                'pesquisa de satisfação': 9,
+                'atividades prática': 10,
+                'exercício de fixação 01': 11,
+                'exercício de fixação 02': 12,
+                'exercício de fixação 03': 13,
+                'avaliação workshop': 14,
+                'exercício do conhecimento': 15,
+                'avaliação discursiva': 16,
+                'av1': 17,
+                'avaliação objetiva': 18,
+                'av2': 19,
+                'nota final': 20,
+                'nota final - espelho': 21,
+                'exame final': 22,
+                'af': 23,
+                'af - espelho': 24,
+                'nota final com exame': 25
+                }
+            else:
+                order_list = {
                 'nota geral': 8,
                 'pesquisa de satisfação': 9,
                 'exercício de fixação 01': 10,
@@ -155,47 +196,6 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
                 'af': 22,
                 'af - espelho': 23,
                 'nota final com exame': 24
-                }
-            elif 'atividade prática' in extracted_dict:
-                order_list = {
-                'nota geral': 7,
-                'pesquisa de satisfação': 8,
-                'atividades prática': 9,
-                'exercício de fixação 01': 10,
-                'exercício de fixação 02': 11,
-                'exercício de fixação 03': 12,
-                'avaliação workshop': 13,
-                'exercício do conhecimento': 14,
-                'avaliação discursiva': 15,
-                'av1': 16,
-                'avaliação objetiva': 17,
-                'av2': 18,
-                'nota final': 19,
-                'nota final - espelho': 20,
-                'exame final': 21,
-                'af': 22,
-                'af - espelho': 23,
-                'nota final com exame': 24
-                }
-            else:
-                order_list = {
-                'nota geral': 7,
-                'pesquisa de satisfação': 8,
-                'exercício de fixação 01': 9,
-                'exercício de fixação 02': 10,
-                'exercício de fixação 03': 11,
-                'avaliação workshop': 12,
-                'exercício do conhecimento': 13,
-                'avaliação discursiva': 14,
-                'av1': 15,
-                'avaliação objetiva': 16,
-                'av2': 17,
-                'nota final': 18,
-                'nota final - espelho': 19,
-                'exame final': 20,
-                'af': 21,
-                'af - espelho': 22,
-                'nota final com exame': 23
                 }
         else:
             if 'attendance' in extracted_dict and 'atividade prática' in extracted_dict:
