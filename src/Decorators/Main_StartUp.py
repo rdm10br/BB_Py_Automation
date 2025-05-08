@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from Metodos import getPlanilha, checkup_login
 from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_async
 from Decorators.Inscryption import Auto_Sub, Auto_Unsub
+from Decorators.pause_control import toggle_pause, start_listener
 
 
 def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized'):

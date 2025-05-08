@@ -83,8 +83,8 @@ async def atribuirGruposFael(page: Page, id_interno: str) -> None:
             await page.wait_for_load_state('networkidle')
             pass
         else:
-            await page.get_by_role("link", name="Atribuir a grupos").wait_for(state='visible', timeout=4*1000)
-            await page.get_by_role("link", name="Atribuir a grupos").click(timeout=4*1000)
+            await page.get_by_role("link", name="Atribuir a grupos").wait_for(state='visible', timeout=6*1000)
+            await page.get_by_role("link", name="Atribuir a grupos").click(timeout=6*1000)
             await page.get_by_role("button", name="Personalizar").click()
             await page.get_by_role("option", name="Conjunto de grupos: Coligada").click()
             print('Saving...')

@@ -19,6 +19,7 @@ async def run(page: Page, index) -> None:
         
         await page.goto(classUrlUltra)
         await page.wait_for_timeout(1000*2)
+        # await page.pause()
 
 async def main():
     await run()
