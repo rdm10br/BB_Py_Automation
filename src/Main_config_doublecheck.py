@@ -3,7 +3,7 @@ from playwright.async_api import Page
 
 
 from Metodos import getPlanilha, getFromAPI, getAPIContentConfig
-from Decorators.Main_StartUp import playwright_StartUp_nosub, playwright_StartUp_nosub_test
+from Decorators.Main_StartUp import playwright_StartUp_nosub
 
 
 @playwright_StartUp_nosub()
@@ -19,7 +19,7 @@ async def run(page: Page, index) -> None:
         print(id_externo)
         
         # Masters DIG e TRAD
-        result = await getAPIContentConfig.doublecheck_config_main_Master(page=page, id_interno=id_interno, index=index)
+        # result = await getAPIContentConfig.doublecheck_config_main_Master(page=page, id_interno=id_interno, index=index)
         #=======================================================================
         
         # Mescla/Master DIG
@@ -35,7 +35,7 @@ async def run(page: Page, index) -> None:
         #=======================================================================
         
         # Boletim
-        # result = await getAPIContentConfig.doublecheck_config_gradebook(page=page, id_interno=id_interno, index=index)
+        result = await getAPIContentConfig.doublecheck_config_gradebook(page=page, id_interno=id_interno, index=index)
         #=======================================================================
         
         print(result)
