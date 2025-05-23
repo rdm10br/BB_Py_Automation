@@ -16,20 +16,20 @@ async def ocultar_boletim(page: Page, id_interno: str) -> None:
     
     async def loop_AV1(page: Page) -> bool:
         await page.get_by_role("cell", name="AV1 (Oculto)").wait_for(state='visible', timeout=2000)
-        await page.wait_for_timeout(2*1000)
+        await page.wait_for_timeout(6*1000)
         print('AV1 Desocultando...')
-        await page.get_by_label("AV1").check(timeout=2*1000)
-        await page.wait_for_timeout(2*1000)
+        await page.get_by_label("AV1").check(timeout=6*1000)
+        await page.wait_for_timeout(6*1000)
         await page.get_by_role("button", name="Mostrar/ocultar(Clique para").nth(1).hover()
         await page.get_by_role("menuitem", name="Mostrar colunas selecionadas", exact=True).click()
-        await page.wait_for_timeout(2*2000)
+        await page.wait_for_timeout(6*2000)
         await page.get_by_role("button", name="Enviar").click()
         await page.wait_for_load_state("networkidle")
         await page.wait_for_load_state('load')
         await page.get_by_role("button", name="Gerenciar").hover()
         await page.get_by_role("menuitem", name="Organização das colunas").click()
-        await page.get_by_role("row", name="AV1 Não está em um Período de avaliação Nota calculada").get_by_label("AV1").wait_for(state='visible', timeout=2*1000)
-        await page.wait_for_timeout(2*1000)
+        await page.get_by_role("row", name="AV1 Não está em um Período de avaliação Nota calculada").get_by_label("AV1").wait_for(state='visible', timeout=6*1000)
+        await page.wait_for_timeout(6*1000)
         print('AV1 desocultada!')
         return False
     
@@ -50,16 +50,16 @@ async def ocultar_boletim(page: Page, id_interno: str) -> None:
         await page.get_by_role("menuitem", name="Organização das colunas").click()
         print('Ocultando os itens novamente...')
         if is_ws != True:
-            await page.get_by_role("row", name="AV1 Não está em um Período de avaliação Nota calculada").get_by_label("AV1").check(timeout=4*1000)
-            await page.wait_for_timeout(2*2000)
-        await page.get_by_role("row", name="AV2 Não está em um Período de avaliação Nota calculada").get_by_label("AV2").check(timeout=4*1000)
-        await page.wait_for_timeout(2*2000)
-        await page.get_by_role("row", name="AF Não está em um Período de avaliação Nota calculada").get_by_label("AF").check(timeout=4*1000)
-        await page.wait_for_timeout(2*2000)
+            await page.get_by_role("row", name="AV1 Não está em um Período de avaliação Nota calculada").get_by_label("AV1").check(timeout=6*1000)
+            await page.wait_for_timeout(6*2000)
+        await page.get_by_role("row", name="AV2 Não está em um Período de avaliação Nota calculada").get_by_label("AV2").check(timeout=6*1000)
+        await page.wait_for_timeout(6*2000)
+        await page.get_by_role("row", name="AF Não está em um Período de avaliação Nota calculada").get_by_label("AF").check(timeout=6*1000)
+        await page.wait_for_timeout(6*2000)
 
         await page.get_by_role("button", name="Mostrar/ocultar(Clique para").nth(1).hover()
         await page.get_by_role("menuitem", name="Ocultar colunas selecionadas", exact=True).click()
-        await page.wait_for_timeout(2*2000)
+        await page.wait_for_timeout(6*2000)
         await page.get_by_role("button", name="Enviar").click()
         await page.wait_for_load_state("networkidle")
         await page.wait_for_load_state('load')
@@ -69,12 +69,12 @@ async def ocultar_boletim(page: Page, id_interno: str) -> None:
         if is_ws != True:
             try:
                 await page.get_by_role("cell", name="AV1 (Oculto)").wait_for(state='visible', timeout=2000)
-                await page.wait_for_timeout(2*1000)
+                await page.wait_for_timeout(6*1000)
                 print('AV1 Oculto')
             except:
                 try:
-                    await page.get_by_role("row", name="AV1 Não está em um Período de avaliação Nota calculada").get_by_label("AV1").check(timeout=2*1000)
-                    await page.wait_for_timeout(2*1000)
+                    await page.get_by_role("row", name="AV1 Não está em um Período de avaliação Nota calculada").get_by_label("AV1").check(timeout=6*1000)
+                    await page.wait_for_timeout(6*1000)
                 except:
                     print('AV1 calculada não existe')
         else:
@@ -88,28 +88,28 @@ async def ocultar_boletim(page: Page, id_interno: str) -> None:
                         print(f'error: {e}')
         try:
             await page.get_by_role("cell", name="AV2 (Oculto)").wait_for(state='visible', timeout=2000)
-            await page.wait_for_timeout(2*1000)
+            await page.wait_for_timeout(6*1000)
             print('AV2 Oculto')
         except:
             try:
-                await page.get_by_role("row", name="AV2 Não está em um Período de avaliação Nota calculada").get_by_label("AV2").check(timeout=2*1000)
-                await page.wait_for_timeout(2*1000)
+                await page.get_by_role("row", name="AV2 Não está em um Período de avaliação Nota calculada").get_by_label("AV2").check(timeout=6*1000)
+                await page.wait_for_timeout(6*1000)
             except:
                 print('AV2 calculada não existe')
         try:
             await page.get_by_role("cell", name="AF (Oculto)").wait_for(state='visible', timeout=2000)
-            await page.wait_for_timeout(2*1000)
+            await page.wait_for_timeout(6*1000)
             print('AF Oculto')
         except:
             try:
-                await page.get_by_role("row", name="AF Não está em um Período de avaliação Nota calculada").get_by_label("AF").check(timeout=2*1000)
-                await page.wait_for_timeout(2*1000)
+                await page.get_by_role("row", name="AF Não está em um Período de avaliação Nota calculada").get_by_label("AF").check(timeout=6*1000)
+                await page.wait_for_timeout(6*1000)
             except:
                 print('AF calculada não existe')
         try:
             await page.get_by_role("button", name="Mostrar/ocultar(Clique para").nth(1).hover()
             await page.get_by_role("menuitem", name="Ocultar colunas selecionadas", exact=True).click()
-            await page.wait_for_timeout(2*2000)
+            await page.wait_for_timeout(6*2000)
             await page.get_by_role("button", name="Enviar").click()
             await page.wait_for_load_state("networkidle")
             await page.wait_for_load_state('load')
@@ -138,7 +138,7 @@ async def AdeusCTRL2(
     Args:
         page (Page): _description_
         id_interno (str): _description_
-        Item_list (list, optional): _description_. Defaults to [ 'Atividade de Autoaprendizagem 1', 'Atividade de Autoaprendizagem 2', 'Atividade de Autoaprendizagem 3', 'Atividade de Autoaprendizagem 4', 'Avaliação Workshop', 'Atividade Contextualizada', 'AV1*', 'AV2*', 'AF*' ].
+        Item_list (list, optional): _description_. Defaults to [ 'Atividade de Autoaprendizagem 1', 'Atividade de Autoaprendizagem 6', 'Atividade de Autoaprendizagem 3', 'Atividade de Autoaprendizagem 6', 'Avaliação Workshop', 'Atividade Contextualizada', 'AV1*', 'AV2*', 'AF*' ].
 
     Returns:
         _type_: _description_
@@ -165,7 +165,7 @@ async def AdeusCTRL2(
                 
             # for p in position:
             #     try:
-            #         await page.locator(f"#cmlink_h{p}").click(timeout=4*1000)
+            #         await page.locator(f"#cmlink_h{p}").click(timeout=6*1000)
             #         await page.get_by_role("link", name="Ocultar dos alunos (ligado/").click()
             #         await page.frame_locator("iframe[name=\"bb-base-admin-iframe\"]").get_by_role("columnheader", name="Coluna não visível para usuáriosNota Geral Clique para obter mais opções").locator("span").click()
             #         await page.frame_locator("iframe[name=\"bb-base-admin-iframe\"]").get_by_role("link", name="Ocultar dos alunos (ligado/").click()
@@ -178,11 +178,11 @@ async def AdeusCTRL2(
             print('Ocultando os itens novamente...')
             
             for p in position:
-                await page.locator(f"[id=\"item_{p}\\.layoutCheckBox\"]").wait_for(state='visible', timeout=4*1000)
+                await page.locator(f"[id=\"item_{p}\\.layoutCheckBox\"]").wait_for(state='visible', timeout=6*1000)
                 await page.locator(f"[id=\"item_{p}\\.layoutCheckBox\"]").check()
             await page.get_by_role("button", name="Mostrar/ocultar(Clique para").nth(1).hover()
             await page.get_by_role("menuitem", name="Ocultar colunas selecionadas", exact=True).click()
-            await page.wait_for_timeout(2*2000)
+            await page.wait_for_timeout(6*2000)
             await page.get_by_role("button", name="Enviar").click()
             await page.wait_for_load_state("networkidle")
             await page.wait_for_load_state('load')

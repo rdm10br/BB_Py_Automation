@@ -60,8 +60,8 @@ async def atribuirGruposFael(page: Page, id_interno: str) -> None:
         desafioConfigURL = f'{classURL}/outline/discussion/{id_discussion}/settings?contentId={id_discussion}&view=discussions&courseId={id_interno}'
         await page.goto(groups)
         print('Group visibility...')
-        await page.get_by_role("gridcell", name="Coligada | 1").get_by_role("button").click()
-        await page.get_by_role("option", name="Visível para alunos").click()
+        await page.get_by_role("gridcell", name="Coligada | 1").get_by_role("button").click(timeout=15*1000)
+        await page.get_by_role("option", name="Visível para alunos").click(timeout=15*1000)
         print('Opening item...')
         await page.goto(url=desafioConfigURL, wait_until='commit')
         await page.wait_for_load_state('domcontentloaded')
@@ -70,7 +70,7 @@ async def atribuirGruposFael(page: Page, id_interno: str) -> None:
         print('Opening settings...')
         print('Associating group...')
         if await page.get_by_role("link", name="Nenhum grupo").is_visible() is True:
-            await page.get_by_role("button", name="Excluir grupo").click(timeout=4*1000)
+            await page.get_by_role("button", name="Excluir grupo").click(timeout=15*1000)
             await page.get_by_role("button", name="Excluir").click()
             await page.get_by_role("link", name="Atribuir a grupos").click()
             await page.get_by_role("button", name="Personalizar").click()
@@ -83,14 +83,14 @@ async def atribuirGruposFael(page: Page, id_interno: str) -> None:
             await page.wait_for_load_state('networkidle')
             pass
         else:
-            await page.get_by_role("link", name="Atribuir a grupos").wait_for(state='visible', timeout=4*1000)
-            await page.get_by_role("link", name="Atribuir a grupos").click(timeout=4*1000)
+            await page.get_by_role("link", name="Atribuir a grupos").wait_for(state='visible', timeout=20*1000)
+            await page.get_by_role("link", name="Atribuir a grupos").click(timeout=20*1000)
             await page.get_by_role("button", name="Personalizar").click()
             await page.get_by_role("option", name="Conjunto de grupos: Coligada").click()
             print('Saving...')
             try:
                 print('teste - nenhum grupo')
-                await page.get_by_text("Nenhum grupo encontrado").wait_for(state='visible', timeout=6*1000)
+                await page.get_by_text("Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
                 print('pass...')
                 if await page.get_by_text("Nenhum grupo encontrado").is_visible() is True:
                     print(f'Error de Modal na sala {id_interno} no item {item_search}')

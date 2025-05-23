@@ -8,9 +8,12 @@ CACHE_FILE = r'src\Json\course_mapping_test.json'
 
 # Lendo o arquivo
 col = "ID"
+col_user = "USER"
 col_status = 'STATUS'
 df_map = pd.read_excel(arq_excel, sheet_name='salas')
+df_map_expurgo = pd.read_excel(arq_excel, sheet_name='expurgo')
 total_lines = len(df_map)
+total_lines_expurgo = len(df_map_expurgo)
 
 col_plan2 = "ID_ORIGIN"
 col_plan2_copy = 'ID_DESTINY'
@@ -22,6 +25,53 @@ col_plan3_curso = "CURSO"
 col_plan3_GA = 'GRANDE ÁREA'
 df_map_plan3 = pd.read_excel(arq_excel, sheet_name='atividades')
 total_lines_plan3 = len(df_map_plan3)
+
+def getUser(index: int):
+    """
+    Function to get cell content from the 'salas' plan sheet and collum 'ID'
+    of the excel file.
+
+    Args:
+        index (int): index of the line that you want to get from the excel file.
+
+    Returns:
+        Any: this function returns Any content that is on the cell
+    """
+    # Ajustando o índice para começar do zero
+    index -= 1
+    try :
+    # Verificando se o índice está dentro do intervalo válido
+        if 0 <= index < total_lines:
+            # Obtendo o valor da célula na linha e coluna especificadas
+            cell_value = df_map_expurgo.at[index, col_user]
+            return str(cell_value)
+        else:
+            return total_lines
+    except Exception as e:
+            print("index does not exist")
+def getCell_expurgo(index: int):
+    """
+    Function to get cell content from the 'salas' plan sheet and collum 'ID'
+    of the excel file.
+
+    Args:
+        index (int): index of the line that you want to get from the excel file.
+
+    Returns:
+        Any: this function returns Any content that is on the cell
+    """
+    # Ajustando o índice para começar do zero
+    index -= 1
+    try :
+    # Verificando se o índice está dentro do intervalo válido
+        if 0 <= index < total_lines:
+            # Obtendo o valor da célula na linha e coluna especificadas
+            cell_value = df_map_expurgo.at[index, col]
+            return str(cell_value)
+        else:
+            return total_lines
+    except Exception as e:
+            print("index does not exist")            
 
 def getCell(index: int):
     """
@@ -46,6 +96,27 @@ def getCell(index: int):
             return total_lines
     except Exception as e:
             print("index does not exist")
+            
+def getCell_status_expurgo(index: int):
+    """
+    Function to get cell content from the 'salas' plan sheet and collum 'STATUS'
+    of the excel file.
+
+    Args:
+        index (int): index of the line that you want to get from the excel file.
+
+    Returns:
+        Any: this function returns Any content that is on the cell
+    """
+    # Ajustando o índice para começar do zero
+    index -= 1
+    # Verificando se o índice está dentro do intervalo válido
+    if 0 <= index < total_lines:
+        # Obtendo o valor da célula na linha e coluna especificadas
+        cell_value = df_map_expurgo[index, col_status]
+        return str(cell_value)
+    else:
+        return str(cell_value)
             
 def getCell_status(index: int):
     """
