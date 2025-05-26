@@ -930,7 +930,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
             await page.goto(url=internalID_API_noPublic, wait_until='commit')
             try:
                 config = 'contentDetail["resource/x-bb-folder"].isFolder'
-                print(f' Checking {item_Search} is folder...')
+                print(f'Checking {item_Search} is folder...')
                 result_folder = await page.evaluate(filteredRequest_title(item_Search, config))
                 
                 config = 'id'
