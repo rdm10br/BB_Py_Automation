@@ -559,9 +559,10 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
         ]
         
             # Iterate over each item in the itemList
-        for item in itemList:
+        
+        for index, item in enumerate(itemList):
             # Initialize a dictionary for the current item
-            results_gradebook[item] = {}
+            results_gradebook[f'{index}_{item}'] = {}
             
             # Fetch each configuration
             for config in configs:
@@ -579,7 +580,7 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
                         value = re.sub(pattern=r'</mn></math>X_Running_Total=true', repl='', string=value)
                         ...
                         
-                    results_gradebook[item][config] = value
+                    results_gradebook[f'{index}_{item}'][config] = value
                     
                 except Exception as e:
                     config_validated = [
@@ -590,8 +591,8 @@ async def API_Config(line: int, page: Page, id_interno: str, item_Search: str) -
                     if config in config_validated:
                         ...
                     else:
-                        print(f"Error retrieving config '{config}' for item '{item}': {e}")
-                    results_gradebook[item][config] = None  # Default to None on error
+                        print(f"Error retrieving config '{config}' for item '{index}_{item}': {e}")
+                    results_gradebook[f'{index}_{item}'][config] = None  # Default to None on error
                 
         return results_gradebook
         ...
