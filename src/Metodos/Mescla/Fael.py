@@ -300,4 +300,4 @@ async def ajusteGradebook(page: Page, id_interno: str) -> None:
         target_name = encontrar_target(name, order_list, extracted_dict, diff_items)
         await drag_loop(page, extracted_dict, target_name, name)
 
-    print("\n✅ Todos os valores estão em ordem!")
+    print("\n✅ Todos os valores estao em ordem!")
