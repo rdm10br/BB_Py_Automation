@@ -86,8 +86,13 @@ def compare_items_from_git(item: str) -> str:
         decoded_content = str(base64.b64decode(content).decode('utf-8')).replace('\r', '')
 
         local_file_path = f'./{item}'
-        with open(local_file_path, 'r', encoding='utf-16-le') as local_file:
-            local_file_content = local_file.read()
+        
+        if item == 'requirements.txt':
+            with open(local_file_path, 'r', encoding='utf-16-le') as local_file:
+                local_file_content = local_file.read()
+        else:
+            with open(local_file_path, 'r', encoding='utf-8-sig') as local_file:
+                local_file_content = local_file.read()
 
         if decoded_content == local_file_content:
             logging.info("The contents are identical.")
@@ -120,11 +125,11 @@ def compare_items(item: str, tmpdirname: str) -> str:
         logging.warning("Failed to retrieve the content from GitHub.")
 
 
-def apply_update():
-    try:
-        excluded_files = [
+def apply_update(
+    excluded_files: list[str] = [
             'SALAS.xlsx'
-        ]
+        ]):
+    try:
 
         with tempfile.TemporaryDirectory() as tmpdirname:
             with zipfile.ZipFile('update.zip', 'r') as zip_ref:

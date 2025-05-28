@@ -1,7 +1,7 @@
 import asyncio
-from Decorators.Main_StartUp import playwright_StartUp
 from playwright.async_api import Page
 
+from Decorators.Main_StartUp import playwright_StartUp, playwright_StartUp_nosub
 from Metodos import Fael, getPlanilha, getFromAPI, ajuste_AV1, AjusteDataFael, grupo_fael
 
 @playwright_StartUp()
@@ -23,7 +23,7 @@ async def main(page: Page, index) -> None:
 
     # data3 : str, optional
     # description: Defaults to '20/04/25', this date changes the Opening date to [Avaliação Workshop]
-    # await AjusteDataFael.ajusteData(page, id_interno, data1='17/06/25', data2='10/06/25', data3='20/05/25')
+    await AjusteDataFael.ajusteData(page, id_interno, data1='17/06/25', data2='10/06/25', data3='20/05/25')
     
     await grupo_fael.inserirArquivo(page, id_interno)
     await grupo_fael.atribuirGruposFael(page, id_interno)
