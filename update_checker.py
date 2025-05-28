@@ -83,10 +83,10 @@ def compare_items_from_git(item: str) -> str:
         content = response.json().get('content')
         response.raise_for_status()
 
-        decoded_content = base64.b64decode(content).decode('utf-8')
+        decoded_content = str(base64.b64decode(content).decode('utf-8')).replace('\r', '')
 
         local_file_path = f'./{item}'
-        with open(local_file_path, 'r', encoding='utf-8') as local_file:
+        with open(local_file_path, 'r', encoding='utf-16-le') as local_file:
             local_file_content = local_file.read()
 
         if decoded_content == local_file_content:
@@ -96,6 +96,7 @@ def compare_items_from_git(item: str) -> str:
             logging.info("The contents are different.")
             return str(response.json().get('download_url'))
     except Exception as e:
+        print(e)
         logging.warning("Failed to retrieve the content from GitHub.")
 
 
