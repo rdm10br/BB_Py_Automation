@@ -41,12 +41,12 @@ def getUser(index: int):
     index -= 1
     try :
     # Verificando se o índice está dentro do intervalo válido
-        if 0 <= index < total_lines:
+        if 0 <= index < total_lines_expurgo:
             # Obtendo o valor da célula na linha e coluna especificadas
             cell_value = df_map_expurgo.at[index, col_user]
             return str(cell_value)
         else:
-            return total_lines
+            return total_lines_expurgo
     except Exception as e:
             print("index does not exist")
 def getCell_expurgo(index: int):
@@ -64,14 +64,20 @@ def getCell_expurgo(index: int):
     index -= 1
     try :
     # Verificando se o índice está dentro do intervalo válido
-        if 0 <= index < total_lines:
+        # if 0 <= index < total_lines:
+        if 0 <= index < total_lines_expurgo:
             # Obtendo o valor da célula na linha e coluna especificadas
             cell_value = df_map_expurgo.at[index, col]
             return str(cell_value)
+    #     else:
+    #         return total_lines
+    # except Exception as e:
+    #         print("index does not exist") 
         else:
-            return total_lines
+            return "Índice inválido"
     except Exception as e:
-            print("index does not exist")            
+        print(f"Erro ao acessar índice {index}: {e}")
+        return "Erro"          
 
 def getCell(index: int):
     """
@@ -111,12 +117,14 @@ def getCell_status_expurgo(index: int):
     # Ajustando o índice para começar do zero
     index -= 1
     # Verificando se o índice está dentro do intervalo válido
-    if 0 <= index < total_lines:
+    # if 0 <= index < total_lines:
+    if 0 <= index < total_lines_expurgo:
         # Obtendo o valor da célula na linha e coluna especificadas
-        cell_value = df_map_expurgo[index, col_status]
+        cell_value = df_map_expurgo.at[index, col_status]
         return str(cell_value)
     else:
         return str(cell_value)
+        # return "Index inválido"
             
 def getCell_status(index: int):
     """
@@ -237,6 +245,21 @@ def writeOnExcel_Plan1(index, return_status):
 
     # Save the changes to the existing file
     workbook.save(arq_excel)
+    
+def writeOnExcel_Plan3(index, return_status):
+    # Load an existing Excel workbook
+    workbook = openpyxl.load_workbook(arq_excel)
+
+    # Select the active sheet
+    sheet = workbook['expurgo']
+    
+    col_status_plan1 = 'C' #COLUNA DE STATUS deve ser atribuida pela letra da coluna
+
+    # Write data to the Excel sheet
+    sheet[f'{col_status_plan1}{index+1}'] = return_status
+
+    # Save the changes to the existing file
+    workbook.save(arq_excel)    
     
 def writeOnExcel_Plan1_Result(index, return_status):
     # Load an existing Excel workbook

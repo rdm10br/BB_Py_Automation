@@ -275,9 +275,9 @@ def playwright_StartUp_nosub_expurgo(timeout: int = 60*1000, headless: bool = Fa
                     index+=1
                     
                     print(f'Start loop {index}/{total_lines_plan1}')
-                    cell_status = getPlanilha.getCell_status(index=index)
+                    cell_status = getPlanilha.getCell_status_expurgo(index=index)
                     start_time = time.time()
-                    id_externo = getPlanilha.getCell(index)
+                    id_externo = getPlanilha.getCell_expurgo(index)
                     
                     
                     if cell_status == 'nan':
