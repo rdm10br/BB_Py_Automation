@@ -1,5 +1,6 @@
-import gc, sys, time, os, asyncio, requests, json
-from datetime import datetime, timedelta
+import gc, sys, time, os, asyncio, requests
+# import json
+# from datetime import datetime, timedelta
 from functools import wraps, lru_cache
 from playwright.async_api import async_playwright
 from multiprocessing import cpu_count
@@ -8,13 +9,14 @@ from dotenv import load_dotenv
 from Metodos import getPlanilha, checkup_login
 from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_async
 from Decorators.Inscryption import Auto_Sub, Auto_Unsub
-from Decorators.pause_control import toggle_pause, start_listener
+from Decorators.pause_control import PauseWrapper, with_pause_control
 
 
 def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized'):
     def decorator(func):
         @lru_cache
         @wraps(func)
+        @with_pause_control()
         @capture_console_output_async
         async def wrapper(*args, **kwargs):
             async with async_playwright() as playwright:
@@ -26,7 +28,7 @@ def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str 
                 
                 browser = await playwright.chromium.launch(headless=headless, args=[arg], timeout=timeout)
                 context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark')
-                page = await context.new_page()
+                page = PauseWrapper(await context.new_page())
                 
                 start_time0 = time.time()
                 await checkup_login.checkup_login(page=page)
@@ -85,7 +87,7 @@ def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str 
                         
                             new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                             await new_context.add_cookies(cookies)
-                            new_page = await new_context.new_page()
+                            new_page = PauseWrapper(await new_context.new_page())
                             
                             await Auto_Sub(page=new_page, index=index)
                             await func(new_page, index, *args, **kwargs)
@@ -127,6 +129,7 @@ def playwright_StartUp_nosub(timeout: int = 60*1000, headless: bool = False, arg
     def decorator(func):
         @lru_cache
         @wraps(func)
+        @with_pause_control()
         @capture_console_output_async
         async def wrapper(*args, **kwargs):
             async with async_playwright() as playwright:
@@ -138,7 +141,7 @@ def playwright_StartUp_nosub(timeout: int = 60*1000, headless: bool = False, arg
                 
                 browser = await playwright.chromium.launch(headless=headless, args=[arg], timeout=timeout)
                 context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark')
-                page = await context.new_page()
+                page = PauseWrapper(await context.new_page())
                 
                 start_time0 = time.time()
                 await checkup_login.checkup_login(page=page)
@@ -206,7 +209,7 @@ def playwright_StartUp_nosub(timeout: int = 60*1000, headless: bool = False, arg
                         if str(response.status_code) == '200' and is_empty > 0:
                             new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                             await new_context.add_cookies(cookies)
-                            new_page = await new_context.new_page()
+                            new_page = PauseWrapper(await new_context.new_page())
                             
                             await func(new_page, index, *args, **kwargs)
                             
@@ -246,6 +249,7 @@ def playwright_StartUp_nosub_expurgo(timeout: int = 60*1000, headless: bool = Fa
     def decorator(func):
         @lru_cache
         @wraps(func)
+        @with_pause_control()
         @capture_console_output_async
         async def wrapper(*args, **kwargs):
             async with async_playwright() as playwright:
@@ -257,7 +261,7 @@ def playwright_StartUp_nosub_expurgo(timeout: int = 60*1000, headless: bool = Fa
                 
                 browser = await playwright.chromium.launch(headless=headless, args=[arg], timeout=timeout)
                 context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark')
-                page = await context.new_page()
+                page = PauseWrapper(await context.new_page())
                 
                 start_time0 = time.time()
                 await checkup_login.checkup_login(page=page)
@@ -328,7 +332,7 @@ def playwright_StartUp_nosub_expurgo(timeout: int = 60*1000, headless: bool = Fa
                         if str(response.status_code) == '200' and is_empty > 0:
                             new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                             await new_context.add_cookies(cookies)
-                            new_page = await new_context.new_page()
+                            new_page = PauseWrapper(await new_context.new_page())
                             
                             await func(new_page, index, *args, **kwargs)
                             
@@ -368,6 +372,7 @@ def playwright_StartUp_nosub_test(timeout: int = 60*1000, headless: bool = False
     def decorator(func):
         @lru_cache
         @wraps(func)
+        @with_pause_control()
         @capture_console_output_async
         async def wrapper(*args, **kwargs):
             async with async_playwright() as playwright:
@@ -379,7 +384,7 @@ def playwright_StartUp_nosub_test(timeout: int = 60*1000, headless: bool = False
 
                 browser = await playwright.chromium.launch(headless=headless, args=[arg], timeout=timeout)
                 context = await browser.new_context(base_url=baseURL, no_viewport=True, color_scheme='dark')
-                page = await context.new_page()
+                page = PauseWrapper(await context.new_page())
 
                 # Login check
                 start_time0 = time.time()
@@ -401,7 +406,7 @@ def playwright_StartUp_nosub_test(timeout: int = 60*1000, headless: bool = False
                         # Create a new context and process the page
                         new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                         await new_context.add_cookies(cookies)
-                        new_page = await new_context.new_page()
+                        new_page = PauseWrapper(await new_context.new_page())
 
                         await func(new_page, index, *args, **kwargs)
 

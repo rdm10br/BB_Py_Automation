@@ -410,7 +410,7 @@ async def unidade(page: Page, id_interno, item):
                 await page.wait_for_timeout(6*1000)
                 await page.get_by_role("button", name="Fechar").click()
                 await page.wait_for_timeout(4*1000)
-                await page.get_by_role("button", name="Fechar").click()      
+                await page.get_by_role("button", name="Fechar").click()
                 continue
             if "Material complementar" in i:
                 print("Encontrou 'Material complementar', pulando item.")
