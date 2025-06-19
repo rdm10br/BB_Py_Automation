@@ -17,9 +17,6 @@ async def run(playwright: Playwright) -> None:
     context = await browser.new_context(base_url=baseURL, no_viewport=True)
     page = await context.new_page()
     start_time0 = time.time()
-
-    
-    await page.goto('./')
     
     # Verificar se está logado e logar
     await checkup_login.checkup_login(page=page)
@@ -45,8 +42,7 @@ async def run(playwright: Playwright) -> None:
             print(f'Index: {index} in plan is alredy writen')
             pass
         else :
-            new_browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
-            new_context = await new_browser.new_context(base_url=baseURL, no_viewport=True)
+            new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
             # Assuming 'cookies' is the list of cookies obtained earlier
             await new_context.add_cookies(cookies)
             new_page = await new_context.new_page()
@@ -60,7 +56,6 @@ async def run(playwright: Playwright) -> None:
             executionTime = f'Execution time: {'{:.2f}'.format(execution_time)} seconds'
             print('{:5} | {}'.format(f'Run: {index}',executionTime))
             await new_context.close()
-            await new_browser.close()
             
             gc.collect()
             
