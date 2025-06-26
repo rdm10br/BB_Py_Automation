@@ -10,12 +10,14 @@ from Metodos import getPlanilha, checkup_login
 from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_async
 from Decorators.Inscryption import Auto_Sub, Auto_Unsub
 from Decorators.pause_control import PauseWrapper, with_pause_control
+from Decorators.language_pack import lang_pack, lang_pack_async
 
 
 def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized'):
     def decorator(func):
         @lru_cache
         @wraps(func)
+        @lang_pack_async
         @with_pause_control()
         @capture_console_output_async
         async def wrapper(*args, **kwargs):
@@ -129,6 +131,7 @@ def playwright_StartUp_nosub(timeout: int = 60*1000, headless: bool = False, arg
     def decorator(func):
         @lru_cache
         @wraps(func)
+        @lang_pack_async
         @with_pause_control()
         @capture_console_output_async
         async def wrapper(*args, **kwargs):
@@ -249,6 +252,7 @@ def playwright_StartUp_nosub_expurgo(timeout: int = 60*1000, headless: bool = Fa
     def decorator(func):
         @lru_cache
         @wraps(func)
+        @lang_pack_async
         @with_pause_control()
         @capture_console_output_async
         async def wrapper(*args, **kwargs):
@@ -372,6 +376,7 @@ def playwright_StartUp_nosub_test(timeout: int = 60*1000, headless: bool = False
     def decorator(func):
         @lru_cache
         @wraps(func)
+        @lang_pack_async
         @with_pause_control()
         @capture_console_output_async
         async def wrapper(*args, **kwargs):
