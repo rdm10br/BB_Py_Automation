@@ -3,7 +3,7 @@ from playwright.async_api import Page
 
 
 from Metodos import getPlanilha, getFromAPI, atribGrup, AjusteNotaZero, AjusteAvaliacaoV2
-from Decorators.Main_StartUp import playwright_StartUp
+from Decorators import playwright_StartUp
 
 
 @playwright_StartUp()

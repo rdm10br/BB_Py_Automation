@@ -4,7 +4,7 @@ import asyncio
 from playwright.async_api import Page
 
 from Metodos import getFromAPI, ajuste_av1_av2, getPlanilha
-from Decorators.Main_StartUp import playwright_StartUp_nosub
+from Decorators import playwright_StartUp_nosub
 
 
 @playwright_StartUp_nosub()

@@ -2,7 +2,7 @@ import asyncio
 from playwright.async_api import Page
 
 from Metodos import getFromAPI, openMescla, getPlanilha
-from Decorators.Main_StartUp import playwright_StartUp_nosub
+from Decorators import playwright_StartUp_nosub
 
 
 @playwright_StartUp_nosub()

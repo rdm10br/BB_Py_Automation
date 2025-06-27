@@ -1,7 +1,7 @@
 import asyncio
 from playwright.async_api import Page
 
-from Decorators.Main_StartUp import playwright_StartUp, playwright_StartUp_nosub
+from Decorators import playwright_StartUp, playwright_StartUp_nosub
 from Metodos import Fael, getPlanilha, getFromAPI, ajuste_AV1, AjusteDataFael, grupo_fael
 
 @playwright_StartUp()

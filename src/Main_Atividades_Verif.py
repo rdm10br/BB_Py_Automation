@@ -2,7 +2,7 @@ import asyncio
 from playwright.async_api import Page
 
 from Metodos import getFromAPI, getPlanilha
-from Decorators.Main_StartUp import playwright_StartUp
+from Decorators import playwright_StartUp
 
 
 @playwright_StartUp()

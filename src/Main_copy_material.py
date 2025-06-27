@@ -3,9 +3,10 @@ from playwright.async_api import Playwright, async_playwright
 from dotenv import load_dotenv
 
 from Metodos import checkup_login, getPlanilha, copiaMaterial
-from Decorators import capture_console_output_async, TimeStampedStream
+from Decorators import capture_console_output_async, TimeStampedStream, with_pause_control, PauseWrapper, lang_pack_async
 
-
+@lang_pack_async
+@with_pause_control()
 @capture_console_output_async
 async def run(playwright: Playwright) -> None:
     load_dotenv()
@@ -15,7 +16,7 @@ async def run(playwright: Playwright) -> None:
     print('\nExecution Start')
     browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'])
     context = await browser.new_context(base_url=baseURL, no_viewport=True)
-    page = await context.new_page()
+    page = PauseWrapper(await context.new_page())
     start_time0 = time.time()
     
     # Verificar se está logado e logar
@@ -45,7 +46,7 @@ async def run(playwright: Playwright) -> None:
             new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
             # Assuming 'cookies' is the list of cookies obtained earlier
             await new_context.add_cookies(cookies)
-            new_page = await new_context.new_page()
+            new_page = PauseWrapper(await new_context.new_page())
             
             await copiaMaterial.copyMaterial(page=new_page, index=index)
             getPlanilha.writeOnExcel_Plan2(index=index, return_status='OK')

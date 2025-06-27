@@ -2,8 +2,8 @@ import asyncio
 from playwright.async_api import Page
 
 
-from Metodos import getPlanilha, getFromAPI, getData,AjusteDataFael
-from Decorators.Main_StartUp import playwright_StartUp
+from Metodos import getPlanilha, getFromAPI, AjusteDataFael
+from Decorators import playwright_StartUp
 
 
 # dataShow, dataHide = getData.get_data()

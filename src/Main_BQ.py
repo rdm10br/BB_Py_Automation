@@ -1,14 +1,18 @@
 import asyncio, gc, sys, time, os, json
 from playwright.async_api import Playwright, async_playwright
+from datetime import datetime, timezone
+from dateutil.relativedelta import relativedelta
 from functools import lru_cache
 from dotenv import load_dotenv
 
 
 #importando Metodos principais
 from Metodos import checkup_login, getBQ, fileChooser, create_bq, junctionWindow, junctionSizeWindow
-from Decorators import capture_console_output_async, TimeStampedStream
+from Decorators import capture_console_output_async, TimeStampedStream, lang_pack_async, PauseWrapper, with_pause_control
 
 @lru_cache
+@lang_pack_async
+@with_pause_control()
 @capture_console_output_async
 async def run(playwright: Playwright) -> None:
     load_dotenv()
@@ -21,6 +25,7 @@ async def run(playwright: Playwright) -> None:
     
     browser = await playwright.chromium.launch(headless=False, args=['--start-maximized'], timeout=60*1000)
     context = await browser.new_context(base_url=baseURL, no_viewport=True)
+    # page = PauseWrapper(await context.new_page())
     page = await context.new_page()
     
     
@@ -59,6 +64,60 @@ async def run(playwright: Playwright) -> None:
         await page.goto(API_bq_id(_offset=Offset))
         id_BQ = await page.evaluate(filteredRequest_title(item_search=BQ_name, config='id'))
         return id_BQ
+    
+    async def bq_cleanup(_cache_length: int) -> None:
+        """
+        CleanUp BQ repository if it has more than 60 and more than 2 months
+
+        Args:
+            _cache_length (int): _description_
+        """
+        async def handle_dialog(dialog):
+            print("Dialog appeared with message:", dialog.message)
+            await dialog.accept()  # or dialog.dismiss()
+        
+        await page.goto(bq_id_max)
+        _count = await page.evaluate('JSON.parse(document.body.innerText).paging.count')
+        if (_cache_length + _count) >= 60:
+            _list = await page.evaluate('JSON.parse(document.body.innerText).results.map(item => item.lastModifiedDate)')
+            # parsed_list = [datetime.fromisoformat(dt.replace("Z", "+00:00")).strftime("%Y-%m") for dt in _list]
+            # Reference date: two months ago, at month precision
+            # limit_date = datetime.today() - relativedelta(months=2)
+            limit_date = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+            limit_date -= relativedelta(months=2)
+            old_indices = []
+            parsed_dates = []
+            delete_list = []
+            for i, dt in enumerate(_list):
+                dt_obj = datetime.fromisoformat(dt.replace("Z", "+00:00")).replace(day=1)
+                parsed_dates.append((i, dt_obj))
+                if dt_obj <= limit_date:
+                    old_indices.append(i)
+                    
+            _title_list = await page.evaluate('JSON.parse(document.body.innerText).results.map(item => item.title)')
+            
+            if not old_indices:
+                # Sort by datetime ascending, then pick first 10 indices
+                parsed_dates.sort(key=lambda x: x[1])
+                old_indices = [i for i, _ in parsed_dates[:10]]
+                
+                for _i in old_indices:
+                    delete_list.append(_title_list[_i])
+                print(f"Selected indices for cleanup: {delete_list}")
+            else:
+                for _i in old_indices:
+                    delete_list.append(_title_list[_i])
+                print(f"Selected indices for cleanup: {delete_list}")
+            
+            if delete_list:
+                for _d in delete_list:
+                    await page.goto(f'{rootBQ}&showAll=true')
+                    print(f'Deleting: {_d}')
+                    await page.get_by_role("button", name=_d).click()
+                    page.once("dialog", handle_dialog)
+                    await page.get_by_role("menuitem", name="Excluir").click()
+                    print(f'{_d} Deleted!')
+        return
     
     start_time0 = time.time()
     await checkup_login.checkup_login(page=page)
@@ -147,7 +206,9 @@ async def run(playwright: Playwright) -> None:
     with open(CACHE_FILE, 'r', encoding="utf-8") as f:
         cache_data = json.load(f)
     cache_length = len(cache_data['queue_files'])
-        
+    
+    await bq_cleanup(cache_length)
+    
     for i in range(cache_length):
         cache = cache_data['queue_files'][i]
         if cache['processingStatus'] == "Finished":
@@ -222,7 +283,7 @@ async def run(playwright: Playwright) -> None:
                 else:
                     new_context = await browser.new_context(base_url=baseURL, no_viewport=True)
                     await new_context.add_cookies(cookies)
-                    new_page = await new_context.new_page()
+                    new_page = PauseWrapper(await new_context.new_page())
                     
                     start_time = time.time()
                     print(f'\nQuestão : {index}')

@@ -2,7 +2,7 @@ import os, polib, gettext, requests, asyncio, sys, builtins
 from googletrans import Translator
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv('user_pref.env')
 lang = os.getenv('LANGUAGE')
 # Definir idioma (pode ser dinâmico)
 idioma = lang or 'pt_BR'  # ou 'en_US'
@@ -11,7 +11,10 @@ translator = Translator()
 # Caminho base das traduções
 localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'locale'))
 
-IDIOMAS = ['es_ES', 'fr_FR', 'ru_RU', 'pt_BR']  # idiomas de destino
+# IDIOMAS = ['es_ES', 'fr_FR', 'ru_RU', 'pt_BR']  # idiomas de destino
+IDIOMAS = ['pt_BR', 'es_ES']
+if idioma not in IDIOMAS:
+    IDIOMAS.append(idioma)
 BASE_IDIOMA = 'en_US'
 ARQUIVO_PO = 'messages.po'
 
@@ -42,10 +45,59 @@ def gerar_po_para_idiomas(base_dir='locale'):
                 if not msgid:
                     continue
                 try:
+                    translation = translator.translate(text=entrada.msgid, dest=_idioma)
                     novo_po.append(
                         polib.POEntry(
                             msgid=entrada.msgid,
-                            msgstr=translator.translate(text=entrada.msgid, dest=_idioma).text
+                            msgstr=translation.text
+                        )
+                    )
+                except Exception as e:
+                    print(f"[{idioma}] Erro ao traduzir '{entrada.msgid}': {e}")
+                    novo_po.append(
+                        polib.POEntry(
+                            msgid=entrada.msgid,
+                            msgstr=""  # ou msgid como fallback
+                        )
+                    )
+                    ...
+
+            novo_po.save(destino_po)
+        else:
+            # print(f"Arquivo já existe: {destino_po}")
+            ...
+
+async def gerar_po_para_idiomas_async(base_dir='locale'):
+    base_path = os.path.join(base_dir, BASE_IDIOMA, 'LC_MESSAGES', ARQUIVO_PO)
+    base_po = polib.pofile(base_path)
+
+    for idioma in IDIOMAS:
+        _idioma = idioma.split('_')[0]
+        destino_dir = os.path.join(base_dir, idioma, 'LC_MESSAGES')
+        destino_po = os.path.join(destino_dir, ARQUIVO_PO)
+
+        os.makedirs(destino_dir, exist_ok=True)
+
+        if not os.path.exists(destino_po):
+            # print(f"Criando arquivo de tradução: {destino_po}")
+            novo_po = polib.POFile()
+            novo_po.metadata = {
+                'Project-Id-Version': '1.0',
+                'Language': idioma,
+                'Content-Type': 'text/plain; charset=UTF-8',
+                'Content-Transfer-Encoding': '8bit',
+            }
+
+            for entrada in base_po:
+                msgid = entrada.msgid.strip()
+                if not msgid:
+                    continue
+                try:
+                    translation = await translator.translate(text=entrada.msgid, dest=_idioma)
+                    novo_po.append(
+                        polib.POEntry(
+                            msgid=entrada.msgid,
+                            msgstr=translation.text
                         )
                     )
                 except Exception as e:
@@ -81,6 +133,7 @@ def compilar_po_para_mo(base_locale='locale'):
 #         lang.install()
 #         return func(*args, **kwargs)
 #     return wrapper
+
 def lang_pack(func):
     def wrapper(*args, **kwargs):
         gerar_po_para_idiomas(localedir)
@@ -117,9 +170,10 @@ def lang_pack(func):
 #         lang.install()
 #         return await func(*args, **kwargs)
 #     return wrapper
+
 def lang_pack_async(func):
     async def wrapper(*args, **kwargs):
-        gerar_po_para_idiomas(localedir)
+        await gerar_po_para_idiomas_async(localedir)
         compilar_po_para_mo(localedir)
         lang = gettext.translation('messages', localedir=localedir, languages=[idioma], fallback=True)
         lang.install()

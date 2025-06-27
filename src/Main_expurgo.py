@@ -3,7 +3,7 @@ from playwright.async_api import Page
  
  
 from Metodos import getPlanilha, getFromAPI, Expurgo
-from Decorators.Main_StartUp import playwright_StartUp_nosub_expurgo
+from Decorators import playwright_StartUp_nosub_expurgo
  
  
 @playwright_StartUp_nosub_expurgo()

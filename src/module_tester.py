@@ -2,8 +2,7 @@ import asyncio
 from playwright.async_api import Page
 
 from Metodos import getFromAPI, ajuste_position, DCE_Mescla
-from Decorators.Main_StartUp import playwright_StartUp_nosub
-from Decorators import Inscryption
+from Decorators import playwright_StartUp_nosub, Inscryption
 
 
 @playwright_StartUp_nosub()
