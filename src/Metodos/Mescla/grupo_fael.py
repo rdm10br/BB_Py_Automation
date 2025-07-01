@@ -75,6 +75,23 @@ async def atribuirGruposFael(page: Page, id_interno: str) -> None:
             await page.get_by_role("link", name="Atribuir a grupos").click()
             await page.get_by_role("button", name="Personalizar").click()
             await page.get_by_role("option", name="Conjunto de grupos: Coligada").click()
+            try:
+                await page.get_by_role("heading", name="Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(2).wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(3).wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_role("button", name="OK").wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_role("button", name="Fechar").wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+            except:
+                ...
             print('Saving...')
             await page.get_by_label("Salvar").click()
             await page.wait_for_load_state('networkidle')
@@ -90,12 +107,26 @@ async def atribuirGruposFael(page: Page, id_interno: str) -> None:
             print('Saving...')
             try:
                 print('teste - nenhum grupo')
-                await page.get_by_text("Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
+                # await page.get_by_text("Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
+                await page.get_by_role("heading", name="Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(2).wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(3).wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_role("button", name="OK").wait_for(state='visible', timeout=20*1000)
+                await page.pause()
+                await page.get_by_role("button", name="Fechar").wait_for(state='visible', timeout=20*1000)
+                await page.pause()
                 print('pass...')
                 if await page.get_by_text("Nenhum grupo encontrado").is_visible() is True:
                     print(f'Error de Modal na sala {id_interno} no item {item_search}')
-                    loc = "body > div.MuiDialogroot-0-2-2 > div.MuiDialogcontainer-0-2-5.makeStylescontainer-0-2-1.MuiDialogscrollBody-0-2-4 > div > div > div.MuiDialogActionsroot-0-2-1402.MuiDialogActionsspacing-0-2-1403 > button > span"
-                    loc = "body > div.MuiDialogroot-0-2-2 > div.MuiDialogcontainer-0-2-5.makeStylescontainer-0-2-1.MuiDialogscrollBody-0-2-4 > div > div > div.MuiDialogActionsroot-0-2-1405.MuiDialogActionsspacing-0-2-1406 > button"
+                    # loc = "body > div.MuiDialogroot-0-2-2 > div.MuiDialogcontainer-0-2-5.makeStylescontainer-0-2-1.MuiDialogscrollBody-0-2-4 > div > div > div.MuiDialogActionsroot-0-2-1402.MuiDialogActionsspacing-0-2-1403 > button > span"
+                    # loc = "body > div.MuiDialogroot-0-2-2 > div.MuiDialogcontainer-0-2-5.makeStylescontainer-0-2-1.MuiDialogscrollBody-0-2-4 > div > div > div.MuiDialogActionsroot-0-2-1405.MuiDialogActionsspacing-0-2-1406 > button"
                     await page.locator("button > span", has_text='OK').click(timeout=1.8*1_000_000)
                 await page.get_by_label("Salvar").click()
                 await page.wait_for_load_state('networkidle')
