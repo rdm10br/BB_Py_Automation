@@ -23,3 +23,66 @@ msgstr "Não"
 
 msgid "OK"
 msgstr "OK"
+
+msgid "Execution Start"
+msgstr "Inicio de execução"
+
+msgid "Dialog appeared with message:"
+msgstr "A caixa de diálogo apareceu com a mensagem:"
+
+msgid "Selected indices for cleanup: {list}"
+msgstr "Índices selecionados para limpeza: {list}"
+
+msgid "Deleting: {title}"
+msgstr "Excluindo: {title}"
+
+msgid "{title} Deleted!"
+msgstr "{title} excluído!"
+
+msgid "Execution time: {seconds} seconds"
+msgstr "Tempo de execução: {seconds} segundos"
+
+msgid "cookies caught"
+msgstr "Cookies capturados"
+
+msgid "Json queue found"
+msgstr "Fila JSON ENCONTRADA"
+
+msgid "files caught"
+msgstr "arquivos capturados"
+
+msgid "Json queue created"
+msgstr "JSON Queue criada"
+
+msgid "Json queue openned"
+msgstr "JSON Queue abriu"
+
+msgid "Choose other BQ for the Junction..."
+msgstr "Escolha outro BQ para a junção ..."
+
+msgid "{name} is already finished!"
+msgstr "{name} já está terminado!"
+
+msgid "{count}"
+msgstr "{count}"
+
+msgid "{name}"
+msgstr "{name}"
+
+msgid "ID found: {id}"
+msgstr "ID Encontrado: {id}"
+
+msgid "Error fetching id_BQ: {error}"
+msgstr "Erro buscar id_bq: {error}"
+
+msgid "Error in loop_BQ_id: {error}"
+msgstr "Erro em loop_bq_id: {error}"
+
+msgid "\n Questão : {index} - already made!"
+msgstr "Questão : {index} - já está terminado!"
+
+msgid "\n Questão : {index}"
+msgstr "Questão : {index}"
+
+msgid "Run: {index} | Execution time: {seconds} seconds"
+msgstr "RUN: {index} |Tempo de execução: {seconds} segundos"

@@ -1,4 +1,4 @@
-import os, polib, gettext, requests, asyncio, sys, builtins
+import os, polib, gettext, requests, asyncio, sys, builtins, inspect, ast
 from googletrans import Translator
 from dotenv import load_dotenv
 
@@ -18,6 +18,31 @@ if idioma not in IDIOMAS:
 BASE_IDIOMA = 'en_US'
 ARQUIVO_PO = 'messages.po'
 
+def extract_raw_fstring():
+    try:
+        # Pega o frame de onde print foi chamado
+        frame = inspect.stack()[2]
+        code_context = frame.code_context
+        if not code_context:
+            return None
+
+        line = ''.join(code_context).strip()
+
+        # Faz parse da linha usando AST
+        tree = ast.parse(line)
+
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Call) and getattr(node.func, 'id', '') == 'print':
+                for arg in node.args:
+                    if isinstance(arg, ast.JoinedStr):
+                        raw = ast.get_source_segment(line, arg)
+                        if raw:
+                            # print(raw.lstrip('fF')[1:-1])
+                            return raw.lstrip('fF')[1:-1]  # remove f" e "
+
+    except Exception as e:
+        print(f"[extract_raw_fstring ERROR]: {e}")
+        return None
 
 def gerar_po_para_idiomas(base_dir='locale'):
     base_path = os.path.join(base_dir, BASE_IDIOMA, 'LC_MESSAGES', ARQUIVO_PO)
@@ -148,7 +173,18 @@ def lang_pack(func):
             translated_args = []
             for arg in args:
                 if isinstance(arg, str):
-                    translated_args.append(_(arg)) # type: ignore
+                    translated = _(arg) # type: ignore
+                    raw = extract_raw_fstring()
+
+                    if raw and translated == arg:
+                        translated_template = _(raw) # type: ignore
+                        try:
+                            frame = inspect.currentframe().f_back
+                            local_vars = frame.f_locals.copy()
+                            translated = translated_template.format(**local_vars)
+                        except Exception as e:
+                            translated = translated_template  # Se falhar, usa não interpolada
+                    translated_args.append(translated)
                 else:
                     translated_args.append(arg)
             original_print(*translated_args, **kwargs)
@@ -184,7 +220,18 @@ def lang_pack_async(func):
             translated_args = []
             for arg in args:
                 if isinstance(arg, str):
-                    translated_args.append(_(arg)) # type: ignore
+                    translated = _(arg) # type: ignore
+                    raw = extract_raw_fstring()
+
+                    if raw and translated == arg:
+                        translated_template = _(raw) # type: ignore
+                        try:
+                            frame = inspect.currentframe().f_back
+                            local_vars = frame.f_locals.copy()
+                            translated = translated_template.format(**local_vars)
+                        except Exception as e:
+                            translated = translated_template  # Se falhar, usa não interpolada
+                    translated_args.append(translated)
                 else:
                     translated_args.append(arg)
             original_print(*translated_args, **kwargs)
