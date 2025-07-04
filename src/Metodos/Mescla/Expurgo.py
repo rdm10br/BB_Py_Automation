@@ -46,3 +46,39 @@ async def expurgo (page: Page, id_user: str, id_interno: str) -> None:
     # await page.wait_for_load_state('load')
     # await page.wait_for_timeout(2*1000)
     # await page.get_by_role("button", name="Remover membro").click()
+
+async def expurgo_root (page: Page, id_user: str, id_interno: str) -> None:
+    
+    await page.goto(f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}')
+    await page.wait_for_load_state('load')
+    try:
+        print(f'Deleting {id_user} in {id_interno}...')
+        await page.get_by_label(f"Selecionar {id_user}").check()
+        page.once("dialog", lambda dialog: dialog.accept())
+        await page.locator("#listContainer_nav_batch_top").get_by_role("button", name="Remover usuários do curso").click()
+        await page.wait_for_load_state('load')
+        await page.get_by_text("Sucesso: Inscrição excluída.").wait_for(state='visible', timeout=5*1000)
+        print(f'Deleted {id_user} in {id_interno}')
+        # await page.pause()
+    except:
+        print(f'not found {id_user} in {id_interno} classroom.')
+        ...
+    
+async def expurgo_root_lote (page: Page, id_user: list, id_interno: str) -> None:
+    
+    await page.goto(f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}')
+    await page.wait_for_load_state('load')
+    try:
+        for _i in id_user:
+            try:
+                await page.get_by_label(f"Selecionar {_i}").check(timeout=10*1000)
+            except:
+                print(f'{_i} not found in {id_interno} classroom.')
+            
+        page.once("dialog", lambda dialog: dialog.accept())
+        await page.locator("#listContainer_nav_batch_top").get_by_role("button", name="Remover usuários do curso").click()
+        await page.wait_for_load_state('load')
+        await page.get_by_text("Sucesso: Inscrição excluída.").wait_for(state='visible', timeout=5*1000)
+        # await page.pause()
+    except:
+        ...

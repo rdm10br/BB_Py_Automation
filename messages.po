@@ -1,0 +1,763 @@
+msgid ""
+msgstrmsgid "" ""
+"Project-Id-Version: BB_Py_Automation 1.0\n"
+"POT-Creation-Date: 2025-07-04 12:44+0000\n"
+"Language: en_US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Choices: {teste3}"
+msgstr "Choices: {teste3}"
+
+msgid "Enunciado count: {teste}"
+msgstr "Enunciado count: {teste}"
+
+msgid "Question: {teste2}"
+msgstr "Question: {teste2}"
+
+msgid "Todos os valores estao em ordem!"
+msgstr "All the values are in order!"
+
+msgid "Error: {e}"
+msgstr "Error: {e}"
+
+msgid "Execution Start"
+msgstr "Execution Start"
+
+msgid "Questão : {index}"
+msgstr "Question : {index}"
+
+msgid "Questão : {index} - already made!"
+msgstr "Question : {index} - already made!"
+
+msgid "Unexpected error: {e}"
+msgstr "Unexpected error: {e}"
+
+msgid "[PAUSE] {'Pausado' if paused else 'Retomado'}"
+msgstr "[PAUSE] {'Pausado' if paused else 'Retomado'}"
+
+msgid "alternativa correta: {teste_right}"
+msgstr "right choice: {teste_right}"
+
+msgid "AF Oculto"
+msgstr "AF hidden"
+
+msgid "AF calculada não existe"
+msgstr "AF calculada does not exists"
+
+msgid "AV1 Desocultando..."
+msgstr "AV1 unhidding..."
+
+msgid "AV1 Oculto"
+msgstr "AV1 hidden"
+
+msgid "AV1 calculada não existe"
+msgstr "AV1 calculada does not exists"
+
+msgid "AV1 desocultada!"
+msgstr "AV1 unhidding!"
+
+msgid "AV2 Oculto"
+msgstr "AV2 hidden"
+
+msgid "AV2 calculada não existe"
+msgstr "AV2 calculada does not exists"
+
+msgid "Adjusting name"
+msgstr "Adjusting name"
+
+msgid "An error occurred while filtering 'GRANDE ÁREA': {e}"
+msgstr "An error occurred while filtering 'GRANDE ÁREA': {e}"
+
+msgid "Associating group..."
+msgstr "Associating group..."
+
+msgid "Associating group: {cursos} to {item}"
+msgstr "Associating group: {cursos} to {item}"
+
+msgid "Atribui nota zero is checked..."
+msgstr "Atribui nota zero is checked..."
+
+msgid "Boletim ajustado com sucesso"
+msgstr "Gradebook adjusted with success"
+
+msgid "Cache encontrado para a URL: {_url}"
+msgstr "Cache encontrado para a URL: {_url}"
+
+msgid "Canais de Comunicação não encontrado!"
+msgstr "Canais de Comunicação não encontrado!"
+
+msgid "Caught credentials!"
+msgstr "Caught credentials!"
+
+msgid "Changing link to \"{link[i - 1]}\"..."
+msgstr "Changing link to \"{link[i - 1]}\"..."
+
+msgid "Changing link..."
+msgstr "Changing link..."
+
+msgid "Checking AV{index} - Atividade Prática de Extensão id..."
+msgstr "Checking AV{index} - Atividade Prática de Extensão id..."
+
+msgid "Checking Unidade {index} id..."
+msgstr "Checking Unidade {index} id..."
+
+msgid "Checking {item_Search} associated URL..."
+msgstr "Checking {item_Search} associated URL..."
+
+msgid "Checking {item_Search} commentModificationAllowed..."
+msgstr "Checking {item_Search} commentModificationAllowed..."
+
+msgid "Checking {item_Search} contentHandler.discussionId..."
+msgstr "Checking {item_Search} contentHandler.discussionId..."
+
+msgid "Checking {item_Search} contentHandler.targetId..."
+msgstr "Checking {item_Search} contentHandler.targetId..."
+
+msgid "Checking {item_Search} entryModificationAllowed..."
+msgstr "Checking {item_Search} entryModificationAllowed..."
+
+msgid "Checking {item_Search} folder ID..."
+msgstr "Checking {item_Search} folder ID..."
+
+msgid "Checking {item_Search} groups length..."
+msgstr "Checking {item_Search} groups length..."
+
+msgid "Checking {item_Search} id..."
+msgstr "Checking {item_Search} id..."
+
+msgid "Checking {item_Search} is folder..."
+msgstr "Checking {item_Search} is folder..."
+
+msgid "Checking {item_Search} visibility..."
+msgstr "Checking {item_Search} visibility..."
+
+msgid "Checking {item_search} Randomization of Answers Required..."
+msgstr "Checking {item_search} Randomization of Answers Required..."
+
+msgid "Checking {item_search} Randomization of Questions Required..."
+msgstr "Checking {item_search} Randomization of Questions Required..."
+
+msgid "Checking {item_search} aggregationModel..."
+msgstr "Checking {item_search} aggregationModel..."
+
+msgid "Checking {item_search} associated BQ..."
+msgstr "Checking {item_search} associated BQ..."
+
+msgid "Checking {item_search} associated URL..."
+msgstr "Checking {item_search} associated URL..."
+
+msgid "Checking {item_search} autoPostGrades..."
+msgstr "Checking {item_search} autoPostGrades..."
+
+msgid "Checking {item_search} description rawText..."
+msgstr "Checking {item_search} description rawText..."
+
+msgid "Checking {item_search} description..."
+msgstr "Checking {item_search} description..."
+
+msgid "Checking {item_search} folder ID..."
+msgstr "Checking {item_search} folder ID..."
+
+msgid "Checking {item_search} hand in date..."
+msgstr "Checking {item_search} hand in date..."
+
+msgid "Checking {item_search} is folder..."
+msgstr "Checking {item_search} is folder..."
+
+msgid "Checking {item_search} isAttemptBased..."
+msgstr "Checking {item_search} isAttemptBased..."
+
+msgid "Checking {item_search} itemsCount..."
+msgstr "Checking {item_search} itemsCount..."
+
+msgid "Checking {item_search} multipleAttempts..."
+msgstr "Checking {item_search} multipleAttempts..."
+
+msgid "Checking {item_search} possible..."
+msgstr "Checking {item_search} possible..."
+
+msgid "Checking {item_search} safe Assign..."
+msgstr "Checking {item_search} safe Assign..."
+
+msgid "Checking {item_search} test id..."
+msgstr "Checking {item_search} test id..."
+
+msgid "Checking {item_search} test result individual options..."
+msgstr "Checking {item_search} test result individual options..."
+
+msgid "Checking {item_search} title..."
+msgstr "Checking {item_search} title..."
+
+msgid "Checking {item_search} visibility..."
+msgstr "Checking {item_search} visibility..."
+
+msgid "Checking {item_search} visible..."
+msgstr "Checking {item_search} visible..."
+
+msgid "Checking {item_search} visibleInBook..."
+msgstr "Checking {item_search} visibleInBook..."
+
+msgid "Checking..."
+msgstr "Checking..."
+
+msgid "Choose other BQ for the Junction..."
+msgstr "Choose other BQ for the Junction..."
+
+msgid "Clicking out..."
+msgstr "Clicking out..."
+
+msgid "Content handler não encontrado ou não corresponde a um tipo esperado. ID: {contentHandler_id}"
+msgstr "Content handler not found or not corresponding to an awaited type. ID: {contentHandler_id}"
+
+msgid "Conteúdo está OCULTO. Alterando para VISÍVEL..."
+msgstr "Content is hidden. Changed to visible..."
+
+msgid "Conteúdo já está VISÍVEL."
+msgstr "Content is Visible."
+
+msgid "Cookie File ({cache_file_cookie}) deleted successfully"
+msgstr "Cookie File ({cache_file_cookie}) deleted successfully"
+
+msgid "Copy Finished"
+msgstr "Copy Finished"
+
+msgid "Copy to {id_copia} worked!"
+msgstr "Copy to {id_copia} worked!"
+
+msgid "Credentials caught with cached login on login.json."
+msgstr "Credentials caught with cached login on login.json."
+
+msgid "Data successfully written to {CACHE_FILE}"
+msgstr "Data successfully written to {CACHE_FILE}"
+
+msgid "Data successfully written to {self.CACHE_FILE}"
+msgstr "Data successfully written to {self.CACHE_FILE}"
+
+msgid "Deleting: {_d}"
+msgstr "Deleting: {_d}"
+
+msgid "Dialog appeared with message:"
+msgstr "Dialog appeared with message:"
+
+msgid "Editing item..."
+msgstr "Editing item..."
+
+msgid "Elemento com id {id_DB} não encontrado na página."
+msgstr "Element with id {id_DB} not found at page."
+
+msgid "Encontrou 'Atividade de Autoaprendizagem' no item"
+msgstr "Found 'Atividade de Autoaprendizagem' on item"
+
+msgid "Encontrou 'Material complementar', pulando item."
+msgstr "Found 'Material complementar', skipping item."
+
+msgid "Entrando no Root..."
+msgstr "Accessing Root..."
+
+msgid "Erro ao acessar índice {index}: {e}"
+msgstr "Erro accessing index {index}: {e}"
+
+msgid "Erro ao localizar ou clicar no botão:"
+msgstr "Erro localizing or clicking the button:"
+
+msgid "Erro ao processar request {item} in {id_interno}:"
+msgstr "Erro processing request {item} in {id_interno}:"
+
+msgid "Erro ao processar request:"
+msgstr "Erro processing request:"
+
+msgid "Erro na sala: {id_interno} no Item: {item_Search} não foi encontrado"
+msgstr "Erro at classroom: {id_interno} on Item: {item_Search} not found"
+
+msgid "Erro na sala: {id_interno}; Item: {itemSearch} não foi encontrado"
+msgstr "Erro at classroom: {id_interno}; Item: {itemSearch} not found"
+
+msgid "Erro na sala: {id_interno}; Item: {item_search} não foi encontrado"
+msgstr "Erro at classroom: {id_interno}; Item: {item_search} not found"
+
+msgid "Error accessing index: {e}"
+msgstr "Error accessing index: {e}"
+
+msgid "Error de Modal na sala {id_interno} no item {item_search}"
+msgstr "Error Modal at classroom {id_interno} on item {item_search}"
+
+msgid "Error during login attempt: {attempt}"
+msgstr "Error during login attempt: {attempt}"
+
+msgid "Error fetching id_BQ: {e}"
+msgstr "Error fetching id_BQ: {e}"
+
+msgid "Error in loop_BQ_id: {e}"
+msgstr "Error in loop_BQ_id: {e}"
+
+msgid "Error reading document: {e}"
+msgstr "Error reading document: {e}"
+
+msgid "Error retrieving config '{config}' for item '{index}_{item}': {e}"
+msgstr "Error retrieving config '{config}' for item '{index}_{item}': {e}"
+
+msgid "Execution End"
+msgstr "Execution End"
+
+msgid "Execution time: {execution_time} seconds"
+msgstr "Execution time: {execution_time} seconds"
+
+msgid "Failed to write to Excel: {e}"
+msgstr "Failed to write to Excel: {e}"
+
+msgid "Fazendo requisição para a URL: {_url}"
+msgstr "Requesting to URL: {_url}"
+
+msgid "Finalizando ajusteGradebook."
+msgstr "Finalizing ajusteGradebook."
+
+msgid "Getting \"Converse com a sua Turma\" ID..."
+msgstr "Getting \"Converse com a sua Turma\" ID..."
+
+msgid "Getting \"Desafio Colaborativo\" ID..."
+msgstr "Getting \"Desafio Colaborativo\" ID..."
+
+msgid "Getting API ID for {itemSearch}"
+msgstr "Getting API ID for {itemSearch}"
+
+msgid "Getting API ID for {itemSearch} folder"
+msgstr "Getting API ID for {itemSearch} folder"
+
+msgid "Getting credentials to log in with cache."
+msgstr "Getting credentials to log in with cache."
+
+msgid "Grande Área da sala {id_externo} não identificada; {course_area}"
+msgstr "Great Área at classroom {id_externo} not identified; {course_area}"
+
+msgid "Group visibility..."
+msgstr "Group visibility..."
+
+msgid "Hello, world!"
+msgstr "Hello, world!"
+
+msgid "ID found: {id_BQ}"
+msgstr "ID found: {id_BQ}"
+
+msgid "ID não encontrado para o item: {item}"
+msgstr "ID not found to item: {item}"
+
+msgid "Index out of Range or Question not found!"
+msgstr "Index out of Range or Question not found!"
+
+msgid "Index: {index} in plan is already written"
+msgstr "Index: {index} in plan is already written"
+
+msgid "Index: {index} in plan is alredy writen"
+msgstr "Index: {index} in plan is alredy writen"
+
+msgid "Index: {index} | sala: {id_externo} is empty!"
+msgstr "Index: {index} | sala: {id_externo} is empty!"
+
+msgid "Index: {index} | sala: {id_externo} not authorized!"
+msgstr "Index: {index} | sala: {id_externo} not authorized!"
+
+msgid "Index: {index} | sala: {id_externo} not found!"
+msgstr "Index: {index} | sala: {id_externo} not found!"
+
+msgid "Iniciando ajusteGradebook..."
+msgstr "Starting ajusteGradebook..."
+
+msgid "Item: {itemSearch} não encontrado!"
+msgstr "Item: {itemSearch} not found!"
+
+msgid "Item: {item_search} não encontrado!"
+msgstr "Item: {item_search} not found!"
+
+msgid "Json queue created"
+msgstr "Json queue created"
+
+msgid "Json queue found"
+msgstr "Json queue found"
+
+msgid "Json queue openned"
+msgstr "Json queue openned"
+
+msgid "Logged in successfully using cached cookies!"
+msgstr "Logged in successfully using cached cookies!"
+
+msgid "Logged in successfully!"
+msgstr "Logged in successfully!"
+
+msgid "Login na blackboard efetuado com sucesso"
+msgstr "Loged in at blackboard successfully"
+
+msgid "Looking on Api Content Children for {item_Search} in {id_interno}"
+msgstr "Looking on Api Content Children for {item_Search} in {id_interno}"
+
+msgid "Looking on Api Content Discussion for {item_Search} in {id_interno}"
+msgstr "Looking on Api Content Discussion for {item_Search} in {id_interno}"
+
+msgid "Looking on Api Content for {item_Search} in {id_interno}"
+msgstr "Looking on Api Content for {item_Search} in {id_interno}"
+
+msgid "Looking on Api Request Activity to find course area of {id_externo}"
+msgstr "Looking on Api Request Activity to find course area of {id_externo}"
+
+msgid "Looking on Api Request Activity to find course area of {id_interno}"
+msgstr "Looking on Api Request Activity to find course area of {id_interno}"
+
+msgid "Looking on Api Request to find internal ID of {id_externo}"
+msgstr "Looking on Api Request to find internal ID of {id_externo}"
+
+msgid "Manual do AVA não encontrado!"
+msgstr "Manual do AVA not found!"
+
+msgid "No choice was made"
+msgstr "No choice was made"
+
+msgid "No items found in the gradebook."
+msgstr "No items found in the gradebook."
+
+msgid "Nota zero already unchecked!"
+msgstr "Nota zero already unchecked!"
+
+msgid "Ocorreu um erro ao verificar o item: {e}"
+msgstr "An error has occour verifying an item: {e}"
+
+msgid "Ocorreu um erro durante a execução de AV1: {e}"
+msgstr "An error has occour during execution of AV1: {e}"
+
+msgid "Ocorreu um erro: {e}"
+msgstr "An error has occour: {e}"
+
+msgid "Ocultando os itens novamente..."
+msgstr "Hidden the items ..."
+
+msgid "Opening \"Desafion Colaborativo\"..."
+msgstr "Opening \"Desafion Colaborativo\"..."
+
+msgid "Opening \"Manuais\" folder"
+msgstr "Opening \"Manuais\" folder"
+
+msgid "Opening \"Nota Zero\"..."
+msgstr "Opening \"Nota Zero\"..."
+
+msgid "Opening \"Unidade {i}\" folder"
+msgstr "Opening \"Unidade {i}\" folder"
+
+msgid "Opening Folder"
+msgstr "Opening Folder"
+
+msgid "Opening comboBox..."
+msgstr "Opening comboBox..."
+
+msgid "Opening config..."
+msgstr "Opening config..."
+
+msgid "Opening item..."
+msgstr "Opening item..."
+
+msgid "Opening menu options"
+msgstr "Opening menu options"
+
+msgid "Opening settings..."
+msgstr "Opening settings..."
+
+msgid "Opening {item}..."
+msgstr "Opening {item}..."
+
+msgid "Por favor verifique a chamada da função get_Alternativa,                 tipo de alternativa desejada não esperada pela função"
+msgstr "Please check the function call for get_Alternativa,                 type of alternative not awaited by the function"
+
+msgid "Processando item: {i}"
+msgstr "Processing item: {i}"
+
+msgid "Professores bloqueados encontrados : {len(user_name)} na sala {id_interno}"
+msgstr "Blocked Teachers found : {len(user_name)} at classroom {id_interno}"
+
+msgid "Question {index + 1} no right choice found!"
+msgstr "Question {index + 1} no right choice found!"
+
+msgid "Question {index + 1} no right choice found, defaulting to A. Error: {e}"
+msgstr "Question {index + 1} no right choice found, defaulting to A. Error: {e}"
+
+msgid "Question {index + 1} right choice found: {alternativa_correta.lower()}"
+msgstr "Question {index + 1} right choice found: {alternativa_correta.lower()}"
+
+msgid "Removing..."
+msgstr "Removing..."
+
+msgid "Rolando a página..."
+msgstr "Roling the page..."
+
+msgid "Run: {index}/{total_lines_plan1} | Execution time: {execution_time} seconds"
+msgstr "Run: {index}/{total_lines_plan1} | Execution time: {execution_time} seconds"
+
+msgid "Sala Ajustada com sucesso"
+msgstr "Classroom succesfully adjusted"
+
+msgid "Saving the SpreadSheet"
+msgstr "Saving the SpreadSheet"
+
+msgid "Saving..."
+msgstr "Saving..."
+
+msgid "Selected indices for cleanup: {delete_list}"
+msgstr "Selected indices for cleanup: {delete_list}"
+
+msgid "Ser Melhor não encontrado!"
+msgstr "Ser Melhor not found!"
+
+msgid "Start loop {index}"
+msgstr "Start loop {index}"
+
+msgid "Start loop {index}/{total_lines_plan1}"
+msgstr "Start loop {index}/{total_lines_plan1}"
+
+msgid "Starting adjustments: \"Atribuir Grupos Digital\""
+msgstr "Starting adjustments: \"Atribuir Grupos Digital\""
+
+msgid "Starting adjustments: \"Atribuir Grupos Veteranos\""
+msgstr "Starting adjustments: \"Atribuir Grupos Veteranos\""
+
+msgid "Starting adjustments: \"Avaliação\""
+msgstr "Starting adjustments: \"Avaliação\""
+
+msgid "Starting adjustments: \"Biblioteca Virtual: e-Book\""
+msgstr "Starting adjustments: \"Biblioteca Virtual: e-Book\""
+
+msgid "Starting adjustments: \"Canais de Comunicação\""
+msgstr "Starting adjustments: \"Canais de Comunicação\""
+
+msgid "Starting adjustments: \"Inserir Arquivo DIG Grupos\""
+msgstr "Starting adjustments: \"Inserir Arquivo DIG Grupos\""
+
+msgid "Starting adjustments: \"Inserir Arquivo Veteranos Grupos\""
+msgstr "Starting adjustments: \"Inserir Arquivo Veteranos Grupos\""
+
+msgid "Starting adjustments: \"Manual do AVA\""
+msgstr "Starting adjustments: \"Manual do AVA\""
+
+msgid "Starting adjustments: \"Nota Zero\""
+msgstr "Starting adjustments: \"Nota Zero\""
+
+msgid "Starting adjustments: \"Ser Melhor\""
+msgstr "Starting adjustments: \"Ser Melhor\""
+
+msgid "Starting adjustments: \"Sofia\""
+msgstr "Starting adjustments: \"Sofia\""
+
+msgid "Starting adjustments: \"Unidade {i}\""
+msgstr "Starting adjustments: \"Unidade {i}\""
+
+msgid "Todas as calculadas estão ocultas"
+msgstr "All the calculated ones are hidden"
+
+msgid "Trying to copy classroom from {id_master} to {id_copia};"
+msgstr "Trying to copy classroom from {id_master} to {id_copia};"
+
+msgid "Trying to copy material from {id_master} to {id_copia};"
+msgstr "Trying to copy material from {id_master} to {id_copia};"
+
+msgid "Trying to log in attempt: {attempt}"
+msgstr "Trying to log in attempt: {attempt}"
+
+msgid "Unchecking..."
+msgstr "Unchecking..."
+
+msgid "Uploading group: {file_path}"
+msgstr "Uploading group: {file_path}"
+
+msgid "Uploading {file_path}..."
+msgstr "Uploading {file_path}..."
+
+msgid "User chose: {user_choice}"
+msgstr "User chose: {user_choice}"
+
+msgid "Using cookie cache to login..."
+msgstr "Using cookie cache to login..."
+
+msgid "Using {num_threads} threads"
+msgstr "Using {num_threads} threads"
+
+msgid "Waiting for user choice..."
+msgstr "Waiting for user choice..."
+
+msgid "[extract_raw_fstring ERROR]: {e}"
+msgstr "[extract_raw_fstring ERROR]: {e}"
+
+msgid "[{idioma}] Erro ao traduzir '{entrada.msgid}': {e}"
+msgstr "[{idioma}] Error translating '{entrada.msgid}': {e}"
+
+msgid "adjusting \"workshop\" folder, \"discursiva\" folder....."
+msgstr "adjusting \"workshop\" folder, \"discursiva\" folder....."
+
+msgid "adjusting items date..."
+msgstr "adjusting items date..."
+
+msgid "adjusting items: {listaum}"
+msgstr "adjusting items: {listaum}"
+
+msgid "asking for credentials..."
+msgstr "asking for credentials..."
+
+msgid "choosing file..."
+msgstr "choosing file..."
+
+msgid "cookies caught"
+msgstr "cookies caught"
+
+msgid "credentials caugth..."
+msgstr "credentials caugth..."
+
+msgid "due date..."
+msgstr "due date..."
+
+msgid "due hour..."
+msgstr "due hour..."
+
+msgid "dumping in the json..."
+msgstr "dumping in the json..."
+
+msgid "edit \"Converse com a sua Turma\" date..."
+msgstr "edit \"Converse com a sua Turma\" date..."
+
+msgid "edit \"Fale com o tutor\" date..."
+msgstr "edit \"Fale com o tutor\" date..."
+
+msgid "edit date..."
+msgstr "edit date..."
+
+msgid "edit workshop date..."
+msgstr "edit workshop date..."
+
+msgid "end date...."
+msgstr "end date...."
+
+msgid "end hour..."
+msgstr "end hour..."
+
+msgid "error: {e}"
+msgstr "error: {e}"
+
+msgid "executando o seguinte item: Desafio Colaborativo"
+msgstr "executing the following item: Desafio Colaborativo"
+
+msgid "executando o seguinte item: Fale com o Tutor"
+msgstr "executing the following item: Fale com o Tutor"
+
+msgid "executando o seguinte item: Meu Desempenho"
+msgstr "executing the following item: Meu Desempenho"
+
+msgid "executando o seguinte item: Organize seus estudos com a Sofia"
+msgstr "executing the following item: Organize seus estudos com a Sofia"
+
+msgid "file choosen path: {self.fileName}"
+msgstr "file choosen path: {self.fileName}"
+
+msgid "files caught"
+msgstr "files caught"
+
+msgid "folder or item not found"
+msgstr "folder or item not found"
+
+msgid "index does not exist"
+msgstr "index does not exist"
+
+msgid "item: {i} foi encontrado e não está oculto"
+msgstr "item: {i} was found and isn't hidden"
+
+msgid "item: {i} não encontrado"
+msgstr "item: {i} not found"
+
+msgid "item: {i} não encontrado ou já está oculto"
+msgstr "item: {i} not found or is already hidden"
+
+msgid "itens in {id_externo}: {is_empty}"
+msgstr "itens in {id_externo}: {is_empty}"
+
+msgid "login credentials cached at: {cache_file}"
+msgstr "login credentials cached at: {cache_file}"
+
+msgid "no {item} found"
+msgstr "no {item} found"
+
+msgid "pass..."
+msgstr "pass..."
+
+msgid "release date..."
+msgstr "release date..."
+
+msgid "release hour..."
+msgstr "release hour..."
+
+msgid "response status for classroom: {id_externo} | {response.status_code}"
+msgstr "response status for classroom: {id_externo} | {response.status_code}"
+
+msgid "salvo pelo gongo"
+msgstr "saved by the gongo"
+
+msgid "saving..."
+msgstr "saving..."
+
+msgid "teste"
+msgstr "teste"
+
+msgid "teste - nenhum grupo"
+msgstr "teste - nenhum grupo"
+
+msgid "{_d} Deleted!"
+msgstr "{_d} Deleted!"
+
+msgid "{_item} or {item} not found"
+msgstr "{_item} or {item} not found"
+
+msgid "{cache['bqName']} is already finished!"
+msgstr "{cache['bqName']} is already finished!"
+
+msgid "{count} fora do escopo planejado!"
+msgstr "{count} out of the planned scope!"
+
+msgid "{course_area} not listed in the Json file"
+msgstr "{course_area} not listed in the Json file"
+
+msgid "{entry['courseId']}    {entry['name']}"
+msgstr "{entry['courseId']}    {entry['name']}"
+
+msgid "{id_interno} : {length} courses"
+msgstr "{id_interno} : {length} courses"
+
+msgid "{item_list[i]} error: {e} | item position not found, move all the items in the gradebook"
+msgstr "{item_list[i]} error: {e} | item position not found, move all the items in the gradebook"
+
+msgid "{item_list[i]}: arrastado com sucesso !"
+msgstr "{item_list[i]}: dragged successfully !"
+
+msgid "{item} Calculated item created!"
+msgstr "{item} Calculated item created!"
+
+msgid "{item} error  in {id_interno}: {e}"
+msgstr "{item} error  in {id_interno}: {e}"
+
+msgid "{item} error: {e}"
+msgstr "{item} error: {e}"
+
+msgid "{item} found"
+msgstr "{item} found"
+
+msgid "{item} is associated correctly"
+msgstr "{item} is associated correctly"
+
+msgid "{item} is associated wrongly"
+msgstr "{item} is associated wrongly"
+
+msgid "{item} is not a Calculated item"
+msgstr "{item} is not a Calculated item"
+
+msgid "{i} item já oculto"
+msgstr "{i} item already hidden"
+
+msgid "{i} item não está oculto"
+msgstr "{i} item not hidden"
+
+msgid "{source_name} erro: {e} | item não encontrado."
+msgstr "{source_name} erro: {e} | item not found."
+
+msgid "{source_name}: arrastado com sucesso!"
+msgstr "{source_name}: dragged successfully!"
