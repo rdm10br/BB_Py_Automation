@@ -20,13 +20,13 @@ echo Defining the .env variables
 set BASE_URL=
 set BQ_ID_REPOSITORY=
 set GIT_REPO=rdm10br/BB_Py_Automation
-set BRANCH=dev
+set GIT_BRANCH=dev
 
 echo Creating .env file
 :: Create the .env file and write the variables to it
 echo BASE_URL=%BASE_URL% >> .env
 echo BQ_ID_REPOSITORY=%BQ_ID_REPOSITORY% >> .env
 echo GIT_REPO=%GIT_REPO% >> .env
-echo BRANCH=%BRANCH% >> .env
+echo BRAGIT_BRANCHNCH=%GIT_BRANCH% >> .env
 
 echo .env file created successfully!

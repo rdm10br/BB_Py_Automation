@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 load_dotenv()
 GIT_REPO = os.getenv('GIT_REPO')
-BRANCH = os.getenv('BRANCH')
+BRANCH = os.getenv('GIT_BRANCH')
 
 
 def check_for_updates(current_version: str):
