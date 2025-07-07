@@ -101,8 +101,8 @@ def compare_items_from_git(item: str) -> str:
             logging.info(f"The {item} contents are different.")
             return str(response.json().get('download_url'))
     except Exception as e:
-        print(e)
-        logging.warning(f"Failed to retrieve the content {item} from GitHub {GIT_REPO}.")
+        # print(e)
+        logging.warning(f"Failed to retrieve the content {item} from GitHub {GIT_REPO}\nError: {e}.")
 
 
 def compare_items(item: str, tmpdirname: str) -> str:
