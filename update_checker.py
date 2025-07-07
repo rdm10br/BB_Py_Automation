@@ -95,14 +95,14 @@ def compare_items_from_git(item: str) -> str:
                 local_file_content = local_file.read()
 
         if decoded_content == local_file_content:
-            logging.info("The contents are identical.")
+            logging.info(f"The {item} contents are identical.")
             return None
         else:
-            logging.info("The contents are different.")
+            logging.info(f"The {item} contents are different.")
             return str(response.json().get('download_url'))
     except Exception as e:
         print(e)
-        logging.warning("Failed to retrieve the content from GitHub.")
+        logging.warning(f"Failed to retrieve the content {item} from GitHub {GIT_REPO}.")
 
 
 def compare_items(item: str, tmpdirname: str) -> str:
