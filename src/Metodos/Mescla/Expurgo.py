@@ -72,6 +72,7 @@ async def expurgo_root_lote (page: Page, id_user: list, id_interno: str) -> None
         for _i in id_user:
             try:
                 await page.get_by_label(f"Selecionar {_i}").check(timeout=10*1000)
+                print(f'{_i} found and selected')
             except:
                 print(f'{_i} not found in {id_interno} classroom.')
             
@@ -79,6 +80,8 @@ async def expurgo_root_lote (page: Page, id_user: list, id_interno: str) -> None
         await page.locator("#listContainer_nav_batch_top").get_by_role("button", name="Remover usuários do curso").click()
         await page.wait_for_load_state('load')
         await page.get_by_text("Sucesso: Inscrição excluída.").wait_for(state='visible', timeout=5*1000)
+        print(f'All users deleted from {id_interno}')
+        print(f'User list: {id_user}')
         # await page.pause()
     except:
         ...

@@ -373,6 +373,13 @@ def playwright_StartUp_nosub_expurgo(timeout: int = 60*1000, headless: bool = Fa
 
 
 def playwright_StartUp_nosub_expurgo_lote(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized'):
+    """_summary_
+
+    Args:
+        timeout (int, optional): _description_. Defaults to 60*1000.
+        headless (bool, optional): _description_. Defaults to False.
+        arg (str, optional): _description_. Defaults to '--start-maximized'.
+    """
     def decorator(func):
         @lru_cache
         @wraps(func)
@@ -447,6 +454,9 @@ def playwright_StartUp_nosub_expurgo_lote(timeout: int = 60*1000, headless: bool
                             is_empty = 1
                             response.status_code = 200
                         elif os.path.basename(sys.argv[0]) == 'Main_expurgo.py':
+                            is_empty = 1
+                            response.status_code = 200
+                        elif os.path.basename(sys.argv[0]) == 'Main_expurgo_lote.py':
                             is_empty = 1
                             response.status_code = 200
                         else:

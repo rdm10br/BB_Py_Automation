@@ -5,8 +5,8 @@ from playwright.async_api import Page
 from Metodos import getPlanilha, getFromAPI, Expurgo
 from Decorators import playwright_StartUp_nosub_expurgo, playwright_StartUp_nosub_expurgo_lote
  
-@playwright_StartUp_nosub_expurgo()
-# @playwright_StartUp_nosub_expurgo_lote()
+# @playwright_StartUp_nosub_expurgo()
+@playwright_StartUp_nosub_expurgo_lote()
 async def run(page: Page, index) -> None:
  
     id_externo = getPlanilha.getCell_expurgo(index=index)
@@ -18,8 +18,8 @@ async def run(page: Page, index) -> None:
     # print(id_user)
     # print(list_user)
     
-    await Expurgo.expurgo_root(page=page, id_interno=id_interno, id_user=id_user)
-    # await Expurgo.expurgo_root_lote(page=page, id_interno=id_interno, id_user=list_user)
+    # await Expurgo.expurgo_root(page=page, id_interno=id_interno, id_user=id_user)
+    await Expurgo.expurgo_root_lote(page=page, id_interno=id_interno, id_user=list_user)
     getPlanilha.writeOnExcel_Plan3(index=index, return_status='OK')
     
     print(id_user)

@@ -16,7 +16,12 @@ total_lines = len(df_map)
 total_lines_expurgo = len(df_map_expurgo)
 unique_expurgo = df_map_expurgo[col].unique().tolist()
 total_unique_expurgo = df_map_expurgo[col].nunique()
-list_expurgo_user = df_map_expurgo.groupby(col)[col_user].agg(', '.join).reset_index()
+# list_expurgo_user = df_map_expurgo.groupby(col)[col_user].agg(', '.join).reset_index()
+# list_expurgo_user = df_map_expurgo.groupby(col)[col_user].agg(lambda x: ', '.join(map(str, x))).reset_index()
+# list_expurgo_user = df_map_expurgo.groupby(col)[col_user].agg(lambda x: ', '.join(map(lambda y: str(y).zfill(11), x))).reset_index()
+list_expurgo_user = df_map_expurgo.groupby(col)[col_user].agg(lambda x: ', '.join(str(i).zfill(11) if str(i).isdigit() and len(str(i)) <= 11 else str(i) for i in x)).reset_index()
+
+
 
 col_plan2 = "ID_ORIGIN"
 col_plan2_copy = 'ID_DESTINY'
