@@ -66,6 +66,7 @@ async def expurgo_root (page: Page, id_user: str, id_interno: str) -> None:
     
 async def expurgo_root_lote (page: Page, id_user: list, id_interno: str) -> None:
     
+    # ./webapps/blackboard/execute/courseEnrollment?sortCol=userrole&sourceType=COURSES&numResults=1000&course_id={id_interno}&sortDir=DESCENDING
     await page.goto(f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}')
     await page.wait_for_load_state('load')
     try:

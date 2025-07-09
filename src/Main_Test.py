@@ -7,7 +7,7 @@ from Decorators import playwright_StartUp_nosub
 
 @playwright_StartUp_nosub()
 async def run(page: Page, index) -> None:
-    print('Hello, world!')
+    # print('Hello, world!')
     id_externo = getPlanilha.getCell(index=index)
     id_interno = await getFromAPI.API_Req(page=page, index=index)
     

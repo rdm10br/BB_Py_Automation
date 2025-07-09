@@ -1,0 +1,92 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n "
+"Language: en_US\n "
+"Content-Type: text/plain; charset=UTF-8\n "
+"Content-Transfer-Encoding: 8bit\n "
+
+msgid "Hello, world!"
+msgstr "Hello, world!"
+
+msgid "Saving"
+msgstr "Saving"
+
+msgid "Wrong"
+msgstr "Wrong"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "No"
+msgstr "No"
+
+msgid "OK"
+msgstr "OK"
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt_BR\n"
+
+msgid "Execution Start"
+msgstr "Execution Start"
+
+msgid "Dialog appeared with message:"
+msgstr "Dialog appeared with message:"
+
+msgid "Selected indices for cleanup: {list}"
+msgstr "Selected indices for cleanup: {list}"
+
+msgid "Deleting: {title}"
+msgstr "Deleting: {title}"
+
+msgid "{title} Deleted!"
+msgstr "{title} Deleted!"
+
+msgid "Execution time: {seconds} seconds"
+msgstr "Execution time: {seconds} seconds"
+
+msgid "cookies caught"
+msgstr "cookies caught"
+
+msgid "Json queue found"
+msgstr "Json queue found"
+
+msgid "files caught"
+msgstr "files caught"
+
+msgid "Json queue created"
+msgstr "Json queue created"
+
+msgid "Json queue openned"
+msgstr "Json queue openned"
+
+msgid "Choose other BQ for the Junction..."
+msgstr "Choose other BQ for the Junction..."
+
+msgid "{name} is already finished!"
+msgstr "{name} is already finished!"
+
+msgid "{count}"
+msgstr "{count}"
+
+msgid "{name}"
+msgstr "{name}"
+
+msgid "ID found: {id}"
+msgstr "ID found: {id}"
+
+msgid "Error fetching id_BQ: {error}"
+msgstr "Error fetching id_BQ: {error}"
+
+msgid "Error in loop_BQ_id: {error}"
+msgstr "Error in loop_BQ_id: {error}"
+
+msgid "\n Questão : {index} - already made!"
+msgstr "\n Question : {index} - already made!"
+
+msgid "\n Questão : {index}"
+msgstr "\n Question : {index}"
+
+msgid "Run: {index} | Execution time: {seconds} seconds"
+msgstr "Run: {index} | Execution time: {seconds} seconds"

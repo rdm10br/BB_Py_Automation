@@ -26,6 +26,7 @@ async def createcalc(page: Page, id_interno: str, item: str):
     urlGradeBook = f'./ultra/courses/{id_interno}/grades?gradebookView=list'
     verify = await verify_calculated(page=page, id_interno=id_interno, item=item)
     timer_padrão = 1000*2
+    # await page.pause()
     
     if verify == "CUSTOM":
         result = f'{item} is a calculated item'

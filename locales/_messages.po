@@ -1,5 +1,5 @@
 msgid ""
-msgstrmsgid "" ""
+msgstr ""
 "Project-Id-Version: BB_Py_Automation 1.0\n"
 "POT-Creation-Date: 2025-07-04 12:44+0000\n"
 "Language: en_US\n"
