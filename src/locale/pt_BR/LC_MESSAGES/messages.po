@@ -500,8 +500,8 @@ msgstr "Removendo ..."
 msgid "Rolando a página..."
 msgstr "Rolando a página..."
 
-msgid "Run: {index}/{total_lines_plan1} | Execution time: {execution_time} seconds"
-msgstr "Run: {index}/{total_lines_plan1} | Tempo de execução: {execution_time} segundos"
+msgid "Run: {index}/{total_lines} | Execution time: {execution_time} seconds"
+msgstr "Run: {index}/{total_lines} | Tempo de execução: {execution_time} segundos"
 
 msgid "Sala Ajustada com sucesso"
 msgstr "Sala Ajustada com sucesso"
@@ -521,8 +521,8 @@ msgstr "Ser Melhor não encontrado!"
 msgid "Start loop {index}"
 msgstr "Início do loop {index}"
 
-msgid "Start loop {index}/{total_lines_plan1}"
-msgstr "Início do loop {index}/{total_lines_plan1}"
+msgid "Start loop {index}/{total_lines}"
+msgstr "Início do loop {index}/{total_lines}"
 
 msgid "Start loop {index}/{total_lines}"
 msgstr "Início do loop {index}/{total_lines}"

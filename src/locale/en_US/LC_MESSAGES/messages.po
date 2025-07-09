@@ -501,8 +501,8 @@ msgstr "Removing..."
 msgid "Rolando a página..."
 msgstr "Roling the page..."
 
-msgid "Run: {index}/{total_lines_plan1} | Execution time: {execution_time} seconds"
-msgstr "Run: {index}/{total_lines_plan1} | Execution time: {execution_time} seconds"
+msgid "Run: {index}/{total_lines} | Execution time: {execution_time} seconds"
+msgstr "Run: {index}/{total_lines} | Execution time: {execution_time} seconds"
 
 msgid "Sala Ajustada com sucesso"
 msgstr "Classroom succesfully adjusted"
@@ -522,8 +522,8 @@ msgstr "Ser Melhor not found!"
 msgid "Start loop {index}"
 msgstr "Start loop {index}"
 
-msgid "Start loop {index}/{total_lines_plan1}"
-msgstr "Start loop {index}/{total_lines_plan1}"
+msgid "Start loop {index}/{total_lines}"
+msgstr "Start loop {index}/{total_lines}"
 
 msgid "Start loop {index}/{total_lines}"
 msgstr "Start loop {index}/{total_lines}"
