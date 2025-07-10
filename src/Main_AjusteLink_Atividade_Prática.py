@@ -6,7 +6,7 @@ from Metodos import getPlanilha, getFromAPI, AjusteLinkEbook
 from Decorators import playwright_StartUp
 
 
-@playwright_StartUp()
+@playwright_StartUp(autoSub=True)
 async def run(page: Page, index) -> None:
     id_externo = getPlanilha.getCell(index=index)
     id_interno = await getFromAPI.API_Req(page=page, index=index)

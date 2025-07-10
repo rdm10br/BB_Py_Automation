@@ -2,10 +2,10 @@ import asyncio
 from playwright.async_api import Page
 
 from Metodos import getFromAPI, DCE_Mescla, openMescla, getPlanilha
-from Decorators import playwright_StartUp_nosub
+from Decorators import playwright_StartUp
 
 
-@playwright_StartUp_nosub()
+@playwright_StartUp()
 async def run(page: Page, index: int) -> None:
     
         id_interno = await getFromAPI.API_Req(page=page, index=index)

@@ -3,10 +3,10 @@ from playwright.async_api import Page
  
  
 from Metodos import getPlanilha, getFromAPI, Expurgo
-from Decorators import playwright_StartUp_nosub_expurgo, playwright_StartUp_nosub_expurgo_lote
- 
-@playwright_StartUp_nosub_expurgo()
-# @playwright_StartUp_nosub_expurgo_lote()
+from Decorators import playwright_StartUp
+
+
+@playwright_StartUp()
 async def run(page: Page, index) -> None:
  
     id_externo = getPlanilha.getCell_expurgo(index=index)

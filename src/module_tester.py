@@ -2,10 +2,10 @@ import asyncio
 from playwright.async_api import Page
 
 from Metodos import getFromAPI, ajuste_position, DCE_Mescla
-from Decorators import playwright_StartUp_nosub, Inscryption
+from Decorators import playwright_StartUp
 
 
-@playwright_StartUp_nosub()
+@playwright_StartUp()
 async def run(page: Page, index) -> None:
     
         id_interno = await getFromAPI.API_Req(page=page, index=index)

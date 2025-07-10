@@ -503,6 +503,9 @@ msgstr "Rolando a página..."
 msgid "Run: {index}/{total_lines} | Execution time: {execution_time} seconds"
 msgstr "Run: {index}/{total_lines} | Tempo de execução: {execution_time} segundos"
 
+msgid "Run: {index}/{_total_lines} | Execution time: {execution_time} seconds"
+msgstr "Run: {index}/{_total_lines} | Tempo de execução: {execution_time} segundos"
+
 msgid "Sala Ajustada com sucesso"
 msgstr "Sala Ajustada com sucesso"
 
@@ -524,8 +527,8 @@ msgstr "Início do loop {index}"
 msgid "Start loop {index}/{total_lines}"
 msgstr "Início do loop {index}/{total_lines}"
 
-msgid "Start loop {index}/{total_lines}"
-msgstr "Início do loop {index}/{total_lines}"
+msgid "Start loop {index}/{_total_lines}"
+msgstr "Início do loop {index}/{_total_lines}"
 
 msgid "Starting adjustments: \"Atribuir Grupos Digital\""
 msgstr "Começando ajustes: \"Atribuir Grupos Digital\""

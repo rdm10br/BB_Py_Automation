@@ -41,8 +41,8 @@ async def login_block(
     await checkup_login.checkup_login(page=page)
     end_time0 = time.time()
     
-    execution_time = end_time0 - start_time0
-    print(f'Execution time: {execution_time:.2f} seconds')
+    execution_time = round(end_time0 - start_time0, 2)
+    print(f'Execution time: {execution_time} seconds')
     
     cookies = await page.context.cookies(urls=_baseURL)
     print('cookies caught')
@@ -159,8 +159,8 @@ async def loop_block(
                 await new_context.close()
                 
                 end_time = time.time()
-                execution_time = end_time - start_time
-                print(f'Run: {index}/{_total_lines} | Execution time: {execution_time:.2f} seconds')
+                execution_time = round(end_time - start_time, 2)
+                print(f'Run: {index}/{_total_lines} | Execution time: {execution_time} seconds')
             elif str(response.status_code) == '404':
                 print(f'Index: {index} | sala: {id_externo} not found!')
                 getPlanilha.writeOnExcel_Plan1(index=index, return_status='not found!')
@@ -218,8 +218,8 @@ def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str 
                 )
                 
                 end_time0 = time.time()
-                execution_time = end_time0 - start_time0
-                print(f'Execution time: {execution_time:.2f} seconds')
+                execution_time = round(end_time0 - start_time0, 2)
+                print(f'Execution time: {execution_time} seconds')
                 
                 print('Execution End')
                 await browser.close()
@@ -268,8 +268,8 @@ def playwright_StartUp_nosub_test(timeout: int = 60*1000, headless: bool = False
                         await new_context.close()
 
                         end_time = time.time()
-                        execution_time = end_time - start_time
-                        print(f'Run: {index}/{total_lines_plan1} | Execution time: {execution_time:.2f} seconds')
+                        execution_time = round(end_time - start_time, 2)
+                        print(f'Run: {index}/{total_lines_plan1} | Execution time: {execution_time} seconds')
                     else:
                         print(f'Index: {index} in plan is already written')
                 start_time0 = time.time()
@@ -288,8 +288,8 @@ def playwright_StartUp_nosub_test(timeout: int = 60*1000, headless: bool = False
                 await run_in_batches(indices, num_threads)
 
                 end_time0 = time.time()
-                execution_time = end_time0 - start_time0
-                print(f'Execution time: {execution_time:.2f} seconds')
+                execution_time = round(end_time0 - start_time0, 2)
+                print(f'Execution time: {execution_time} seconds')
 
                 print('Execution End')
                 await browser.close()
