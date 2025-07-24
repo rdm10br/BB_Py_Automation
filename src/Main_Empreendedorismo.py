@@ -14,6 +14,7 @@ async def run(page: Page, index) -> None:
         print(id_externo)
         
         await ajuste_emp.ajusteMatD(page=page, id_interno=id_interno)
+        await ajuste_emp.ajusteEbook(page=page, id_interno=id_interno, link='')
         getPlanilha.writeOnExcel_Plan1(index=index, return_status='OK')
 
 async def main():

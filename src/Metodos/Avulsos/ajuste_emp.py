@@ -73,3 +73,37 @@ async def ajusteMatD(page: Page, id_interno: str) -> None:
             await page.wait_for_timeout(1.5*1000)
         else:
             print('Canais de Comunicação não encontrado!')
+            
+            
+async def ajusteEbook(page: Page, id_interno: str, link: str) -> None:
+    
+    classURL = f'./ultra/courses/'
+    urlClassUltra = f'{classURL}{id_interno}/outline'
+    def urlSearch(i: int): return f'{urlClassUltra}?search=Unidade {i}'
+    
+    for i in range(4):
+        i += 1
+        
+        print(f'Starting adjustments: "Unidade {i}"')
+        await page.goto(url=urlSearch(i=i))
+        await page.wait_for_load_state('domcontentloaded')
+        await page.wait_for_load_state('networkidle')
+        await page.wait_for_load_state('load')
+        if  await page.get_by_role("button", name=f"Unidade {i}", exact=True).is_visible():
+            print(f'Opening "Unidade {i}" folder')
+            await page.get_by_role("button", name=f"Unidade {i}", exact=True).click()
+            print('Opening menu options')
+            await page.get_by_label("Mais opções para Biblioteca Virtual: e-Book").click()
+            print('Editing item...')
+            await page.get_by_text("Editar", exact=True).click()
+            await page.get_by_placeholder("Formato: meuwebsite.com").click(click_count=3)
+            print(f'Changing link to "{link[i-1]}"...')
+            await page.get_by_placeholder("Formato: meuwebsite.com").fill(link[i-1])
+            await page.get_by_text("Máximo de 750 caracteres").click()
+            print('Saving...')
+            await page.get_by_role("button", name="Salvar").click()
+            await page.wait_for_load_state('load')
+            await page.wait_for_load_state('networkidle')
+            await page.wait_for_timeout(1.5*1000)
+        else:
+            print('Canais de Comunicação não encontrado!')
