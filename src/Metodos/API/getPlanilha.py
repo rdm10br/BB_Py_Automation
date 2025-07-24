@@ -57,6 +57,7 @@ def getUser(index: int):
 			return total_lines_expurgo
 	except Exception as e:
 		print("index does not exist")
+  
 def getCell_expurgo(index: int):
 	"""
 	Function to get cell content from the 'salas' plan sheet and collum 'ID'

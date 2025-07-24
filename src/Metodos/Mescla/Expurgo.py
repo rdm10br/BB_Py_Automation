@@ -47,9 +47,18 @@ async def expurgo (page: Page, id_user: str, id_interno: str) -> None:
     # await page.wait_for_timeout(2*1000)
     # await page.get_by_role("button", name="Remover membro").click()
 
-async def expurgo_root (page: Page, id_user: str, id_interno: str) -> None:
-    
-    await page.goto(f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}')
+async def expurgo_root (page: Page, id_user: str, id_interno: str, showAll: bool = False) -> None:
+    """Expurgo a user from a course in Blackboard.
+    Args:
+        page (Page): The Playwright page object.
+        id_user (str): The user ID to be removed.
+        id_interno (str): The internal course ID.
+        showAll (bool, optional): Whether to show all users. Defaults to False.
+    """
+    if showAll:
+        await page.goto(url=f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}', timeout=60*1000)
+    else:
+        await page.goto(url=f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&sortCol=userrole&sortDir=DESCENDING&numResults=250&course_id={id_interno}', timeout=60*1000)
     await page.wait_for_load_state('load')
     try:
         print(f'Deleting {id_user} in {id_interno}...')
@@ -64,10 +73,14 @@ async def expurgo_root (page: Page, id_user: str, id_interno: str) -> None:
         print(f'not found {id_user} in {id_interno} classroom.')
         ...
     
-async def expurgo_root_lote (page: Page, id_user: list, id_interno: str) -> None:
+async def expurgo_root_lote (page: Page, id_user: list, id_interno: str, showAll: bool = False) -> None:
     
     # ./webapps/blackboard/execute/courseEnrollment?sortCol=userrole&sourceType=COURSES&numResults=1000&course_id={id_interno}&sortDir=DESCENDING
-    await page.goto(f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}')
+    # await page.goto(f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}')
+    if showAll:
+        await page.goto(url=f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}', timeout=60*1000)
+    else:
+        await page.goto(url=f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&sortCol=userrole&sortDir=DESCENDING&numResults=250&course_id={id_interno}', timeout=60*1000)
     await page.wait_for_load_state('load')
     try:
         for _i in id_user:

@@ -1,39 +1,48 @@
+# Importações de bibliotecas padrão e de terceiros necessárias para automação, manipulação de arquivos, variáveis de ambiente e concorrência.
 import sys, time, os, asyncio, requests
 # import json
 # from datetime import datetime, timedelta
+from async_lru import alru_cache
 from functools import wraps, lru_cache
-from playwright.async_api import async_playwright, Browser, Page
+from playwright.async_api import async_playwright, Browser, Page, BrowserContext, Playwright
 from multiprocessing import cpu_count
 from dotenv import load_dotenv
 
+# Importação de módulos internos do projeto para manipulação de planilhas, login, wrappers de console, criptografia, controle de pausa e internacionalização.
 from Metodos import getPlanilha, checkup_login
-from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_async
 from Decorators.Inscryption import Auto_Sub, Auto_Unsub
-from Decorators.pause_control import PauseWrapper, with_pause_control
 from Decorators.language_pack import lang_pack, lang_pack_async
+from Decorators.consoleWrapper import TimeStampedStream, capture_console_output_async
+from Decorators.pause_control import PauseWrapper, with_pause_control
 
 
 async def login_block(
-    _playwright: async_playwright,
+    _playwright: Playwright,
     _baseURL: str,
     _timeout: int = 60*1000,
     _headless: bool = False,
-    _arg: str = '--start-maximized'
-    ) -> tuple:
-    """Decorator to set up Playwright with a browser context and page, handling login and cookie management.
+    _arg: list[str] = ['--start-maximized']
+    ) -> tuple [Browser, BrowserContext, Page, list]:
+    """
+    Inicializa o navegador Playwright, realiza o login na aplicação e captura os cookies de autenticação.
 
     Args:
-        _playwright (async_playwright): Playwright instance for browser automation.
-        _baseURL (str): Base URL for the application.
-        _timeout (int, optional): Timeout for browser launch. Defaults to 60*1000.
-        _headless (bool, optional): Whether to run the browser in headless mode. Defaults to False.
-        _arg (str, optional): Additional argument for browser launch. Defaults to '--start-maximized'.
+        _playwright (async_playwright): Instância do Playwright para automação de navegador.
+        _baseURL (str): URL base da aplicação alvo.
+        _timeout (int, opcional): Tempo limite para inicialização do navegador em milissegundos. Padrão: 60*1000.
+        _headless (bool, opcional): Define se o navegador será executado em modo headless (sem interface gráfica). Padrão: False.
+        _arg (str, opcional): Argumentos adicionais para inicialização do navegador. Padrão: '--start-maximized'.
+
     Returns:
-        tuple: browser, context, page, cookies
+        tuple: (browser, context, page, cookies)
+            browser (Browser): Instância do navegador Playwright.
+            context (BrowserContext): Contexto do navegador com configurações aplicadas.
+            page (Page): Página inicial aberta no contexto.
+            cookies (list): Lista de cookies capturados após login.
     """
     print('\nExecution Start')
                 
-    browser = await _playwright.chromium.launch(headless=_headless, args=[_arg], timeout=_timeout)
+    browser = await _playwright.chromium.launch(headless=_headless, args=_arg, timeout=_timeout)
     context = await browser.new_context(base_url=_baseURL, no_viewport=True, color_scheme='dark')
     page = PauseWrapper(await context.new_page())
     
@@ -61,17 +70,21 @@ async def loop_block(
     *args,
     **kwargs
     ) -> None:
-    """Decorator to loop through a range of lines in a planilha, performing actions based on the status of each line.
+    """
+    Executa um loop sobre as linhas de uma planilha, realizando ações específicas para cada linha de acordo com seu status.
+    Realiza requisições à API para verificar o status do curso, executa funções customizadas e gerencia contexto/páginas do navegador.
+
     Args:
-        _total_lines (int): Total number of lines in the planilha.
-        _baseURL (str): Base URL for API requests.
-        _browser (Browser): Playwright browser instance.
-        _page (Page): Playwright page instance.
-        _func (callable): Function to be executed for each line.
-        _cookies (list): List of cookies for authentication.
-        _autoSub (bool, optional): Whether to automatically subscribe to the course. Defaults to False.
-        *args: Additional positional arguments to pass to the function.
-        **kwargs: Additional keyword arguments to pass to the function.
+        _total_lines (int): Número total de linhas a serem processadas na planilha.
+        _baseURL (str): URL base para requisições à API.
+        _browser (Browser): Instância do navegador Playwright.
+        _page (Page): Página Playwright principal para login e renovação de cookies.
+        _func (callable): Função a ser executada para cada linha válida.
+        _cookies (list): Lista de cookies de autenticação.
+        _autoSub (bool, opcional): Se True, realiza inscrição automática antes da função e desinscrição após. Padrão: False.
+        *args: Argumentos posicionais adicionais para a função customizada.
+        **kwargs: Argumentos nomeados adicionais para a função customizada.
+
     Returns:
         None
     """
@@ -80,6 +93,7 @@ async def loop_block(
         
         print(f'Start loop {index}/{_total_lines}')
         
+        # Seleciona métodos e identificadores de acordo com o script principal em execução.
         if os.path.basename(sys.argv[0]) == 'Main_expurgo.py' or os.path.basename(sys.argv[0]) == 'Main_expurgo_lote.py':
             cell_status = getPlanilha.getCell_status_expurgo(index=index)
             if os.path.basename(sys.argv[0]) == 'Main_expurgo_lote.py':
@@ -92,10 +106,9 @@ async def loop_block(
             
         start_time = time.time()
         
-        
-        
+        # Processa apenas linhas ainda não tratadas (status 'nan').
         if cell_status == 'nan':
-            
+            # Monta URL da API para consulta do curso.
             _url = f'./learn/api/public/v3/courses/courseId:{id_externo}'
             cookies_cache = {cookie['name']: cookie['value'] for cookie in _cookies}
             
@@ -103,9 +116,9 @@ async def loop_block(
                 url=f'{_baseURL}{_url}',
                 cookies=cookies_cache
             )
-            # Verifica se a requisição foi bem-sucedida
             print(f'response status for classroom: {id_externo} | {response.status_code}')
             
+            # Se não autorizado, renova login e cookies.
             if str(response.status_code) == '401':
                 await checkup_login.checkup_login(page=_page)
                 cookies = await _page.context.cookies(urls=_baseURL)
@@ -117,13 +130,17 @@ async def loop_block(
                 )
                 print(f'response status for classroom: {id_externo} | {response.status_code}')
             
-            _url = f'./learn/api/public/v1/courses/{response.json().get('id')}/contents'
+            # Consulta conteúdos do curso.
+            _url = f'./learn/api/public/v1/courses/{response.json().get("id")}/contents'
             request = requests.get(
                 url=f'{_baseURL}{_url}',
                 cookies=cookies_cache
             )
             
+            # Define se o curso está vazio ou não, de acordo com o script principal.
             if os.path.basename(sys.argv[0]) == 'Main_Open_Mescla.py':
+                is_empty = 1
+            elif os.path.basename(sys.argv[0]) == 'Main_Close_Mescla.py':
                 is_empty = 1
             elif os.path.basename(sys.argv[0]) == 'Main_Orfão.py':
                 is_empty = 1
@@ -137,11 +154,10 @@ async def loop_block(
             else:
                 is_empty = (lambda: len(request.json().get('results')) if request.json() and request.json().get('results') else 0)()
 
-            
             if is_empty != None:
                 print(f'itens in {id_externo}: {is_empty}')
                 
-                
+            # Se curso encontrado e não vazio, executa função customizada em novo contexto/página.
             if str(response.status_code) == '200' and is_empty > 0:
                 new_context = await _browser.new_context(base_url=_baseURL, no_viewport=True)
                 await new_context.add_cookies(_cookies)
@@ -174,9 +190,22 @@ async def loop_block(
             print(f'Index: {index} in plan is alredy writen')
 
 
-def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized', autoSub: bool = False):
+def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: list[str] = ['--start-maximized'], autoSub: bool = False):
+    """
+    Decorador para inicializar o ambiente Playwright, realizar login, configurar contexto e executar função customizada sobre todas as linhas da planilha.
+    Gerencia o ciclo de vida do navegador e imprime o tempo total de execução.
+
+    Args:
+        timeout (int, opcional): Tempo limite para inicialização do navegador em milissegundos. Padrão: 60*1000.
+        headless (bool, opcional): Define se o navegador será executado em modo headless. Padrão: False.
+        arg (str, opcional): Argumentos adicionais para inicialização do navegador. Padrão: '--start-maximized'.
+        autoSub (bool, opcional): Se True, realiza inscrição automática antes da função e desinscrição após. Padrão: False.
+
+    Returns:
+        function: Função decorada pronta para execução assíncrona.
+    """
     def decorator(func):
-        @lru_cache
+        @alru_cache(maxsize=128)
         @wraps(func)
         @lang_pack_async
         @with_pause_control()
@@ -196,6 +225,7 @@ def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str 
                     _arg=arg
                 )
                 
+                # Seleciona o total de linhas de acordo com o script principal.
                 if os.path.basename(sys.argv[0]) == 'Main_expurgo.py':
                     total_lines = getPlanilha.total_lines_expurgo
                 elif os.path.basename(sys.argv[0]) == 'Main_expurgo_lote.py':
@@ -229,8 +259,20 @@ def playwright_StartUp(timeout: int = 60*1000, headless: bool = False, arg: str 
 
 
 def playwright_StartUp_nosub_test(timeout: int = 60*1000, headless: bool = False, arg: str = '--start-maximized'):
+    """
+    Decorador para inicializar o ambiente Playwright e executar função customizada sobre todas as linhas da planilha,
+    sem realizar inscrição/desinscrição automática. Utiliza processamento assíncrono em lotes para otimizar a execução.
+
+    Args:
+        timeout (int, opcional): Tempo limite para inicialização do navegador em milissegundos. Padrão: 60*1000.
+        headless (bool, opcional): Define se o navegador será executado em modo headless. Padrão: False.
+        arg (str, opcional): Argumentos adicionais para inicialização do navegador. Padrão: '--start-maximized'.
+
+    Returns:
+        function: Função decorada pronta para execução assíncrona.
+    """
     def decorator(func):
-        @lru_cache
+        @alru_cache(maxsize=128)
         @wraps(func)
         @lang_pack_async
         @with_pause_control()

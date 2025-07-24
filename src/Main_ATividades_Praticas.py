@@ -58,7 +58,6 @@ async def run(page: Page, index) -> None:
                         "Letras - Espanhol",
                         "Letras - Inglês",
                         "Letras - Português",
-                        "Letras - Português e Espanhol",
                         "Licenciatura em Educação Especial",
                         "Licenciatura em Educação Física",
                         "Matemática"]

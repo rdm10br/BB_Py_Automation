@@ -6,11 +6,12 @@ from docx.oxml.ns import qn
 from docx.shared import RGBColor
 from spacy.matcher import Matcher
 from functools import lru_cache
+from async_lru import alru_cache
 
 nlp = spacy.load("pt_core_news_sm")
 matcher = Matcher(nlp.vocab)
 
-@lru_cache
+@lru_cache(maxsize=128)
 def read_document(path: str) -> str:
     '''
     Return the file content
@@ -62,7 +63,7 @@ def read_document(path: str) -> str:
         print(f"Error reading document: {e}")
         return None
 
-@lru_cache
+@lru_cache(maxsize=128)
 def enunciado_count (path: str) -> int:
     """
     Return how many statments on the file
@@ -130,7 +131,7 @@ def extract_text_between_markers(text: str, start_marker: str, end_marker: str):
     else:
         return ""
 
-@lru_cache
+@lru_cache(maxsize=128)
 def get_enunciados(filename: str):
     
     text = read_document(filename)
@@ -170,7 +171,7 @@ def get_Enunciado(index: int, path: str) -> str:
         print('Index out of Range or Question not found!')
         return ''
 
-@lru_cache
+@lru_cache(maxsize=128)
 def get_Alternativa(index: int, path: str, choices: str) -> str:
     '''
     Return question choices
@@ -238,7 +239,7 @@ def get_Alternativa(index: int, path: str, choices: str) -> str:
             print('''Por favor verifique a chamada da função get_Alternativa,
                   tipo de alternativa desejada não esperada pela função''')
             
-@lru_cache
+@lru_cache(maxsize=128)
 def get_Alternativa_hole(index: int, path: str, choices: str) -> str:
     '''
     Return question choices
@@ -287,7 +288,7 @@ def get_Alternativa_hole(index: int, path: str, choices: str) -> str:
             print('''Por favor verifique a chamada da função get_Alternativa,
                   tipo de alternativa desejada não esperada pela função''')
 
-@lru_cache
+@lru_cache(maxsize=128)
 def get_correct_alternative_by_any_color(path: str) -> str:
     try:
         document = docx.Document(path)
@@ -331,7 +332,7 @@ def get_correct_alternative_by_any_color(path: str) -> str:
         print(f"\nUnexpected error: {e}")
         return None
     
-@lru_cache
+@lru_cache(maxsize=128)
 def get_correct_alternative_from_list (path: str, index: int):
     awnser_list = get_correct_alternative_by_any_color(path)
     return awnser_list[index][0]

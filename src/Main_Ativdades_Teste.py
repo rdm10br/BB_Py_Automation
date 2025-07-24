@@ -1,7 +1,10 @@
 import asyncio, time, json
 from playwright.async_api import Page
+
+
 from Metodos import getPlanilha, getFromAPI, gruposAtividades, AjusteNotaZero
 from Decorators import playwright_StartUp
+
 
 @playwright_StartUp(autoSub=True)
 async def run(page: Page, index) -> None:

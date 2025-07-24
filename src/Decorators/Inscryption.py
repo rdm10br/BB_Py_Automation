@@ -1,31 +1,62 @@
 from playwright.async_api import Page
+from async_lru import alru_cache
 from functools import lru_cache
 from Metodos import getFromAPI
 
-@lru_cache
+@alru_cache(maxsize=128)
 async def Auto_Sub(page: Page, index: int):
-    
+    """
+    Realiza a inscrição automática do usuário autenticado em um curso específico.
+
+    Este método utiliza a API interna para obter o identificador do curso, acessa a página de inscrição,
+    preenche o formulário com o usuário autenticado e seleciona o papel 'adsala', submetendo a inscrição.
+
+    Args:
+        page (Page): Instância da página Playwright já autenticada.
+        index (int): Índice da linha/curso a ser processado.
+
+    Returns:
+        None
+    """
+    # Obtém o ID interno do curso via API personalizada.
     id_interno = await getFromAPI.API_Req(page=page, index=index)
     
+    # Monta a URL de inscrição do curso e a URL para obter o usuário autenticado.
     # rootURL = f'./webapps/blackboard/execute/recycler?course_id={id_interno}&action=select&context=COURSE#'
     inscryption = f'./webapps/blackboard/execute/editCourseEnrollment?course_id={id_interno}&sourceType=COURSES'
     API_User = f'./learn/api/public/v1/users/me'
     
+    # Obtém o nome de usuário autenticado via API.
     await page.goto(API_User, wait_until='commit')
     await page.wait_for_load_state('load')
     user = await page.evaluate('JSON.parse(document.body.innerText).userName')
     
+    # Acessa a página de inscrição do curso.
     await page.goto(url=inscryption, wait_until='commit')
     
+    # Preenche o formulário de inscrição com o usuário e papel desejado.
     await page.locator('#userName').fill(user)
     await page.locator('#courseRoleId').select_option('adsala')
     await page.locator('#bottom_Submit').click()
     await page.wait_for_load_state('load')
     
 
-@lru_cache
-async def Auto_Unsub(page: Page, index: int):
-    
+@alru_cache(maxsize=128)
+async def Auto_Unsub(page: Page, index: int, showAll: bool = False):
+    """
+    Remove automaticamente o usuário autenticado de um curso específico.
+
+    Este método utiliza a API interna para obter o identificador do curso, acessa a página de gerenciamento de inscrições,
+    localiza o usuário autenticado e executa a remoção da inscrição, tratando possíveis exceções caso o usuário não seja encontrado.
+
+    Args:
+        page (Page): Instância da página Playwright já autenticada.
+        index (int): Índice da linha/curso a ser processado.
+
+    Returns:
+        None
+    """
+    # Obtém o ID interno do curso via API personalizada.
     id_interno = await getFromAPI.API_Req(page=page, index=index)
     
     
@@ -41,6 +72,7 @@ async def Auto_Unsub(page: Page, index: int):
     classUrlUltra = f'./ultra/courses/{id_interno}/outline'
     API_User = f'./learn/api/public/v1/users/me'
     
+    # Obtém o nome de usuário autenticado via API.
     await page.goto(API_User, wait_until='commit')
     await page.wait_for_load_state('load')
     user = await page.evaluate('JSON.parse(document.body.innerText).userName')
@@ -77,7 +109,11 @@ async def Auto_Unsub(page: Page, index: int):
     #     await page.wait_for_load_state('networkidle')
     #     await page.wait_for_timeout(1500)
     
-    await page.goto(f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}')
+    # await page.goto(f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}')
+    if showAll:
+        await page.goto(url=f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}', timeout=60*1000)
+    else:
+        await page.goto(url=f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&sortCol=userrole&sortDir=ASCENDING&numResults=250&course_id={id_interno}', timeout=60*1000)
     await page.wait_for_load_state('load')
     try:
         print(f'Deleting {user} in {id_interno}...')

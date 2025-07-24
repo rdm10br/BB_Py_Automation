@@ -3,6 +3,7 @@ from playwright.async_api import Playwright, async_playwright
 from datetime import datetime, timezone
 from dateutil.relativedelta import relativedelta
 from functools import lru_cache
+from async_lru import alru_cache
 from dotenv import load_dotenv
 
 
@@ -10,7 +11,7 @@ from dotenv import load_dotenv
 from Metodos import checkup_login, getBQ, fileChooser, create_bq, junctionWindow, junctionSizeWindow
 from Decorators import capture_console_output_async, TimeStampedStream, lang_pack_async, PauseWrapper, with_pause_control
 
-@lru_cache
+@alru_cache(maxsize=128)
 @lang_pack_async
 @with_pause_control()
 @capture_console_output_async
