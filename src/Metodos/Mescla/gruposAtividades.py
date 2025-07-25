@@ -74,14 +74,14 @@ async def inserirGruposAtividadesAV1(page: Page, id_interno, curso):
     try:
         await page.wait_for_timeout(1500)
         # await page.pause()
-        await page.locator("#combobox-value-course-groups-combobox > div > span").filter(has_text=curso).wait_for(state='visible', timeout=1000*7)
+        await page.locator("#combobox-value-course-groups-combobox > div > span").filter(has_text=curso).wait_for(state='visible', timeout=1000*5)
         # await page.locator("div").filter(has_text=fr"^Grupos{curso}$").wait_for(state='visible', timeout=1000*7)
         print(f'Group associated: {curso} to {item}')
     except Exception as e:
         try:
             await page.wait_for_timeout(1500)
             # await page.pause()
-            await page.locator('//*[@id="combobox-value-course-groups-combobox"]/div/span').filter(has_text=curso).wait_for(state='visible', timeout=1000*7)
+            await page.locator('//*[@id="combobox-value-course-groups-combobox"]/div/span').filter(has_text=curso).wait_for(state='visible', timeout=1000*2)
             # await page.locator('/html/body/div[1]/div[2]/bb-base-layout/div/main/div[5]/div/div/div/div/div/conditional-release-panel/conditional-release-panel-react/div/div/div/div[2]/div/div[2]/section/div/div[2]/div[1]/div[2]/div[2]/div[1]/div/div/div[1]/div/div/span/div/span')
             # await page.locator("#combobox-value-course-groups-combobox > div > span").filter(has_text=curso).wait_for(state='visible', timeout=1000*5)
             # await page.locator("div").filter(has_text=fr"^Grupos{curso}$").wait_for(state='visible', timeout=1000*7)
@@ -130,13 +130,13 @@ async def inserirGruposAtividadesAV2(page: Page, id_interno, curso):
     print('Checking...')
     try:
         await page.wait_for_timeout(1500)
-        await page.locator("#combobox-value-course-groups-combobox > div > span").filter(has_text=curso).wait_for(state='visible', timeout=1000*7)
+        await page.locator("#combobox-value-course-groups-combobox > div > span").filter(has_text=curso).wait_for(state='visible', timeout=1000*5)
         print(f'Group associated: {curso} to {item}')
     except Exception as e:
         try:
             # await page.wait_for_timeout(1500)
             # await page.pause()
-            await page.locator('//*[@id="combobox-value-course-groups-combobox"]/div/span').filter(has_text=curso).wait_for(state='visible', timeout=1000*7)
+            await page.locator('//*[@id="combobox-value-course-groups-combobox"]/div/span').filter(has_text=curso).wait_for(state='visible', timeout=1000*2)
             # await page.locator('/html/body/div[1]/div[2]/bb-base-layout/div/main/div[5]/div/div/div/div/div/conditional-release-panel/conditional-release-panel-react/div/div/div/div[2]/div/div[2]/section/div/div[2]/div[1]/div[2]/div[2]/div[1]/div/div/div[1]/div/div/span/div/span')
             # await page.locator("#combobox-value-course-groups-combobox > div > span").filter(has_text=curso).wait_for(state='visible', timeout=1000*5)
             # await page.locator("div").filter(has_text=fr"^Grupos{curso}$").wait_for(state='visible', timeout=1000*7)
