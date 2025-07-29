@@ -18,7 +18,7 @@ def get_bq_name(path: str) -> str:
             case '4' :
                 item = 'BQ 04'
     BQ_name = unidecode(BQ_name)
-    BQ_name = re.sub(r'\d','',BQ_name)
+    BQ_name = re.sub(r'\d$','',BQ_name)
     BQ_name = re.sub(r'\s+', ' ', BQ_name)
     BQ_name = re.sub(r'\s$', '', BQ_name)
     BQ_name = re.sub(r'^\s', '', BQ_name)
