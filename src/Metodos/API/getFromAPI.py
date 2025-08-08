@@ -122,7 +122,23 @@ async def API_Ativ_Groups(page: Page, id_interno: str, item: str) -> str:
     url = f'./learn/api/public/v1/courses/{id_interno}/groups/'
     config = 'id'
     request = f'''() => {{
-            const data = JSON.parse(document.body.innerText).results.find(item => item.name === "{item}");
+        
+            function toLowerCaseDeep(obj) {{
+            if (typeof obj === 'string') {{
+                return obj.toLowerCase();
+            }} else if (Array.isArray(obj)) {{
+                return obj.map(toLowerCaseDeep);
+            }} else if (typeof obj === 'object' && obj !== null) {{
+                const lowered = {{}};
+                for (const key in obj) {{
+                    lowered[key.toLowerCase()] = toLowerCaseDeep(obj[key]);
+                }}
+                return lowered;
+            }}
+            return obj;
+            }}
+            const raw = JSON.parse(document.body.innerText);
+            const data = toLowerCaseDeep(raw).results.find(item => item.name == "{item.lower()}");
             if (data && (data.{config}).toString) {{
                 return data.{config};
             }} else {{
@@ -248,7 +264,6 @@ async def API_AP_all_folders(page: Page, id_interno: str) -> str:
                         print(f'{item} is associated wrongly')
             else:
                 print(f'{course_area} not listed in the Json file')
-            
     except:
         print(f'{_item} or {item} not found')
         raise

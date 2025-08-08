@@ -92,79 +92,87 @@ async def atribuirGruposDIG(page: Page, id_interno: str) -> None:
         await page.get_by_role("gridcell", name="Desafio_Colaborativo | 5").get_by_role("button").click() #grupo para o digital
         await page.get_by_role("option", name="Visível para alunos").click()
         print('Opening "Desafion Colaborativo"...')
-        await page.goto(url=desafioConfigURL, wait_until='commit')
-        await page.wait_for_load_state('domcontentloaded')
-        await page.wait_for_load_state('load')
-        await page.wait_for_load_state('networkidle')
-        print('Opening settings...')
-        # await page.evaluate('''document.querySelector("#discussion-settings-button").click()''')
-        print('Associating group...')
-        if await page.get_by_role("link", name="Nenhum grupo").is_visible() is True:
-            await page.get_by_role("button", name="Excluir grupo").click()
-            await page.get_by_role("button", name="Excluir").click()
-            await page.get_by_role("link", name="Atribuir a grupos").click()
-            await page.get_by_role("button", name="Personalizar").click()
-            await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
-            try:
-                await page.get_by_role("heading", name="Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(2).wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(3).wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_role("button", name="OK").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_role("button", name="Fechar").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-            except:
-                # await page.pause()
-                ...
-            print('Saving...')
-            await page.get_by_label("Salvar").click()
+        
+        _v: bool = True
+        count: int = 0
+        while _v and count < 3:
+            count += 1
+            await page.goto(url=desafioConfigURL, wait_until='commit')
+            await page.wait_for_load_state('domcontentloaded')
+            await page.wait_for_load_state('load')
             await page.wait_for_load_state('networkidle')
-            print('Saving...')
-            await page.get_by_role("button", name="Salvar").click()
-            await page.wait_for_load_state('networkidle')
-            pass
-        else:
-            await page.get_by_role("link", name="Atribuir a grupos").click()
-            await page.get_by_role("button", name="Personalizar").click()
-            await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
-            try:
-                await page.get_by_role("heading", name="Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(2).wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(3).wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_role("button", name="OK").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_role("button", name="Fechar").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-            except:
-                # await page.pause()
-                ...
-            print('Saving...')
-            await page.get_by_label("Salvar").click()
-            await page.wait_for_load_state('networkidle')
-            print('Saving...')
-            await page.get_by_role("button", name="Salvar").click()
-            await page.wait_for_load_state('networkidle')
-        #check if modal error
-        if await page.get_by_text("Olá! Para acessar este recurso você precisa estar matriculado na sala").is_visible() is True:
-            print(f'Error de Modal na sala {id_interno} no item {item_search}')
-            await page.locator('#notification-modal-api-error > div.reveal-modal__header > button').click()
-            pass
-        else:
-            pass
+            print('Opening settings...')
+            # await page.evaluate('''document.querySelector("#discussion-settings-button").click()''')
+            print('Associating group...')
+            if await page.get_by_role("link", name="Nenhum grupo").is_visible() is True:
+                await page.get_by_role("button", name="Excluir grupo").click()
+                await page.get_by_role("button", name="Excluir").click()
+                await page.get_by_role("link", name="Atribuir a grupos").click()
+                await page.get_by_role("button", name="Personalizar").click()
+                await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
+                try:
+                    await page.get_by_role("heading", name="Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(2).wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(3).wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_role("button", name="OK").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_role("button", name="Fechar").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                except:
+                    # await page.pause()
+                    ...
+                print('Saving...')
+                await page.get_by_label("Salvar").click()
+                await page.wait_for_load_state('networkidle')
+                print('Saving...')
+                await page.get_by_role("button", name="Salvar").click()
+                await page.wait_for_load_state('networkidle')
+                _v = False
+                pass
+            else:
+                await page.get_by_role("link", name="Atribuir a grupos").click()
+                await page.get_by_role("button", name="Personalizar").click()
+                await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
+                try:
+                    await page.get_by_role("heading", name="Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(2).wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(3).wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_role("button", name="OK").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_role("button", name="Fechar").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                except:
+                    # await page.pause()
+                    ...
+                print('Saving...')
+                await page.get_by_label("Salvar").click()
+                await page.wait_for_load_state('networkidle')
+                print('Saving...')
+                await page.get_by_role("button", name="Salvar").click()
+                await page.wait_for_load_state('networkidle')
+                _v = False
+                
+            #check if modal error
+            if await page.get_by_text("Olá! Para acessar este recurso você precisa estar matriculado na sala").is_visible() is True:
+                print(f'Error de Modal na sala {id_interno} no item {item_search}')
+                await page.locator('#notification-modal-api-error > div.reveal-modal__header > button').click()
+                pass
+            else:
+                pass
     else:
         print(f'Item: {item_search} não encontrado!')
         pass
@@ -202,77 +210,84 @@ async def atribuirGruposVET(page: Page, id_interno: str) -> None:
         await page.get_by_role("gridcell", name="Desafio_Colaborativo | 6").get_by_role("button").click() #grupo para o veteranos
         await page.get_by_role("option", name="Visível para alunos").click()
         print('Opening "Desafion Colaborativo"...')
-        await page.goto(url=desafioConfigURL, wait_until='commit')
-        await page.wait_for_load_state('domcontentloaded')
-        await page.wait_for_load_state('load')
-        await page.wait_for_load_state('networkidle')
-        print('Opening settings...')
-        # await page.evaluate('''document.querySelector("#discussion-settings-button").click()''')
-        print('Associating group...')
-        if await page.get_by_role("link", name="Nenhum grupo").is_visible() is True:
-            await page.get_by_role("button", name="Excluir grupo").click()
-            await page.get_by_role("button", name="Excluir").click()
-            await page.get_by_role("link", name="Atribuir a grupos").click()
-            await page.get_by_role("button", name="Personalizar").click()
-            await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
-            try:
-                await page.get_by_role("heading", name="Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(2).wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(3).wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_role("button", name="OK").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_role("button", name="Fechar").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-            except:
-                ...
-            print('Saving...')
-            await page.get_by_label("Salvar").click()
+        _v: bool = True
+        count: int = 0
+        while _v and count < 3:
+            count += 1
+            await page.goto(url=desafioConfigURL, wait_until='commit')
+            await page.wait_for_load_state('domcontentloaded')
+            await page.wait_for_load_state('load')
             await page.wait_for_load_state('networkidle')
-            print('Saving...')
-            await page.get_by_role("button", name="Salvar").click()
-            await page.wait_for_load_state('networkidle')
-            pass
-        else:
-            await page.get_by_role("link", name="Atribuir a grupos").click()
-            await page.get_by_role("button", name="Personalizar").click()
-            await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
-            try:
-                await page.get_by_role("heading", name="Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(2).wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(3).wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_role("button", name="OK").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-                await page.get_by_role("button", name="Fechar").wait_for(state='visible', timeout=20*1000)
-                await page.pause()
-            except:
-                ...
-            print('Saving...')
-            await page.get_by_label("Salvar").click()
-            await page.wait_for_load_state('networkidle')
-            print('Saving...')
-            await page.get_by_role("button", name="Salvar").click()
-            await page.wait_for_load_state('networkidle')
-        #check if modal error
-        if await page.get_by_text("Olá! Para acessar este recurso você precisa estar matriculado na sala").is_visible() is True:
-            print(f'Error de Modal na sala {id_interno} no item {item_search}')
-            await page.locator('#notification-modal-api-error > div.reveal-modal__header > button').click()
-            pass
-        else:
-            pass
+            print('Opening settings...')
+            # await page.evaluate('''document.querySelector("#discussion-settings-button").click()''')
+            print('Associating group...')
+            if await page.get_by_role("link", name="Nenhum grupo").is_visible() is True:
+                await page.get_by_role("button", name="Excluir grupo").click()
+                await page.get_by_role("button", name="Excluir").click()
+                await page.get_by_role("link", name="Atribuir a grupos").click()
+                await page.get_by_role("button", name="Personalizar").click()
+                await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
+                try:
+                    await page.get_by_role("heading", name="Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(2).wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(3).wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_role("button", name="OK").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_role("button", name="Fechar").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                except:
+                    ...
+                print('Saving...')
+                await page.get_by_label("Salvar").click()
+                await page.wait_for_load_state('networkidle')
+                print('Saving...')
+                await page.get_by_role("button", name="Salvar").click()
+                await page.wait_for_load_state('networkidle')
+                _v = False
+                pass
+            else:
+                await page.get_by_role("link", name="Atribuir a grupos").click()
+                await page.get_by_role("button", name="Personalizar").click()
+                await page.get_by_role("option", name="Conjunto de grupos: Desafio").click()
+                try:
+                    await page.get_by_role("heading", name="Nenhum grupo encontrado").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(2).wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_text("Este conjunto de grupos não").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_label("Nenhum grupo encontrado").locator("div").nth(3).wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_role("button", name="OK").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                    await page.get_by_role("button", name="Fechar").wait_for(state='visible', timeout=20*1000)
+                    await page.pause()
+                except:
+                    ...
+                print('Saving...')
+                await page.get_by_label("Salvar").click()
+                await page.wait_for_load_state('networkidle')
+                print('Saving...')
+                await page.get_by_role("button", name="Salvar").click()
+                await page.wait_for_load_state('networkidle')
+                _v = False
+                
+            #check if modal error
+            if await page.get_by_text("Olá! Para acessar este recurso você precisa estar matriculado na sala").is_visible() is True:
+                print(f'Error de Modal na sala {id_interno} no item {item_search}')
+                await page.locator('#notification-modal-api-error > div.reveal-modal__header > button').click()
+                pass
+            else:
+                pass
     else:
         print(f'Item: {item_search} não encontrado!')
         pass

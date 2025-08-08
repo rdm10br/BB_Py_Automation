@@ -7,7 +7,7 @@ from Metodos import (getPlanilha, getFromAPI, AjusteSofiaV2,
 from Decorators import playwright_StartUp
 
 
-@playwright_StartUp(autoSub=True)
+@playwright_StartUp()
 async def run(page: Page, index) -> None:
     
         id_externo = getPlanilha.getCell(index=index)

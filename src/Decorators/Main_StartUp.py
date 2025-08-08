@@ -137,20 +137,25 @@ async def loop_block(
                 cookies=cookies_cache
             )
             
+            ignore_if_empty = [
+                'Main_Open_Mescla.py',
+                'Main_Close_Mescla.py',
+                'Main_Orfão.py',
+                'Main_expurgo.py',
+                'Main_expurgo_lote.py',
+                'Main_DCE.py'
+                ]
+            ignore_if_response = [
+                'Main_Orfão.py',
+                'Main_expurgo.py',
+                'Main_expurgo_lote.py'
+                ]
+            
             # Define se o curso está vazio ou não, de acordo com o script principal.
-            if os.path.basename(sys.argv[0]) == 'Main_Open_Mescla.py':
+            if os.path.basename(sys.argv[0]) in ignore_if_empty:
                 is_empty = 1
-            elif os.path.basename(sys.argv[0]) == 'Main_Close_Mescla.py':
-                is_empty = 1
-            elif os.path.basename(sys.argv[0]) == 'Main_Orfão.py':
-                is_empty = 1
-                response.status_code = 200
-            elif os.path.basename(sys.argv[0]) == 'Main_expurgo.py':
-                is_empty = 1
-                response.status_code = 200
-            elif os.path.basename(sys.argv[0]) == 'Main_expurgo_lote.py':
-                is_empty = 1
-                response.status_code = 200
+                if os.path.basename(sys.argv[0]) in ignore_if_response:
+                    response.status_code = 200
             else:
                 is_empty = (lambda: len(request.json().get('results')) if request.json() and request.json().get('results') else 0)()
 
