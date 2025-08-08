@@ -72,7 +72,9 @@ async def inserirGruposAtividadesAV1(page: Page, id_interno, curso):
         
     print('Checking...')
     try:
-        await page.locator("#combobox-value-course-groups-combobox > div > span").filter(has_text=curso).wait_for(state='visible', timeout=1000*7)
+        await page.wait_for_timeout(7000)
+        print('Checking if group is already associated...')
+        await page.locator("#combobox-value-course-groups-combobox > div > span").filter(has_text=curso).wait_for(state='visible', timeout=1000*30)
         print(f'Group associated: {cursos} to {item}')
     except Exception as e:
         await page.get_by_label("Membros ou grupos específicos").check()
@@ -117,7 +119,9 @@ async def inserirGruposAtividadesAV2(page: Page, id_interno, curso):
         
     print('Checking...')
     try:
-        await page.locator("#combobox-value-course-groups-combobox > div > span").filter(has_text=curso).wait_for(state='visible', timeout=1000*7)
+        await page.wait_for_timeout(7000)
+        print('Checking if group is already associated...')
+        await page.locator("#combobox-value-course-groups-combobox > div > span").filter(has_text=curso).wait_for(state='visible', timeout=1000*30)
         print(f'Group associated: {cursos} to {item}')
     except Exception as e:
         await page.get_by_label("Membros ou grupos específicos").check()
