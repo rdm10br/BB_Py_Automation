@@ -16,7 +16,11 @@ async def main(page: Page, index) -> None:
     await ajuste_AV1.ajusteFael(page, id_interno)
     
     # Lembrar de alterar a data para as engenharias (RODAR SEPARADO)
-    await AjusteDataFael.ajusteData_especiais(page, id_interno, dataI=['17/06/25'], dataF=['10/06/25'])
+    dataI1: list[str] = ['25/08/25', '15/09/25', '06/10/25', '27/10/25']
+    dataF1: list[str] = ['05/09/25', '25/09/25', '17/10/25', '10/11/25']
+    dataI2: list[str] = ['17/11/25', '01/12/25']
+    dataF2: list[str] = ['30/11/25', '28/12/25']
+    await AjusteDataFael.ajusteData_especiais(page, id_interno, dataI1, dataF1, dataI2, dataF2)
     
     await grupo_fael.inserirArquivo(page, id_interno)
     # await grupo_fael.atribuirGruposFael(page, id_interno)
