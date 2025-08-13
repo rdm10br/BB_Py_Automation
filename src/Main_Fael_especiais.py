@@ -12,7 +12,7 @@ async def main(page: Page, index) -> None:
     
     # Passando o id_externo como 'id_interno' para a função ajusteGradebook
     print("Iniciando ajusteGradebook...")
-    await Fael.ajusteGradebook(page, id_interno)  # Passando id_externo como id_interno
+    # await Fael.ajusteGradebook(page, id_interno)  # Passando id_externo como id_interno
     await ajuste_AV1.ajusteFael(page, id_interno)
     
     # Lembrar de alterar a data para as engenharias (RODAR SEPARADO)
