@@ -179,7 +179,7 @@ async def ajusteData_especiais(
     """_summary_
     This function change the date opening and due date of some items in
     classroom for special cases like engineering
-    
+
     Lembrar de alterar a data para as engenharias (RODAR SEPARADO)
     Args:
         page (Page): _description_: Deafault Playwright item
@@ -194,73 +194,61 @@ async def ajusteData_especiais(
     classURL = f'./ultra/courses/'
     classUrlUltra = f'{classURL}{id_interno}/outline'
     classBulkEdit = f'{classUrlUltra}/bulkEditContent'
-    
+
     # https://sereduc.blackboard.com/ultra/courses/_307132_1/outline/bulkEditContent
-    
+
     await page.goto(url=classBulkEdit, wait_until='domcontentloaded')
-    
+
     # pasta etapa 1
     await page.get_by_role("row", name="Trabalho de Conclusão de Curso (T1) Pasta row.openFolder Data não ajustada Não").get_by_label("row.openFolder").click()
     # pasta etapa 2
     await page.get_by_role("gridcell", name="Pasta row.openFolder", exact=True).get_by_label("row.openFolder").click()
-    
+
     # loop etapa 1
-    for i in range(1, 4):
+    for i in range(1, 5):
         try:
+            print(f"Trabalho de Conclusão de Curso (T1) - Etapa {i}")
             await page.get_by_role("checkbox", name=f"Trabalho de Conclusão de Curso (T1) - Etapa {i}").wait_for(state='visible', timeout=10*1000)
             await page.get_by_role("checkbox", name=f"Trabalho de Conclusão de Curso (T1) - Etapa {i}").check()
             await page.get_by_role("button", name="Editar datas", exact=True).click()
             await page.get_by_role("checkbox", name="Data de início do acesso").check()
             await page.get_by_role("checkbox", name="Horário de início do acesso").check()
             await page.get_by_role("checkbox", name="Data de entrega").check()
-            await page.get_by_text("Hora de entrega").click()
-            await page.get_by_role("textbox", name="Data de início do acesso").click()
-            await page.get_by_role("textbox", name="Data de início do acesso").press("ControlOrMeta+a")
+            # await page.get_by_text("Hora de entrega").click()
+            await page.get_by_role("checkbox", name="Hora de entrega").check()
             await page.get_by_role("textbox", name="Data de início do acesso").fill(dataI1[i-1])
-            await page.get_by_role("textbox", name="Horário de início do acesso").click()
-            await page.get_by_role("textbox", name="Horário de início do acesso").press("ControlOrMeta+a")
             await page.get_by_role("textbox", name="Horário de início do acesso").fill(horaInicial)
-            await page.get_by_role("textbox", name="Data de entrega").click()
-            await page.get_by_role("textbox", name="Data de entrega").press("ControlOrMeta+a")
             await page.get_by_role("textbox", name="Data de entrega").fill(dataF1[i-1])
-            await page.get_by_role("textbox", name="Hora de entrega").click()
-            await page.get_by_role("textbox", name="Hora de entrega").press("ControlOrMeta+a")
             await page.get_by_role("textbox", name="Hora de entrega").fill(horaFinal)
             await page.get_by_text("Editar datas e/ou horários de").click()
             await page.get_by_role("button", name="Editar datas").click()
         except Exception as e:
             print(f"Error adjusting T1 Etapa {i}: {e}")
-    
-    for i in range(1, 2):
+
+    for i in range(1, 3):
         if i == 1:
             try:
+                print("Trabalho de Conclusão de Curso (T2) Exercício Trabalho de Conclusão de Curso")
                 await page.get_by_role("row", name="Trabalho de Conclusão de Curso (T2) Exercício Trabalho de Conclusão de Curso (").get_by_label("", exact=True).wait_for(state='visible', timeout=10*1000)
                 await page.get_by_role("row", name="Trabalho de Conclusão de Curso (T2) Exercício Trabalho de Conclusão de Curso (").get_by_label("", exact=True).check()
             except:
                 print("Trabalho de Conclusão de Curso (T2) Exercício Trabalho de Conclusão de Curso not found, skipping...")
         elif i == 2:
             try:
+                print('Ata de Apresentação')
                 await page.get_by_role("checkbox", name="Ata de Apresentação -").wait_for(state='visible', timeout=10*1000)
                 await page.get_by_role("checkbox", name="Ata de Apresentação -").check()
             except:
                 print("Ata de Apresentação not found, skipping...")
-            
+
         await page.get_by_role("button", name="Editar datas", exact=True).click()
         await page.get_by_role("checkbox", name="Data de início do acesso").check()
         await page.get_by_role("checkbox", name="Horário de início do acesso").check()
         await page.get_by_role("checkbox", name="Data de entrega").check()
         await page.get_by_role("checkbox", name="Hora de entrega").check()
-        await page.get_by_role("textbox", name="Data de início do acesso").click()
-        await page.get_by_role("textbox", name="Data de início do acesso").press("ControlOrMeta+a")
         await page.get_by_role("textbox", name="Data de início do acesso").fill(dataI2[i-1])
-        await page.get_by_role("textbox", name="Horário de início do acesso").click()
-        await page.get_by_role("textbox", name="Horário de início do acesso").press("ControlOrMeta+a")
         await page.get_by_role("textbox", name="Horário de início do acesso").fill(horaInicial)
-        await page.get_by_role("textbox", name="Data de entrega").click()
-        await page.get_by_role("textbox", name="Data de entrega").press("ControlOrMeta+a")
         await page.get_by_role("textbox", name="Data de entrega").fill(dataF2[i-1])
-        await page.get_by_role("textbox", name="Hora de entrega").click()
-        await page.get_by_role("textbox", name="Hora de entrega").press("ControlOrMeta+a")
         await page.get_by_role("textbox", name="Hora de entrega").fill(horaFinal)
         await page.get_by_text("Editar datas e/ou horários de").click()
         await page.get_by_role("button", name="Editar datas").click()
