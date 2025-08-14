@@ -252,3 +252,72 @@ async def ajusteData_especiais(
         await page.get_by_role("textbox", name="Hora de entrega").fill(horaFinal)
         await page.get_by_text("Editar datas e/ou horários de").click()
         await page.get_by_role("button", name="Editar datas").click()
+   
+   
+async def ajusteData_estag(
+    page: Page,
+    id_interno: str,
+    horaInicial: str = '00:00',
+    horaFinal: str = '23:59',
+    dataI: list[str] = ['16/08/25', '16/10/25', '01/09/25', '01/11/25'],
+    dataF: list[str] = ['16/10/25', '30/11/25', '15/10/25', '29/11/25'],
+    ) -> None:
+    """_summary_
+    This function change the date opening and due date of some items in
+    classroom for special cases like engineering
+    Lembrar de alterar a data para as engenharias (RODAR SEPARADO)
+    Args:
+        page (Page): _description_: Deafault Playwright item
+        id_interno (str): _description_: Deafault classroom ID
+        horaInicial (_type_, optional): _description_: Defaults to '00:00'.
+        horaFinal (_type_, optional): _description_: Defaults to '23:59'.
+        dataI (list[str], optional): _description_: Defaults to ['16/08/25', '16/10/25', '01/09/25', '01/11/25'].
+        dataF (list[str], optional): _description_: Defaults to ['16/10/25', '30/11/25', '15/10/25', '29/11/25'].
+    """
+    await page.goto(f"./ultra/courses/{id_interno}/outline/bulkEditContent")
+    await page.wait_for_load_state('domcontentloaded')
+    await page.wait_for_load_state('load')
+    
+    await page.get_by_text("Módulo de aprendizagem📝").click()
+    
+    for i in range(1,5):
+        if i < 3:
+            try:
+                await page.get_by_role("button", name=f"Editar datas individuais para Fórum - Etapa {i}").wait_for(state='visible', timeout=10*1000)
+                await page.get_by_role("button", name=f"Editar datas individuais para Fórum - Etapa {i}").click()
+                await page.get_by_role("textbox", name="Início do acesso").fill(dataI[i-1])
+                await page.get_by_role("gridcell", name=f"{dataI[i-1]} Seletor de data -").get_by_label("Hora", exact=True).fill(horaInicial)
+                await page.get_by_role("textbox", name="Fim do acesso").fill(dataF[i-1])
+                await page.get_by_role("gridcell", name=f"{dataF[i-1]} Seletor de data -").get_by_label("Hora", exact=True).fill(horaFinal)
+                await page.get_by_label("Não disponível").click()
+                await page.get_by_role("button", name="Salvar").click()
+                await page.wait_for_load_state('load')
+                await page.wait_for_load_state('networkidle')
+                await page.wait_for_timeout(2*1000)
+
+            except Exception as e:
+                print(f"Error adjusting Fórum - Etapa {i}: {e}")
+        elif i >= 3:
+            try:
+                if i == 3:
+                    await page.get_by_role("checkbox", name="Postagem Planos e Termo de").check()
+                elif i == 4:
+                    await page.get_by_role("checkbox", name="Postagem Relatório e Fichas").check()
+                    
+                await page.get_by_role("button", name="Editar datas", exact=True).click()
+                await page.get_by_role("checkbox", name="Data de início do acesso").check()
+                await page.get_by_role("checkbox", name="Horário de início do acesso").check()
+                await page.get_by_role("checkbox", name="Data de entrega").check()
+                await page.get_by_role("checkbox", name="Hora de entrega").check()
+                await page.get_by_role("textbox", name="Data de início do acesso").fill(dataI[i-1])
+                await page.get_by_role("textbox", name="Horário de início do acesso").fill(horaInicial)
+                await page.get_by_role("textbox", name="Data de entrega").fill(dataF[i-1])
+                await page.get_by_role("textbox", name="Hora de entrega").fill(horaFinal)
+                await page.get_by_text("Editar datas e/ou horários de").click()
+                await page.get_by_role("button", name="Editar datas").click()
+                await page.wait_for_load_state('load')
+                await page.wait_for_load_state('networkidle')
+                await page.wait_for_timeout(2*1000)
+                
+            except Exception as e:
+                print(f"Error adjusting Postagem - Etapa {i}: {e}")
