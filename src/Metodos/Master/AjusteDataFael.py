@@ -283,14 +283,20 @@ async def ajusteData_estag(
     for i in range(1,5):
         if i < 3:
             try:
-                await page.get_by_role("button", name=f"Editar datas individuais para Fórum - Etapa {i}").wait_for(state='visible', timeout=10*1000)
-                await page.get_by_role("button", name=f"Editar datas individuais para Fórum - Etapa {i}").click()
-                await page.get_by_role("textbox", name="Início do acesso").fill(dataI[i-1])
-                await page.get_by_role("gridcell", name=f"{dataI[i-1]} Seletor de data -").get_by_label("Hora", exact=True).fill(horaInicial)
-                await page.get_by_role("textbox", name="Fim do acesso").fill(dataF[i-1])
-                await page.get_by_role("gridcell", name=f"{dataF[i-1]} Seletor de data -").get_by_label("Hora", exact=True).fill(horaFinal)
-                await page.get_by_label("Não disponível").click()
-                await page.get_by_role("button", name="Salvar").click()
+                await page.get_by_role("checkbox", name=f"Fórum - Etapa {i}").wait_for(state='visible', timeout=10*1000)
+                await page.get_by_role("checkbox", name=f"Fórum - Etapa {i}").check()
+                
+                await page.get_by_role("button", name="Editar datas", exact=True).click()
+                await page.get_by_role("checkbox", name="Data de início do acesso").check()
+                await page.get_by_role("checkbox", name="Horário de início do acesso").check()
+                await page.get_by_role("checkbox", name="Data de fim do acesso").check()
+                await page.get_by_role("checkbox", name="Horário de fim do acesso").check()
+                await page.get_by_role("textbox", name="Data de início do acesso").fill(dataI[i-1])
+                await page.get_by_role("textbox", name="Horário de início do acesso").fill(horaInicial)
+                await page.get_by_role("textbox", name="Data de fim do acesso").fill(dataF[i-1])
+                await page.get_by_role("textbox", name="Horário de fim do acesso").fill(horaFinal)
+                await page.get_by_text("Editar datas e/ou horários de").click()
+                await page.get_by_role("button", name="Editar datas").click()
                 await page.wait_for_load_state('load')
                 await page.wait_for_load_state('networkidle')
                 await page.wait_for_timeout(2*1000)
