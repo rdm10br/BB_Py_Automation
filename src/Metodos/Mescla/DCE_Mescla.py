@@ -85,8 +85,12 @@ async def adjust_name(page: Page, id_interno: str, name: str = 'Dce') -> None:
         result = await page.evaluate(request_no_result(config))
         
         if config == 'name':
+            text = result
             result = transform_text(result)
         
+        # if config == 'name' and result == text:
+        #     print(f'No change needed for main course name: {result}')
+        # else:
         results[id_interno][config] = result
         
     if str(results[id_interno]['hasChildren']).lower() == 'true':
