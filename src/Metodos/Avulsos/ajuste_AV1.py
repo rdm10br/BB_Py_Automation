@@ -126,3 +126,48 @@ async def ajusteFael(page: Page, id_interno: str) -> None:
         elif verify == 'Item not found':
             result = f'{item} Item not found in {id_interno}'
             print(result)
+            
+            
+async def ajusteFael(page: Page, id_interno: str) -> None:
+    urlGradeBook = f'./ultra/courses/{id_interno}/grades?gradebookView=list'
+    timer_padrão = 2*1000
+    items = ['AV1', 'AV2']
+    
+    for item in items:
+        verify = await verify_calculated(page=page, id_interno=id_interno, item=item)
+        if verify == "CUSTOM":
+            result = f'{item} is a calculated item'
+            print(result)
+            await page.goto(urlGradeBook, wait_until='domcontentloaded')
+            await page.wait_for_load_state('load')
+            await page.get_by_role("link", name="Nota atual").wait_for(state='visible', timeout=4*timer_padrão)
+            
+            # await page.get_by_role("row", name=f"{item} Sem categoria Mais opções").click(timeout=timer_padrão)
+            await page.get_by_role("row", name=f"{item} Sem categoria Mais opções").get_by_label("components.directives.element").click(timeout=timer_padrão)
+            # await page.locator("bb-grader-column").filter(has_text=f"{item} Sem categoria").locator("path").click(timeout=timer_padrão)
+            await page.locator("#gradebook-item-panel-content a").nth(2).click()
+            try:
+                await page.get_by_role("button", name="TOTAL ( )").hover(timeout=timer_padrão)
+                await page.get_by_label("Remover função").click()
+                await page.get_by_role("button", name="Total ").click()
+                await page.wait_for_timeout(timer_padrão)
+                await page.get_by_role("button", name="TOTAL ( )").click()
+                
+                match item:
+                    case 'AV2':
+                        item_case = 'Avaliação Objetiva'
+                    case 'AF':
+                        item_case = 'Exame Final'
+                        
+                await page.get_by_text(f"Trabalho do curso {item_case}").click()
+                await page.get_by_role("button", name="TOTAL ( Trabalho do curso").click()
+                await page.wait_for_timeout(timer_padrão)
+                await page.get_by_role("button", name="Salvar").click()
+                await page.get_by_role("button", name="Fechar").click()
+                await page.wait_for_load_state('load')
+                await page.wait_for_timeout(timer_padrão)
+            except Exception as e:
+                print(f'{item} error  in {id_interno}: {e}')
+        elif verify == 'Item not found':
+            result = f'{item} Item not found in {id_interno}'
+            print(result)

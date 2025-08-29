@@ -1,7 +1,7 @@
 import regex as re
 from playwright.sync_api import Page
 
-async def adjust_name(page: Page, id_interno: str) -> None:
+async def adjust_name(page: Page, id_interno: str, name: str = 'Dce') -> None:
     
     # API Mescla
     API_M = f'./learn/api/public/v3/courses/{id_interno}'
@@ -15,11 +15,31 @@ async def adjust_name(page: Page, id_interno: str) -> None:
     
     def transform_text(text: str):
         # Check if 'Dce' already exists in the text
-        if 'Dce' in text:
-            return text
         
+        if 'Dce Uninorte - Dce' in text and name != 'Dce Uninorte - Dce':
+            print(f'{text} changing...')
+            text = text.replace('Dce Uninorte - Dce - ', f'{name} - ')
+            print(f' to {text}')
+            return text
+        elif 'Dce Uninorte' in text and name != 'Dce Uninorte':
+            print(f'{text} changing...')
+            text = text.replace('Dce Uninorte - ', f'{name} - ')
+            print(f' to {text}')
+            return text
+        elif 'Dce' in text and name != 'Dce':
+            print(f'[DCE]{text} changing...')
+            text = text.replace('Dce - ', f'{name} - ')
+            print(f' to {text}')
+            return text
+        elif name in text:
+            print(f'{text} already contains {name}. No change needed.')
+            return text
+
+            
         # Use regex to insert 'Dce - ' after the numeric code pattern
-        transformed_text = re.sub(r"(\d{6} \.\s\d - )", r"\1Dce - ", text)
+        print(f'{text} changing...')
+        transformed_text = re.sub(r"(\d{6} \.\s\d - )", fr"\1{name} - ", text)
+        print(f' to {transformed_text}')
         return transformed_text
     
     def request(_config: str, i: int) -> str:
