@@ -143,7 +143,8 @@ async def loop_block(
                 'Main_Orfão.py',
                 'Main_expurgo.py',
                 'Main_expurgo_lote.py',
-                'Main_DCE.py'
+                'Main_DCE.py',
+                'Main_DCE_UNN.py'
                 ]
             ignore_if_response = [
                 'Main_Orfão.py',

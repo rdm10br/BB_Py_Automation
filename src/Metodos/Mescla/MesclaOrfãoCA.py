@@ -91,10 +91,10 @@ def filtro():
     filtered_data = {}
     orphan_entries = []
     
+    print(data)
     # Loop through each URL key in the JSON
     for url_key, content in data.items():
         results = content.get("results", [])
-    
         for entry in results:
             key = entry.get("name") or entry.get("externalId")  # Use name, fallback to externalId
             if key:
@@ -112,7 +112,10 @@ def filtro():
                     filtered_entry["parentId"] = entry["parentId"]
                 if "hasChildren" in entry:
                     filtered_entry["hasChildren"] = entry["hasChildren"]
-    
+                
+                # availability.available
+                # availability.duration.type
+                
                 # Check if entry has neither parentId nor hasChildren
                 if "parentId" not in entry and "hasChildren" not in entry:
                     orphan_entries.append(filtered_entry)

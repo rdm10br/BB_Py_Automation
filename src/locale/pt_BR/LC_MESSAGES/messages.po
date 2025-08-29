@@ -752,8 +752,8 @@ msgstr "{count} fora do escopo planejado!"
 msgid "{course_area} not listed in the Json file"
 msgstr "{curso_area} não listado no arquivo json"
 
-msgid "{entry['courseId']}    {entry['name']}"
-msgstr "{Entry ['courseId']} {Entry ['name']}"
+msgid "{entry['courseId']}    {entry['name']}"
+msgstr "{entry['courseId']}    {entry['name']}"
 
 msgid "{id_interno} : {length} courses"
 msgstr "{id_interno}: {length} cursos"
