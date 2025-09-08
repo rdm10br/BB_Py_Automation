@@ -1,4 +1,4 @@
-import asyncio
+import asyncio, os
 from playwright.async_api import Page
 
 from Metodos import getFromAPI, DCE_Mescla, openMescla, getPlanilha
@@ -19,6 +19,7 @@ async def run(page: Page, index: int) -> None:
 
 async def main():
     await run()
+    # os.system("shutdown /s /t 0")
 
 
 asyncio.run(main())

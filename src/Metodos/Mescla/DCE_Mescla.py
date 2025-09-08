@@ -38,7 +38,7 @@ async def adjust_name(page: Page, id_interno: str, name: str = 'Dce') -> None:
             
         # Use regex to insert 'Dce - ' after the numeric code pattern
         print(f'{text} changing...')
-        transformed_text = re.sub(r"(\d{6} \.\s\d - )", fr"\1{name} - ", text)
+        transformed_text = re.sub(r"(\d+ \.\s\d+ - )", fr"\1{name} - ", text)
         print(f' to {transformed_text}')
         return transformed_text
     
