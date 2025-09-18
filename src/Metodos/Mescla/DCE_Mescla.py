@@ -85,7 +85,7 @@ async def adjust_name(page: Page, id_interno: str, name: str = 'Dce') -> None:
         result = await page.evaluate(request_no_result(config))
         
         if config == 'name':
-            text = result
+            results[id_interno]['og_name'] = result
             result = transform_text(result)
         
         # if config == 'name' and result == text:
@@ -108,27 +108,35 @@ async def adjust_name(page: Page, id_interno: str, name: str = 'Dce') -> None:
                 result = await page.evaluate(request(config, i))
                 
                 if config == 'childCourse.name':
+                    results[id_interno][i]['og_name'] = result
                     result = transform_text(result)
                 
                 results[id_interno][i][config] = result
                        
-        await page.goto(SearchOnBlack(results[id_interno]['externalId']), wait_until='domcontentloaded')
         
-        await page.get_by_role("link", name=results[id_interno]['externalId']).click()
-        await page.wait_for_load_state('domcontentloaded')
-        
-        await page.get_by_label("Editar o nome do curso").click()
-        await page.get_by_role("textbox").press("ControlOrMeta+a")
-        await page.get_by_role("textbox").fill(results[id_interno]['name'])
-        await page.get_by_role("textbox").press("Enter")
-        
-        for i in range(length):
+        if results[id_interno]['og_name'] != results[id_interno]['name']:
             await page.goto(SearchOnBlack(results[id_interno]['externalId']), wait_until='domcontentloaded')
             
-            await page.get_by_role("link", name=results[id_interno][i]['childCourse.externalId']).click()
+            await page.get_by_role("link", name=results[id_interno]['externalId']).click()
             await page.wait_for_load_state('domcontentloaded')
             
             await page.get_by_label("Editar o nome do curso").click()
             await page.get_by_role("textbox").press("ControlOrMeta+a")
-            await page.get_by_role("textbox").fill(results[id_interno][i]['childCourse.name'])
+            await page.get_by_role("textbox").fill(results[id_interno]['name'])
             await page.get_by_role("textbox").press("Enter")
+        else:
+            print(f'No change needed for main course name: {results[id_interno]["name"]}')
+        
+        for i in range(length):
+            if results[id_interno][i]['og_name'] != results[id_interno][i]['childCourse.name']:
+                await page.goto(SearchOnBlack(results[id_interno]['externalId']), wait_until='domcontentloaded')
+                
+                await page.get_by_role("link", name=results[id_interno][i]['childCourse.externalId']).click()
+                await page.wait_for_load_state('domcontentloaded')
+                
+                await page.get_by_label("Editar o nome do curso").click()
+                await page.get_by_role("textbox").press("ControlOrMeta+a")
+                await page.get_by_role("textbox").fill(results[id_interno][i]['childCourse.name'])
+                await page.get_by_role("textbox").press("Enter")
+            else:
+                print(f'No change needed for child course name: {results[id_interno][i]["childCourse.name"]}')

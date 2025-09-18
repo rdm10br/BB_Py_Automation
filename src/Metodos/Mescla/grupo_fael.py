@@ -14,7 +14,7 @@ async def inserirArquivo(page: Page, id_interno: str) -> None:
         id_interno (str): internal ID of the classroom
     """
     importgroup = f"./webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
-    file_path = 'Planilhas\\GRUPOS - FAEL - VET.csv'
+    file_path = 'Planilhas\\Grupos\\GRUPOS - FAEL - VET.csv'
     
     print('Starting adjustments: "Inserir Arquivo DIG Grupos"')
     await page.goto(importgroup)

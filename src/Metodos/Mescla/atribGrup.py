@@ -14,7 +14,7 @@ async def inserirArquivoDIG(page: Page, id_interno: str) -> None:
     """
     # baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"./webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
-    file_path = 'Planilhas\\GRUPOS1.csv'
+    file_path = 'Planilhas\\Grupos\\GRUPOS1.csv'
     
     print('Starting adjustments: "Inserir Arquivo DIG Grupos"')
     await page.goto(importgroup)
@@ -43,7 +43,7 @@ async def inserirArquivoVET(page: Page, id_interno: str) -> None:
     """
     # baseURL = "https://sereduc.blackboard.com/"
     importgroup = f"./webapps/bb-group-mgmt-LEARN/jsp/groupspace/ex/ImportGroups.jsp?course_id={id_interno}&toggleType=all&fromPage=groups"
-    file_path = 'Planilhas\\GRUPOS_SEM_FAEL.csv'
+    file_path = 'Planilhas\\Grupos\\GRUPOS_SEM_FAEL.csv'
 
     print('Starting adjustments: "Inserir Arquivo Veteranos Grupos"')
     await page.goto(importgroup)
