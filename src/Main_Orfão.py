@@ -8,8 +8,8 @@ from Decorators import playwright_StartUp
 @playwright_StartUp()
 async def run(page: Page, index) -> None:
     
-        if os.path.exists(r'src\Metodos\Mescla\__pycache__\api_courses.json'):
-            os.remove(r'src\Metodos\Mescla\__pycache__\api_courses.json')
+        # if os.path.exists(r'src\Metodos\Mescla\__pycache__\api_courses.json'):
+        #     os.remove(r'src\Metodos\Mescla\__pycache__\api_courses.json')
             
         termo = getPlanilha.getCell(index=index)
         
