@@ -1,3 +1,4 @@
+import sys, os
 import regex as re
 from playwright.sync_api import Page
 
@@ -98,25 +99,29 @@ async def adjust_name(page: Page, id_interno: str, name: str = 'Dce') -> None:
         # else:
         results[id_interno][config] = result
         
-    if str(results[id_interno]['hasChildren']).lower() == 'true':
+    if str(results[id_interno]['hasChildren']).lower() == 'true' or os.path.basename(sys.argv[0]) == 'Main_MEC.py':
         
         await page.goto(API_C, wait_until='domcontentloaded')
         
-        length = await page.evaluate(request_length)
-        
-        print(f'{id_interno} : {length} courses')
-        
-        for i in range(length):
-            if i not in results[id_interno]:
-                results[id_interno][i] = {}
-            for config in configs_children:
-                result = await page.evaluate(request(config, i))
-                
-                if config == 'childCourse.name':
-                    results[id_interno][i]['og_name'] = result
-                    result = transform_text(result)
-                
-                results[id_interno][i][config] = result
+        try:
+            length = await page.evaluate(request_length)
+            
+            print(f'{id_interno} : {length} courses')
+            
+            for i in range(length):
+                if i not in results[id_interno]:
+                    results[id_interno][i] = {}
+                for config in configs_children:
+                    result = await page.evaluate(request(config, i))
+                    
+                    if config == 'childCourse.name':
+                        results[id_interno][i]['og_name'] = result
+                        result = transform_text(result)
+                    
+                    results[id_interno][i][config] = result
+        except Exception as e:
+            print(f'Error fetching child courses for {id_interno}: {e}')
+            length = 0
                        
         
         if results[id_interno]['og_name'] != results[id_interno]['name']:

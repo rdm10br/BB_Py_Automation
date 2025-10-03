@@ -13,6 +13,7 @@ async def run(page: Page, index: int) -> None:
         await DCE_Mescla.adjust_name(page=page, id_interno=id_interno, name='Master')
         
         item = ['Avaliações',
+                'Fale com o Tutor',
                 'Manuais',
                 'SER Melhor (Clique Aqui para deixar seu elogio, crítica ou sugestão)']
         for i in item:
