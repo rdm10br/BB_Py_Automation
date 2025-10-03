@@ -13,7 +13,7 @@ async def adjust_name(page: Page, id_interno: str, name: str = 'Dce') -> None:
     
     request_length = 'JSON.parse(document.body.innerText).results.length'
     
-    def transform_text(text: str):
+    def transform_text(text: str) -> str:
         # Check if 'Dce' already exists in the text
         
         if 'Dce Uninorte - Dce' in text and name != 'Dce Uninorte - Dce':
@@ -29,6 +29,11 @@ async def adjust_name(page: Page, id_interno: str, name: str = 'Dce') -> None:
         elif 'Dce' in text and name != 'Dce':
             print(f'[DCE]{text} changing...')
             text = text.replace('Dce - ', f'{name} - ')
+            print(f' to {text}')
+            return text
+        elif 'Master' in name and 'Master' in text:
+            print(f'{text} changing...')
+            text = text.replace('Master - ', '')
             print(f' to {text}')
             return text
         elif name in text:
