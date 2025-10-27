@@ -301,7 +301,8 @@ def get_correct_alternative_by_any_color(path: str) -> str:
             if texto and texto[0] in "ABCDEabcde" and texto[1] in ").":
                 alternativas.append(texto)
                 for run in paragraph.runs:
-                    if run.font.highlight_color or (run.font.color and (run.font.color.rgb == RGBColor(255, 0, 0))):
+                    # if run.font.highlight_color or (run.font.color and (run.font.color.rgb == RGBColor(255, 0, 0))):
+                    if run.font.highlight_color or (run.font.color and run.font.color.rgb):
                         alternativas_com_destaque.append(texto)
                         break
         
