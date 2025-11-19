@@ -12,7 +12,7 @@ async def run(page: Page, index) -> None:
     id_externo = getPlanilha.getCell_expurgo(index=index)
     id_interno = await getFromAPI.API_Req_expurgo(page=page, id_externo=id_externo)
     id_user = getPlanilha.getUser(index=index)
-    list_user = str(list(getPlanilha.list_expurgo_user['USER'].values)[0]).split(',')
+    list_user = str(list(getPlanilha.list_expurgo_user['USER'].values)[index-1]).split(',')
  
     print(id_externo)
     # print(id_user)

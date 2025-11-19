@@ -101,8 +101,12 @@ async def loop_block(
             else:
                 id_externo = getPlanilha.getCell_expurgo(index)
         else:
-            cell_status = getPlanilha.getCell_status(index=index)
-            id_externo = getPlanilha.getCell(index)
+            if os.path.basename(sys.argv[0]) == 'Main_coord.py':
+                id_externo = getPlanilha.getCell(index).split(',')[0]
+                cell_status = getPlanilha.getCell_status(index=index)
+            else:
+                cell_status = getPlanilha.getCell_status(index=index)
+                id_externo = getPlanilha.getCell(index)
             
         start_time = time.time()
         
