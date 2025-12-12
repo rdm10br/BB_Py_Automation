@@ -58,7 +58,8 @@ async def expurgo_root (page: Page, id_user: str, id_interno: str, showAll: bool
     if showAll:
         await page.goto(url=f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&showAll=true&course_id={id_interno}', timeout=60*1000)
     else:
-        await page.goto(url=f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&sortCol=userrole&sortDir=DESCENDING&numResults=250&course_id={id_interno}', timeout=60*1000)
+        # await page.goto(url=f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&sortCol=userrole&sortDir=DESCENDING&numResults=250&course_id={id_interno}', timeout=60*1000)
+        await page.goto(url=f'./webapps/blackboard/execute/courseEnrollment?sourceType=COURSES&sortCol=childcourseid&sortDir=ASCENDING&numResults=250&course_id={id_interno}', timeout=60*1000)
     await page.wait_for_load_state('load')
     try:
         print(f'Deleting {id_user} in {id_interno}...')
